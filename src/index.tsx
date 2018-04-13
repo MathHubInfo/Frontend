@@ -1,21 +1,19 @@
 /** This file is the entry point to the MathHub-React-Frontend */
 
-import "babel-polyfill"; // load for side-effects and older browsers that do not support react
+// load the polyfill for older browsers
+import "babel-polyfill";
 
-// React
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+// loading nice CSS
+import 'semantic-ui-css/semantic.min.css';
 
-// UI
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+Promise.all([
+    import('react'),
+    import('react-dom'),
 
-// all our components
-import { Hello } from "./components/Hello";
-
-
-ReactDOM.render(
-    <MuiThemeProvider>
-            <Hello compiler="TypeScript" framework="React" />
-    </MuiThemeProvider>, 
-    document.getElementById("example")
-);
+    import('components').then(mh => mh.MathHub)
+]).then(([React, ReactDOM, MathHub]) => {
+    ReactDOM.render(
+        <MathHub mmtURL="http://localhost:8080/" />, 
+        document.getElementById("mathhub")
+    );
+});

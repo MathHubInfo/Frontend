@@ -7,10 +7,15 @@ WIP on a new MathHub Frontend written in React.
 ```bash
 
 # install dependencies (once)
-npm install
+npm install .
 
-# build distribution (multiple times)
-npx webpack
+# build distribution into dist/ folder (includes index.html)
+npx webpack --mode=production
+
+# run a server on localhost:8080 for development
+# this includes automatic re-compilation and hot reloading
+# keep existing state where possible
+npx webpack-dev-server
 ```
 
 ## License
