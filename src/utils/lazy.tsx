@@ -1,4 +1,4 @@
-/** adapted from https://github.com/martynaskadisa/react-lazy-import
+/** Some of the code in here is heavily adapted from https://github.com/martynaskadisa/react-lazy-import
  * which is licensed as follows: 
  * 
  * MIT License
@@ -29,93 +29,94 @@ import { ReactComponent, Module } from "utils/types";
 
 export type Loader<P> = () => Promise<Module<ReactComponent<P>>>;
 
-interface LazyContainerState<P> {
-    Component?: ReactComponent<P>
-
-    ErrorComponent?: ReactComponent<{error: any}>
-    LoadingComponent?: ReactComponent<{}>
+export interface ComponentWithPromiseState<T> {
+    loaded: Boolean
+    data?: T
 
     failed: boolean
     failedReason?: any
 }
 
 /**
-* Creates a lazily loaded component
-* @param loader Promise to load component
-* @param loadingComponent Component to use while loading
-* @param errorComponent Component to use for error messages
-*/
-export function CreateLazyContainer<P> 
-(
-    loader: Loader<P>, 
-    loadingComponent: ReactComponent<{}> = LazyComponentLoading, 
-    errorComponent: ReactComponent<{error: any}> = LazyComponentError
-) {
-    /** a lazily loaded component */
-    return class extends React.Component<P, LazyContainerState<P>> {
-        private isComponentMounted: boolean = false
-        static displayName: string = 'LazyContainer';
+ * Represents a Component that loads some content by using a Promise
+ */
+export abstract class ComponentWithPromise<P, T, S extends ComponentWithPromiseState<T> = ComponentWithPromiseState<T>, SS = never> extends React.Component<P, S, SS> {
 
-        public state: LazyContainerState<P> = {
-            Component: undefined,
-            ErrorComponent: errorComponent || undefined,
-            LoadingComponent: loadingComponent || undefined,
+    /** Promise to load content */
+    protected abstract load() : Promise<T>
+
+    /** Render function to be called once loading has succeeded */
+    protected abstract renderData(data: T): React.ReactNode
+
+    /** Render function to be called during loading */
+    protected abstract renderLoading(): React.ReactNode
+
+    /** render function to be called upon error */
+    protected abstract renderError(error: any): React.ReactNode
+
+
+    constructor(props: P){
+        super(props);
+
+        this.state = ({
+            loaded: false, 
             failed: false
-        };
-        
-        componentWillMount () {
-            this.isComponentMounted = true
-            
-            if (!this.state.Component) {
-                loader()
-                .then(module => ((module as any).default) || module)
-                .then((Component: ReactComponent<P>) => {
-                    if (this.isComponentMounted) {
-                        this.setState({ Component });
-                    }
-                }, (result) => {
-                    if (this.isComponentMounted) {
-                        this.setState({ failed: true, failedReason: result });
-                    }
-                });
-            }
-        }
-        
-        componentWillUnmount () {
-            this.isComponentMounted = false
-        }
-        
-        public render () {
-            const { Component, LoadingComponent, ErrorComponent, failed } = this.state;
-            
-            if (Component) {
-                Component.displayName = Component.name; 
-                return (
-                    <Component {...this.props} />
-                );
-            }
-            
-            if (failed && ErrorComponent) {
-                return <ErrorComponent error={ this.state.failedReason } />
-            }
-            
-            if (LoadingComponent) {
-                return <LoadingComponent />
-            }
-            
-            return null;
-        }
-    };
-}
-
-class LazyComponentError extends React.Component<{error: any}, {}> {
-    render() {
-        return <div>Something went wrong {this.props.error}</div>;
+        } as ComponentWithPromiseState<T>) as Readonly<S>;
     }
-}
 
-class LazyComponentLoading extends React.Component<{}, {}> {
-    render() {
-        return <div>Loading</div>;
+    private isComponentMounted: boolean = false
+
+    componentWillMount () {
+        this.isComponentMounted = true
+        
+        if (!this.state.data) {
+
+            this.load()
+            .then((data) => {
+                if (this.isComponentMounted) {
+                    this.setState({ loaded: true, data: data });
+                }
+            }, (result) => {
+                if (this.isComponentMounted) {
+                    this.setState({ failed: true, failedReason: result });
+                }
+            });
+        }
     }
-}
+    
+    componentWillUnmount () {
+        this.isComponentMounted = false
+    }
+
+    render () {
+        if (this.state.loaded && this.state.data) {
+            return this.renderData(this.state.data as T);
+        }
+        
+        if (this.state.failed) {
+            return this.renderError(this.state.failedReason);
+        }
+        
+        if (!this.state.loaded && !this.state.failed) {
+            return this.renderLoading();
+        }
+
+        return null;
+    }
+};
+
+/**
+ * Implements a {@link LazyComponent} that lazily loads a React Component
+ */
+export abstract class LazyComponent<P> extends ComponentWithPromise<P, ReactComponent<P>> {
+
+    protected abstract Component(): Promise<Module<ReactComponent<P>>>
+
+    load() {
+        return this.Component().then(module => ((module as {default: ReactComponent<P>}).default) || module as ReactComponent<P>);
+    }
+
+    renderData(Component: ReactComponent<P>) {
+        return <Component {...this.props} />
+    }
+};

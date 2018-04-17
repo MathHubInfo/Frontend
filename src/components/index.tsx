@@ -8,11 +8,12 @@ import Routes from 'routes'
 import {Header} from "./fragments/header"
 import {Footer} from "./fragments/footer"
 
-import {ConfigContext, MathHubConfig} from "components/common/config"
+import {Context, makeContext} from "context"
+import {MathHubConfig} from "context/config"
 
 export class MathHub extends React.Component<MathHubConfig, {}> {
     render() {
-        return <ConfigContext.Provider value={ this.props }>  
+        return <Context.Provider value={ makeContext(this.props) }>  
                 <HashRouter> 
                     <div>
                         <Header />
@@ -24,6 +25,6 @@ export class MathHub extends React.Component<MathHubConfig, {}> {
                         <Footer />
                     </div>
             </HashRouter>
-        </ConfigContext.Provider>;
+        </Context.Provider>;
     }
 }

@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { Container, Divider, Grid, Header, List, Segment } from 'semantic-ui-react'
 
-import { WithConfig, MathHubConfig} from "../common/config"
+import { WithContext, MathHubContext} from "context"
 
-export const Footer = WithConfig<{}>(class extends React.Component<{config: MathHubConfig}, {}> {
+export const Footer = WithContext<{}>(class extends React.Component<{context: MathHubContext}> {
     render() {
         return <Segment inverted vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
           <Container textAlign='center'>
@@ -46,7 +46,7 @@ export const Footer = WithConfig<{}>(class extends React.Component<{config: Math
     
             <Divider inverted section />
             <div>
-              Connected to MMT at {this.props.config.mmtURL}
+              Connected to MMT at {this.props.context.config.mmtURL}
             </div>
           </Container>
     </Segment>;
