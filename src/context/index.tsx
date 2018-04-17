@@ -4,6 +4,7 @@ import { ReactComponent } from "utils/types"
 
 import {MathHubConfig} from "./config.d"
 import {MMTAPIClient} from "./api/client"
+import {MockMMTClient} from "./api/mock"
 
 /** Represents a global context for MathHub */
 export interface MathHubContext {
@@ -18,7 +19,7 @@ export const Context = React.createContext<MathHubContext>(makeContext({mmtURL: 
 export function makeContext(config: MathHubConfig): MathHubContext {
     return {
         config: config, 
-        client: new MMTAPIClient(config)
+        client: new MockMMTClient(config)
     }
 }
 

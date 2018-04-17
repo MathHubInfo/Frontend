@@ -1,28 +1,23 @@
 import {MathHubConfig} from "context/config"
 
-import { ArchiveListItem } from "./omdoc";
-import { always } from "utils/promises";
+import { GroupItem, Group, Archive, Module } from "./omdoc";
 
-export class MMTAPIClient {
-    private readonly config: MathHubConfig;
+export abstract class MMTAPIClient {
+    protected readonly config: MathHubConfig;
     
     constructor(config: MathHubConfig) {
         this.config = config
     }
 
     /** gets a list of archives from MMT */
-    getArchiveList(): Promise<ArchiveListItem[]> {
-        return always([
-            {
-                "name": "MMT/urtheories", 
-                "description": "The MMT urtheories thingy", 
-                "namespace": this.config.mmtURL
-            }, 
-            {
-                "name": "MMT/examples", 
-                "description": "The MMT examples thingy", 
-                "namespace": "http://example.com"
-            }
-        ])
-    }
+    abstract getGroups(): Promise<GroupItem[]>
+    
+    /** gets a specific group from MMT */
+    abstract getGroup(name: string) : Promise<Group>
+
+    /** gets a given archive */
+    abstract getArchive(name: string) : Promise<Archive>
+
+    /** gets a specific module */
+    abstract getModule(name: string) : Promise<Module>
 }

@@ -1,0 +1,18 @@
+{
+    "groups": [
+        {
+            "name": "smglom", 
+            "description": "The SMGloM is a structured terminology for mathematics. ", 
+            "maintainer": "", 
+            "archives": []
+        }, 
+        {
+            "name": "MMT", 
+            "description": "MMT Core libraries built and maintained by the MMT group. ", 
+            "maintainer": "", 
+            "archives": []
+        }
+    ], 
+    "archives": [], 
+    "modules": []
+}

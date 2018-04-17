@@ -14,11 +14,6 @@ export function delay<T>(promise: Promise<T>, timeout: number): Promise<T> {
     );
 }
 
-/** Returns a new Promise with the same static result */
-export function always<T>(result: T): Promise<T> {
-    return new Promise((resolve, reject) => resolve(result))
-}
-
 /**
  * Rejects a promise after a given amount of time
  * @param promise Generates a new Promise that is always rejected after a given amount of tiome
