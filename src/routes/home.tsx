@@ -3,10 +3,10 @@ import * as React from 'react';
 import { Card } from 'semantic-ui-react'
 
 import { WithContext, MathHubContext } from "context"
-import { GroupItem } from "context/api/omdoc"
-
 import { PromiseComponent } from "components/common/loader"
 import { Nav } from "components/common/nav"
+
+import { GroupItem } from "context/api/omdoc"
 
 export class Home extends React.Component<{}, {}> {
     render() {
@@ -14,32 +14,24 @@ export class Home extends React.Component<{}, {}> {
             Something something home
 
             The list is:
-            <AsyncArchiveList />
+            <AsyncGroupList />
         </div>
     }
 }
 
-const AsyncArchiveList = WithContext<{}>(class LoadArchiveList extends PromiseComponent<{context: MathHubContext}, GroupItem[]>{
-    const loadingTitle = "Groups"
+const AsyncGroupList = WithContext<{}>(class LoadArchiveList extends PromiseComponent<{context: MathHubContext}, GroupItem[]>{
+    const loadingTitle = "Group List"
 
     load() {
         return this.props.context.client.getGroups();
     }
 
     renderData(groups: GroupItem[]) {
-        return <GroupList groups={groups} />
-    }
-});
-
-/** A list of groups, where each item links to the appropriate group */
-class GroupList extends React.Component<{groups: GroupItem[]}> {
-    render() {
         return <Card.Group itemsPerRow="1">{
-            this.props.groups.map(group => <GroupListItem key={group.name} group={group} />)
+            groups.map(group => <GroupListItem key={group.name} group={group} />)
         }</Card.Group>; 
     }
-}
-
+});
 
 /** A single archive item */
 class GroupListItem extends React.Component<{group: GroupItem}> {

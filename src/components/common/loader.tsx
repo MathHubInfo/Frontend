@@ -29,7 +29,7 @@ function ErrorComponent(props: {error: any, title: string, message: string}) {
         <Icon name='exclamation triangle' />
         <Message.Content>
             <Message.Header>{props.title || "Something went wrong" }</Message.Header>
-            { props.message || "Reload the page to try again. "}
+            { props.message || props.error }
         </Message.Content>
     </Message>;
 }
@@ -48,7 +48,7 @@ export function Loader<P>(title: string, loader: Loader<P>) {
         }
 
         renderError(error: any) {
-            return <ErrorComponent error={error} title={`Unable to load ${title}`} message="Please load the page to try again. " />;
+            return <ErrorComponent error={error} title={`Unable to load ${title}`} message="Please reload the page to try again" />;
         }
     };
 }
@@ -60,7 +60,7 @@ export abstract class PromiseComponent<P, T, S extends ComponentWithPromiseState
     protected abstract loadingTitle: string
 
     protected errorTitle: string = "Something went wrong"
-    protected errorMessage: string = "Please load the page to try again. "
+    protected errorMessage: string = ""
 
     protected renderLoading(): React.ReactNode {
         return <LoadingComponent title={this.loadingTitle} />

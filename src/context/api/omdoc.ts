@@ -10,6 +10,7 @@ export interface GroupItem {
 }
 
 export interface Group extends GroupItem {
+    longDescription: string, 
     maintainer: string, 
     
     archives: ArchiveItem[]
@@ -30,6 +31,7 @@ export interface ArchiveItem {
 }
 
 export interface Archive extends ArchiveItem {
+    longDescription: string, 
     maintainer: string, 
 
     modules: ModuleItem[]
@@ -37,6 +39,10 @@ export interface Archive extends ArchiveItem {
 
 export function ArchiveToItem(archive: Archive): ArchiveItem {
     return {name: archive.name, group: archive.group, description: archive.description}
+}
+
+export function ArchiveID(archive: Archive) : string {
+    return `${archive.group}/${archive.name}`; 
 }
 
 //

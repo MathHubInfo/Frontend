@@ -13,11 +13,11 @@ export abstract class MMTAPIClient {
     abstract getGroups(): Promise<GroupItem[]>
     
     /** gets a specific group from MMT */
-    abstract getGroup(name: string) : Promise<Group>
+    abstract getGroup(id: string) : Promise<Group>
 
     /** gets a given archive */
-    abstract getArchive(name: string) : Promise<Archive>
+    abstract getArchive(id: string) : Promise<Archive>
 
     /** gets a specific module */
-    abstract getModule(name: string) : Promise<Module>
+    abstract getModule(id: string) : Promise<Module>
 }

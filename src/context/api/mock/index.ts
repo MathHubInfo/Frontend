@@ -1,7 +1,7 @@
 import { MMTAPIClient } from "../client"
 import {MathHubConfig} from "../../config"
 
-import { GroupItem, Group, GroupToItem, Archive, Module } from "../omdoc";
+import { GroupItem, Group, GroupToItem, Archive, ArchiveID, Module } from "../omdoc";
 
 import { delay } from "utils/promises"
 
@@ -33,18 +33,18 @@ export class MockMMTClient extends MMTAPIClient {
             group.archives = this.dataset.archives.filter((a) => a.group === name);
             return Promise.resolve(group);
         } else {
-            return Promise.reject(`Group ${name} does not exist`);
+            return Promise.reject(`Group ${name} does not exist. `);
         }
     }
 
-    getArchive(name: string) { return this.delay(this.getArchiveI(name)); }
-    private getArchiveI(name: string) : Promise<Archive> {
-        const archive = this.dataset.archives.find((a) => a.name === name);
+    getArchive(id: string) { return this.delay(this.getArchiveI(id)); }
+    private getArchiveI(id: string) : Promise<Archive> {
+        const archive = this.dataset.archives.find((a) => ArchiveID(a) === id);
         if(archive) {
-            archive.modules = this.dataset.modules.filter((m) => m.archive === name);
+            archive.modules = this.dataset.modules.filter((m) => m.archive === id);
             return Promise.resolve(archive);
         } else {
-            return Promise.reject(`Archive ${name} does not exist`);
+            return Promise.reject(`Archive ${name} does not exist. `);
         }
     }
 
@@ -54,7 +54,7 @@ export class MockMMTClient extends MMTAPIClient {
         if(module) {
             return Promise.resolve(module);
         } else {
-            return Promise.reject(`Module ${name} does not exist`); 
+            return Promise.reject(`Module ${name} does not exist. `); 
         }
     }
 }
