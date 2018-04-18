@@ -1,6 +1,9 @@
 # Distribution
 dist/
 
+# Building Cache
+.awcache
+
 # Logs
 logs
 *.log

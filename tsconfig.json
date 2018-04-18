@@ -12,8 +12,18 @@
 
         "strict": true, 
         "noUnusedLocals": true, 
-        "allowJs": true
+        "allowJs": true, 
+
+        "esModuleInterop": true, 
+        "isolatedModules": true
     },
+
+    "awesomeTypescriptLoaderOptions": {
+        "useCache": true, 
+        "useBabel": true, 
+        "babelCore": "@babel/core"
+    }, 
+    
     "include": [
         "./src/**/*"
     ], 

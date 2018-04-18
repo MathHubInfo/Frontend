@@ -1,13 +1,14 @@
 const webpack = require("webpack");
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const path = require("path");
 
-
 module.exports = {
     // input / output
-    entry: ["babel-polyfill", "./src/index.tsx"],
+    entry: ["react", "babel-polyfill", "./src/index.tsx"],
     output: {
         filename: "[name].js",
         chunkFilename: '[name]-[hash].chunk.js',
@@ -30,14 +31,7 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/, 
-                use: [
-                    {
-                        loader: 'babel-loader'
-                    }, 
-                    {
-                        loader: 'awesome-typescript-loader'
-                    }
-                ]
+                use: [ 'awesome-typescript-loader' ]
             },
 
             {
@@ -50,16 +44,11 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [ 'style-loader', 'css-loader' ]
-            }, 
+            },
 
             {
-                test: /\.(png|jpg|gif|svg|woff|woff2|eot|ttf)$/,
-                use: [
-                    {
-                    loader: 'file-loader',
-                    options: {}  
-                    }
-                ]
+                test: /\.(png|jpg|svg|gif|woff|woff2|eot|ttf)$/,
+                use: [ 'url-loader' ]
             }, 
             
 

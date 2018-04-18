@@ -11,7 +11,7 @@ We use [yarn](https://yarnpkg.com/en/), whcih we assume in the following is inst
 yarn
 
 # build distribution into dist/ folder (includes index.html)
-yarn webpack --mode=production
+yarn webpack --config=webpack.config.prod.js
 
 # run a server on localhost:8080 for development
 # this includes automatic re-compilation and hot reloading

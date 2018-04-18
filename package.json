@@ -4,7 +4,7 @@
   "description": "A rewrite of the MathHub Frontend in React",
   "main": "src/index.tsx",
   "scripts": {
-    "run": "webpack-dev-server", 
+    "run": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "https://github.com/KWARC/MathHub-React-Frontend",
@@ -20,13 +20,16 @@
     "babel-loader": "^8.0.0-beta.2",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "css-loader": "^0.28.11",
-    "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "source-map-loader": "^0.2.3",
+    "style-loader": "^0.20.3",
+    "svg-inline-loader": "^0.8.0",
     "tsconfig-paths-webpack-plugin": "^3.0.3",
     "typescript": "^2.8.1",
+    "url-loader": "^1.0.1",
     "webpack": "^4.5.0",
+    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^3.1.3"
   },
@@ -36,7 +39,6 @@
     "react-dom": "^16.3.1",
     "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.79.1",
-    "style-loader": "^0.20.3"
+    "semantic-ui-react": "^0.79.1"
   }
 }
