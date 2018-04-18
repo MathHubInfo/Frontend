@@ -13,7 +13,7 @@ interface ArchiveProps {
         }
     }
 }
-export const Archive = WithContext<ArchiveProps>(class extends PromiseComponent<{context: MathHubContext} & ArchiveProps, ArchiveT>{
+export const Archive = WithContext((context: MathHubContext) => class extends PromiseComponent<{context: MathHubContext} & ArchiveProps, ArchiveT>{
     private archiveID() { return this.props.match.params.group + "/" + this.props.match.params.name; }
     
     const loadingTitle = `Archive ${this.archiveID()}`;

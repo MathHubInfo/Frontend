@@ -25,10 +25,15 @@ export function makeContext(config: MathHubConfig): MathHubContext {
 
 
 /**  Creates a new Element that takes MathHubContext as Parameter */
-export function WithContext<P = {}>(Component: ReactComponent<P & {context: MathHubContext}>) : ReactComponent<P> {
-    return class WithConfigComponent extends React.Component<P> {
+export function WithContext<P>(makeComponent: (context: MathHubContext) => ReactComponent<P>) : ReactComponent<P> {
+    return class WithContextComponent extends React.Component<P> {
         render() {
-            return <Context.Consumer>{ctx => <Component {...this.props} context={ctx} />}</Context.Consumer>;
+            return <Context.Consumer>{
+                ctx => {
+                    const Component = makeComponent(ctx); 
+                    return <Component {...this.props} />
+                }
+            }</Context.Consumer>;
         }
     }
 }

@@ -4,7 +4,7 @@ import { Container, Divider, Grid, Header, List, Segment } from 'semantic-ui-rea
 
 import { WithContext, MathHubContext} from "context"
 
-export const Footer = WithContext<{}>(class extends React.Component<{context: MathHubContext}> {
+export const Footer = WithContext((context: MathHubContext) => class extends React.Component {
     render() {
         return <Segment inverted vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
           <Container textAlign='center'>
@@ -46,7 +46,7 @@ export const Footer = WithContext<{}>(class extends React.Component<{context: Ma
     
             <Divider inverted section />
             <div>
-              Connected to MMT at {this.props.context.config.mmtURL}
+              Connected to MMT at {context.config.mmtURL}
             </div>
           </Container>
     </Segment>;

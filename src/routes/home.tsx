@@ -19,11 +19,11 @@ export class Home extends React.Component<{}, {}> {
     }
 }
 
-const AsyncGroupList = WithContext<{}>(class LoadArchiveList extends PromiseComponent<{context: MathHubContext}, GroupItem[]>{
+const AsyncGroupList = WithContext((context: MathHubContext) => class LoadArchiveList extends PromiseComponent<{}, GroupItem[]>{
     const loadingTitle = "Group List"
 
     load() {
-        return this.props.context.client.getGroups();
+        return context.client.getGroups();
     }
 
     renderData(groups: GroupItem[]) {

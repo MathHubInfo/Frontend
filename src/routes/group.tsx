@@ -15,14 +15,14 @@ interface GroupProps {
         }
     }
 }
-export const Group = WithContext<GroupProps>(class extends PromiseComponent<{context: MathHubContext} & GroupProps, GroupT>{
+export const Group = WithContext((context: MathHubContext) => class extends PromiseComponent<GroupProps, GroupT>{
     const groupName() { return this.props.match.params.name; }
 
     const loadingTitle = `Group ${this.groupName()}`
     const errorTitle = this.loadingTitle;
 
     load() {
-        return this.props.context.client.getGroup(this.groupName());
+        return context.client.getGroup(this.groupName());
     }
 
     renderData(group: GroupT) {
