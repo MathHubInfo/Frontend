@@ -15,9 +15,8 @@ import {Switch, Route} from 'react-router-dom'
 export default function Routes() {
     return <Switch>
         <Route exact path="/" component={Home} />
-        
-        <Route path="/group/:name" component={Group} />
-        <Route path="/archive/:group/:name" component={Archive} />
+        <Route exact path="/content/:name" component={Group} />
+        <Route exact path="/content/:group/:name" component={Archive} />
         
         <Route exact path="/about" component={About} />
     </Switch>;

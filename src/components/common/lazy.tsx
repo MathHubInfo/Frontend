@@ -27,7 +27,7 @@ export class LoadWithPromise<T> extends React.Component<LPProps<T>> {
 
         const onReject = (p: {reason?: any}) => <ErrorComponent 
             reason={p.reason} 
-            title={ errorTitle || `Error Loading ${title}`} 
+            title={ errorTitle || `Error loading ${title}`} 
             message={ (errorMessage === true) ? (p.reason ? p.reason.toString() : undefined) : errorMessage } 
         />
 

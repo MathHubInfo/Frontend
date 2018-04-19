@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Card } from 'semantic-ui-react'
+import { Container, Divider, Card } from 'semantic-ui-react'
 
 import { WithContext, MathHubContext } from "context"
 import { LoadWithPromise } from "components/common/lazy"
@@ -11,10 +11,13 @@ import { GroupItem } from "context/api/omdoc"
 export class Home extends React.Component<{}, {}> {
     render() {
         return <div>
-            Something something home
-
-            The list is:
-            <AsyncGroupList />
+            <Container text>
+                Something something home
+            </Container>
+            <Divider />
+            <Container>
+                <AsyncGroupList />
+            </Container>
         </div>
     }
 }
@@ -37,7 +40,7 @@ class GroupListItem extends React.Component<{group: GroupItem}> {
         const {group} = this.props; 
         return <Card>
             <Card.Content>
-                <Card.Header as={Nav} to={`/group/${group.name}`}>{group.name}</Card.Header>
+                <Card.Header as={Nav} to={`/content/${group.name}`}>{group.name}</Card.Header>
                 <Card.Description>{group.description}</Card.Description>
             </Card.Content>
         </Card>;

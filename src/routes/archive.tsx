@@ -21,7 +21,7 @@ export const Archive = WithContext((context: MathHubContext) => class extends Re
 
     render() {
         return <DocumentTitle title={`${this.archiveID()} | MathHub`}>
-            <LoadWithPromise title={`Archive ${this.archiveID()}`} promise={() => context.client.getArchive(this.archiveID())}>{
+            <LoadWithPromise title={this.archiveID()} promise={() => context.client.getArchive(this.archiveID())} errorMessage={true}>{
                 (archive: ArchiveT) => <div>
                     The archive ID is: ${ArchiveID(archive)}
                 </div>

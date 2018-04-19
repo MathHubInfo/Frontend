@@ -23,7 +23,7 @@ export const Group = WithContext((context: MathHubContext) => class extends Reac
 
     render() {
         return <DocumentTitle title={`${this.groupName()} | MathHub`}>
-            <LoadWithPromise title={`${this.groupName()} Group`} promise={() => context.client.getGroup(this.groupName())}>{
+            <LoadWithPromise title={this.groupName()} promise={() => context.client.getGroup(this.groupName())} errorMessage={true}>{
                 (group: GroupT) =>
                     <div>
                         <Container text>
@@ -61,7 +61,7 @@ class ArchiveListItem extends React.Component<{archive: ArchiveItem}> {
         const {archive} = this.props; 
         return <Card>
             <Card.Content>
-                <Card.Header as={Nav} to={`/archive/${archive.group}/${archive.name}`}>{archive.group}/{archive.name}</Card.Header>
+                <Card.Header as={Nav} to={`/content/${archive.group}/${archive.name}`}>{archive.group}/{archive.name}</Card.Header>
                 <Card.Description>{archive.description}</Card.Description>
             </Card.Content>
         </Card>;
