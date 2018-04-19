@@ -3,7 +3,7 @@ import {MathHubConfig} from "../../config"
 
 import { GroupItem, Group, GroupToItem, Archive, ArchiveID, Module } from "../omdoc";
 
-import { delay } from "utils/promises"
+// import { delay } from "utils/promises"
 
 import mockdata from "./data.json"
 
@@ -18,7 +18,7 @@ export class MockMMTClient extends MMTAPIClient {
     }
 
     private delay<T>(p: Promise<T>): Promise<T> {
-        return delay(p, 1000); 
+        return p;//return delay(p, 1000); 
     }
 
     getGroups() { return this.delay(this.getGroupsI())};
