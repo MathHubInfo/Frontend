@@ -8,6 +8,8 @@ import { Nav } from "components/common/nav"
 
 import {Group as GroupT, ArchiveItem} from "context/api/omdoc"
 
+import DocumentTitle from "react-document-title";
+
 interface GroupProps {
     match: {
         params: {
@@ -20,24 +22,26 @@ export const Group = WithContext((context: MathHubContext) => class extends Reac
     const groupName() { return this.props.match.params.name; }
 
     render() {
-        return <LoadWithPromise title={`${this.groupName()} Group`}promise={() => context.client.getGroup(this.groupName())}>{
-            (group: GroupT) =>
-                <div>
-                    <Container text>
-                        <Header as='h2'>{group.name}</Header>
-                        <div>
-                            {group.longDescription}
-                        </div>
-                        <div>
-                            <b>Responsible:</b> {group.maintainer}
-                        </div>
-                    </Container>
-                    <Divider />
-                    <Container>
-                        <ArchiveItemList archives={group.archives} />
-                    </Container>
-                </div>
-        }</LoadWithPromise>
+        return <DocumentTitle title={`${this.groupName()} | MathHub`}>
+            <LoadWithPromise title={`${this.groupName()} Group`} promise={() => context.client.getGroup(this.groupName())}>{
+                (group: GroupT) =>
+                    <div>
+                        <Container text>
+                            <Header as='h2'>{group.name}</Header>
+                            <div>
+                                {group.longDescription}
+                            </div>
+                            <div>
+                                <b>Responsible:</b> {group.maintainer}
+                            </div>
+                        </Container>
+                        <Divider />
+                        <Container>
+                            <ArchiveItemList archives={group.archives} />
+                        </Container>
+                    </div>
+            }</LoadWithPromise>
+        </DocumentTitle>
     }
 });
 

@@ -5,6 +5,8 @@ import { LoadWithPromise } from "components/common/lazy"
 
 import {Archive as ArchiveT, ArchiveID} from "context/api/omdoc"
 
+import DocumentTitle from "react-document-title"
+
 interface ArchiveProps {
     match: {
         params: {
@@ -18,10 +20,12 @@ export const Archive = WithContext((context: MathHubContext) => class extends Re
     private archiveID() { return this.props.match.params.group + "/" + this.props.match.params.name; }
 
     render() {
-        return <LoadWithPromise title={`Archive ${this.archiveID()}`} promise={() => context.client.getArchive(this.archiveID())}>{
-            (archive: ArchiveT) => <div>
-                The archive ID is: ${ArchiveID(archive)}
-            </div>
-        }</LoadWithPromise>
+        return <DocumentTitle title={`${this.archiveID()} | MathHub`}>
+            <LoadWithPromise title={`Archive ${this.archiveID()}`} promise={() => context.client.getArchive(this.archiveID())}>{
+                (archive: ArchiveT) => <div>
+                    The archive ID is: ${ArchiveID(archive)}
+                </div>
+            }</LoadWithPromise>
+        </DocumentTitle>
     }
 });

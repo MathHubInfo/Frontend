@@ -11,9 +11,12 @@ import {Footer} from "./fragments/footer"
 import {Context, makeContext} from "context"
 import {MathHubConfig} from "context/config"
 
+import DocumentTitle from "react-document-title";
+
 export class MathHub extends React.Component<MathHubConfig, {}> {
     render() {
-        return <Context.Provider value={ makeContext(this.props) }>  
+        return <Context.Provider value={ makeContext(this.props) }>
+            <DocumentTitle title="MathHub">
                 <HashRouter> 
                     <div>
                         <Header />
@@ -24,7 +27,8 @@ export class MathHub extends React.Component<MathHubConfig, {}> {
                         
                         <Footer />
                     </div>
-            </HashRouter>
+                </HashRouter>
+            </DocumentTitle>
         </Context.Provider>;
     }
 }
