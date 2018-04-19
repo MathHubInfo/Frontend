@@ -1,7 +1,7 @@
 import * as React from "react"
 
 import { WithContext, MathHubContext } from "context"
-import { PromiseComponent } from "components/common/loader"
+import { LoadWithPromise } from "components/common/lazy"
 
 import {Archive as ArchiveT, ArchiveID} from "context/api/omdoc"
 
@@ -13,21 +13,15 @@ interface ArchiveProps {
         }
     }
 }
-export const Archive = WithContext((context: MathHubContext) => class extends PromiseComponent<{context: MathHubContext} & ArchiveProps, ArchiveT>{
+
+export const Archive = WithContext((context: MathHubContext) => class extends React.Component<ArchiveProps> {
     private archiveID() { return this.props.match.params.group + "/" + this.props.match.params.name; }
-    
-    const loadingTitle = `Archive ${this.archiveID()}`;
-    const errorTitle = this.loadingTitle; 
 
-    load() {
-        return this.props.context.client.getArchive(this.archiveID());
+    render() {
+        return <LoadWithPromise title={`Archive ${this.archiveID()}`} promise={() => context.client.getArchive(this.archiveID())}>{
+            (archive: ArchiveT) => <div>
+                The archive ID is: ${ArchiveID(archive)}
+            </div>
+        }</LoadWithPromise>
     }
-
-    renderData(archive: ArchiveT) {
-
-        return <div>
-            The archive ID is: ${ArchiveID(archive)}
-        </div>
-    }
-})
-
+});

@@ -3,7 +3,7 @@ import * as React from "react"
 import { Container, Divider, Card, Header } from 'semantic-ui-react'
 
 import { WithContext, MathHubContext } from "context"
-import { PromiseComponent } from "components/common/loader"
+import { LoadWithPromise } from "components/common/lazy"
 import { Nav } from "components/common/nav"
 
 import {Group as GroupT, ArchiveItem} from "context/api/omdoc"
@@ -15,32 +15,29 @@ interface GroupProps {
         }
     }
 }
-export const Group = WithContext((context: MathHubContext) => class extends PromiseComponent<GroupProps, GroupT>{
+
+export const Group = WithContext((context: MathHubContext) => class extends React.Component<GroupProps> {
     const groupName() { return this.props.match.params.name; }
 
-    const loadingTitle = `Group ${this.groupName()}`
-    const errorTitle = this.loadingTitle;
-
-    load() {
-        return context.client.getGroup(this.groupName());
-    }
-
-    renderData(group: GroupT) {
-        return <div>
-            <Container text>
-                <Header as='h2'>{group.name}</Header>
+    render() {
+        return <LoadWithPromise title={`${this.groupName()} Group`}promise={() => context.client.getGroup(this.groupName())}>{
+            (group: GroupT) =>
                 <div>
-                    {group.longDescription}
+                    <Container text>
+                        <Header as='h2'>{group.name}</Header>
+                        <div>
+                            {group.longDescription}
+                        </div>
+                        <div>
+                            <b>Responsible:</b> {group.maintainer}
+                        </div>
+                    </Container>
+                    <Divider />
+                    <Container>
+                        <ArchiveItemList archives={group.archives} />
+                    </Container>
                 </div>
-                <div>
-                    <b>Responsible:</b> {group.maintainer}
-                </div>
-            </Container>
-            <Divider />
-            <Container>
-                <ArchiveItemList archives={group.archives} />
-            </Container>
-        </div>
+        }</LoadWithPromise>
     }
 });
 

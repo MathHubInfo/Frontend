@@ -1,4 +1,4 @@
-import { Loader } from "components/common/loader"
+import { Loader } from "components/common/lazy"
 
 import { rejectAfter } from "utils/promises"
 

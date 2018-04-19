@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Card } from 'semantic-ui-react'
 
 import { WithContext, MathHubContext } from "context"
-import { PromiseComponent } from "components/common/loader"
+import { LoadWithPromise } from "components/common/lazy"
 import { Nav } from "components/common/nav"
 
 import { GroupItem } from "context/api/omdoc"
@@ -19,17 +19,15 @@ export class Home extends React.Component<{}, {}> {
     }
 }
 
-const AsyncGroupList = WithContext((context: MathHubContext) => class LoadArchiveList extends PromiseComponent<{}, GroupItem[]>{
-    const loadingTitle = "Group List"
+const AsyncGroupList = WithContext((context: MathHubContext) => class extends React.Component<{}>{
 
-    load() {
-        return context.client.getGroups();
-    }
-
-    renderData(groups: GroupItem[]) {
-        return <Card.Group itemsPerRow="1">{
-            groups.map(group => <GroupListItem key={group.name} group={group} />)
-        }</Card.Group>; 
+    render() {
+        return <LoadWithPromise title='Groups' promise={ () => context.client.getGroups() }>{
+            (groups: GroupItem[]) =>
+            <Card.Group itemsPerRow="1">{
+                groups.map(group => <GroupListItem key={group.name} group={group} />)
+            }</Card.Group>
+        }</LoadWithPromise>
     }
 });
 
