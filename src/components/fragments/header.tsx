@@ -8,7 +8,7 @@ export class Header extends React.Component<{}, {}> {
         return <Menu fixed='top'>
             <Container>
                 <Menu.Item as={Nav} exact to="/" header>
-                    <Image size='mini' src={ require("assets/mathHubLogo.svg") } style={{ marginRight: '1.5em' }} alt="MathHub Logo" />
+                    <Image size='mini' src={ require("../../../assets/logos/MathHub.svg") } style={{ marginRight: '1.5em' }} alt="MathHub Logo" />
                     MathHub
                 </Menu.Item>
                 <Menu.Item as={Nav} exact to="/about">About</Menu.Item>

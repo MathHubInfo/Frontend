@@ -1,6 +1,2 @@
-const config = require("./webpack.config.js");
-
-config.mode = 'production';
-config.optimization.splitChunks.name = false;
-
-module.exports = config; 
+require('@babel/register')({babelrc: true});
+module.exports = require("./build/prod.js");

@@ -1,3 +1,5 @@
+/** @file Implements utility functions used for Promises  */
+
 /**
  * Delays a promise by a given amount of seconds
  * @param promise Promise to delay

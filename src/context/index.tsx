@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { ReactComponent } from "utils/types"
+import { ReactComponent } from "types/types"
 
 import {MathHubConfig} from "./config.d"
 import {MMTAPIClient} from "./api/client"
