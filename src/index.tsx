@@ -1,4 +1,4 @@
-/**
+/**!
  *  __  __       _   _     _   _       _     
  * |  \/  | __ _| |_| |__ | | | |_   _| |__  
  * | |\/| |/ _` | __| '_ \| |_| | | | | '_ \ 
@@ -8,6 +8,9 @@
  * (c) 2018 The KWARC Group & Contributors
  * @license GPL-3.0
  */
+
+console.log(require("notice.txt"))
+
 
 // load the polyfill for older browsers
 import "babel-polyfill";
@@ -26,7 +29,7 @@ Promise.all([
     MathHub
 ]) => {
     ReactDOM.render(
-        <MathHub mmtURL="http://localhost:8080/" />, 
+        <MathHub mmtURL={process.env['MMT_URL'] || 'localhost:8080'} />, 
         document.getElementById("mathhub")
     );
 });

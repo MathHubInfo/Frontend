@@ -1,4 +1,4 @@
-import config from "./common"
+import {common, env} from "./common"
 
 import webpack from "webpack"
 
@@ -6,12 +6,12 @@ import LicenseInfoWebpackPlugin from "license-info-webpack-plugin"
 import UglifyJsPlugin from "uglifyjs-webpack-plugin"
 
 export default {
-    ...config, 
+    ...common, 
 
     mode: 'production', 
 
     optimization: {
-        ...config.optimization, 
+        ...common.optimization, 
 
         minimizer: [
             new UglifyJsPlugin({
@@ -22,21 +22,16 @@ export default {
                     }
                 }
             })
-        ], 
-
-        splitChunks: {
-            ...config.optimization.splitChunks,
-
-            // do not name chunks in production
-            name: false
-        }
+        ]
     }, 
 
     plugins: [
-        ...config.plugins, 
+        ...common.plugins, 
 
+        // we are in production
         new webpack.DefinePlugin({
-            'process.env':{
+            'process.env': {
+                ...env,
                 'NODE_ENV': JSON.stringify('production'), 
                 'BABEL_ENV': JSON.stringify('production')
             },

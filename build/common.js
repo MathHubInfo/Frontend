@@ -10,7 +10,13 @@ import { resolve } from "path"
 const root = resolve(__dirname, "..")
 const dist = resolve(root, "dist")
 
-export default {
+
+// environment variables
+export const env = {
+    'MMT_URL': JSON.stringify(process.env['MMT_URL'])
+}
+
+export const common = {
     // input / output
     entry: ["babel-polyfill", "./src/index.tsx"],
     output: {
@@ -42,6 +48,13 @@ export default {
                 test: /\.(html)$/,
                 use: {
                     loader: 'html-loader',
+                }
+            }, 
+
+            {
+                test: /\.(txt)$/,
+                use: {
+                    loader: 'raw-loader',
                 }
             }, 
 

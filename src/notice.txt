@@ -1,0 +1,10 @@
+ __  __       _   _     _   _       _     
+|  \/  | __ _| |_| |__ | | | |_   _| |__  
+| |\/| |/ _` | __| '_ \| |_| | | | | '_ \ 
+| |  | | (_| | |_| | | |  _  | |_| | |_) |
+|_|  |_|\__,_|\__|_| |_|_| |_|\__,_|_.__/ 
+
+(c) 2018 The KWARC Group & Contributors
+Licensed under the Terms of GPL 3.0
+
+See /NOTICES.txt for legal information. 

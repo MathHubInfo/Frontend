@@ -1,9 +1,9 @@
-import config from "./common"
+import {common, env} from "./common"
 
 import webpack from "webpack"
 
 export default {
-    ...config, 
+    ...common, 
 
     // heya we're developing
     mode: 'development', 
@@ -23,7 +23,13 @@ export default {
     }, 
 
     plugins: [
-        ...config.plugins, 
+        ...common.plugins, 
+
+        new webpack.DefinePlugin({
+            'process.env': {
+                ...env
+            },
+        }), 
         
         // for development and hot reloading
         new webpack.HotModuleReplacementPlugin(), 
