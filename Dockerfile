@@ -3,7 +3,6 @@ ARG MMT_URL="/mmt/"
 
 # We need a node image with yarn
 FROM node as builder
-RUN npm install -g yarn
 
 # Add all of the app into /app/
 ADD assets/ /app/assets/
