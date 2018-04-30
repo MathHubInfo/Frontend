@@ -1,14 +1,14 @@
 
-import webpack from "webpack"
+import webpack from 'webpack'
 
-import HtmlWebpackPlugin from "html-webpack-plugin"
-import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin"
-import CleanWebpackPlugin from "clean-webpack-plugin"
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
+import CleanWebpackPlugin from 'clean-webpack-plugin'
 
-import { resolve } from "path"
+import { resolve } from 'path'
 
-const root = resolve(__dirname, "..")
-const dist = resolve(root, "dist")
+const root = resolve(__dirname, '..')
+const dist = resolve(root, 'dist')
 
 
 // environment variables
@@ -18,20 +18,20 @@ export const env = {
 
 export const common = {
     // input / output
-    entry: ["babel-polyfill", "./src/index.tsx"],
+    entry: ['babel-polyfill', './src/index.tsx'],
     output: {
-        filename: "[name].js",
+        filename: '[name].js',
         chunkFilename: '[name]-[hash].chunk.js',
         path: dist
     },
     
     // for debugging this is insanely useful
-    devtool: "source-map",
+    devtool: 'source-map',
     
 
     // load js, typescript and babel
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".html"], 
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.html'], 
 
         plugins: [
             new TsconfigPathsPlugin(),
@@ -41,35 +41,50 @@ export const common = {
         rules: [
             {
                 test: /\.tsx?$/, 
-                use: [ 'awesome-typescript-loader' ]
+                enforce: 'pre',
+                use: [{
+                    loader: 'tslint-loader', 
+                    options: {
+                        configFile: resolve(root, 'tslint.json'), 
+                        tsConfigFile: resolve(root, 'tsconfig.json'),
+                        emitErrors: true,
+                        typeCheck: true,
+                        failOnHint: true,
+                    }
+                }]
+            },
+
+            {
+                test: /\.tsx?$/, 
+                use: [ 'awesome-typescript-loader' ],
             },
 
             {
                 test: /\.(html)$/,
-                use: {
-                    loader: 'html-loader',
-                }
+                use: [ 'html-loader' ],
             }, 
 
             {
                 test: /\.(txt)$/,
-                use: {
-                    loader: 'raw-loader',
-                }
+                loader: [ 'raw-loader' ],
             }, 
 
             {
                 test: /\.css$/,
-                use: [ 'style-loader', 'css-loader' ]
+                use: [ 'style-loader', 'css-loader' ],
             },
 
             {
                 test: /\.(png|jpg|svg|gif|woff|woff2|eot|ttf)$/,
-                use: [ 'url-loader' ]
+                use: [ 'url-loader' ],
             }, 
             
 
-            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+            {
+                test: /\.js$/,
+                enforce: 'pre', 
+                use: [ 'source-map-loader' ]
+            }
         ]
     }, 
 

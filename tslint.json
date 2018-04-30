@@ -1,0 +1,18 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:latest", 
+        "tslint-react"
+    ],
+    "jsRules": {},
+    "rules": {
+        "indent": [ true, "spaces", 4 ], 
+        "no-console": [ false ], 
+        "member-ordering": [ false ],
+        "max-classes-per-file": [ false ],
+
+        "jsx-boolean-value": [ false ],
+        "jsx-no-multiline-js": [ false ]
+    },
+    "rulesDirectory": []
+}
