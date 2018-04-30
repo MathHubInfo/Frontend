@@ -14,6 +14,7 @@ ADD package.json /app/
 ADD tsconfig.json /app/
 ADD webpack.config.js /app/
 ADD webpack.config.prod.js /app/
+ADD tslint.json /app/
 ADD yarn.lock /app/
 
 
