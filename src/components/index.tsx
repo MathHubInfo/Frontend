@@ -3,15 +3,15 @@ import * as React from "react";
 import { HashRouter } from "react-router-dom"
 import { Container } from 'semantic-ui-react'
 
-import Routes from 'routes'
+import DocumentTitle from "react-document-title";
+
+import Routes from '../routes'
 
 import {Header} from "./fragments/header"
 import {Footer} from "./fragments/footer"
 
-import {Context, makeContext} from "context"
-import {MathHubConfig} from "context/config"
-
-import DocumentTitle from "react-document-title";
+import {Context, makeContext} from "../context"
+import {MathHubConfig} from "../context/config"
 
 export class MathHub extends React.Component<MathHubConfig, {}> {
     render() {

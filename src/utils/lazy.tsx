@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactComponent, Module } from "types/types";
+import { ReactComponent, Module } from "../types/types";
 
 type LWPProps<T> = LCProps<T> & LEProps
 export interface LEProps {

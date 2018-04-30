@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
-        "baseUrl": "./src", 
-
+        "baseUrl": "./", 
         "outDir": "./dist/",
         
         "sourceMap": true,

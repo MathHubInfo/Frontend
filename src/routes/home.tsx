@@ -2,11 +2,11 @@ import * as React from 'react';
 
 import { Container, Divider, Card } from 'semantic-ui-react'
 
-import { WithContext, MathHubContext } from "context"
-import { LoadWithPromise } from "components/common/lazy"
-import { Nav } from "components/common/nav"
+import { WithContext, MathHubContext } from "../context"
+import { LoadWithPromise } from "../components/common/lazy"
+import { Nav } from "../components/common/nav"
 
-import { GroupItem } from "context/api/omdoc"
+import { GroupItem } from "../context/api/omdoc"
 
 export class Home extends React.Component<{}, {}> {
     render() {

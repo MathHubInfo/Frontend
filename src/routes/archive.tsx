@@ -1,9 +1,9 @@
 import * as React from "react"
 
-import { WithContext, MathHubContext } from "context"
-import { LoadWithPromise } from "components/common/lazy"
+import { WithContext, MathHubContext } from "../context"
+import { LoadWithPromise } from "../components/common/lazy"
 
-import {Archive as ArchiveT, ArchiveID} from "context/api/omdoc"
+import {Archive as ArchiveT, ArchiveID} from "../context/api/omdoc"
 
 import DocumentTitle from "react-document-title"
 

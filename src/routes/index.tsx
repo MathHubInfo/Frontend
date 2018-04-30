@@ -1,6 +1,6 @@
-import { Loader } from "components/common/lazy"
+import { Loader } from "../components/common/lazy"
 
-import { rejectAfter } from "utils/promises"
+import { rejectAfter } from "../utils/promises"
 
 const Home = Loader("Home Page", () => import("./home").then(h => h.Home));
 

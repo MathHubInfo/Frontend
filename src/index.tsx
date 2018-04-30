@@ -9,7 +9,7 @@
  * @license GPL-3.0
  */
 
-console.log(require("notice.txt"))
+console.log(require("./notice.txt"))
 
 
 // load the polyfill for older browsers
@@ -22,7 +22,7 @@ Promise.all([
     import('react'),
     import('react-dom'),
 
-    import('components').then(mh => mh.MathHub)
+    import('./components').then(mh => mh.MathHub)
 ]).then(([
     React, 
     ReactDOM, 

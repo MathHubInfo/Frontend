@@ -2,8 +2,8 @@ import * as React from 'react'
 
 import { Message, Icon } from 'semantic-ui-react'
 
-import {LoadWithPromise as LoadWithPromiseI, LCProps, Lazy} from "utils/lazy"
-import {Module, ReactComponent} from "types/types"
+import {LoadWithPromise as LoadWithPromiseI, LCProps, Lazy} from "../../utils/lazy"
+import {Module, ReactComponent} from "../../types/types"
 
 interface LWProps {
     loadingTitle?: string

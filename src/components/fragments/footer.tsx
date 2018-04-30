@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Container, Divider, Grid, Header, List, Segment } from 'semantic-ui-react'
 
-import { WithContext, MathHubContext} from "context"
+import { WithContext, MathHubContext} from "../../context"
 
 export const Footer = WithContext((context: MathHubContext) => class extends React.Component {
     render() {

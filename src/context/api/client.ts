@@ -1,4 +1,4 @@
-import {MathHubConfig} from "context/config"
+import {MathHubConfig} from "../config"
 
 import { GroupItem, Group, Archive, Module } from "./omdoc";
 

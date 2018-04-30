@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Nav } from "components/common/nav"
+import { Nav } from "../../components/common/nav"
 import { Container, Image, Menu } from 'semantic-ui-react'
 
 export class Header extends React.Component<{}, {}> {

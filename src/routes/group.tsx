@@ -2,11 +2,11 @@ import * as React from "react"
 
 import { Container, Divider, Card, Header } from 'semantic-ui-react'
 
-import { WithContext, MathHubContext } from "context"
-import { LoadWithPromise } from "components/common/lazy"
-import { Nav } from "components/common/nav"
+import { LoadWithPromise } from "../components/common/lazy"
+import { Nav } from "../components/common/nav"
 
-import {Group as GroupT, ArchiveItem} from "context/api/omdoc"
+import { WithContext, MathHubContext } from "../context"
+import {Group as GroupT, ArchiveItem} from "../context/api/omdoc"
 
 import DocumentTitle from "react-document-title";
 
