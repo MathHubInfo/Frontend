@@ -1,49 +1,59 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { Container, Divider, Card } from 'semantic-ui-react'
+import { Card, Container, Divider } from "semantic-ui-react";
 
-import { WithContext, MathHubContext } from "../context"
-import { LoadWithPromise } from "../components/common/lazy"
-import { Nav } from "../components/common/nav"
+import { LoadWithPromise } from "../components/common/lazy";
+import { Nav } from "../components/common/nav";
+import { IMathHubContext, WithContext } from "../context";
 
-import { GroupItem } from "../context/api/omdoc"
+import { IGroupItem } from "../context/api/omdoc";
 
 export class Home extends React.Component<{}, {}> {
-    render() {
-        return <div>
-            <Container text>
-                Something something home
-            </Container>
-            <Divider />
-            <Container>
-                <AsyncGroupList />
-            </Container>
-        </div>
+    public render() {
+        return (
+            <div>
+                <Container text>
+                    Something something home
+                </Container>
+                <Divider />
+                <Container>
+                    <AsyncGroupList />
+                </Container>
+            </div>
+        );
     }
 }
 
-const AsyncGroupList = WithContext((context: MathHubContext) => class extends React.Component<{}>{
+const AsyncGroupList = WithContext((context: IMathHubContext) => class extends React.Component<{}> {
+    constructor(props: {}) {
+        super(props);
+        this.getGroups = this.getGroups.bind(this);
+    }
 
-    render() {
-        return <LoadWithPromise title='Groups' promise={ () => context.client.getGroups() }>{
-            (groups: GroupItem[]) =>
-            <Card.Group itemsPerRow="1">{
-                groups.map(group => <GroupListItem key={group.name} group={group} />)
-            }</Card.Group>
-        }</LoadWithPromise>
+    private getGroups() { return context.client.getGroups(); }
+
+    public render() {
+        return (
+            <LoadWithPromise title="Groups" promise={this.getGroups}>{
+                (groups: IGroupItem[]) =>
+                <Card.Group itemsPerRow="1">{
+                    groups.map((group) => <GroupListItem key={group.name} group={group} />)}</Card.Group>
+            }</LoadWithPromise>
+        );
     }
 });
 
 /** A single archive item */
-class GroupListItem extends React.Component<{group: GroupItem}> {
-    render() {
-        const {group} = this.props; 
-        return <Card>
-            <Card.Content>
-                <Card.Header as={Nav} to={`/content/${group.name}`}>{group.name}</Card.Header>
-                <Card.Description>{group.description}</Card.Description>
-            </Card.Content>
-        </Card>;
+class GroupListItem extends React.Component<{group: IGroupItem}> {
+    public render() {
+        const {group} = this.props;
+        return (
+            <Card>
+                <Card.Content>
+                    <Card.Header as={Nav} to={`/content/${group.name}`}>{group.name}</Card.Header>
+                    <Card.Description>{group.description}</Card.Description>
+                </Card.Content>
+            </Card>
+        );
     }
 }
-

@@ -1,6 +1,6 @@
 /** @file Contains utility type definitions used in MathHub */
 
-import {ComponentClass, SFC} from 'react';
+import {ComponentClass, SFC} from "react";
 /**
  * Represents an object which can be instatiated to become a React Component
  */

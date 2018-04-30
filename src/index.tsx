@@ -1,35 +1,36 @@
-/**!
- *  __  __       _   _     _   _       _     
- * |  \/  | __ _| |_| |__ | | | |_   _| |__  
- * | |\/| |/ _` | __| '_ \| |_| | | | | '_ \ 
+/**
+ *  __  __       _   _     _   _       _
+ * |  \/  | __ _| |_| |__ | | | |_   _| |__
+ * | |\/| |/ _` | __| '_ \| |_| | | | | '_ \
  * | |  | | (_| | |_| | | |  _  | |_| | |_) |
- * |_|  |_|\__,_|\__|_| |_|_| |_|\__,_|_.__/ 
- * 
+ * |_|  |_|\__,_|\__|_| |_|_| |_|\__,_|_.__/
+ *
  * (c) 2018 The KWARC Group & Contributors
  * @license GPL-3.0
  */
 
-console.log(require("./notice.txt"))
-
+import notice from "./notice.txt";
+console.log(notice);
 
 // load the polyfill for older browsers
 import "babel-polyfill";
 
 // loading nice CSS
-import 'semantic-ui-css/semantic.min.css';
+// tslint:disable-next-line:no-submodule-imports
+import "semantic-ui-css/semantic.min.css";
 
 Promise.all([
-    import('react'),
-    import('react-dom'),
+    import("react"),
+    import("react-dom"),
 
-    import('./components').then(mh => mh.MathHub)
+    import("./components").then((mh) => mh.MathHub),
 ]).then(([
-    React, 
-    ReactDOM, 
-    MathHub
+    React,
+    ReactDOM,
+    MathHub,
 ]) => {
     ReactDOM.render(
-        <MathHub mmtURL={process.env['MMT_URL'] || 'localhost:8080'} />, 
-        document.getElementById("mathhub")
+        <MathHub mmtURL={process.env.MMT_URL || "localhost:8080"} />,
+        document.getElementById("mathhub"),
     );
 });

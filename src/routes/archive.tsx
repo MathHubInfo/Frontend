@@ -1,31 +1,44 @@
-import * as React from "react"
+import * as React from "react";
 
-import { WithContext, MathHubContext } from "../context"
-import { LoadWithPromise } from "../components/common/lazy"
+import { LoadWithPromise } from "../components/common/lazy";
+import { IMathHubContext, WithContext } from "../context";
 
-import {Archive as ArchiveT, ArchiveID} from "../context/api/omdoc"
+import {ArchiveID, IArchive} from "../context/api/omdoc";
 
-import DocumentTitle from "react-document-title"
+import DocumentTitle from "react-document-title";
 
-interface ArchiveProps {
+interface IArchiveProps {
     match: {
         params: {
-            group: string, 
-            name: string
-        }
-    }
+            group: string,
+            name: string,
+        },
+    };
 }
 
-export const Archive = WithContext((context: MathHubContext) => class extends React.Component<ArchiveProps> {
-    private archiveID() { return this.props.match.params.group + "/" + this.props.match.params.name; }
+export const Archive = WithContext((context: IMathHubContext) => class extends React.Component<IArchiveProps> {
+    constructor(props: IArchiveProps) {
+        super(props);
+        this.getArchive = this.getArchive.bind(this);
+    }
 
-    render() {
-        return <DocumentTitle title={`${this.archiveID()} | MathHub`}>
-            <LoadWithPromise title={this.archiveID()} promise={() => context.client.getArchive(this.archiveID())} errorMessage={true}>{
-                (archive: ArchiveT) => <div>
-                    The archive ID is: ${ArchiveID(archive)}
-                </div>
-            }</LoadWithPromise>
-        </DocumentTitle>
+    private archiveID() { return this.props.match.params.group + "/" + this.props.match.params.name; }
+    private getArchive() { return context.client.getArchive(this.archiveID()); }
+
+    public render() {
+        return (
+            <DocumentTitle title={`${this.archiveID()} | MathHub`}>
+                <LoadWithPromise
+                    title={this.archiveID()}
+                    promise={this.getArchive}
+                    errorMessage={true}
+                >{(archive: IArchive) =>
+                    <div>
+                        The archive ID is: ${ArchiveID(archive)}
+                    </div>
+                }
+                </LoadWithPromise>
+            </DocumentTitle>
+        );
     }
 });

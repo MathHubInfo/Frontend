@@ -7,12 +7,12 @@
  */
 export function delay<T>(promise: Promise<T>, timeout: number): Promise<T> {
     return promise.then(
-        (r: T) => new Promise<T>(function(resolve, reject){
-            window.setTimeout(() => resolve(r), timeout);
-        }), 
-        (r: any) => new Promise<T>(function(resolve, reject){
-            window.setTimeout(() => reject(r), timeout);
-        }), 
+        (r: T) => new Promise<T>((resolve, reject) => (
+            window.setTimeout(() => resolve(r), timeout)
+        )),
+        (r: any) => new Promise<T>((resolve, reject) => (
+            window.setTimeout(() => reject(r), timeout)
+        )),
     );
 }
 
@@ -23,7 +23,7 @@ export function delay<T>(promise: Promise<T>, timeout: number): Promise<T> {
  * @param reason Reason to reject promise for
  */
 export function rejectAfter<T>(promise: Promise<T>, timeout: number, reason?: any): Promise<T> {
-    return promise.then((r: T) => new Promise<T>(function(resolve, reject){
-        window.setTimeout(() => reject(reason), timeout);
-    }));
+    return promise.then((r: T) => new Promise<T>((resolve, reject) => (
+        window.setTimeout(() => reject(reason), timeout)
+    )));
 }

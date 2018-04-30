@@ -1,6 +1,6 @@
 /**
  * Represents a configuration for the MathHub Context
  */
-export interface MathHubConfig {
+export interface IMathHubConfig {
     mmtURL: string;
 }

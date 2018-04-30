@@ -1,34 +1,36 @@
 import * as React from "react";
 
-import { HashRouter } from "react-router-dom"
-import { Container } from 'semantic-ui-react'
+import { HashRouter } from "react-router-dom";
+import { Container } from "semantic-ui-react";
 
 import DocumentTitle from "react-document-title";
 
-import Routes from '../routes'
+import Routes from "../routes";
 
-import {Header} from "./fragments/header"
-import {Footer} from "./fragments/footer"
+import {Footer} from "./fragments/footer";
+import {Header} from "./fragments/header";
 
-import {Context, makeContext} from "../context"
-import {MathHubConfig} from "../context/config"
+import {Context, makeContext} from "../context";
+import {IMathHubConfig} from "../context/config";
 
-export class MathHub extends React.Component<MathHubConfig, {}> {
-    render() {
-        return <Context.Provider value={ makeContext(this.props) }>
-            <DocumentTitle title="MathHub">
-                <HashRouter> 
-                    <div>
-                        <Header />
-                        
-                        <Container text style={{ marginTop: '7em' }}>
-                            <Routes />
-                        </Container>
-                        
-                        <Footer />
-                    </div>
-                </HashRouter>
-            </DocumentTitle>
-        </Context.Provider>;
+export class MathHub extends React.Component<IMathHubConfig, {}> {
+    public render() {
+        return (
+            <Context.Provider value={makeContext(this.props)}>
+                <DocumentTitle title="MathHub">
+                    <HashRouter>
+                        <div>
+                            <Header />
+
+                            <Container text style={{ marginTop: "7em" }}>
+                                <Routes />
+                            </Container>
+
+                            <Footer />
+                        </div>
+                    </HashRouter>
+                </DocumentTitle>
+            </Context.Provider>
+        );
     }
 }

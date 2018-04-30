@@ -4,62 +4,62 @@
 // GROUP
 //
 
-export interface GroupItem {
-    name: string, 
-    description: string
+export interface IGroupItem {
+    name: string;
+    description: string;
 }
 
-export interface Group extends GroupItem {
-    longDescription: string, 
-    maintainer: string, 
-    
-    archives: ArchiveItem[]
+export interface IGroup extends IGroupItem {
+    longDescription: string;
+    maintainer: string;
+
+    archives: IArchiveItem[];
 }
 
-export function GroupToItem(group: Group): GroupItem {
-    return {name: group.name, description: group.description }
+export function GroupToItem(group: IGroup): IGroupItem {
+    return {name: group.name, description: group.description };
 }
 
 //
 // ARCHIVE
 //
 
-export interface ArchiveItem {
-    name: string, 
-    group: string, 
-    description: string, 
+export interface IArchiveItem {
+    name: string;
+    group: string;
+    description: string;
 }
 
-export interface Archive extends ArchiveItem {
-    longDescription: string, 
-    maintainer: string, 
+export interface IArchive extends IArchiveItem {
+    longDescription: string;
+    maintainer: string;
 
-    modules: ModuleItem[]
+    modules: IModuleItem[];
 }
 
-export function ArchiveToItem(archive: Archive): ArchiveItem {
-    return {name: archive.name, group: archive.group, description: archive.description}
+export function ArchiveToItem(archive: IArchive): IArchiveItem {
+    return {name: archive.name, group: archive.group, description: archive.description};
 }
 
-export function ArchiveID(archive: Archive) : string {
-    return `${archive.group}/${archive.name}`; 
+export function ArchiveID(archive: IArchive): string {
+    return `${archive.group}/${archive.name}`;
 }
 
 //
 // MODULE
 //
 
-export interface ModuleItem {
-    name: string, 
-    archive: string
+export interface IModuleItem {
+    name: string;
+    archive: string;
 }
 
-export interface Module extends ModuleItem {
-    content: string
+export interface IModule extends IModuleItem {
+    content: string;
 }
 
-export function ModuleToItem(module: Module) : ModuleItem {
-    return {name: module.name, archive: module.archive }; 
+export function ModuleToItem(module: IModule): IModuleItem {
+    return {name: module.name, archive: module.archive };
 }
 
 // TODO: More below
@@ -68,13 +68,11 @@ export function ModuleToItem(module: Module) : ModuleItem {
 // DECLARATION
 //
 
-
 //
 // OBJECT
 //
 
-
 //
 // URI
 //
-export type URI = string
+export type URI = string;

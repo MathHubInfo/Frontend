@@ -1,23 +1,23 @@
-import {MathHubConfig} from "../config"
+import {IMathHubConfig} from "../config";
 
-import { GroupItem, Group, Archive, Module } from "./omdoc";
+import { IArchive, IGroup, IGroupItem, IModule } from "./omdoc";
 
 export abstract class MMTAPIClient {
-    protected readonly config: MathHubConfig;
-    
-    constructor(config: MathHubConfig) {
-        this.config = config
+    protected readonly config: IMathHubConfig;
+
+    constructor(config: IMathHubConfig) {
+        this.config = config;
     }
 
     /** gets a list of archives from MMT */
-    abstract getGroups(): Promise<GroupItem[]>
-    
+    public abstract getGroups(): Promise<IGroupItem[]>;
+
     /** gets a specific group from MMT */
-    abstract getGroup(id: string) : Promise<Group>
+    public abstract getGroup(id: string): Promise<IGroup>;
 
     /** gets a given archive */
-    abstract getArchive(id: string) : Promise<Archive>
+    public abstract getArchive(id: string): Promise<IArchive>;
 
     /** gets a specific module */
-    abstract getModule(id: string) : Promise<Module>
+    public abstract getModule(id: string): Promise<IModule>;
 }
