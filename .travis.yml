@@ -1,0 +1,10 @@
+language: node_js
+sudo: false
+node_js:
+    - 9
+install: yarn
+env:
+  - WEBPACK_CONFIG="webpack.config.js"
+  - WEBPACK_CONFIG="webpack.config.prod.js"
+script:
+  - yarn webpack --config=$WEBPACK_CONFIG
