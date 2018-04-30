@@ -33,6 +33,10 @@ yarn --ignore-platform licenses generate-disclaimer > dist/NOTICES.txt
 # for a proper debugging interface
 yarn webpack-dev-server
 ```
+
+As an IDE, it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) along with the [TSLint Extension](https://marketplace.visualstudio.com/items?itemName=eg2.tslint). 
+Both should work out-of-the-box after cloning this repository and running the `yarn` command above. 
+
 ## Deployment via Docker
 
 To easily deploy an instance of the frontend, a [Dockerfile](Dockerfile) is available. 
