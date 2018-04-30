@@ -1,5 +1,8 @@
 # MathHub-React-Frontend
 
+[![Build Status](https://img.shields.io/travis/MathHubInfo/Frontend.svg)](https://travis-ci.org/MathHubInfo/Frontend)
+[![DockerHub Status](https://img.shields.io/docker/automated/mathhub/frontend.svg)](https://hub.docker.com/r/mathhub/frontend/)
+
 WIP on a new MathHub Frontend written in React. 
 
 ## Development Usage
@@ -51,8 +54,7 @@ This repository conists of the following structure:
 * `src/` -- Source files containing TypeScript code
 * `assets/` -- Binary assets, such as logos & images
 * `static/` -- Static content, that is loaded by TypeScript code
-
-* ``build/` -- Build Configuration
+* `build/` -- Build Configuration
 * various build & configuration files in the root folder
 
 And the following un-committed folders that are generated automatically:
