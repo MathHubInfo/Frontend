@@ -19,7 +19,7 @@ yarn
 # be served by a static webserver under any URL
 yarn webpack --config=webpack.config.prod.js
 
-# When generating a distribution, it is additionally recommended
+# When generating a distribution, it is additionally required
 # to run the following to generate NOTICES.txt file for license 
 # information of *external* dependencies
 yarn --ignore-platform licenses generate-disclaimer > dist/NOTICES.txt

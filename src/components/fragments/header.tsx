@@ -18,6 +18,7 @@ export class Header extends React.Component<{}, {}> {
                             MathHub
                         </Menu.Item>
                         <Menu.Item as={Nav} exact to="/about">About</Menu.Item>
+                        <Menu.Item as={Nav} exact to="/legal">Legal</Menu.Item>
                     </Container>
             </Menu>
             );

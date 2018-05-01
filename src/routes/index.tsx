@@ -8,6 +8,7 @@ const Group = Loader("Group", () => import("./group").then((g) => g.Group));
 const Archive = Loader("Archive", () => import("./archive").then((a) => a.Archive));
 
 const About = Loader("About", () => rejectAfter(import("./about").then((a) => a.About), 1000, "stuff"));
+const Legal = Loader("Legal", () => import("./legal").then((l) => l.Legal));
 
 import * as React from "react";
 import {Route, Switch} from "react-router-dom";
@@ -20,6 +21,7 @@ export default function Routes() {
             <Route exact path="/content/:group/:name" component={Archive} />
 
             <Route exact path="/about" component={About} />
+            <Route exact path="/legal" component={Legal} />
         </Switch>
     );
 }

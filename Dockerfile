@@ -9,7 +9,7 @@ ADD assets/ /app/assets/
 ADD build/ /app/build
 ADD src/ app/src/
 ADD .babelrc /app/
-ADD LICENSE /app/
+ADD LICENSE.txt /app/
 ADD package.json /app/
 ADD tsconfig.json /app/
 ADD webpack.config.js /app/
