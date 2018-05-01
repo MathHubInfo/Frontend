@@ -1,7 +1,9 @@
 language: node_js
 sudo: false
 node_js:
+    - 10
     - 9
+    - 8
 install: yarn
 env:
   - WEBPACK_CONFIG="webpack.config.js"
