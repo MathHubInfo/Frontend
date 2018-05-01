@@ -37,21 +37,6 @@ yarn webpack-dev-server
 As an IDE, it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) along with the [TSLint Extension](https://marketplace.visualstudio.com/items?itemName=eg2.tslint). 
 Both should work out-of-the-box after cloning this repository and running the `yarn` command above. 
 
-## Deployment via Docker
-
-To easily deploy an instance of the frontend, a [Dockerfile](Dockerfile) is available. 
-It serves a static build of the react app on port 8043. 
-It takes a build argument `MMT_URL`, which can be used to customize the user-facing URL of the corresponding MMT Backend. 
-
-The Docker Image is available on DockerHub as [mathhub/frontend](https://hub.docker.com/r/mathhub/frontend/). It assumes that the user-facing MMT Backend is served under `/mmt`, meaning it is mixed into the static server using some form of proxy. 
-The image is built using automated builds, and automatically updates afer every commit. 
-
-To run it, use something like:
-
-```
-docker run -p 8043:8043 mathhub/frontend
-```
-
 ## File Structure
 
 This repository conists of the following structure: 
@@ -67,6 +52,26 @@ And the following un-committed folders that are generated automatically:
 * `node_modules/` -- External depenencies (local only)
 * `.awcache/` -- Cache folder used by development server
 
+## Deployment via Docker
+
+To easily deploy an instance of the frontend, a [Dockerfile](Dockerfile) is available. 
+It serves a static build of the react app on port 8043. 
+It takes a build argument `MMT_URL`, which can be used to customize the user-facing URL of the corresponding MMT Backend. 
+
+The Docker Image is available on DockerHub as [mathhub/frontend](https://hub.docker.com/r/mathhub/frontend/). It assumes that the user-facing MMT Backend is served under `/mmt`, meaning it is mixed into the static server using some form of proxy. 
+The image is built using automated builds, and automatically updates afer every commit. 
+
+To run it, use something like:
+
+```
+docker run -p 8043:8043 mathhub/frontend
+```
+
+## Travis Testing
+
+This project has minimal Travis CI tests. 
+
+These check that the project *compiles* in both production and non-production configurations under Node Versions 8, 9 and 10. 
 
 ## License & Acknowledgements
 
