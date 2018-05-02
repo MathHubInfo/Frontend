@@ -5,7 +5,7 @@ import { IMathHubContext, WithContext } from "../context";
 
 import {ArchiveID, IArchive} from "../context/api/omdoc";
 
-import DocumentTitle from "react-document-title";
+import { MHTitle } from "../utils/title";
 
 interface IArchiveProps {
     match: {
@@ -27,7 +27,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
 
     public render() {
         return (
-            <DocumentTitle title={`${this.archiveID()} | MathHub`}>
+            <MHTitle title={this.archiveID()}>
                 <LoadWithPromise
                     title={this.archiveID()}
                     promise={this.getArchive}
@@ -38,7 +38,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                     </div>
                 }
                 </LoadWithPromise>
-            </DocumentTitle>
+            </MHTitle>
         );
     }
 });

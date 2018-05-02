@@ -2,8 +2,7 @@ import * as React from "react";
 
 import { HashRouter } from "react-router-dom";
 import { Container } from "semantic-ui-react";
-
-import DocumentTitle from "react-document-title";
+import { MHTitle } from "../utils/title";
 
 import Routes from "../routes";
 
@@ -17,9 +16,9 @@ export class MathHub extends React.Component<IMathHubConfig, {}> {
     public render() {
         return (
             <Context.Provider value={makeContext(this.props)}>
-                <DocumentTitle title="MathHub">
+                <MHTitle>
                     <HashRouter>
-                        <div>
+                        <>
                             <Header />
 
                             <Container text style={{ marginTop: "7em" }}>
@@ -27,9 +26,9 @@ export class MathHub extends React.Component<IMathHubConfig, {}> {
                             </Container>
 
                             <Footer />
-                        </div>
+                        </>
                     </HashRouter>
-                </DocumentTitle>
+                </MHTitle>
             </Context.Provider>
         );
     }

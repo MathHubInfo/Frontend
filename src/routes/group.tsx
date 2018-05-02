@@ -8,7 +8,7 @@ import { Nav } from "../components/common/nav";
 import { IMathHubContext, WithContext } from "../context";
 import {IArchiveItem, IGroup as GroupT} from "../context/api/omdoc";
 
-import DocumentTitle from "react-document-title";
+import { MHTitle } from "../utils/title";
 
 interface IGroupProps {
     match: {
@@ -29,7 +29,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
 
     public render() {
         return (
-            <DocumentTitle title={`${this.groupName()} | MathHub`}>
+            <MHTitle title={this.groupName()}>
                 <LoadWithPromise
                     title={this.groupName()}
                     promise={this.getGroup}
@@ -53,7 +53,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                         </div>
                 }
                 </LoadWithPromise>
-            </DocumentTitle>
+            </MHTitle>
         );
     }
 });

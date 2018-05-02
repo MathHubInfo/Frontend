@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { Container, Header } from "semantic-ui-react";
 import { LoadWithPromise } from "../components/common/lazy";
+import { MHTitle } from "../utils/title";
 
 export class Legal extends React.Component<{}, {}> {
     constructor(props: {}) {
@@ -32,29 +33,33 @@ class LegalDisplay extends React.Component<{license: string, notices: string}> {
         const {license, notices} = this.props;
 
         return (
-            <div>
-                <Container text>
-                    <Header as="h2">MathHub Legal</Header>
-                    <div>
-                        <p>
-                            MathHub React Frontend has been developed at KWARC and is licensed under GPL 3.0.
-                        </p>
-                        <p>
-                            Below you can find a copy of the GPL 3.0 License as well as licenses of all software used.
-                        </p>
-                    </div>
-                </Container>
-                <br />
-                <Container text>
-                    <Header as="h3">GPL 3.0 License Text</Header>
-                    <LegalContainer text={license} />
-                </Container>
-                <br />
-                <Container text>
-                    <Header as="h3">Used Software Licenses</Header>
-                    <LegalContainer text={notices} />
-                </Container>
-            </div>
+            <MHTitle title="Legal">
+                <>
+                    <Container text>
+                        <Header as="h2">MathHub Legal</Header>
+                        <div>
+                            <p>
+                                MathHub React Frontend has been developed
+                                at KWARC and is licensed under GPL 3.0.
+                            </p>
+                            <p>
+                                Below you can find a copy of the GPL 3.0 License
+                                as well as licenses of all software used.
+                            </p>
+                        </div>
+                    </Container>
+                    <br />
+                    <Container text>
+                        <Header as="h3">GPL 3.0 License Text</Header>
+                        <LegalContainer text={license} />
+                    </Container>
+                    <br />
+                    <Container text>
+                        <Header as="h3">Used Software Licenses</Header>
+                        <LegalContainer text={notices} />
+                    </Container>
+                </>
+            </MHTitle>
         );
     }
 }
