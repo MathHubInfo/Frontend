@@ -40,10 +40,10 @@ class LegalDisplay extends React.Component<{license: string, notices: string}> {
                         <div>
                             <p>
                                 MathHub React Frontend has been developed
-                                at KWARC and is licensed under GPL 3.0.
+                                at KWARC and is licensed under AGPL 3.0.
                             </p>
                             <p>
-                                Below you can find a copy of the GPL 3.0 License
+                                Below you can find a copy of the AGPL 3.0 License
                                 as well as licenses of all software used.
                             </p>
                         </div>

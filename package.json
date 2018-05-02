@@ -8,7 +8,7 @@
   },
   "repository": "https://github.com/KWARC/MathHub-React-Frontend",
   "author": "The KWARC Group <group@kwarc.info>",
-  "license": "GPL-3.0",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.46",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.46",
