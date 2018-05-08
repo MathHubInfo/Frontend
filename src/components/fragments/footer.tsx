@@ -7,8 +7,9 @@ import { IMathHubContext, WithContext} from "../../context";
 export const Footer = WithContext((context: IMathHubContext) => class extends React.Component {
   public render() {
       return (
-        <Segment color="grey" inverted vertical style={{ margin: "5em 0em 0em", padding: "5em 0em"}}>
+        <Segment vertical style={{ margin: "5em 0em 0em", padding: "5em 0em"}}>
           <Container textAlign="left">
+            <Divider inverted section />
             <Grid divided inverted stackable>
               <Grid.Row>
                 <Grid.Column width={4}>

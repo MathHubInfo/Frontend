@@ -9,6 +9,10 @@ const Archive = Loader("Archive", () => import("./archive").then((a) => a.Archiv
 
 const About = Loader("About", () => rejectAfter(import("./about").then((a) => a.About), 1000, "stuff"));
 const Legal = Loader("Legal", () => import("./legal").then((l) => l.Legal));
+const HelpOne = Loader("HelpOne", () => import("./help/helpOne").then((h) => h.Help));
+const HelpTwo = Loader("HelpTwo", () => import("./help/helpTwo").then((h) => h.Help));
+const Glossary = Loader("Glossary", () => import("./applications/glossary").then((g) => g.Glossary));
+const Dictionary = Loader("Dictionary", () => import("./applications/dictionary").then((d) => d.Dictionary));
 
 import * as React from "react";
 import {Route, Switch} from "react-router-dom";
@@ -22,6 +26,10 @@ export default function Routes() {
 
             <Route exact path="/about" component={About} />
             <Route exact path="/legal" component={Legal} />
+            <Route exact path="/help/helpone" component={HelpOne} />
+            <Route exact path="/help/helptwo" component={HelpTwo} />
+            <Route exact path="/applications/glossary" component={Glossary} />
+            <Route exact path="/applications/dictionary" component={Dictionary} />
         </Switch>
     );
 }
