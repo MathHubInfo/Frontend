@@ -2,9 +2,8 @@ import * as React from "react";
 
 import { ReactComponent } from "../types/types";
 
-import {MMTAPIClient} from "./api/client";
-import {MockMMTClient} from "./api/mock";
-import {IMathHubConfig} from "./config.d";
+import { MMTAPIClient, MockAPIClient, RestAPIClient } from "./api/client";
+import { IMathHubConfig } from "./config.d";
 
 /** Represents a global context for MathHub */
 export interface IMathHubContext {
@@ -13,12 +12,12 @@ export interface IMathHubContext {
 }
 
 /** a configuration for MathHub is global */
-export const Context = React.createContext<IMathHubContext>(makeContext({mmtURL: "(null)"}));
+export const Context = React.createContext<IMathHubContext>(makeContext({mmtURL: "(null)", mockMMT: true}));
 
 /** Creates a new config from a configuration */
 export function makeContext(config: IMathHubConfig): IMathHubContext {
     return {
-        client: new MockMMTClient(config),
+        client: config.mockMMT ? new MockAPIClient(config) : new RestAPIClient(config),
         config,
     };
 }

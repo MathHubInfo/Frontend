@@ -30,7 +30,7 @@ Promise.all([
     MathHub,
 ]) => {
     ReactDOM.render(
-        <MathHub mmtURL={process.env.MMT_URL || "localhost:8080"} />,
+        <MathHub mockMMT={!!process.env.MOCK_MMT} mmtURL={process.env.MMT_URL || "http://localhost:9000/:mathhub/"} />,
         document.getElementById("mathhub"),
     );
 });

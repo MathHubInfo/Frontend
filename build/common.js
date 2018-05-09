@@ -13,7 +13,8 @@ const dist = resolve(root, 'dist')
 
 // environment variables
 export const env = {
-    'MMT_URL': JSON.stringify(process.env['MMT_URL'])
+    'MMT_URL': JSON.stringify(process.env['MMT_URL']),
+    'MOCK_MMT': JSON.stringify(process.env['MOCK_MMT'])
 }
 
 export const common = {
