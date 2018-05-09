@@ -5,19 +5,20 @@
 //
 
 export interface IGroupItem {
-    name: string;
-    description: string;
+    id: string;
+    title: string;
+    teaser: string;
 }
 
 export interface IGroup extends IGroupItem {
-    longDescription: string;
-    maintainer: string;
+    description: string;
+    responsible: string[];
 
     archives: IArchiveItem[];
 }
 
 export function GroupToItem(group: IGroup): IGroupItem {
-    return {name: group.name, description: group.description };
+    return {id: group.id, title: group.title, teaser: group.teaser };
 }
 
 //
@@ -25,24 +26,26 @@ export function GroupToItem(group: IGroup): IGroupItem {
 //
 
 export interface IArchiveItem {
-    name: string;
+    id: string;
     group: string;
-    description: string;
+    title: string;
+
+    teaser: string;
 }
 
 export interface IArchive extends IArchiveItem {
-    longDescription: string;
-    maintainer: string;
+    description: string;
+    responsible: string[];
 
     modules: IModuleItem[];
 }
 
 export function ArchiveToItem(archive: IArchive): IArchiveItem {
-    return {name: archive.name, group: archive.group, description: archive.description};
+    return {id: archive.id, group: archive.group, title: archive.title, teaser: archive.teaser};
 }
 
 export function ArchiveID(archive: IArchive): string {
-    return `${archive.group}/${archive.name}`;
+    return `${archive.group}/${archive.id}`;
 }
 
 //

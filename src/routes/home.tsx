@@ -37,7 +37,7 @@ const AsyncGroupList = WithContext((context: IMathHubContext) => class extends R
             <LoadWithPromise title="Groups" promise={this.getGroups}>{
                 (groups: IGroupItem[]) =>
                 <Card.Group itemsPerRow="1">{
-                    groups.map((group) => <GroupListItem key={group.name} group={group} />)}</Card.Group>
+                    groups.map((group) => <GroupListItem key={group.id} group={group} />)}</Card.Group>
             }</LoadWithPromise>
         );
     }
@@ -50,8 +50,10 @@ class GroupListItem extends React.Component<{group: IGroupItem}> {
         return (
             <Card>
                 <Card.Content>
-                    <Card.Header as={Nav} to={`/content/${group.name}`}>{group.name}</Card.Header>
-                    <Card.Description>{group.description}</Card.Description>
+                    <Card.Header as={Nav} to={`/content/${group.id}`}>{group.title}</Card.Header>
+                    <Card.Description>
+                        <div dangerouslySetInnerHTML={{__html: group.teaser}} />
+                    </Card.Description>
                 </Card.Content>
             </Card>
         );

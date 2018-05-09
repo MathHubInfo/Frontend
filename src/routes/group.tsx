@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Card, Container, Divider, Header } from "semantic-ui-react";
+import { Card, Container, Divider, Header, Label } from "semantic-ui-react";
 
 import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
@@ -38,12 +38,10 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                     (group: GroupT) =>
                         <div>
                             <Container text>
-                                <Header as="h2">{group.name}</Header>
+                                <Header as="h2">{group.title}</Header>
+                                <div dangerouslySetInnerHTML={{__html: group.description}} />
                                 <div>
-                                    {group.longDescription}
-                                </div>
-                                <div>
-                                    <b>Responsible:</b> {group.maintainer}
+                                    <b>Responsible:</b> {group.responsible.map((p) => <Label key={p}>{p}</Label>)}
                                 </div>
                             </Container>
                             <Divider />
@@ -64,7 +62,7 @@ class ArchiveItemList extends React.Component<{archives: IArchiveItem[]}> {
 
         return (
             <Card.Group itemsPerRow="1">
-                {archives.map((archive) => <ArchiveListItem key={archive.name} archive={archive} />)}
+                {archives.map((archive) => <ArchiveListItem key={archive.id} archive={archive} />)}
             </Card.Group>
         );
     }
@@ -79,11 +77,11 @@ class ArchiveListItem extends React.Component<{archive: IArchiveItem}> {
                 <Card.Content>
                     <Card.Header
                         as={Nav}
-                        to={`/content/${archive.group}/${archive.name}`}
+                        to={`/content/${archive.group}/${archive.id}`}
                     >
-                        {archive.group}/{archive.name}
+                        {archive.title}
                     </Card.Header>
-                    <Card.Description>{archive.description}</Card.Description>
+                    <Card.Description>{archive.teaser}</Card.Description>
                 </Card.Content>
             </Card>
         );

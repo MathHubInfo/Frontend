@@ -1,4 +1,4 @@
-import {IMathHubConfig} from "../../config";
+import { IMathHubConfig } from "../../config";
 import { MMTAPIClient } from "../client";
 
 import { ArchiveID, GroupToItem, IArchive, IGroup, IGroupItem, IModule } from "../omdoc";
@@ -28,7 +28,7 @@ export class MockMMTClient extends MMTAPIClient {
 
     public getGroup(name: string) { return this.delay(this.getGroupI(name)); }
     private getGroupI(name: string): Promise<IGroup> {
-        const group = this.dataset.groups.find((g) => g.name === name);
+        const group = this.dataset.groups.find((g) => g.id === name);
         if (group) {
             group.archives = this.dataset.archives.filter((a) => a.group === name);
             return Promise.resolve(group);

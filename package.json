@@ -4,7 +4,8 @@
   "description": "A rewrite of the MathHub Frontend in React",
   "main": "src/index.tsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server"
   },
   "repository": "https://github.com/KWARC/MathHub-React-Frontend",
   "author": "The KWARC Group <group@kwarc.info>",
