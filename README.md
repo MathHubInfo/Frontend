@@ -32,6 +32,15 @@ yarn --ignore-platform licenses generate-disclaimer > dist/NOTICES.txt
 # It is recommended to use Chrome + React DevTools extension
 # for a proper debugging interface
 yarn webpack-dev-server
+
+# By default the webpack-dev-server expects a corresponding API
+# to run on http://localhost:9000/:mathhub/. 
+# This URL can be changed using the MMT_URL variable, e.g. like so:
+MMT_URL=https://mmt.mathhub.info/:mathhub/ yarn webpack-dev-server
+
+# Furthermore, in case no MMT is running, a Mock Client exists during development. 
+# This can be enabled like so:
+MOCK_MMT=1 yarn webpack-dev-server
 ```
 
 As an IDE, it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) along with the [TSLint Extension](https://marketplace.visualstudio.com/items?itemName=eg2.tslint). 
