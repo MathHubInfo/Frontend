@@ -51,11 +51,11 @@ export class RestAPIClient extends MMTAPIClient {
     }
 
     public getArchive(id: string): Promise<IArchive> {
-        return Promise.reject("Not implemented");
+        return this.get("content/archive/" + id);
     }
 
     public getModule(id: string): Promise<IModule> {
-        return Promise.reject("Not implemented");
+        return this.get("content/module/" + id);
     }
 }
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Divider, Grid, Header, Image, /*List,*/ Segment } from "semantic-ui-react";
+import { Container, Divider, Grid, Header, Image, Segment } from "semantic-ui-react";
 
 import { IMathHubContext, WithContext} from "../../context";
 
@@ -16,9 +16,10 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
                   <Header as="h4" content="Developed by:" />
                   <Image
                                 size="tiny"
+                                title="wwww.kwarc.info"
                                 src={require("../../../assets/logos/kwarc_logo.png")}
                                 style={{ marginRight: "1.5em" }}
-                                alt="MathHub Logo"
+                                alt="kwarc Logo"
                                 href={"https://kwarc.info/"}
                   />
                   </Grid.Column>
@@ -26,6 +27,7 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
                   <Header as="h4" content="Institutions:" />
                   <Image
                                 size="tiny"
+                                title="www.fau.eu"
                                 src={require("../../../assets/logos/fau_logo.png")}
                                 style={{ marginRight: "1.5em" }}
                                 alt="FAU Logo"
@@ -34,6 +36,7 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
                   />
                   <Image
                                 size="tiny"
+                                title="www.opendreamkit.org"
                                 src={require("../../../assets/logos/odk_logo.png")}
                                 style={{ marginRight: "1.5em" }}
                                 alt="ODK Logo"
@@ -42,6 +45,7 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
                   />
                   <Image
                                 size="tiny"
+                                title="www.jacobs-university.de"
                                 src={require("../../../assets/logos/jacobs_logo.png")}
                                 style={{ marginRight: "1.5em" }}
                                 alt="Jacobs University Logo"
