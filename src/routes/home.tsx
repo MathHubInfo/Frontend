@@ -50,7 +50,9 @@ class GroupListItem extends React.Component<{group: IGroupItem}> {
         return (
             <Card>
                 <Card.Content>
-                    <Card.Header as={Nav} to={`/content/${group.id}`}>{group.title}</Card.Header>
+                    <Card.Header as={Nav} to={`/content/${group.id}`}>
+                        <div dangerouslySetInnerHTML={{__html: group.title}} />
+                    </Card.Header>
                     <Card.Description>
                         <div dangerouslySetInnerHTML={{__html: group.teaser}} />
                     </Card.Description>

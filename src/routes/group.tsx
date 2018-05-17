@@ -38,7 +38,9 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                     (group: GroupT) =>
                         <div>
                             <Container text>
-                                <Header as="h2">{group.title}</Header>
+                                <Header as="h2">
+                                    <div dangerouslySetInnerHTML={{__html: group.title}} />
+                                </Header>
                                 <div dangerouslySetInnerHTML={{__html: group.description}} />
                                 <div>
                                     <b>Responsible:</b> {group.responsible.map((p) => <Label key={p}>{p}</Label>)}
@@ -79,7 +81,7 @@ class ArchiveListItem extends React.Component<{archive: IArchiveItem}> {
                         as={Nav}
                         to={`/content/${archive.group}/${archive.id}`}
                     >
-                        {archive.title}
+                        <div dangerouslySetInnerHTML={{__html: archive.title}} />
                     </Card.Header>
                     <Card.Description>{archive.teaser}</Card.Description>
                 </Card.Content>

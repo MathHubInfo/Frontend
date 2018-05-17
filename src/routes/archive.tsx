@@ -37,7 +37,9 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                     <div>
                         <div>
                             <Container text>
-                                <Header as="h2">{archive.title}</Header>
+                                <Header as="h2">
+                                    <div dangerouslySetInnerHTML={{__html: archive.title}} />
+                                </Header>
                                 <div dangerouslySetInnerHTML={{__html: archive.description}} />
                                 <div>
                                     <b>Responsible:</b> {archive.responsible.map((p) => <Label key={p}>{p}</Label>)}
@@ -76,7 +78,7 @@ class ModuleListItem extends React.Component<{module: IModuleItem}> {
             <Card>
                 <Card.Content>
                     <Card.Header>
-                        {module.name}
+                        <div dangerouslySetInnerHTML={{__html: module.name}} />
                     </Card.Header>
                     <Card.Description>{module.name}</Card.Description>
                 </Card.Content>
