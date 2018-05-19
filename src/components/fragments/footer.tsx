@@ -4,6 +4,8 @@ import { Container, Divider, Grid, Header, Image, Segment } from "semantic-ui-re
 
 import { IMathHubContext, WithContext} from "../../context";
 
+import { Nav } from "../../components/common/nav";
+
 export const Footer = WithContext((context: IMathHubContext) => class extends React.Component {
   public render() {
       return (
@@ -81,9 +83,18 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
             </Grid>
 
             <Divider inverted section />
-            <div>
-              Connected to MMT at {context.config.mmtURL}
-            </div>
+            <Grid divided inverted stackable>
+              <Grid.Column width={4}>
+                <div>
+                  Connected to MMT at {context.config.mmtURL}
+                </div>
+              </Grid.Column>
+              <Grid.Column width={1} floated={"right"}>
+                  <Container as={Nav} to={`/about`} style={{color : "black"}}>About</Container>
+                  <Container as={Nav} to={`/legal`} style={{color : "black"}}>Legal</Container>
+              </Grid.Column>
+              <Grid.Column width={3} />
+            </Grid>
           </Container>
         </Segment>
       );
