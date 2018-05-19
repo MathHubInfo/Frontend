@@ -13,6 +13,7 @@ const HelpOne = Loader("HelpOne", () => import("./help/helpOne").then((h) => h.H
 const HelpTwo = Loader("HelpTwo", () => import("./help/helpTwo").then((h) => h.Help));
 const Glossary = Loader("Glossary", () => import("./applications/glossary").then((g) => g.Glossary));
 const Dictionary = Loader("Dictionary", () => import("./applications/dictionary").then((d) => d.Dictionary));
+const Library = Loader("Library", () => import("./library").then((l) => l.Libray));
 
 import * as React from "react";
 import {Route, Switch} from "react-router-dom";
@@ -21,6 +22,7 @@ export default function Routes() {
     return (
         <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/content" component={Library} />
             <Route exact path="/content/:name" component={Group} />
             <Route exact path="/content/:group/:name" component={Archive} />
 
