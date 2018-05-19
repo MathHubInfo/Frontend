@@ -6,7 +6,7 @@ import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
 
 import { IMathHubContext, WithContext } from "../context";
-import {IArchiveItem, IGroup as GroupT} from "../context/api/omdoc";
+import {IArchiveItem, IGroup as GroupT} from "../context/api";
 
 import { MHTitle } from "../utils/title";
 

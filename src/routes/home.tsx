@@ -6,7 +6,7 @@ import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
 import { IMathHubContext, WithContext } from "../context";
 
-import { IGroupItem } from "../context/api/omdoc";
+import { IGroupItem } from "../context/api";
 
 export class Home extends React.Component<{}, {}> {
     public render() {

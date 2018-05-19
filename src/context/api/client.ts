@@ -3,7 +3,7 @@ import {IMathHubConfig} from "../config";
 
 import axios from "axios";
 
-import { ArchiveID, GroupToItem, IArchive, IGroup, IGroupItem, IModule, IVariant } from "./api";
+import { ArchiveID, GroupToItem, IArchive, IGroup, IGroupItem, IModule, IVariant } from "./index";
 
 /**
  * A client for the mathhub-mmt api

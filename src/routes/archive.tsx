@@ -4,7 +4,7 @@ import { Card, Container, Divider, Header, Label } from "semantic-ui-react";
 import { LoadWithPromise } from "../components/common/lazy";
 import { IMathHubContext, WithContext } from "../context";
 
-import {IArchive, IModuleItem} from "../context/api/omdoc";
+import {IArchive, IModuleItem} from "../context/api";
 
 import { MHTitle } from "../utils/title";
 
