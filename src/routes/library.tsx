@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Card, Container, Divider } from "semantic-ui-react";
+import { Breadcrumb, Card, Container, Divider } from "semantic-ui-react";
 
 import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
@@ -12,6 +12,12 @@ export class Libray extends React.Component<{}, {}> {
     public render() {
         return (
             <div>
+                <Breadcrumb style={{margin: "0em 0em 1em"}}>
+                    <Breadcrumb.Section as={Nav} to={`/content`}>
+                        Library
+                    </Breadcrumb.Section>
+                    <Breadcrumb.Divider />
+                </Breadcrumb>
                 <Container text>
                     This is the Library
                 </Container>
