@@ -6,12 +6,12 @@
 
 export interface IGroupItem {
     id: string;
-    title: string;
-    teaser: string;
+    title: HTML;
+    teaser: HTML;
 }
 
 export interface IGroup extends IGroupItem {
-    description: string;
+    description: HTML;
     responsible: string[];
 
     archives: IArchiveItem[];
@@ -28,13 +28,13 @@ export function GroupToItem(group: IGroup): IGroupItem {
 export interface IArchiveItem {
     id: string;
     group: string;
-    title: string;
+    title: HTML;
 
-    teaser: string;
+    teaser: HTML;
 }
 
 export interface IArchive extends IArchiveItem {
-    description: string;
+    description: HTML;
     responsible: string[];
 
     modules: IModuleItem[];
@@ -53,29 +53,38 @@ export function ArchiveID(archive: IArchive): string {
 //
 
 export interface IModuleItem {
-    name: string;
     archive: string;
+    name: string;
 }
 
 export interface IModule extends IModuleItem {
-    content: string;
+    variants: string[];
 }
 
 export function ModuleToItem(module: IModule): IModuleItem {
-    return {name: module.name, archive: module.archive };
+    return {archive: module.archive, name: module.name};
 }
 
-// TODO: More below
-
 //
-// DECLARATION
+// MODULE VARIANTS
 //
 
-//
-// OBJECT
-//
+export interface IVariantItem {
+    module: string;
+    variant: string;
+}
+
+export interface IVariant extends IVariantItem {
+    presentation: HTML;
+    source: string;
+}
+
+export function VariantToItem(variant: IVariant): IVariantItem {
+    return {module: variant.module, variant: variant.variant};
+}
 
 //
-// URI
+// Helper types
 //
 export type URI = string;
+export type HTML = string;
