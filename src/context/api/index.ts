@@ -70,29 +70,12 @@ export interface IModuleItem {
 }
 
 export interface IModule extends IModuleItem {
-    variants: string[];
-}
-
-export function ModuleToItem(module: IModule): IModuleItem {
-    return {archive: module.archive, name: module.name};
-}
-
-//
-// MODULE VARIANTS
-//
-
-export interface IVariantItem {
-    module: string;
-    variant: string;
-}
-
-export interface IVariant extends IVariantItem {
     presentation: HTML;
     source: string;
 }
 
-export function VariantToItem(variant: IVariant): IVariantItem {
-    return {module: variant.module, variant: variant.variant};
+export function ModuleToItem(module: IModule): IModuleItem {
+    return {archive: module.archive, name: module.name};
 }
 
 //

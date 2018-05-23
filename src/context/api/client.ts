@@ -3,7 +3,7 @@ import {IMathHubConfig} from "../config";
 
 import axios from "axios";
 
-import { ArchiveID, GroupToItem, IArchive, IDocument, IGroup, IGroupItem, IModule, IVariant } from "./index";
+import { ArchiveID, GroupToItem, IArchive, IDocument, IGroup, IGroupItem, IModule } from "./index";
 
 /**
  * A client for the mathhub-mmt api
@@ -29,9 +29,6 @@ export abstract class MMTAPIClient {
 
     /** gets a specific module */
     public abstract getModule(id: string): Promise<IModule>;
-
-    /** gets a specific module variant */
-    public abstract getVariant(id: string): Promise<IVariant>;
 }
 
 /**
@@ -66,10 +63,6 @@ export class RestAPIClient extends MMTAPIClient {
 
     public getModule(id: string): Promise<IModule> {
         return this.get("content/module/" + id);
-    }
-
-    public getVariant(id: string): Promise<IVariant> {
-        return this.get("content/variant/" + id);
     }
 }
 
@@ -131,13 +124,6 @@ export class MockAPIClient extends MMTAPIClient {
             } else {
                 return Promise.reject(`Module ${name} does not exist. `);
             }
-        });
-    }
-
-    public getVariant(id: string) { return this.delay(this.getVariantI(id)); }
-    private getVariantI(id: string): Promise<IVariant> {
-        return this.loadDataSet().then((dataset) => {
-            return Promise.reject("not implemented");
         });
     }
 }
