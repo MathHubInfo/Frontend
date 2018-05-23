@@ -69,6 +69,10 @@ export class LoadWithPromise<T> extends React.Component<LWPProps<T>, LWPState<T>
         this.isComponentMounted = false;
     }
 
+    public componentDidCatch(error: Error, info: React.ErrorInfo) {
+        this.setState({ state: "rejected", rejectReason: error });
+    }
+
     public render() {
         if (this.state.state === "resolved") {
             return this.renderData(this.state.data);
