@@ -37,7 +37,7 @@ export interface IArchive extends IArchiveItem {
     description: HTML;
     responsible: string[];
 
-    modules: IModuleItem[];
+    documents: IDocumentItem[];
 }
 
 export function ArchiveToItem(archive: IArchive): IArchiveItem {
@@ -46,6 +46,18 @@ export function ArchiveToItem(archive: IArchive): IArchiveItem {
 
 export function ArchiveID(archive: IArchive): string {
     return `${archive.group}/${archive.id}`;
+}
+
+//
+// DOCUMENT
+//
+export interface IDocumentItem {
+    archive: string;
+    name: string;
+}
+
+export interface IDocument extends IDocumentItem {
+    modules: IModuleItem[];
 }
 
 //
@@ -87,4 +99,6 @@ export function VariantToItem(variant: IVariant): IVariantItem {
 // Helper types
 //
 export type URI = string;
+
+/** anything that could be HTML */
 export type HTML = string;

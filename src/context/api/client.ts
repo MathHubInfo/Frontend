@@ -3,7 +3,7 @@ import {IMathHubConfig} from "../config";
 
 import axios from "axios";
 
-import { ArchiveID, GroupToItem, IArchive, IGroup, IGroupItem, IModule, IVariant } from "./index";
+import { ArchiveID, GroupToItem, IArchive, IDocument, IGroup, IGroupItem, IModule, IVariant } from "./index";
 
 /**
  * A client for the mathhub-mmt api
@@ -24,11 +24,14 @@ export abstract class MMTAPIClient {
     /** gets a given archive */
     public abstract getArchive(id: string): Promise<IArchive>;
 
+    /** gets a specific document */
+    public abstract getDocument(id: string): Promise<IDocument>;
+
     /** gets a specific module */
     public abstract getModule(id: string): Promise<IModule>;
 
     /** gets a specific module variant */
-    public abstract getModuleVariant(id: string): Promise<IVariant>;
+    public abstract getVariant(id: string): Promise<IVariant>;
 }
 
 /**
@@ -57,11 +60,15 @@ export class RestAPIClient extends MMTAPIClient {
         return this.get("content/archive/" + id);
     }
 
+    public getDocument(id: string): Promise<IDocument> {
+        return this.get("content/document/" + id);
+    }
+
     public getModule(id: string): Promise<IModule> {
         return this.get("content/module/" + id);
     }
 
-    public getModuleVariant(id: string): Promise<IVariant> {
+    public getVariant(id: string): Promise<IVariant> {
         return this.get("content/variant/" + id);
     }
 }
@@ -108,6 +115,13 @@ export class MockAPIClient extends MMTAPIClient {
         });
     }
 
+    public getDocument(id: string) { return this.delay(this.getDocumentI(id)); }
+    private getDocumentI(id: string): Promise<IDocument> {
+        return this.loadDataSet().then((dataset) => {
+            return Promise.reject("not implemented");
+        });
+    }
+
     public getModule(name: string) { return this.delay(this.getModuleI(name)); }
     private getModuleI(name: string): Promise<IModule> {
         return this.loadDataSet().then((dataset) => {
@@ -120,8 +134,8 @@ export class MockAPIClient extends MMTAPIClient {
         });
     }
 
-    public getModuleVariant(id: string) { return this.delay(this.getModuleVariantI(id)); }
-    private getModuleVariantI(id: string): Promise<IVariant> {
+    public getVariant(id: string) { return this.delay(this.getVariantI(id)); }
+    private getVariantI(id: string): Promise<IVariant> {
         return this.loadDataSet().then((dataset) => {
             return Promise.reject("not implemented");
         });

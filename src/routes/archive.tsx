@@ -5,7 +5,7 @@ import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
 import { IMathHubContext, WithContext } from "../context";
 
-import {IArchive, IModuleItem} from "../context/api";
+import {IArchive, IDocumentItem} from "../context/api";
 
 import { MHTitle } from "../utils/title";
 
@@ -62,7 +62,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                             </Container>
                             <Divider />
                             <Container>
-                                <ModuleItemList modules={archive.modules} />
+                                <DocumentItemList documents={archive.documents} />
                             </Container>
                         </div>
                     </div>
@@ -73,29 +73,29 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
     }
 });
 
-class ModuleItemList extends React.Component<{modules: IModuleItem[]}> {
+class DocumentItemList extends React.Component<{documents: IDocumentItem[]}> {
     public render() {
-        const {modules} = this.props;
+        const {documents} = this.props;
 
         return (
             <Card.Group itemsPerRow="1">
-                {modules.map((module) => <ModuleListItem key={module.name} module={module} />)}
+                {documents.map((document) => <DocumentListItem key={document.name} document={document} />)}
             </Card.Group>
         );
     }
 }
 
-/** A single archive item */
-class ModuleListItem extends React.Component<{module: IModuleItem}> {
+/** A single document item */
+class DocumentListItem extends React.Component<{document: IDocumentItem}> {
     public render() {
-        const {module} = this.props;
+        const {document} = this.props;
         return (
             <Card>
                 <Card.Content>
                     <Card.Header>
-                        <div dangerouslySetInnerHTML={{__html: module.name}} />
+                        <div dangerouslySetInnerHTML={{__html: document.name}} />
                     </Card.Header>
-                    <Card.Description>{module.name}</Card.Description>
+                    <Card.Description>{document.name}</Card.Description>
                 </Card.Content>
             </Card>
         );
