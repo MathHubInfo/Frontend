@@ -6,7 +6,7 @@
             "teaser": "<p>The SMGloM is a structured terminology for mathematics. It combines lexical information about the \"Words of Mathematics\" (in multiple languages) with semantic information about their dependencies. Multiple services can be derived from this terminology, e.g. a <a href=\"https://mathhub.info/mh/glossary\">classical glossary</a> and a <a href=\"https://mathhub.info/mh/dictionary\">math dictionary</a>.</p>", 
             "description": "<p>One of the challenging aspects of mathematical language is its special terminology of technical terms that are defined in various mathematical documents. The SMGloM is a lexical resource that combines the characteristics of dictionaries and glossaries with those of mathematical ontologies. It facilitates a large variety of knowledge management applications without requiring full formalization, the cost of which would be prohibitive. See the license <a href=\"https://mathhub.info/help/spl0.1.html\">here</a>.</p>", 
             "responsible": ["kohlhase@kwarc.info"], 
-            "archives": []
+            "archives": ["staging"]
         }, 
         {
             "id": "MMT", 
@@ -18,11 +18,34 @@
         }
     ], 
     "archives": [{
-        "id": "smglom", 
+        "id": "staging", 
         "group": "smglom", 
         "title": "Staging Ground",
         "teaser": "Various mathematical concepts to be sorted into SMGloM repositories",
-        "description": "<p>This SMGloM repository is a staging ground for other repositories, it contains glossary modules that either do not fit a repository yet, or are left over from early content development.</p>  "
+        "description": "<p>This SMGloM repository is a staging ground for other repositories, it contains glossary modules that either do not fit a repository yet, or are left over from early content development.</p>  ",
+        "responsible": ["kohlhase@kwarc.info"],
+        "documents": []
+        }],
+    "documents": [{
+        "id": "example",
+        "group": "smglom",
+        "archive": "staging",
+        "name":  "example document",
+        "modules" : []
+    },
+    {
+        "id": "second",
+        "group": "smglom",
+        "archive": "staging",
+        "name":  "second document",
+        "modules" : []
     }], 
-    "modules": []
+    "modules": [{
+        "group": "smglom",
+        "archive": "staging",
+        "document": "example",
+        "name":  "example module",
+        "presentation": "",
+        "source": ""
+    }]
 }

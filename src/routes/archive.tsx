@@ -3,8 +3,8 @@ import * as React from "react";
 import { Breadcrumb, Card, Container, Divider, Header, Label } from "semantic-ui-react";
 import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
-import { IMathHubContext, WithContext } from "../context";
 
+import { IMathHubContext, WithContext } from "../context";
 import {IArchive, IDocumentItem} from "../context/api";
 
 import { MHTitle } from "../utils/title";
@@ -46,7 +46,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                                     <div dangerouslySetInnerHTML={{__html: archive.group}} />
                                 </Breadcrumb.Section>
                                 <Breadcrumb.Divider />
-                                <Breadcrumb.Section as={Nav} to={`/content/${archive.group}/${archive.id}`}>
+                                <Breadcrumb.Section as={Nav} to={`/content/` + this.archiveID()}>
                                     <div dangerouslySetInnerHTML={{__html: archive.id}} />
                                 </Breadcrumb.Section>
                                 <Breadcrumb.Divider />
@@ -76,10 +76,9 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
 class DocumentItemList extends React.Component<{documents: IDocumentItem[]}> {
     public render() {
         const {documents} = this.props;
-
         return (
             <Card.Group itemsPerRow="1">
-                {documents.map((document) => <DocumentListItem key={document.name} document={document} />)}
+                {documents.map((document) => <DocumentListItem key={document.id} document={document} />)}
             </Card.Group>
         );
     }
@@ -92,8 +91,11 @@ class DocumentListItem extends React.Component<{document: IDocumentItem}> {
         return (
             <Card>
                 <Card.Content>
-                    <Card.Header>
-                        <div dangerouslySetInnerHTML={{__html: document.name}} />
+                    <Card.Header
+                        as={Nav}
+                        to={`/content/${document.group}/${document.archive}/${document.id}`}
+                    >
+                        <div dangerouslySetInnerHTML={{__html: document.id}} />
                     </Card.Header>
                     <Card.Description>{document.name}</Card.Description>
                 </Card.Content>

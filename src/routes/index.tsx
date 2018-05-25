@@ -6,6 +6,7 @@ const Home = Loader("Home Page", () => import("./home").then((h) => h.Home));
 
 const Group = Loader("Group", () => import("./group").then((g) => g.Group));
 const Archive = Loader("Archive", () => import("./archive").then((a) => a.Archive));
+const Document = Loader("Document", () => import("./document").then((d) => d.Document));
 
 const About = Loader("About", () => rejectAfter(import("./about").then((a) => a.About), 1000, "stuff"));
 const Legal = Loader("Legal", () => import("./legal").then((l) => l.Legal));
@@ -16,6 +17,7 @@ const Dictionary = Loader("Dictionary", () => import("./applications/dictionary"
 const Library = Loader("Library", () => import("./library").then((l) => l.Libray));
 
 import * as React from "react";
+
 import {Route, Switch} from "react-router-dom";
 
 export default function Routes() {
@@ -25,6 +27,7 @@ export default function Routes() {
             <Route exact path="/content" component={Library} />
             <Route exact path="/content/:name" component={Group} />
             <Route exact path="/content/:group/:name" component={Archive} />
+            <Route exact path="/content/:group/:archive/:name" component={Document} />
 
             <Route exact path="/about" component={About} />
             <Route exact path="/legal" component={Legal} />

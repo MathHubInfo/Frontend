@@ -52,6 +52,8 @@ export function ArchiveID(archive: IArchive): string {
 // DOCUMENT
 //
 export interface IDocumentItem {
+    id: string;
+    group: string;
     archive: string;
     name: string;
 }
@@ -60,12 +62,26 @@ export interface IDocument extends IDocumentItem {
     modules: IModuleItem[];
 }
 
+export function DArchiveID(document: IDocument): string {
+    return `${document.group}/${document.archive}`;
+}
+
+export function DocumentID(document: IDocument): string {
+    return `${document.group}/${document.archive}/${document.id}`;
+}
+
+export function DocumentToItem(document: IDocument): IDocumentItem {
+    return {id: document.id, name: document.name, group: document.group, archive: document.archive};
+}
+
 //
 // MODULE
 //
 
 export interface IModuleItem {
+    group: string;
     archive: string;
+    document: string;
     name: string;
 }
 
@@ -74,8 +90,12 @@ export interface IModule extends IModuleItem {
     source: string;
 }
 
+export function MDocumentID(module: IModule): string {
+    return `${module.group}/${module.archive}/${module.document}`;
+}
+
 export function ModuleToItem(module: IModule): IModuleItem {
-    return {archive: module.archive, name: module.name};
+    return {group: module.group, archive: module.archive, document: module.document, name: module.name};
 }
 
 //

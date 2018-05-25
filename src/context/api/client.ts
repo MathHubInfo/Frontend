@@ -3,7 +3,8 @@ import {IMathHubConfig} from "../config";
 
 import axios from "axios";
 
-import { ArchiveID, GroupToItem, IArchive, IDocument, IGroup, IGroupItem, IModule } from "./index";
+import { ArchiveID, DArchiveID, DocumentID, GroupToItem, IArchive,
+        IDocument, IGroup, IGroupItem, IModule, MDocumentID } from "./index";
 
 /**
  * A client for the mathhub-mmt api
@@ -100,7 +101,7 @@ export class MockAPIClient extends MMTAPIClient {
         return this.loadDataSet().then((dataset) => {
             const archive = dataset.archives.find((a: IArchive) => ArchiveID(a) === id);
             if (archive) {
-                archive.modules = dataset.modules.filter((m: IModule) => m.archive === id);
+                archive.documents = dataset.documents.filter((d: IDocument) => DArchiveID(d) === id);
                 return Promise.resolve(archive);
             } else {
                 return Promise.reject(`Archive ${name} does not exist. `);
@@ -111,7 +112,13 @@ export class MockAPIClient extends MMTAPIClient {
     public getDocument(id: string) { return this.delay(this.getDocumentI(id)); }
     private getDocumentI(id: string): Promise<IDocument> {
         return this.loadDataSet().then((dataset) => {
-            return Promise.reject("not implemented");
+           const document = dataset.documents.find((d: IDocument) => DocumentID(d) === id);
+           if (document) {
+               document.modules = dataset.modules.filter((m: IModule) => MDocumentID(m) === id);
+               return Promise.resolve(document);
+           } else {
+               return Promise.reject(`Document ${name} does not exist. `);
+           }
         });
     }
 

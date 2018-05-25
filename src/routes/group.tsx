@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { Breadcrumb, Card, Container, Divider, Header, Label } from "semantic-ui-react";
-
 import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
 
