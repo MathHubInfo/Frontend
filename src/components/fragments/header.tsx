@@ -25,12 +25,15 @@ export class Header extends React.Component<{}, {}> {
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                            <Dropdown text="Help" className="link item">
-                                <Dropdown.Menu>
-                                    <Dropdown.Item as={Nav} exact to="/help/helpone">Example1</Dropdown.Item>
-                                    <Dropdown.Item as={Nav} exact to="/help/helptwo">Example2</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                        <Dropdown text="Help" className="link item">
+                            <Dropdown.Menu>
+                                <Dropdown.Item as={Nav} exact to="/help/helpone">Example1</Dropdown.Item>
+                                <Dropdown.Item as={Nav} exact to="/help/helptwo">Example2</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        <Menu.Item as={Nav} exact to="/about" header>
+                            About
+                        </Menu.Item>
                     </Container>
             </Menu>
             );

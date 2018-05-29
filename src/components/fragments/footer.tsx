@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Divider, Grid, Header, Image, Segment } from "semantic-ui-react";
+import { Container, Divider, Grid, Header, Image, List, Segment } from "semantic-ui-react";
 
 import { IMathHubContext, WithContext} from "../../context";
 
@@ -85,13 +85,21 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
             <Divider inverted section />
             <Grid divided inverted stackable>
               <Grid.Column width={4}>
-                <div>
                   Connected to MMT at {context.config.mmtURL}
-                </div>
               </Grid.Column>
-              <Grid.Column width={1} floated={"right"}>
-                  <Container as={Nav} to={`/about`} style={{color : "black"}}>About</Container>
-                  <Container as={Nav} to={`/legal`} style={{color : "black"}}>Legal</Container>
+              <Grid.Column width={3} floated={"right"}>
+                <List link>
+                  <List.Item as={Nav} to={`/legal/imprint`} style={{color : "black"}}>Imprint</List.Item>
+                  <List.Item
+                    as="a"
+                    href="https://privacy.kwarc.info/"
+                    target="_blank"
+                    style={{color : "black"}}
+                  >
+                    Privacy Policy
+                  </List.Item>
+                  <List.Item as={Nav} to={`/legal/licenses`} style={{color : "black"}}>Licenses</List.Item>
+                </List>
               </Grid.Column>
               <Grid.Column width={3} />
             </Grid>

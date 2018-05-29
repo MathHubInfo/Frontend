@@ -1,16 +1,18 @@
 import * as React from "react";
 
-import { Container, Header } from "semantic-ui-react";
-import { LoadWithPromise } from "../components/common/lazy";
-import { MHTitle } from "../utils/title";
+import {LegalContainer} from "./container";
 
-export class Legal extends React.Component<{}, {}> {
+import { Container, Header } from "semantic-ui-react";
+import { LoadWithPromise } from "../../components/common/lazy";
+import { MHTitle } from "../../utils/title";
+
+export class Licenses extends React.Component<{}, {}> {
     constructor(props: {}) {
         super(props);
         this.loadContent = this.loadContent.bind(this);
     }
 
-    private getLicenseText() { return import("../../LICENSE.txt").then((m) => m.default); }
+    private getLicenseText() { return import("../../../LICENSE.txt").then((m) => m.default); }
     private getNoticesText() {
         return import("axios")
             .then((a) => a.default)
@@ -22,21 +24,21 @@ export class Legal extends React.Component<{}, {}> {
     public render() {
         return (
             <LoadWithPromise promise={this.loadContent} title="LICENSE">{
-                ([l, n]) => <LegalDisplay license={l} notices={n}/>}
+                ([l, n]) => <LicensesDisplay license={l} notices={n}/>}
             </LoadWithPromise>
         );
     }
 }
 
-class LegalDisplay extends React.Component<{license: string, notices: string}> {
+class LicensesDisplay extends React.Component<{license: string, notices: string}> {
     public render() {
         const {license, notices} = this.props;
 
         return (
-            <MHTitle title="Legal">
+            <MHTitle title="Licenses">
                 <>
                     <Container text>
-                        <Header as="h2">MathHub Legal</Header>
+                        <Header as="h2">MathHub Licenses</Header>
                         <div>
                             <p>
                                 MathHub React Frontend has been developed
@@ -60,19 +62,6 @@ class LegalDisplay extends React.Component<{license: string, notices: string}> {
                     </Container>
                 </>
             </MHTitle>
-        );
-    }
-}
-
-class LegalContainer extends React.Component<{text: string}> {
-    public render() {
-        return (
-            <div style={{fontFamily: "monospace"}}>{
-                this.props.text.split("\n").map(
-                    (l: string, i: number) => <span key={i}>{l}<br /></span>,
-                )
-            }
-            </div>
         );
     }
 }

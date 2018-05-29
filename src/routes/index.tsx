@@ -9,12 +9,15 @@ const Archive = Loader("Archive", () => import("./archive").then((a) => a.Archiv
 const Document = Loader("Document", () => import("./document").then((d) => d.Document));
 
 const About = Loader("About", () => rejectAfter(import("./about").then((a) => a.About), 1000, "stuff"));
-const Legal = Loader("Legal", () => import("./legal").then((l) => l.Legal));
+
 const HelpOne = Loader("HelpOne", () => import("./help/helpOne").then((h) => h.Help));
 const HelpTwo = Loader("HelpTwo", () => import("./help/helpTwo").then((h) => h.Help));
 const Glossary = Loader("Glossary", () => import("./applications/glossary").then((g) => g.Glossary));
 const Dictionary = Loader("Dictionary", () => import("./applications/dictionary").then((d) => d.Dictionary));
 const Library = Loader("Library", () => import("./library").then((l) => l.Libray));
+
+const Licenses = Loader("Legal", () => import("./legal/licenses").then((l) => l.Licenses));
+const Imprint = Loader("Imprint", () => import("./legal/imprint").then((i) => i.Imprint));
 
 import * as React from "react";
 
@@ -30,7 +33,10 @@ export default function Routes() {
             <Route exact path="/content/:group/:archive/:name" component={Document} />
 
             <Route exact path="/about" component={About} />
-            <Route exact path="/legal" component={Legal} />
+
+            <Route exact path="/legal/imprint" component={Imprint} />
+            <Route exact path="/legal/licenses" component={Licenses} />
+
             <Route exact path="/help/helpone" component={HelpOne} />
             <Route exact path="/help/helptwo" component={HelpTwo} />
             <Route exact path="/applications/glossary" component={Glossary} />
