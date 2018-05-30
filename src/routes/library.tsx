@@ -6,7 +6,7 @@ import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
 import { IMathHubContext, WithContext } from "../context";
 
-import { IGroupItem } from "../context/api";
+import { IGroupRef } from "../context/api";
 
 export class Libray extends React.Component<{}, {}> {
     public render() {
@@ -41,7 +41,7 @@ const AsyncGroupList = WithContext((context: IMathHubContext) => class extends R
     public render() {
         return (
             <LoadWithPromise title="Groups" promise={this.getGroups}>{
-                (groups: IGroupItem[]) =>
+                (groups: IGroupRef[]) =>
                 <Card.Group itemsPerRow="1">{
                     groups.map((group) => <GroupListItem key={group.id} group={group} />)}</Card.Group>
             }</LoadWithPromise>
@@ -50,7 +50,7 @@ const AsyncGroupList = WithContext((context: IMathHubContext) => class extends R
 });
 
 /** A single group */
-class GroupListItem extends React.Component<{group: IGroupItem}> {
+class GroupListItem extends React.Component<{group: IGroupRef}> {
     public render() {
         const {group} = this.props;
         return (

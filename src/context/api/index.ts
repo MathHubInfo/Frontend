@@ -1,106 +1,211 @@
 /** This file contains type definitions for all OMDOC types exposed by the MMT API */
 
+/** any object returned by the public api */
+export type IApiObject = IReferencable | IOpaqueElement;
+
+/** any object that is referencable */
+export type IReferencable = IGroup | IArchive | IDocument | IModule;
+
+/** any concrete reference */
+export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IModuleRef;
+
 //
 // GROUP
 //
 
-export interface IGroupItem {
+interface IGroupItem extends IAPIObjectItem {
+    kind: "group";
+    parent: undefined;
+
+    /** a machine-readable ID of the group */
     id: string;
+
+    /** human-readable title of the group */
     title: HTML;
+    /** a short teaser description of the group */
     teaser: HTML;
 }
 
-export interface IGroup extends IGroupItem {
-    description: HTML;
-    responsible: string[];
-
-    archives: IArchiveItem[];
+/** a reference to a MathHub Group */
+export interface IGroupRef extends IGroupItem {
+    ref: true;
 }
 
-export function GroupToItem(group: IGroup): IGroupItem {
-    return {id: group.id, title: group.title, teaser: group.teaser };
+/** a full description of a MathHub Group */
+export interface IGroup extends IGroupItem {
+    ref: false;
+
+    /** the description of the group item */
+    description: HTML;
+    /** a list of emails of people responsible for this group */
+    responsible: string[];
+    /** a list of archives contained in this group */
+    archives: IArchiveRef[];
 }
 
 //
 // ARCHIVE
 //
 
-export interface IArchiveItem {
-    id: string;
-    group: string;
-    title: HTML;
+interface IArchiveItem extends IAPIObjectItem {
+    kind: "archive";
+    parent: IGroupRef;
 
+    /** the id of the archive $parent.id/$name */
+    id: string;
+    /** the name of the archive */
+    name: string;
+
+    /** the human-readable title of this archive */
+    title: HTML;
+    /** short, human-readable description of this archive */
     teaser: HTML;
 }
 
+/** a reference to a MathHub Archive */
+export interface IArchiveRef extends IArchiveItem {
+    ref: true;
+}
+
+/** a full description of a MathHub Archive */
 export interface IArchive extends IArchiveItem {
+    ref: false;
+
+    /** a long, human-readable description of an archive */
     description: HTML;
+    /** a list of emails of people responsible for this group */
     responsible: string[];
 
-    documents: IDocumentItem[];
-}
-
-export function ArchiveToItem(archive: IArchive): IArchiveItem {
-    return {id: archive.id, group: archive.group, title: archive.title, teaser: archive.teaser};
-}
-
-export function ArchiveID(archive: IArchive): string {
-    return `${archive.group}/${archive.id}`;
+    /** the narrative content contained in this archive */
+    narrativeRoot: INarrativeElement[];
 }
 
 //
-// DOCUMENT
+// Narration
 //
-export interface IDocumentItem {
-    id: string;
-    group: string;
-    archive: string;
+/** a narrative element inside an archive */
+export type INarrativeElement = IOpaqueElement | IDocument | IModuleRef | URI; // TODO: Generalize IModuleRef properly
+
+/** a reference to the parent of a narrative element */
+type INarrativeParentRef = IArchiveRef | IDocumentRef;
+
+interface IDocumentItem extends IAPIObjectItem {
+    kind: "document";
+    parent: INarrativeParentRef;
+
+    /** the name of this document */
     name: string;
+    /** the uri of this document */
+    id: URI;
 }
 
+/** a reference to an OMDOC Document */
+export interface IDocumentRef extends IDocumentItem {
+    ref: true;
+}
+
+/** a document of content */
 export interface IDocument extends IDocumentItem {
-    modules: IModuleItem[];
+    ref: false;
+
+    /** a set of declarations */
+    decls: INarrativeElement[];
 }
 
-export function DArchiveID(document: IDocument): string {
-    return `${document.group}/${document.archive}`;
-}
+/** an opaque element */
+export interface IOpaqueElement extends IAPIObjectItem {
+    kind: "opaque";
+    ref: false;
 
-export function DocumentID(document: IDocument): string {
-    return `${document.group}/${document.archive}/${document.id}`;
-}
+    id: undefined;
 
-export function DocumentToItem(document: IDocument): IDocumentItem {
-    return {id: document.id, name: document.name, group: document.group, archive: document.archive};
+    /** the parent of this IOpaqueElement */
+    parent: INarrativeParentRef;
+
+    /** the text contained in this IOpaqueElement */
+    text: string;
 }
 
 //
-// MODULE
+// CONTENT
 //
+interface IModuleItem extends IAPIObjectItem {
+    kind: "theory" | "view";
+    parent: INarrativeParentRef;
 
-export interface IModuleItem {
-    group: string;
-    archive: string;
-    document: string;
+    /** name of the module */
     name: string;
+
+    /** the uri of this module */
+    id: URI;
 }
 
-export interface IModule extends IModuleItem {
+/** a reference to a module */
+export type IModuleRef = ITheoryRef | IViewRef;
+
+interface IModuleCommonRef extends IModuleItem {
+    ref: true;
+}
+
+/** a reference to a theory */
+export interface ITheoryRef extends IModuleCommonRef {
+    kind: "theory";
+}
+
+/** a reference to a view */
+export interface IViewRef extends IModuleCommonRef {
+    kind: "view";
+}
+
+/** an actual module, consisting of a theory or a view */
+export type IModule = ITheory | IView;
+
+interface IModuleCommon extends IModuleItem {
+    ref: false;
+
+    // TODO: we eve
+
+    /** presentation of this module as HTML */
     presentation: HTML;
-    source: string;
+
+    /** source code of this module, if available */
+    source?: string;
 }
 
-export function MDocumentID(module: IModule): string {
-    return `${module.group}/${module.archive}/${module.document}`;
+/** a description of a theory */
+export interface ITheory extends IModuleCommon {
+    kind: "theory";
+
+    /** the meta theory of this reference */
+    meta?: ITheoryRef;
 }
 
-export function ModuleToItem(module: IModule): IModuleItem {
-    return {group: module.group, archive: module.archive, document: module.document, name: module.name};
+/** a description of a view */
+export interface IView extends IModuleCommon {
+    kind: "view";
+
+    /** the domain of this view */
+    domain: ITheoryRef;
+    /** the co-domain of this view */
+    codomain: ITheoryRef;
 }
 
 //
 // Helper types
 //
+
+/** any object exposed by the API */
+interface IAPIObjectItem {
+    /** the kind of object that is returned */
+    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view";
+
+    id?: string | URI;
+
+    /** weather this object is a reference or a full description */
+    ref: boolean;
+}
+
+/** a URL */
 export type URI = string;
 
 /** anything that could be HTML */

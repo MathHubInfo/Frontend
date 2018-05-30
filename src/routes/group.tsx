@@ -5,7 +5,7 @@ import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
 
 import { IMathHubContext, WithContext } from "../context";
-import {IArchiveItem, IGroup as GroupT} from "../context/api";
+import { IArchiveRef, IGroup } from "../context/api";
 
 import { MHTitle } from "../utils/title";
 
@@ -34,7 +34,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                     promise={this.getGroup}
                     errorMessage={true}
                 >{
-                    (group: GroupT) =>
+                    (group: IGroup) =>
                         <div>
                             <Breadcrumb style={{margin: "0em 0em 1em"}}>
                                 <Breadcrumb.Section as={Nav} to={`/content`}>
@@ -67,7 +67,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
     }
 });
 
-class ArchiveItemList extends React.Component<{archives: IArchiveItem[]}> {
+class ArchiveItemList extends React.Component<{archives: IArchiveRef[]}> {
     public render() {
         const {archives} = this.props;
 
@@ -80,7 +80,7 @@ class ArchiveItemList extends React.Component<{archives: IArchiveItem[]}> {
 }
 
 /** A single archive item */
-class ArchiveListItem extends React.Component<{archive: IArchiveItem}> {
+class ArchiveListItem extends React.Component<{archive: IArchiveRef}> {
     public render() {
         const {archive} = this.props;
         return (
@@ -88,7 +88,7 @@ class ArchiveListItem extends React.Component<{archive: IArchiveItem}> {
                 <Card.Content>
                     <Card.Header
                         as={Nav}
-                        to={`/content/${archive.group}/${archive.id}`}
+                        to={`/content/${archive.id}`}
                     >
                         <div dangerouslySetInnerHTML={{__html: archive.title}} />
                     </Card.Header>

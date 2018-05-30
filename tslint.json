@@ -10,6 +10,7 @@
         "no-console": [ false ], 
         "member-ordering": [ false ],
         "max-classes-per-file": [ false ],
+        "object-literal-sort-keys": [ false ],
 
         "jsx-boolean-value": [ false ],
         "jsx-no-multiline-js": [ false ]

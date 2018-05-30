@@ -1,10 +1,8 @@
 import {IMathHubConfig} from "../config";
-// import { delay } from "utils/promises"
 
 import axios from "axios";
 
-import { ArchiveID, DArchiveID, DocumentID, GroupToItem, IArchive,
-        IDocument, IGroup, IGroupItem, IModule, MDocumentID } from "./index";
+import { IArchive, IDocument, IGroup, IGroupRef, IModule, IReferencable, URI } from "./index";
 
 /**
  * A client for the mathhub-mmt api
@@ -16,8 +14,11 @@ export abstract class MMTAPIClient {
         this.config = config;
     }
 
-    /** gets a list of archives from MMT */
-    public abstract getGroups(): Promise<IGroupItem[]>;
+    /** gets an object via a URI */
+    public abstract getURI(uri: URI): Promise<IReferencable>;
+
+    /** gets a list of existing groups */
+    public abstract getGroups(): Promise<IGroupRef[]>;
 
     /** gets a specific group from MMT */
     public abstract getGroup(id: string): Promise<IGroup>;
@@ -46,7 +47,11 @@ export class RestAPIClient extends MMTAPIClient {
         });
     }
 
-    public getGroups(): Promise<IGroupItem[]> {
+    public getURI(uri: URI): Promise<IReferencable> {
+        return this.get("content/uri/" + uri); // TODO: Escape URI
+    }
+
+    public getGroups(): Promise<IGroupRef[]> {
         return this.get("content/groups");
     }
 
@@ -64,73 +69,5 @@ export class RestAPIClient extends MMTAPIClient {
 
     public getModule(id: string): Promise<IModule> {
         return this.get("content/module/" + id);
-    }
-}
-
-/** An API client to MMT that mocks results by resolving them statically from a given datatset */
-export class MockAPIClient extends MMTAPIClient {
-    private delay<T>(p: Promise<T>): Promise<T> {
-        return p; // return delay(p, 1000);
-    }
-
-    /** loads the dataset */
-    private loadDataSet() { return import("./mock.json").then((m) => m.default); }
-
-    public getGroups() { return this.delay(this.getGroupsI()); }
-    private getGroupsI(): Promise<IGroupItem[]> {
-        return this.loadDataSet().then((dataset) => {
-            return Promise.resolve(dataset.groups.map(GroupToItem));
-        });
-    }
-
-    public getGroup(name: string) { return this.delay(this.getGroupI(name)); }
-    private getGroupI(name: string): Promise<IGroup> {
-        return this.loadDataSet().then((dataset) => {
-            const group = dataset.groups.find((g: IGroup) => g.id === name);
-            if (group) {
-                group.archives = dataset.archives.filter((a: IArchive) => a.group === name);
-                return Promise.resolve(group);
-            } else {
-                return Promise.reject(`Group ${name} does not exist. `);
-            }
-        });
-    }
-
-    public getArchive(id: string) { return this.delay(this.getArchiveI(id)); }
-    private getArchiveI(id: string): Promise<IArchive> {
-        return this.loadDataSet().then((dataset) => {
-            const archive = dataset.archives.find((a: IArchive) => ArchiveID(a) === id);
-            if (archive) {
-                archive.documents = dataset.documents.filter((d: IDocument) => DArchiveID(d) === id);
-                return Promise.resolve(archive);
-            } else {
-                return Promise.reject(`Archive ${name} does not exist. `);
-            }
-        });
-    }
-
-    public getDocument(id: string) { return this.delay(this.getDocumentI(id)); }
-    private getDocumentI(id: string): Promise<IDocument> {
-        return this.loadDataSet().then((dataset) => {
-           const document = dataset.documents.find((d: IDocument) => DocumentID(d) === id);
-           if (document) {
-               document.modules = dataset.modules.filter((m: IModule) => MDocumentID(m) === id);
-               return Promise.resolve(document);
-           } else {
-               return Promise.reject(`Document ${name} does not exist. `);
-           }
-        });
-    }
-
-    public getModule(name: string) { return this.delay(this.getModuleI(name)); }
-    private getModuleI(name: string): Promise<IModule> {
-        return this.loadDataSet().then((dataset) => {
-            const module = dataset.modules.find((m: IModule) => m.name === name);
-            if (module) {
-                return Promise.resolve(module);
-            } else {
-                return Promise.reject(`Module ${name} does not exist. `);
-            }
-        });
     }
 }

@@ -1,11 +1,10 @@
 import * as React from "react";
 
-import { Breadcrumb, Card, Container, Divider, Header } from "semantic-ui-react";
+import { Breadcrumb, Container, Divider, Header } from "semantic-ui-react";
 import { LoadWithPromise } from "../components/common/lazy";
-import { Nav } from "../components/common/nav";
 
 import { IMathHubContext, WithContext } from "../context";
-import {IDocument, IModuleItem} from "../context/api";
+import { IDocument } from "../context/api";
 
 import { MHTitle } from "../utils/title";
 
@@ -40,11 +39,12 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                     <div>
                         <div>
                              <Breadcrumb style={{margin: "0em 0em 1em"}}>
+                                {/* TODO: Build dynamically
                                 <Breadcrumb.Section as={Nav} to={`/content`}>
                                     Library
                                 </Breadcrumb.Section>
                                 <Breadcrumb.Divider />
-                                <Breadcrumb.Section as={Nav} to={`/content/${document.group}`}>
+                                <Breadcrumb.Section as={Nav} to={`/content/${document.par}`}>
                                     <div dangerouslySetInnerHTML={{__html: document.group}} />
                                 </Breadcrumb.Section>
                                 <Breadcrumb.Divider />
@@ -56,6 +56,7 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                                     <div dangerouslySetInnerHTML={{__html: document.id}} />
                                 </Breadcrumb.Section>
                                 <Breadcrumb.Divider />
+                                */}
                             </Breadcrumb>
                             <Container text>
                                 <Header as="h2">
@@ -64,9 +65,10 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                                 <div dangerouslySetInnerHTML={{__html: document.name}} />
                             </Container>
                             <Divider />
-                            <Container>
+                            <Container>{ /*
+                                // TODO: Re-use element used in archive
                                 <ModuleItemList modules={document.modules} />
-                            </Container>
+                            */}</Container>
                         </div>
                     </div>
                 }
@@ -76,7 +78,8 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
     }
 });
 
-class ModuleItemList extends React.Component<{modules: IModuleItem[]}> {
+/*
+class ModuleItemList extends React.Component<{modules: INarrativeElement[]}> {
     public render() {
         const {modules} = this.props;
         return (
@@ -87,7 +90,6 @@ class ModuleItemList extends React.Component<{modules: IModuleItem[]}> {
     }
 }
 
-/** A single document item */
 class ModuleListItem extends React.Component<{module: IModuleItem}> {
     public render() {
         const {module} = this.props;
@@ -104,3 +106,4 @@ class ModuleListItem extends React.Component<{module: IModuleItem}> {
         );
     }
 }
+*/

@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import { Breadcrumb, Card, Container, Divider, Header, Label } from "semantic-ui-react";
+import { Breadcrumb, Container, Divider, Header, Label } from "semantic-ui-react";
 import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
 
 import { IMathHubContext, WithContext } from "../context";
-import {IArchive, IDocumentItem} from "../context/api";
+import { IArchive } from "../context/api";
 
 import { MHTitle } from "../utils/title";
 
@@ -42,8 +42,8 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                                     Library
                                 </Breadcrumb.Section>
                                 <Breadcrumb.Divider />
-                                <Breadcrumb.Section as={Nav} to={`/content/${archive.group}`}>
-                                    <div dangerouslySetInnerHTML={{__html: archive.group}} />
+                                <Breadcrumb.Section as={Nav} to={`/content/${archive.parent.id}`}>
+                                    <div dangerouslySetInnerHTML={{__html: archive.parent.id}} />
                                 </Breadcrumb.Section>
                                 <Breadcrumb.Divider />
                                 <Breadcrumb.Section as={Nav} to={`/content/` + this.archiveID()}>
@@ -61,9 +61,10 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                                 </div>
                             </Container>
                             <Divider />
-                            <Container>
-                                <DocumentItemList documents={archive.documents} />
-                            </Container>
+                            <Container>{
+                            /* TODO: Share this element with document view
+                            <DocumentItemList documents={archive.documents} /> */
+                            }</Container>
                         </div>
                     </div>
                 }
@@ -73,7 +74,8 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
     }
 });
 
-class DocumentItemList extends React.Component<{documents: IDocumentItem[]}> {
+/*
+class DocumentItemList extends React.Component<{documents: IDocumentRef[]}> {
     public render() {
         const {documents} = this.props;
         return (
@@ -84,8 +86,7 @@ class DocumentItemList extends React.Component<{documents: IDocumentItem[]}> {
     }
 }
 
-/** A single document item */
-class DocumentListItem extends React.Component<{document: IDocumentItem}> {
+class DocumentListItem extends React.Component<{document: IDocumentRef}> {
     public render() {
         const {document} = this.props;
         return (
@@ -93,7 +94,7 @@ class DocumentListItem extends React.Component<{document: IDocumentItem}> {
                 <Card.Content>
                     <Card.Header
                         as={Nav}
-                        to={`/content/${document.group}/${document.archive}/${document.id}`}
+                        to={`/content/${document.id}`} //
                     >
                         <div dangerouslySetInnerHTML={{__html: document.id}} />
                     </Card.Header>
@@ -103,3 +104,4 @@ class DocumentListItem extends React.Component<{document: IDocumentItem}> {
         );
     }
 }
+*/

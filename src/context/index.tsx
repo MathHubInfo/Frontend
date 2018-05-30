@@ -2,7 +2,8 @@ import * as React from "react";
 
 import { ReactComponent } from "../types/types";
 
-import { MMTAPIClient, MockAPIClient, RestAPIClient } from "./api/client";
+import { MMTAPIClient, RestAPIClient } from "./api/client";
+import { MockAPIClient } from "./api/mock";
 import { IMathHubConfig } from "./config.d";
 
 /** Represents a global context for MathHub */
