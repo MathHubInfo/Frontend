@@ -87,7 +87,7 @@ export interface IArchive extends IArchiveItem {
 export type INarrativeElement = IOpaqueElement | IDocument | IModuleRef | URI; // TODO: Generalize IModuleRef properly
 
 /** a reference to the parent of a narrative element */
-type INarrativeParentRef = IArchiveRef | IDocumentRef;
+export type INarrativeParentRef = IArchiveRef | IDocumentRef;
 
 interface IDocumentItem extends IAPIObjectItem {
     kind: "document";
@@ -117,7 +117,7 @@ export interface IOpaqueElement extends IAPIObjectItem {
     kind: "opaque";
     ref: false;
 
-    id: undefined;
+    id: "";
 
     /** the parent of this IOpaqueElement */
     parent: INarrativeParentRef;
@@ -199,7 +199,7 @@ interface IAPIObjectItem {
     /** the kind of object that is returned */
     kind: "group" | "archive" | "document" | "opaque" | "theory" | "view";
 
-    id?: string | URI;
+    id: string | URI;
 
     /** weather this object is a reference or a full description */
     ref: boolean;

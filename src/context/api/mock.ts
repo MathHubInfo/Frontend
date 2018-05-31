@@ -8,6 +8,8 @@ import {
     IGroup,
     IGroupRef,
     IModule,
+    INarrativeElement,
+    INarrativeParentRef,
     IOpaqueElement,
     IReferencable,
     ITheory,
@@ -21,10 +23,37 @@ import {
 export class MockAPIClient extends MMTAPIClient {
 
     // #region "Dataset"
+    private dataset: IMockDataSet | undefined;
 
     /** loads the dataset */
     private loadDataSet(): Promise<IMockDataSet> {
-        return import("../../../assets/mock.json").then((m) => m.default);
+
+        // if we already fetched the dataset
+        // we can return it immediatly
+        if (typeof this.dataset !== "undefined") {
+            return Promise.resolve(this.dataset);
+        }
+
+        // else we need to fetch it
+        return import("../../../assets/mock.json").then((m) => m.default as IMockDataSet)
+            .then((ds) => {
+
+                // TODO: Do we want run-time type checking here?
+                // and warn the developer about archives missing and such
+                this.dataset = {
+                    groups:
+                        ds.groups.map((dg) => { dg.kind = "group"; return dg; }),
+                    archives:
+                        ds.archives.map((da) => { da.kind = "archive"; return da; }),
+                    opaques:
+                        ds.opaques.map((dso) => { dso.kind = "opaque"; return dso; }),
+                    documents:
+                        ds.documents.map((dc) => { dc.kind = "document"; return dc; }),
+                    modules: ds.modules,
+                };
+
+                return this.dataset as IMockDataSet;
+            });
     }
 
     /**
@@ -42,7 +71,7 @@ export class MockAPIClient extends MMTAPIClient {
             if (typeof obj === "undefined") {
                 return Promise.reject(errorMessage);
             } else {
-                return this.cleanObject(obj);
+                return Promise.resolve(this.cleanAny(obj, ds));
             }
         });
     }
@@ -51,40 +80,36 @@ export class MockAPIClient extends MMTAPIClient {
 
     // #region "Cleaners"
 
-    /** cleans an object returned from the mock dataset */
-    private cleanObject<T extends IApiObject>(obj: T): Promise<T> {
-        return this.loadDataSet().then((ds) => this.cleanAny(obj, ds));
-    }
-
     private cleanAny<T extends IApiObject>(obj: T, ds: IMockDataSet): T {
         let co: any; // cleaned object
         switch (obj.kind) {
             case "group":
                 co = obj.ref ?
-                    this.cleanGroupRef(obj as IGroupRef, ds) :
+                    this.cleanGroupRef(obj, ds) :
                     this.cleanGroup(obj as IGroup, ds);
                 break;
             case "archive":
                 co = obj.ref ?
-                    this.cleanArchiveRef(obj as IArchiveRef, ds) :
-                    this.cleanArchive(obj as IArchive, ds);
+                    this.cleanArchiveRef(obj, ds) :
+                    this.cleanArchive(obj, ds);
                 break;
             case "document":
                 co = obj.ref ?
-                    this.cleanDocumentRef(obj as IDocumentRef, ds) :
-                    this.cleanDocument(obj as IDocument, ds);
+                    this.cleanDocumentRef(obj, ds) :
+                    this.cleanDocument(obj, ds);
                 break;
             case "opaque":
-                co = this.cleanOpaque(obj as IOpaqueElement, ds);
+                co = this.cleanOpaque(obj, ds);
             case "theory":
                 co = obj.ref ?
-                    this.cleanTheoryRef(obj as ITheoryRef, ds) :
-                    this.cleanTheory(obj as ITheory, ds);
+                    this.cleanTheoryRef(obj, ds) :
+                    this.cleanTheory(obj, ds);
             case "view":
                 co = obj.ref ?
-                    this.cleanViewRef(obj as IViewRef, ds) :
-                    this.cleanView(obj as IView, ds);
+                    this.cleanViewRef(obj, ds) :
+                    this.cleanView(obj, ds);
             default:
+                console.warn(`Mock Dataset: Got object of unknown kind ${obj.kind}, skipping cleanup. `);
                 co = obj;
                 break;
         }
@@ -93,59 +118,208 @@ export class MockAPIClient extends MMTAPIClient {
         return co as T;
     }
 
-    private cleanGroupRef(group: IGroupRef, ds: IMockDataSet): IGroupRef {
-        // TODO: Write me
-        return group;
+    private cleanGroupRef(group: IMockObject, ds: IMockDataSet): IGroupRef {
+        const actual = ds.groups.find((g) => g.id === group.id)!;
+
+        return {
+            kind: "group",
+            parent: undefined,
+            ref: true,
+
+            id: actual.id,
+            title: actual.title,
+            teaser: actual.teaser,
+        };
     }
 
-    private cleanGroup(group: IGroup, ds: IMockDataSet): IGroup {
-        // TODO: Write me
-        return group;
+    private cleanArchiveRef(archive: IMockObject, ds: IMockDataSet): IArchiveRef {
+        const actual = ds.archives.find((a) => a.id === archive.id)!;
+        const parent = this.cleanGroupRef(actual.parent, ds);
+
+        return {
+            kind: "archive",
+            parent,
+            ref: true,
+
+            id: actual.id,
+            name: actual.name,
+
+            title: actual.title,
+            teaser: actual.teaser,
+        };
     }
 
-    private cleanArchiveRef(archive: IArchiveRef, ds: IMockDataSet): IArchiveRef {
-        // TODO: Write me
-        return archive;
+    private cleanNarrativeParentRef(ref: IMockObject, ds: IMockDataSet): INarrativeParentRef {
+
+        // if we can find a document reference, return a document
+        const docRef = ds.documents.find((d) => d.id === ref.id);
+        if (typeof docRef !== "undefined") {
+            return this.cleanDocumentRef(ref, ds);
+
+        // else try and find an archive reference
+        } else {
+            return this.cleanArchiveRef(ref, ds);
+        }
     }
 
-    private cleanArchive(archive: IArchive, ds: IMockDataSet): IArchive {
-        // TODO: Write me
-        return archive;
+    private cleanDocumentRef(document: IMockObject, ds: IMockDataSet): IDocumentRef {
+        const actual = ds.documents.find((d) => d.id === document.id)!;
+        const parent = this.cleanNarrativeParentRef(actual.parent, ds);
+
+        return {
+            kind: "document",
+            parent,
+            ref: true,
+
+            name: actual.name,
+            id: actual.id,
+        };
     }
 
-    private cleanDocumentRef(document: IDocumentRef, ds: IMockDataSet): IDocumentRef {
-        // TODO: Write me
-        return document;
+    private cleanTheoryRef(theory: IMockObject, ds: IMockDataSet): ITheoryRef {
+        const actual = ds.modules.find((t) => t.id === theory.id && t.kind === "theory")! as ITheory;
+        const parent = this.cleanNarrativeParentRef(actual.parent, ds);
+
+        return {
+            kind: "theory",
+            parent,
+            ref: true,
+
+            name: actual.name,
+            id: actual.id,
+        };
     }
 
-    private cleanDocument(document: IDocument, ds: IMockDataSet): IDocument {
-        // TODO: Write me
-        return document;
+    private cleanViewRef(view: IMockObject, ds: IMockDataSet): IViewRef {
+        const actual = ds.modules.find((v) => v.id === view.id && v.kind === "view")! as IView;
+        const parent = this.cleanNarrativeParentRef(actual.parent, ds);
+
+        return {
+            kind: "view",
+            parent,
+            ref: true,
+
+            name: actual.name,
+            id: actual.id,
+        };
     }
 
-    private cleanOpaque(opaque: IOpaqueElement, ds: IMockDataSet): IOpaqueElement {
-        // TODO: Write me
-        return opaque;
+    private cleanGroup(group: IMockObject, ds: IMockDataSet): IGroup {
+        const ref = this.cleanGroupRef(group, ds);
+        const actual = ds.groups.find((g) => g.id === group.id)!;
+
+        const archives = ds.archives
+            .filter((a) => a.parent.id === group.id)
+            .map((a) => this.cleanArchiveRef(a, ds));
+
+        return {
+            ...ref,
+            ref: false,
+
+            description: actual.description,
+            responsible: actual.responsible,
+            archives,
+        };
     }
 
-    private cleanTheoryRef(theory: ITheoryRef, ds: IMockDataSet): ITheoryRef {
-        // TODO: Write me
-        return theory;
+    private findNarrativeChildren(parent: IMockObject, ds: IMockDataSet): INarrativeElement[] {
+        // TODO: Figure out a way to maintain order
+
+        const opaques = ds.opaques
+            .filter((o) => o.parent.id === parent.id)
+            .map((o) => this.cleanOpaque(o, ds));
+
+        const documents = ds.documents
+            .filter((d) => d.parent.id === parent.id)
+            .map((d) => this.cleanDocument(d, ds));
+
+        const modules = ds.modules
+            .filter((m) => m.parent.id === parent.id)
+            .map((m) => m.kind === "theory" ? this.cleanTheoryRef(m, ds) : this.cleanViewRef(m, ds));
+
+        return ([] as any[])
+            .concat(opaques, documents, modules);
     }
 
-    private cleanTheory(theory: ITheory, ds: IMockDataSet): ITheory {
-        // TODO: Write me
-        return theory;
+    private cleanArchive(archive: IMockObject, ds: IMockDataSet): IArchive {
+        const ref = this.cleanArchiveRef(archive, ds);
+        const actual = ds.archives.find((a) => a.id === archive.id)!;
+
+        const narrativeRoot = this.findNarrativeChildren(archive, ds);
+
+        return {
+            ...ref,
+            ref: false,
+
+            description: actual.description,
+            responsible: actual.responsible,
+            narrativeRoot,
+        };
     }
 
-    private cleanViewRef(view: IViewRef, ds: IMockDataSet): IViewRef {
-        // TODO: Write me
-        return view;
+    private cleanDocument(document: IMockObject, ds: IMockDataSet): IDocument {
+        const ref = this.cleanDocumentRef(document, ds);
+        // const actual = ds.documents.find((d) => d.id === document.id)!;
+
+        const decls = this.findNarrativeChildren(document, ds);
+
+        return {
+            ...ref,
+            ref: false,
+
+            decls,
+        };
     }
 
-    private cleanView(view: IView, ds: IMockDataSet): IView {
-        // TODO: Write me
-        return view;
+    private cleanOpaque(opaque: IMockObject, ds: IMockDataSet): IOpaqueElement {
+        const actual = opaque as IOpaqueElement;
+        const parent = this.cleanNarrativeParentRef(actual.parent, ds);
+
+        return {
+            kind: "opaque",
+            ref: false,
+
+            id: "",
+            parent,
+
+            text: actual.text,
+        };
+    }
+
+    private cleanTheory(theory: IMockObject, ds: IMockDataSet): ITheory {
+        const ref = this.cleanTheoryRef(theory, ds);
+        const actual = ds.modules.find((t) => t.id === theory.id && t.kind === "theory")! as ITheory;
+
+        const meta = actual.meta ? this.cleanTheoryRef(actual.meta!, ds) : undefined;
+
+        return {
+            ...ref,
+            ref: false,
+
+            presentation: actual.presentation,
+            source: actual.source,
+
+            meta,
+        };
+    }
+
+    private cleanView(view: IMockObject, ds: IMockDataSet): IView {
+        const ref = this.cleanViewRef(view, ds);
+        const actual = ds.modules.find((v) => v.id === view.id && v.kind === "view")! as IView;
+
+        const domain = this.cleanTheoryRef(actual.domain, ds);
+        const codomain = this.cleanTheoryRef(actual.codomain, ds);
+
+        return {
+            ...ref,
+            ref: false,
+
+            presentation: actual.presentation,
+            source: actual.source,
+
+            domain,
+            codomain,
+        };
     }
 
     // #endregion
@@ -211,7 +385,14 @@ export class MockAPIClient extends MMTAPIClient {
     // #endregion
 }
 
-/** a mock data-set, contained in mock.json; all parent references may only fill the id property */
+/**
+ * The Mock Data Set contained in mock.json
+ *
+ * The type here is only for tsc, the actual type can limit all
+ * IReferences to be shallow in the sense of only having the 'id' property.
+ *
+ * Furthermore, the 'kind' and child atttributes may be omitted where unique.
+ */
 interface IMockDataSet {
     /** a set of archives, will auto-fill the archives property */
     groups: IGroup[];
@@ -224,4 +405,9 @@ interface IMockDataSet {
     documents: IDocument[];
     /** a set of modules */
     modules: IModule[];
+}
+
+/** represents a shallow mocked object returned by the API */
+interface IMockObject {
+    id: string;
 }
