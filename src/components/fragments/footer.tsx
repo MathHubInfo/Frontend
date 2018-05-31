@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Container, Divider, Grid, Header, Image, List, Segment } from "semantic-ui-react";
 
-import { IMathHubContext, WithContext} from "../../context";
+import { IMathHubContext, WithContext } from "../../context";
 
 import { Nav } from "../../components/common/nav";
 

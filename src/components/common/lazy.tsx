@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { Icon, Message } from "semantic-ui-react";
 
-import {Module, ReactComponent} from "../../types/types";
-import {ILCProps, Lazy, LoadWithPromise as LoadWithPromiseI} from "../../utils/lazy";
+import { Module, ReactComponent } from "../../types/types";
+import { ILCProps, Lazy, LoadWithPromise as LoadWithPromiseI } from "../../utils/lazy";
 
 interface ILWProps {
     loadingTitle?: string;

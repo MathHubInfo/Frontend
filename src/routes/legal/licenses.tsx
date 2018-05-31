@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {LegalContainer} from "./container";
+import { LegalContainer } from "./container";
 
 import { Container, Header } from "semantic-ui-react";
 import { LoadWithPromise } from "../../components/common/lazy";

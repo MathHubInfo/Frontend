@@ -1,4 +1,4 @@
-import {IMathHubConfig} from "../config";
+import { IMathHubConfig } from "../config";
 
 import axios from "axios";
 

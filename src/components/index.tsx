@@ -6,11 +6,11 @@ import { MHTitle } from "../utils/title";
 
 import Routes from "../routes";
 
-import {Footer} from "./fragments/footer";
-import {Header} from "./fragments/header";
+import { Footer } from "./fragments/footer";
+import { Header } from "./fragments/header";
 
-import {Context, makeContext} from "../context";
-import {IMathHubConfig} from "../context/config";
+import { Context, makeContext } from "../context";
+import { IMathHubConfig } from "../context/config";
 
 export class MathHub extends React.Component<IMathHubConfig, {}> {
     public render() {

@@ -1,7 +1,10 @@
-import { Loader } from "../components/common/lazy";
 
+import * as React from "react";
 import { rejectAfter } from "../utils/promises";
 
+import { Route, Switch } from "react-router-dom";
+
+import { Loader } from "../components/common/lazy";
 const Home = Loader("Home Page", () => import("./home").then((h) => h.Home));
 
 const Group = Loader("Group", () => import("./group").then((g) => g.Group));
@@ -18,10 +21,6 @@ const Library = Loader("Library", () => import("./library").then((l) => l.Libray
 
 const Licenses = Loader("Legal", () => import("./legal/licenses").then((l) => l.Licenses));
 const Imprint = Loader("Imprint", () => import("./legal/imprint").then((i) => i.Imprint));
-
-import * as React from "react";
-
-import {Route, Switch} from "react-router-dom";
 
 export default function Routes() {
     return (

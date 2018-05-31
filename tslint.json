@@ -6,11 +6,25 @@
     ],
     "jsRules": {},
     "rules": {
-        "indent": [ true, "spaces", 4 ], 
-        "no-console": [ false ], 
-        "member-ordering": [ false ],
         "max-classes-per-file": [ false ],
+
+        "member-ordering": [ false ],
         "object-literal-sort-keys": [ false ],
+
+        "indent": [ true, "spaces", 4 ], 
+        "whitespace": [ true, 
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-separator",
+            "check-type",
+            "check-typecast",
+            "check-type-operator",
+            "check-rest-spread",
+            "check-module"
+        ],
+
+        "no-console": [ false ], 
 
         "jsx-boolean-value": [ false ],
         "jsx-no-multiline-js": [ false ]
