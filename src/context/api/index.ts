@@ -1,7 +1,7 @@
 /** This file contains type definitions for all OMDOC types exposed by the MMT API */
 
 /** any object returned by the public api */
-export type IApiObject = IReferencable | IOpaqueElement;
+export type IApiObject = IReferencable | IReference | IOpaqueElement;
 
 /** any object that is referencable */
 export type IReferencable = IGroup | IArchive | IDocument | IModule;
