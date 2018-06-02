@@ -15,7 +15,7 @@ export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IModuleRef;
 
 interface IGroupItem extends IAPIObjectItem {
     kind: "group";
-    parent: undefined;
+    parent: null;
 
     /** a machine-readable ID of the group */
     id: string;
@@ -157,13 +157,11 @@ export interface IViewRef extends IModuleCommonRef {
     kind: "view";
 }
 
-/** an actual module, consisting of a theory or a view */
+/** an actual module, i.e. a theory or a view */
 export type IModule = ITheory | IView;
 
 interface IModuleCommon extends IModuleItem {
     ref: false;
-
-    // TODO: we eve
 
     /** presentation of this module as HTML */
     presentation: HTML;
@@ -199,10 +197,14 @@ interface IAPIObjectItem {
     /** the kind of object that is returned */
     kind: "group" | "archive" | "document" | "opaque" | "theory" | "view";
 
-    id: string | URI;
-
     /** weather this object is a reference or a full description */
     ref: boolean;
+
+    /** the id of this object, if any */
+    id: string;
+
+    /** parent of this object, if any */
+    parent: IReference | null;
 }
 
 /** a URL */

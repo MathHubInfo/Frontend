@@ -46,7 +46,7 @@ export class MockAPIClient extends MMTAPIClient {
                     archives:
                         ds.archives.map((da) => { da.kind = "archive"; return da; }),
                     opaques:
-                        ds.opaques.map((dso) => { dso.kind = "opaque"; return dso; }),
+                        ds.opaques.map((dso) => { dso.kind = "opaque"; dso.id = ""; return dso; }),
                     documents:
                         ds.documents.map((dc) => { dc.kind = "document"; return dc; }),
                     modules: ds.modules,
@@ -123,7 +123,7 @@ export class MockAPIClient extends MMTAPIClient {
 
         return {
             kind: "group",
-            parent: undefined,
+            parent: null,
             ref: true,
 
             id: actual.id,
@@ -334,7 +334,7 @@ export class MockAPIClient extends MMTAPIClient {
         return {
             kind: "group",
             ref: true,
-            parent: undefined,
+            parent: null,
 
             id: group.id,
             title: group.title,
