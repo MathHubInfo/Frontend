@@ -22,6 +22,8 @@ ADD yarn.lock /app/
 # Install and run build
 WORKDIR  /app/
 RUN yarn \
+    && mv node_modules/semantic-ui-react/dist/es/lib/eventStack/eventStack.js node_modules/semantic-ui-react/dist/es/lib/eventStack/EventStack.js \
+    && mv node_modules/semantic-ui-react/dist/commonjs/lib/eventStack/eventStack.js node_modules/semantic-ui-react/dist/commonjs/lib/eventStack/EventStack.js \
     && MMT_URL=${MMT_URL} MOCK_MMT=${MOCK_MMT} yarn webpack --config=webpack.config.prod.js \
     && yarn --ignore-platform licenses generate-disclaimer > dist/NOTICES.txt
 
