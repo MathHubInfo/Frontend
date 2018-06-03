@@ -7,6 +7,7 @@
         "removeComments": false, 
         
         "moduleResolution": "node", 
+        "resolveJsonModule": true,
         "module": "esnext",
         "target": "es6",
         "jsx": "react", 
@@ -16,7 +17,7 @@
         "allowJs": true, 
 
         "esModuleInterop": true, 
-        "isolatedModules": true
+        "isolatedModules": false
     },
 
     "awesomeTypescriptLoaderOptions": {

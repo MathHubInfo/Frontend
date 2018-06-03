@@ -38,7 +38,7 @@ export class MockAPIClient extends MMTAPIClient {
         }
 
         // else we need to fetch it
-        return import("../../../assets/mock.json").then((m) => m.default as IMockDataSet)
+        return import("../../../assets/mock.json")
             .then((ds) => {
                 this.dataset = ds;
                 return this.dataset!;

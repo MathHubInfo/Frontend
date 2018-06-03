@@ -45,15 +45,11 @@ export interface IMockReference {
 
 /** a mock object */
 export interface IMockObject extends IMockReference {
-    parent: IMockReference | null;
-
     name: string;
 }
 
 /** a mocked group */
 export interface IMockGroup extends IMockObject {
-    parent: IMockReference;
-
     title: HTML;
     teaser: HTML;
 
