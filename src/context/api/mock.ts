@@ -11,6 +11,7 @@ import {
     INarrativeElement,
     INarrativeParentRef,
     IOpaqueElement,
+    IOpaqueElementRef,
     IReferencable,
     ITheory,
     ITheoryRef,
@@ -18,6 +19,8 @@ import {
     IViewRef,
     URI,
 } from "./index";
+
+import { IMockDataSet, IMockGroup, IMockModule, IMockObject, IMockReference } from "./mockset";
 
 /** An API client to MMT that mocks results by resolving them statically from a given datatset */
 export class MockAPIClient extends MMTAPIClient {
@@ -37,22 +40,8 @@ export class MockAPIClient extends MMTAPIClient {
         // else we need to fetch it
         return import("../../../assets/mock.json").then((m) => m.default as IMockDataSet)
             .then((ds) => {
-
-                // TODO: Do we want run-time type checking here?
-                // and warn the developer about archives missing and such
-                this.dataset = {
-                    groups:
-                        ds.groups.map((dg) => { dg.kind = "group"; return dg; }),
-                    archives:
-                        ds.archives.map((da) => { da.kind = "archive"; return da; }),
-                    opaques:
-                        ds.opaques.map((dso) => { dso.kind = "opaque"; dso.id = ""; return dso; }),
-                    documents:
-                        ds.documents.map((dc) => { dc.kind = "document"; return dc; }),
-                    modules: ds.modules,
-                };
-
-                return this.dataset as IMockDataSet;
+                this.dataset = ds;
+                return this.dataset!;
             });
     }
 
@@ -63,7 +52,8 @@ export class MockAPIClient extends MMTAPIClient {
      * @param errorMessage error to throw when the object does not exist
      */
     private getObjectOfType<T extends IApiObject>(
-        getter: (data: IMockDataSet) => T | undefined,
+        getter: (data: IMockDataSet) => IMockObject | undefined,
+        kind: (result: IMockObject) => string,
         errorMessage: string,
     ): Promise<T>  {
         return this.loadDataSet().then((ds) => {
@@ -71,7 +61,7 @@ export class MockAPIClient extends MMTAPIClient {
             if (typeof obj === "undefined") {
                 return Promise.reject(errorMessage);
             } else {
-                return Promise.resolve(this.cleanAny(obj, ds));
+                return Promise.resolve(this.cleanAny<T>(kind(obj), obj, ds));
             }
         });
     }
@@ -80,36 +70,25 @@ export class MockAPIClient extends MMTAPIClient {
 
     // #region "Cleaners"
 
-    private cleanAny<T extends IApiObject>(obj: T, ds: IMockDataSet): T {
+    private cleanAny<T extends IApiObject>(kind: string, obj: IMockObject, ds: IMockDataSet): T {
         let co: any; // cleaned object
-        switch (obj.kind) {
+        switch (kind) {
             case "group":
-                co = obj.ref ?
-                    this.cleanGroupRef(obj, ds) :
-                    this.cleanGroup(obj as IGroup, ds);
-                break;
+                co = this.cleanGroup(obj, ds);
             case "archive":
-                co = obj.ref ?
-                    this.cleanArchiveRef(obj, ds) :
-                    this.cleanArchive(obj, ds);
+                co = this.cleanArchive(obj, ds);
                 break;
             case "document":
-                co = obj.ref ?
-                    this.cleanDocumentRef(obj, ds) :
-                    this.cleanDocument(obj, ds);
+                co = this.cleanDocument(obj, ds);
                 break;
             case "opaque":
-                co = this.cleanOpaque(obj, ds);
+                co = this.cleanOpaqueElement(obj, ds);
             case "theory":
-                co = obj.ref ?
-                    this.cleanTheoryRef(obj, ds) :
-                    this.cleanTheory(obj, ds);
+                co = this.cleanTheory(obj, ds);
             case "view":
-                co = obj.ref ?
-                    this.cleanViewRef(obj, ds) :
-                    this.cleanView(obj, ds);
+                co = this.cleanView(obj, ds);
             default:
-                console.warn(`Mock Dataset: Got object of unknown kind ${obj.kind}, skipping cleanup. `);
+                console.warn(`Mock Dataset: Got object of unknown kind ${kind}, skipping cleanup. `);
                 co = obj;
                 break;
         }
@@ -118,7 +97,7 @@ export class MockAPIClient extends MMTAPIClient {
         return co as T;
     }
 
-    private cleanGroupRef(group: IMockObject, ds: IMockDataSet): IGroupRef {
+    private cleanGroupRef(group: IMockReference, ds: IMockDataSet): IGroupRef {
         const actual = ds.groups.find((g) => g.id === group.id)!;
 
         return {
@@ -127,12 +106,13 @@ export class MockAPIClient extends MMTAPIClient {
             ref: true,
 
             id: actual.id,
+            name: actual.name,
             title: actual.title,
             teaser: actual.teaser,
         };
     }
 
-    private cleanArchiveRef(archive: IMockObject, ds: IMockDataSet): IArchiveRef {
+    private cleanArchiveRef(archive: IMockReference, ds: IMockDataSet): IArchiveRef {
         const actual = ds.archives.find((a) => a.id === archive.id)!;
         const parent = this.cleanGroupRef(actual.parent, ds);
 
@@ -149,7 +129,7 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
-    private cleanNarrativeParentRef(ref: IMockObject, ds: IMockDataSet): INarrativeParentRef {
+    private cleanNarrativeParentRef(ref: IMockReference, ds: IMockDataSet): INarrativeParentRef {
 
         // if we can find a document reference, return a document
         const docRef = ds.documents.find((d) => d.id === ref.id);
@@ -162,7 +142,7 @@ export class MockAPIClient extends MMTAPIClient {
         }
     }
 
-    private cleanDocumentRef(document: IMockObject, ds: IMockDataSet): IDocumentRef {
+    private cleanDocumentRef(document: IMockReference, ds: IMockDataSet): IDocumentRef {
         const actual = ds.documents.find((d) => d.id === document.id)!;
         const parent = this.cleanNarrativeParentRef(actual.parent, ds);
 
@@ -176,7 +156,21 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
-    private cleanTheoryRef(theory: IMockObject, ds: IMockDataSet): ITheoryRef {
+    private cleanOpaqueElementRef(opaque: IMockReference, ds: IMockDataSet): IOpaqueElementRef {
+        const actual = ds.opaques.find((o) => o.id === opaque.id)!;
+        const parent = this.cleanNarrativeParentRef(actual.parent, ds);
+
+        return {
+            kind: "opaque",
+            parent,
+            ref: true,
+
+            name: actual.name,
+            id: actual.id,
+        };
+    }
+
+    private cleanTheoryRef(theory: IMockReference, ds: IMockDataSet): ITheoryRef {
         const actual = ds.modules.find((t) => t.id === theory.id && t.kind === "theory")! as ITheory;
         const parent = this.cleanNarrativeParentRef(actual.parent, ds);
 
@@ -190,7 +184,7 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
-    private cleanViewRef(view: IMockObject, ds: IMockDataSet): IViewRef {
+    private cleanViewRef(view: IMockReference, ds: IMockDataSet): IViewRef {
         const actual = ds.modules.find((v) => v.id === view.id && v.kind === "view")! as IView;
         const parent = this.cleanNarrativeParentRef(actual.parent, ds);
 
@@ -204,7 +198,7 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
-    private cleanGroup(group: IMockObject, ds: IMockDataSet): IGroup {
+    private cleanGroup(group: IMockReference, ds: IMockDataSet): IGroup {
         const ref = this.cleanGroupRef(group, ds);
         const actual = ds.groups.find((g) => g.id === group.id)!;
 
@@ -222,12 +216,12 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
-    private findNarrativeChildren(parent: IMockObject, ds: IMockDataSet): INarrativeElement[] {
+    private findNarrativeChildren(parent: IMockReference, ds: IMockDataSet): INarrativeElement[] {
         // TODO: Figure out a way to maintain order
 
         const opaques = ds.opaques
             .filter((o) => o.parent.id === parent.id)
-            .map((o) => this.cleanOpaque(o, ds));
+            .map((o) => this.cleanOpaqueElement(o, ds));
 
         const documents = ds.documents
             .filter((d) => d.parent.id === parent.id)
@@ -241,7 +235,7 @@ export class MockAPIClient extends MMTAPIClient {
             .concat(opaques, documents, modules);
     }
 
-    private cleanArchive(archive: IMockObject, ds: IMockDataSet): IArchive {
+    private cleanArchive(archive: IMockReference, ds: IMockDataSet): IArchive {
         const ref = this.cleanArchiveRef(archive, ds);
         const actual = ds.archives.find((a) => a.id === archive.id)!;
 
@@ -257,7 +251,7 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
-    private cleanDocument(document: IMockObject, ds: IMockDataSet): IDocument {
+    private cleanDocument(document: IMockReference, ds: IMockDataSet): IDocument {
         const ref = this.cleanDocumentRef(document, ds);
         // const actual = ds.documents.find((d) => d.id === document.id)!;
 
@@ -271,22 +265,20 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
-    private cleanOpaque(opaque: IMockObject, ds: IMockDataSet): IOpaqueElement {
-        const actual = opaque as IOpaqueElement;
-        const parent = this.cleanNarrativeParentRef(actual.parent, ds);
+    private cleanOpaqueElement(opaque: IMockReference, ds: IMockDataSet): IOpaqueElement {
+        const ref = this.cleanOpaqueElementRef(opaque, ds);
+        const actual = ds.opaques.find((o) => o.id === opaque.id)!;
+        // const parent = this.cleanNarrativeParentRef(actual.parent, ds);
 
         return {
-            kind: "opaque",
+            ...ref,
             ref: false,
-
-            id: "",
-            parent,
 
             text: actual.text,
         };
     }
 
-    private cleanTheory(theory: IMockObject, ds: IMockDataSet): ITheory {
+    private cleanTheory(theory: IMockReference, ds: IMockDataSet): ITheory {
         const ref = this.cleanTheoryRef(theory, ds);
         const actual = ds.modules.find((t) => t.id === theory.id && t.kind === "theory")! as ITheory;
 
@@ -303,7 +295,7 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
-    private cleanView(view: IMockObject, ds: IMockDataSet): IView {
+    private cleanView(view: IMockReference, ds: IMockDataSet): IView {
         const ref = this.cleanViewRef(view, ds);
         const actual = ds.modules.find((v) => v.id === view.id && v.kind === "view")! as IView;
 
@@ -330,13 +322,14 @@ export class MockAPIClient extends MMTAPIClient {
     public getGroups(): Promise<IGroupRef[]> {
         return this.loadDataSet().then((ds) => ds.groups.map(this.IGroupToRef));
     }
-    private IGroupToRef(group: IGroup): IGroupRef {
+    private IGroupToRef(group: IMockGroup): IGroupRef {
         return {
             kind: "group",
             ref: true,
             parent: null,
 
             id: group.id,
+            name: group.name,
             title: group.title,
             teaser: group.teaser,
         };
@@ -344,8 +337,43 @@ export class MockAPIClient extends MMTAPIClient {
 
     /** given a URI, returns an object */
     public getURI(uri: URI): Promise<IReferencable> {
+        let kind: string = "";
+
         return this.getObjectOfType(
-            (ds: IMockDataSet) => ds.modules.find((m) => m.id === uri) || ds.documents.find((d) => d.id === uri),
+            (ds: IMockDataSet) => {
+                const groups = ds.groups.find((g) => g.id === uri);
+                if (groups) {
+                    kind = "group";
+                    return groups;
+                }
+
+                const archives = ds.archives.find((a) => a.id === uri);
+                if (archives) {
+                    kind = "archive";
+                    return archives;
+                }
+
+                const documents = ds.documents.find((d) => d.id === uri);
+                if (documents) {
+                    kind = "document";
+                    return documents;
+                }
+
+                const opaques = ds.opaques.find((o) => o.id === uri);
+                if (opaques) {
+                    kind = "opaque";
+                    return opaques;
+                }
+
+                const modules = ds.modules.find((m) => m.id === uri);
+                if (modules) {
+                    kind = "modules";
+                    return modules;
+                }
+
+                return undefined;
+            },
+            (d: IMockObject) => kind,
             `No Document or Module with ${uri} exists. `,
         );
     }
@@ -354,6 +382,7 @@ export class MockAPIClient extends MMTAPIClient {
     public getGroup(id: string): Promise<IGroup> {
         return this.getObjectOfType(
             (ds: IMockDataSet) => ds.groups.find((g) => g.id === id),
+            (d: IMockObject) => "group",
             `Group ${id} does not exist. `,
         );
     }
@@ -362,6 +391,7 @@ export class MockAPIClient extends MMTAPIClient {
     public getArchive(id: string): Promise<IArchive> {
         return this.getObjectOfType(
             (ds: IMockDataSet) => ds.archives.find((a) => a.id === id),
+            (d: IMockObject) => "archive",
             `Archive ${id} does not exist. `,
         );
     }
@@ -370,6 +400,7 @@ export class MockAPIClient extends MMTAPIClient {
     public getDocument(id: string): Promise<IDocument> {
         return this.getObjectOfType(
             (ds: IMockDataSet) => ds.documents.find((d) => d.id === id),
+            (d: IMockObject) => "document",
             `Document ${id} does not exist. `,
         );
     }
@@ -378,36 +409,10 @@ export class MockAPIClient extends MMTAPIClient {
     public getModule(id: string): Promise<IModule> {
         return this.getObjectOfType(
             (ds: IMockDataSet) => ds.modules.find((m) => m.id === id),
+            (d: IMockObject) => (d as IMockModule).kind,
             `Module ${id} does not exist. `,
         );
     }
 
     // #endregion
-}
-
-/**
- * The Mock Data Set contained in mock.json
- *
- * The type here is only for tsc, the actual type can limit all
- * IReferences to be shallow in the sense of only having the 'id' property.
- *
- * Furthermore, the 'kind' and child atttributes may be omitted where unique.
- */
-interface IMockDataSet {
-    /** a set of archives, will auto-fill the archives property */
-    groups: IGroup[];
-    /** a set of archives, will auto-fill the narrativeRoot property */
-    archives: IArchive[];
-    /** a set of opaque elements */
-    opaques: IOpaqueElement[];
-
-    /** a set of documents, will auto-fill the decls property */
-    documents: IDocument[];
-    /** a set of modules */
-    modules: IModule[];
-}
-
-/** represents a shallow mocked object returned by the API */
-interface IMockObject {
-    id: string;
 }

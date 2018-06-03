@@ -1,13 +1,13 @@
 /** This file contains type definitions for all OMDOC types exposed by the MMT API */
 
 /** any object returned by the public api */
-export type IApiObject = IReferencable | IReference | IOpaqueElement;
+export type IApiObject = IReferencable | IReference ;
 
 /** any object that is referencable */
-export type IReferencable = IGroup | IArchive | IDocument | IModule;
+export type IReferencable = IGroup | IArchive | IDocument | IOpaqueElement | IModule;
 
 /** any concrete reference */
-export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IModuleRef;
+export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IOpaqueElementRef | IModuleRef;
 
 //
 // GROUP
@@ -19,6 +19,9 @@ interface IGroupItem extends IAPIObjectItem {
 
     /** a machine-readable ID of the group */
     id: string;
+
+    /** the name of this group, corresponds to id */
+    name: string;
 
     /** human-readable title of the group */
     title: HTML;
@@ -112,15 +115,24 @@ export interface IDocument extends IDocumentItem {
     decls: INarrativeElement[];
 }
 
-/** an opaque element */
-export interface IOpaqueElement extends IAPIObjectItem {
+interface IOpaqueElementItem extends IAPIObjectItem {
     kind: "opaque";
-    ref: false;
-
-    id: "";
-
-    /** the parent of this IOpaqueElement */
     parent: INarrativeParentRef;
+
+    /** the id of the opaque */
+    id: string;
+    /** the name of the opaque element */
+    name: string;
+}
+
+/* a reference to an opaque item */
+export interface IOpaqueElementRef extends IOpaqueElementItem {
+    ref: true;
+}
+
+/** an opaque element */
+export interface IOpaqueElement extends IOpaqueElementItem {
+    ref: false;
 
     /** the text contained in this IOpaqueElement */
     text: string;
@@ -202,6 +214,9 @@ interface IAPIObjectItem {
 
     /** the id of this object, if any */
     id: string;
+
+    /** the name of this object, if any */
+    name: string;
 
     /** parent of this object, if any */
     parent: IReference | null;
