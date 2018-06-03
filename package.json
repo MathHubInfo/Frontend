@@ -36,7 +36,7 @@
     "tslint": "^5.10.0",
     "tslint-loader": "^3.6.0",
     "tslint-react": "^3.6.0",
-    "typescript": "^2.8.4",
+    "typescript": "^2.9.1",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "webpack": "^4.10.2",
@@ -54,6 +54,6 @@
     "react-dom": "^16.4.0",
     "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.80.2"
+    "semantic-ui-react": "^0.81.0"
   }
 }
