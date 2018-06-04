@@ -56,27 +56,33 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
                   />
                   </Grid.Column>
                 <Grid.Column width={5}>
-                  <Header as="h4" content="Funding" />
+                  <Header as="h4" content="Funding:" />
                   <Image
                                 size="tiny"
                                 src={require("../../../assets/logos/eu_logo.png")}
+                                title="ec.europa.eu/info/research-and-innovation_en"
                                 style={{ marginRight: "1.5em" }}
                                 alt="EU Logo"
                                 inline={true}
+                                href={"https://ec.europa.eu/info/research-and-innovation_en"}
                   />
                   <Image
                                 size="tiny"
                                 src={require("../../../assets/logos/leibniz_logo.png")}
+                                title="www.leibniz-gemeinschaft.de"
                                 style={{ marginRight: "1.5em" }}
                                 alt="leibniz Logo"
                                 inline={true}
+                                href={"https://www.leibniz-gemeinschaft.de/"}
                   />
                   <Image
                                 size="tiny"
                                 src={require("../../../assets/logos/dfg_logo.png")}
+                                title="www.dfg.de"
                                 style={{ marginRight: "1.5em" }}
                                 alt="dfg University Logo"
                                 inline={true}
+                                href={"http://dfg.de"}
                   />
                   </Grid.Column>
               </Grid.Row>
