@@ -14,12 +14,6 @@ We use [yarn](https://yarnpkg.com/en/), which we assume in the following is inst
 # are added
 yarn
 
-# because of https://github.com/Semantic-Org/Semantic-UI-React/issues/2867
-# the build currently fails on linux. 
-# to fix the issue, run:
-mv node_modules/semantic-ui-react/dist/es/lib/eventStack/eventStack.js node_modules/semantic-ui-react/dist/es/lib/eventStack/EventStack.js
-mv node_modules/semantic-ui-react/dist/commonjs/lib/eventStack/eventStack.js node_modules/semantic-ui-react/dist/commonjs/lib/eventStack/EventStack.js 
-
 # to build the distribution in production mode into the dist/
 # folder. This includes an index.html file and can afterwards
 # be served by a static webserver under any URL

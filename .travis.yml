@@ -4,11 +4,7 @@ node_js:
     - 10
     - 9
     - 8
-install:
-  - yarn
-  # workaround for https://github.com/Semantic-Org/Semantic-UI-React/issues/2867
-  - mv node_modules/semantic-ui-react/dist/es/lib/eventStack/eventStack.js node_modules/semantic-ui-react/dist/es/lib/eventStack/EventStack.js
-  - mv node_modules/semantic-ui-react/dist/commonjs/lib/eventStack/eventStack.js node_modules/semantic-ui-react/dist/commonjs/lib/eventStack/EventStack.js 
+install: yarn
 env:
   - WEBPACK_CONFIG="webpack.config.js"
   - WEBPACK_CONFIG="webpack.config.prod.js"
