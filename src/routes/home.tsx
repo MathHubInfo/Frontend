@@ -48,7 +48,7 @@ class HomeDisplay extends React.Component<{content: string}> {
         const {content} = this.props;
 
         return (
-            <MHTitle title="Licenses">
+            <MHTitle title="Home">
                 <Container text>
                     <div dangerouslySetInnerHTML={{__html: content}}/>
                     </Container>

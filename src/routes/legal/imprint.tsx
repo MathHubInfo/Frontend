@@ -10,7 +10,7 @@ import legalText from "../../../assets/imprint.txt";
 export class Imprint extends React.Component<{}> {
     public render() {
         return (
-            <MHTitle title="Licenses">
+            <MHTitle title="Imprint">
                 <>
                     <Container text>
                         <Header as="h2">Imprint</Header>
