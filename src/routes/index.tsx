@@ -13,8 +13,6 @@ const Document = Loader("Document", () => import("./document").then((d) => d.Doc
 
 const About = Loader("About", () => rejectAfter(import("./about").then((a) => a.About), 1000, "stuff"));
 
-const HelpOne = Loader("HelpOne", () => import("./help/helpOne").then((h) => h.Help));
-const HelpTwo = Loader("HelpTwo", () => import("./help/helpTwo").then((h) => h.Help));
 const Glossary = Loader("Glossary", () => import("./applications/glossary").then((g) => g.Glossary));
 const Dictionary = Loader("Dictionary", () => import("./applications/dictionary").then((d) => d.Dictionary));
 const Library = Loader("Library", () => import("./library").then((l) => l.Libray));
@@ -36,8 +34,6 @@ export default function Routes() {
             <Route exact path="/legal/imprint" component={Imprint} />
             <Route exact path="/legal/licenses" component={Licenses} />
 
-            <Route exact path="/help/helpone" component={HelpOne} />
-            <Route exact path="/help/helptwo" component={HelpTwo} />
             <Route exact path="/applications/glossary" component={Glossary} />
             <Route exact path="/applications/dictionary" component={Dictionary} />
         </Switch>

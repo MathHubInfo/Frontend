@@ -27,11 +27,20 @@ export class Header extends React.Component<{}, {}> {
                         </Dropdown>
                         <Dropdown text="Help" className="link item">
                             <Dropdown.Menu>
-                                <Dropdown.Item as={Nav} exact to="/help/helpone">Example1</Dropdown.Item>
-                                <Dropdown.Item as={Nav} exact to="/help/helptwo">Example2</Dropdown.Item>
+                                <Dropdown.Item href={"https://github.com/MathHubInfo/Documentation/wiki"}>
+                                    Documentation
+                                </Dropdown.Item>
+                                <Dropdown.Item href={"https://gl.mathhub.info/"}>
+                                    Browse Sources
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                    href={"http://lists.informatik.uni-erlangen.de/mailman/listinfo/mathhub"}
+                                >
+                                    Contact a Human
+                                </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                        <Menu.Item as={Nav} exact to="/about" header>
+                        <Menu.Item href={"https://github.com/MathHubInfo/Documentation/wiki/about"}>
                             About
                         </Menu.Item>
                     </Container>
