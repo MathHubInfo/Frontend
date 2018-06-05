@@ -47,8 +47,13 @@ export class RestAPIClient extends MMTAPIClient {
         });
     }
 
+    /** encodes an ID for use with the API */
+    private encodeID(id: string | URI): string {
+        return encodeURIComponent(id);
+    }
+
     public getURI(uri: URI): Promise<IReferencable> {
-        return this.get("content/uri/" + uri); // TODO: Escape URI
+        return this.get("content/uri/" + this.encodeID(uri));
     }
 
     public getGroups(): Promise<IGroupRef[]> {
@@ -56,18 +61,18 @@ export class RestAPIClient extends MMTAPIClient {
     }
 
     public getGroup(id: string): Promise<IGroup> {
-        return this.get("content/group/" + id);
+        return this.get("content/group/" + this.encodeID(id));
     }
 
     public getArchive(id: string): Promise<IArchive> {
-        return this.get("content/archive/" + id);
+        return this.get("content/archive/" + this.encodeID(id));
     }
 
     public getDocument(id: string): Promise<IDocument> {
-        return this.get("content/document/" + id);
+        return this.get("content/document/" + this.encodeID(id));
     }
 
     public getModule(id: string): Promise<IModule> {
-        return this.get("content/module/" + id);
+        return this.get("content/module/" + this.encodeID(id));
     }
 }
