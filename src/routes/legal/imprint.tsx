@@ -5,7 +5,7 @@ import { LegalContainer } from "./container";
 import { Container, Header } from "semantic-ui-react";
 import { MHTitle } from "../../utils/title";
 
-import legalText from "../../../assets/imprint.txt";
+import legalText from "../../../assets/content/imprint.txt";
 
 export class Imprint extends React.Component<{}> {
     public render() {

@@ -11,7 +11,7 @@ export class Home extends React.Component<{}, {}> {
         this.loadContent = this.loadContent.bind(this);
     }
 
-    private getHomeText() { return import("../../HOME.txt").then((m) => m.default); }
+    private getHomeText() { return import("../../assets/content/HOME.txt").then((m) => m.default); }
     private loadContent() { return Promise.all([this.getHomeText()]); }
 
     public render() {
