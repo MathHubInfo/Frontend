@@ -10,6 +10,8 @@
  */
 
 import notice from "./notice.txt";
+
+// tslint:disable-next-line:no-console
 console.log(notice);
 
 // to comply with the kwarc privacy policy

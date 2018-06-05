@@ -48,7 +48,6 @@ export const common = {
                     options: {
                         configFile: resolve(root, 'tslint.json'), 
                         tsConfigFile: resolve(root, 'tsconfig.json'),
-                        emitErrors: true,
                         typeCheck: true,
                         failOnHint: true,
                     }

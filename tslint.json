@@ -24,7 +24,8 @@
             "check-module"
         ],
 
-        "no-console": [ false ], 
+        "no-console": { "severity": "warning" }, 
+        "no-debugger": { "severity": "warning" },
 
         "jsx-boolean-value": [ false ],
         "jsx-no-multiline-js": [ false ]

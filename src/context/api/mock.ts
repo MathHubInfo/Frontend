@@ -70,6 +70,11 @@ export class MockAPIClient extends MMTAPIClient {
 
     // #region "Cleaners"
 
+    private logMockNotFound(id: string, where: string) {
+        // tslint:disable-next-line:no-console
+        console.warn(`Mock Dataset: Can not find ${id} in dataset.${where}`);
+    }
+
     private cleanAny<T extends IApiObject>(kind: string, obj: IMockObject, ds: IMockDataSet): T {
         let co: any; // cleaned object
         switch (kind) {
@@ -88,6 +93,7 @@ export class MockAPIClient extends MMTAPIClient {
             case "view":
                 co = this.cleanView(obj, ds);
             default:
+                // tslint:disable-next-line:no-console
                 console.warn(`Mock Dataset: Got object of unknown kind ${kind}, skipping cleanup. `);
                 co = obj;
                 break;
@@ -99,6 +105,7 @@ export class MockAPIClient extends MMTAPIClient {
 
     private cleanGroupRef(group: IMockReference, ds: IMockDataSet): IGroupRef {
         const actual = ds.groups.find((g) => g.id === group.id)!;
+        if (!actual) { this.logMockNotFound(group.id, "groups"); }
 
         return {
             kind: "group",
@@ -114,6 +121,7 @@ export class MockAPIClient extends MMTAPIClient {
 
     private cleanArchiveRef(archive: IMockReference, ds: IMockDataSet): IArchiveRef {
         const actual = ds.archives.find((a) => a.id === archive.id)!;
+        if (!actual) { this.logMockNotFound(archive.id, "archives"); }
         const parent = this.cleanGroupRef(actual.parent, ds);
 
         return {
@@ -144,6 +152,7 @@ export class MockAPIClient extends MMTAPIClient {
 
     private cleanDocumentRef(document: IMockReference, ds: IMockDataSet): IDocumentRef {
         const actual = ds.documents.find((d) => d.id === document.id)!;
+        if (!actual) { this.logMockNotFound(document.id, "documents"); }
         const parent = this.cleanNarrativeParentRef(actual.parent, ds);
 
         return {
@@ -158,6 +167,7 @@ export class MockAPIClient extends MMTAPIClient {
 
     private cleanOpaqueElementRef(opaque: IMockReference, ds: IMockDataSet): IOpaqueElementRef {
         const actual = ds.opaques.find((o) => o.id === opaque.id)!;
+        if (!actual) { this.logMockNotFound(opaque.id, "opaques"); }
         const parent = this.cleanNarrativeParentRef(actual.parent, ds);
 
         return {
@@ -172,6 +182,7 @@ export class MockAPIClient extends MMTAPIClient {
 
     private cleanTheoryRef(theory: IMockReference, ds: IMockDataSet): ITheoryRef {
         const actual = ds.modules.find((t) => t.id === theory.id && t.kind === "theory")! as ITheory;
+        if (!actual) { this.logMockNotFound(theory.id, "modules (as theory)"); }
         const parent = this.cleanNarrativeParentRef(actual.parent, ds);
 
         return {
@@ -186,6 +197,7 @@ export class MockAPIClient extends MMTAPIClient {
 
     private cleanViewRef(view: IMockReference, ds: IMockDataSet): IViewRef {
         const actual = ds.modules.find((v) => v.id === view.id && v.kind === "view")! as IView;
+        if (!actual) { this.logMockNotFound(view.id, "modules (as view)"); }
         const parent = this.cleanNarrativeParentRef(actual.parent, ds);
 
         return {
