@@ -80,14 +80,14 @@ export interface IArchive extends IArchiveItem {
     responsible: string[];
 
     /** the narrative content contained in this archive */
-    narrativeRoot: INarrativeElement[];
+    narrativeRoot: IDocument;
 }
 
 //
 // Narration
 //
 /** a narrative element inside an archive */
-export type INarrativeElement = IOpaqueElement | IDocument | IModuleRef | URI; // TODO: Generalize IModuleRef properly
+export type INarrativeElement = IOpaqueElement | IDocument | IModuleRef; // TODO: Add a URI
 
 /** a reference to the parent of a narrative element */
 export type INarrativeParentRef = IArchiveRef | IDocumentRef;

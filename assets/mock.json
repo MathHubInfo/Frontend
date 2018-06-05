@@ -37,6 +37,10 @@
         }
     ],
     "opaques": [],
-    "documents": [],
+    "documents": [{
+        "parent": {"id": "smglom"}, 
+        "id": "https://mathhub.info/smglom/staging",
+        "name": "smglom/staging"
+    }],
     "modules": []
 }
