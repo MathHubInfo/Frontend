@@ -80,6 +80,7 @@ export class MockAPIClient extends MMTAPIClient {
         switch (kind) {
             case "group":
                 co = this.cleanGroup(obj, ds);
+                break;
             case "archive":
                 co = this.cleanArchive(obj, ds);
                 break;
@@ -88,10 +89,13 @@ export class MockAPIClient extends MMTAPIClient {
                 break;
             case "opaque":
                 co = this.cleanOpaqueElement(obj, ds);
+                break;
             case "theory":
                 co = this.cleanTheory(obj, ds);
+                break;
             case "view":
                 co = this.cleanView(obj, ds);
+                break;
             default:
                 // tslint:disable-next-line:no-console
                 console.warn(`Mock Dataset: Got object of unknown kind ${kind}, skipping cleanup. `);
