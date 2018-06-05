@@ -4,12 +4,12 @@ import {
     IArchive,
     IArchiveRef,
     IDocument,
+    IDocumentParentRef,
     IDocumentRef,
     IGroup,
     IGroupRef,
     IModule,
     INarrativeElement,
-    INarrativeParentRef,
     IOpaqueElement,
     IOpaqueElementRef,
     IReferencable,
@@ -141,7 +141,7 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
-    private cleanNarrativeParentRef(ref: IMockReference, ds: IMockDataSet): INarrativeParentRef {
+    private cleanDocumentParentRef(ref: IMockReference, ds: IMockDataSet): IDocumentParentRef {
 
         // if we can find a document reference, return a document
         const docRef = ds.documents.find((d) => d.id === ref.id);
@@ -157,7 +157,7 @@ export class MockAPIClient extends MMTAPIClient {
     private cleanDocumentRef(document: IMockReference, ds: IMockDataSet): IDocumentRef {
         const actual = ds.documents.find((d) => d.id === document.id)!;
         if (!actual) { this.logMockNotFound(document.id, "documents"); }
-        const parent = this.cleanNarrativeParentRef(actual.parent, ds);
+        const parent = this.cleanDocumentParentRef(actual.parent, ds);
 
         return {
             kind: "document",
@@ -172,7 +172,7 @@ export class MockAPIClient extends MMTAPIClient {
     private cleanOpaqueElementRef(opaque: IMockReference, ds: IMockDataSet): IOpaqueElementRef {
         const actual = ds.opaques.find((o) => o.id === opaque.id)!;
         if (!actual) { this.logMockNotFound(opaque.id, "opaques"); }
-        const parent = this.cleanNarrativeParentRef(actual.parent, ds);
+        const parent = this.cleanDocumentRef(actual.parent, ds);
 
         return {
             kind: "opaque",
@@ -187,7 +187,7 @@ export class MockAPIClient extends MMTAPIClient {
     private cleanTheoryRef(theory: IMockReference, ds: IMockDataSet): ITheoryRef {
         const actual = ds.modules.find((t) => t.id === theory.id && t.kind === "theory")! as ITheory;
         if (!actual) { this.logMockNotFound(theory.id, "modules (as theory)"); }
-        const parent = this.cleanNarrativeParentRef(actual.parent, ds);
+        const parent = this.cleanDocumentRef(actual.parent, ds);
 
         return {
             kind: "theory",
@@ -202,7 +202,7 @@ export class MockAPIClient extends MMTAPIClient {
     private cleanViewRef(view: IMockReference, ds: IMockDataSet): IViewRef {
         const actual = ds.modules.find((v) => v.id === view.id && v.kind === "view")! as IView;
         if (!actual) { this.logMockNotFound(view.id, "modules (as view)"); }
-        const parent = this.cleanNarrativeParentRef(actual.parent, ds);
+        const parent = this.cleanDocumentRef(actual.parent, ds);
 
         return {
             kind: "view",
@@ -233,7 +233,8 @@ export class MockAPIClient extends MMTAPIClient {
     }
 
     private findNarrativeChildren(parent: IMockReference, ds: IMockDataSet): INarrativeElement[] {
-        // TODO: Figure out a way to maintain order
+        // TODO: This does not maintain order
+        // and also does not properly send mock children
 
         const opaques = ds.opaques
             .filter((o) => o.parent.id === parent.id)
@@ -302,7 +303,8 @@ export class MockAPIClient extends MMTAPIClient {
             ...ref,
             ref: false,
 
-            text: actual.text,
+            content: actual.content,
+            contentFormat: actual.contentFormat,
         };
     }
 

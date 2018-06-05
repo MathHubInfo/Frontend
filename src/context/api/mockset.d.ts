@@ -1,23 +1,6 @@
 import {
     HTML,
-    IApiObject,
-    IArchive,
-    IArchiveRef,
-    IDocument,
-    IDocumentRef,
-    IGroup,
-    IGroupRef,
-    IModule,
-    INarrativeElement,
-    INarrativeParentRef,
-    IOpaqueElement,
-    IReferencable,
-    ITheory,
-    ITheoryRef,
-    IView,
-    IViewRef,
     URI,
-    IOpaqueElementRef,
 } from "./index";
 
 /**

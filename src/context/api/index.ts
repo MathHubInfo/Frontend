@@ -79,22 +79,26 @@ export interface IArchive extends IArchiveItem {
     /** a list of emails of people responsible for this group */
     responsible: string[];
 
-    /** the narrative content contained in this archive */
-    narrativeRoot: IDocument;
+    /** the narrative content contained in this archive, can be empty for some archives */
+    narrativeRoot?: IDocument;
 }
 
 //
 // Narration
 //
 /** a narrative element inside an archive */
-export type INarrativeElement = IOpaqueElement | IDocument | IModuleRef; // TODO: Add a URI
+export type INarrativeElement =
+    IOpaqueElement |
+    IDocument |
+    IDocumentRef |
+    IModuleRef; // TODO: Add sub parts / other uris
 
-/** a reference to the parent of a narrative element */
-export type INarrativeParentRef = IArchiveRef | IDocumentRef;
+/** parent of a document */
+export type IDocumentParentRef = IArchiveRef | IDocumentRef;
 
 interface IDocumentItem extends IAPIObjectItem {
     kind: "document";
-    parent: INarrativeParentRef;
+    parent: IDocumentParentRef;
 
     /** the name of this document */
     name: string;
@@ -117,7 +121,7 @@ export interface IDocument extends IDocumentItem {
 
 interface IOpaqueElementItem extends IAPIObjectItem {
     kind: "opaque";
-    parent: INarrativeParentRef;
+    parent: IDocumentRef;
 
     /** the id of the opaque */
     id: string;
@@ -145,7 +149,7 @@ export interface IOpaqueElement extends IOpaqueElementItem {
 //
 interface IModuleItem extends IAPIObjectItem {
     kind: "theory" | "view";
-    parent: INarrativeParentRef;
+    parent: IDocumentRef;
 
     /** name of the module */
     name: string;
