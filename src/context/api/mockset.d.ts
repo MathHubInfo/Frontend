@@ -77,8 +77,8 @@ export interface IMockDocument extends IMockObject {
 export interface IMockOpaqueElement extends IMockObject {
     parent: IMockReference;
 
-    title: HTML;
-    text: string;
+    contentFormat: string;
+    content: string;
 }
 
 /** a mocked module */

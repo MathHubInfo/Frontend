@@ -134,8 +134,10 @@ export interface IOpaqueElementRef extends IOpaqueElementItem {
 export interface IOpaqueElement extends IOpaqueElementItem {
     ref: false;
 
-    /** the text contained in this IOpaqueElement */
-    text: string;
+    /** the format of the content in this IOpaqueElement */
+    contentFormat: string;
+    /** the content contained in this IOpaqueElement */
+    content: string;
 }
 
 //
