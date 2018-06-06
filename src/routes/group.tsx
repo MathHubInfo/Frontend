@@ -1,8 +1,10 @@
 import * as React from "react";
 
-import { Breadcrumb, Card, Container, Divider, Header, Label } from "semantic-ui-react";
+import { Card, Container, Divider, Header, Label } from "semantic-ui-react";
 import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
+
+import { MHRefBreadCrumbs } from "../components/breadcrumbs";
 
 import { IMathHubContext, WithContext } from "../context";
 import { IArchiveRef, IGroup } from "../context/api";
@@ -36,16 +38,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                 >{
                     (group: IGroup) =>
                         <>
-                            <Breadcrumb style={{margin: "0em 0em 1em"}}>
-                                <Breadcrumb.Section as={Nav} to={`/content`}>
-                                    Library
-                                </Breadcrumb.Section>
-                                <Breadcrumb.Divider />
-                                <Breadcrumb.Section as={Nav} to={`/content/${group.id}`}>
-                                    <div dangerouslySetInnerHTML={{__html: group.id}} />
-                                </Breadcrumb.Section>
-                                <Breadcrumb.Divider />
-                            </Breadcrumb>
+                            <MHRefBreadCrumbs to={group} />
                             <>
                                 <Header as="h2">
                                     <div dangerouslySetInnerHTML={{__html: group.title}} />

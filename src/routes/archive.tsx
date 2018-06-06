@@ -1,11 +1,13 @@
 import * as React from "react";
 
-import { Breadcrumb, Card, Container, Divider, Header, Label } from "semantic-ui-react";
+import { Card, Container, Divider, Header, Label } from "semantic-ui-react";
 import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
 
 import { IMathHubContext, WithContext } from "../context";
 import { IArchive, IDocument, INarrativeElement } from "../context/api";
+
+import { MHRefBreadCrumbs } from "../components/breadcrumbs";
 
 import { MHTitle } from "../utils/title";
 
@@ -36,20 +38,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                 >{(archive: IArchive) =>
                     <>
                         <>
-                             <Breadcrumb style={{margin: "0em 0em 1em"}}>
-                                <Breadcrumb.Section as={Nav} to={`/content`}>
-                                    Library
-                                </Breadcrumb.Section>
-                                <Breadcrumb.Divider />
-                                <Breadcrumb.Section as={Nav} to={`/content/${archive.parent.id}`}>
-                                    <div dangerouslySetInnerHTML={{__html: archive.parent.id}} />
-                                </Breadcrumb.Section>
-                                <Breadcrumb.Divider />
-                                <Breadcrumb.Section as={Nav} to={`/content/` + this.archiveID()}>
-                                    <div dangerouslySetInnerHTML={{__html: archive.name}} />
-                                </Breadcrumb.Section>
-                                <Breadcrumb.Divider />
-                            </Breadcrumb>
+                            <MHRefBreadCrumbs to={archive} />
                             <>
                                 <Header as="h2">
                                     <div dangerouslySetInnerHTML={{__html: archive.title}} />

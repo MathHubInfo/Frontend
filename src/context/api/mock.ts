@@ -20,7 +20,7 @@ import {
     URI,
 } from "./index";
 
-import { IMockDataSet, IMockGroup, IMockModule, IMockObject, IMockReference } from "./mockset";
+import { IMockDataSet, IMockModule, IMockObject, IMockReference } from "./mockset";
 
 /** An API client to MMT that mocks results by resolving them statically from a given datatset */
 export class MockAPIClient extends MMTAPIClient {
@@ -350,19 +350,7 @@ export class MockAPIClient extends MMTAPIClient {
 
     /** retrieves all groups from the dataset */
     public getGroups(): Promise<IGroupRef[]> {
-        return this.loadDataSet().then((ds) => ds.groups.map(this.IGroupToRef));
-    }
-    private IGroupToRef(group: IMockGroup): IGroupRef {
-        return {
-            kind: "group",
-            ref: true,
-            parent: null,
-
-            id: group.id,
-            name: group.name,
-            title: group.title,
-            teaser: group.teaser,
-        };
+        return this.loadDataSet().then((ds) => ds.groups.map((o) => this.cleanGroupRef(o, ds)));
     }
 
     /** given a URI, returns an object */

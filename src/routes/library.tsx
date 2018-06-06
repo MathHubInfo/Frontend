@@ -1,9 +1,12 @@
 import * as React from "react";
 
-import { Breadcrumb, Card, Container, Divider } from "semantic-ui-react";
+import { Card, Container, Divider } from "semantic-ui-react";
 
 import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
+
+import { MHRefBreadCrumbs } from "../components/breadcrumbs";
+
 import { IMathHubContext, WithContext } from "../context";
 
 import { IGroupRef } from "../context/api";
@@ -12,12 +15,7 @@ export class Libray extends React.Component<{}, {}> {
     public render() {
         return (
             <div>
-                <Breadcrumb style={{margin: "0em 0em 1em"}}>
-                    <Breadcrumb.Section as={Nav} to={`/content`}>
-                        Library
-                    </Breadcrumb.Section>
-                    <Breadcrumb.Divider />
-                </Breadcrumb>
+                <MHRefBreadCrumbs />
                 <h1>
                     Library
                 </h1>
