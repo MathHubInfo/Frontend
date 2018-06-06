@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { Card, Container, Divider } from "semantic-ui-react";
 
-import { LoadWithPromise } from "../components/common/lazy";
-import { Nav } from "../components/common/nav";
+import { LoadWithPromise } from "../../components/common/lazy";
+import { Nav } from "../../components/common/nav";
 
-import { MHRefBreadCrumbs } from "../components/breadcrumbs";
+import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 
-import { IMathHubContext, WithContext } from "../context";
+import { IMathHubContext, WithContext } from "../../context";
 
-import { IGroupRef } from "../context/api";
+import { IGroupRef } from "../../context/api";
 
 export class Libray extends React.Component<{}, {}> {
     public render() {

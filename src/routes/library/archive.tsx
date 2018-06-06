@@ -1,15 +1,15 @@
 import * as React from "react";
 
 import { Card, Container, Divider, Header, Label } from "semantic-ui-react";
-import { LoadWithPromise } from "../components/common/lazy";
-import { Nav } from "../components/common/nav";
+import { LoadWithPromise } from "../../components/common/lazy";
+import { Nav } from "../../components/common/nav";
 
-import { IMathHubContext, WithContext } from "../context";
-import { IArchive, IDocument, INarrativeElement } from "../context/api";
+import { IMathHubContext, WithContext } from "../../context";
+import { IArchive, IDocument, INarrativeElement } from "../../context/api";
 
-import { MHRefBreadCrumbs } from "../components/breadcrumbs";
+import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 
-import { MHTitle } from "../utils/title";
+import { MHTitle } from "../../utils/title";
 
 interface IArchiveProps {
     match: {

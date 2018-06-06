@@ -1,12 +1,12 @@
 import * as React from "react";
 
 import { Breadcrumb, Container, Divider, Header } from "semantic-ui-react";
-import { LoadWithPromise } from "../components/common/lazy";
+import { LoadWithPromise } from "../../components/common/lazy";
 
-import { IMathHubContext, WithContext } from "../context";
-import { IDocument } from "../context/api";
+import { IMathHubContext, WithContext } from "../../context";
+import { IDocument } from "../../context/api";
 
-import { MHTitle } from "../utils/title";
+import { MHTitle } from "../../utils/title";
 
 interface IDocumentProps {
     match: {

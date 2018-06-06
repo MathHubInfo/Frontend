@@ -5,17 +5,18 @@ import { rejectAfter } from "../utils/promises";
 import { Route, Switch } from "react-router-dom";
 
 import { Loader } from "../components/common/lazy";
+
 const Home = Loader("Home Page", () => import("./home").then((h) => h.Home));
 
-const Group = Loader("Group", () => import("./group").then((g) => g.Group));
-const Archive = Loader("Archive", () => import("./archive").then((a) => a.Archive));
-const Document = Loader("Document", () => import("./document").then((d) => d.Document));
+const Library = Loader("Library", () => import("./library/library").then((l) => l.Libray));
+const Group = Loader("Group", () => import("./library/group").then((g) => g.Group));
+const Archive = Loader("Archive", () => import("./library/archive").then((a) => a.Archive));
+const Document = Loader("Document", () => import("./library/document").then((d) => d.Document));
 
 const About = Loader("About", () => rejectAfter(import("./about").then((a) => a.About), 1000, "stuff"));
 
 const Glossary = Loader("Glossary", () => import("./applications/glossary").then((g) => g.Glossary));
 const Dictionary = Loader("Dictionary", () => import("./applications/dictionary").then((d) => d.Dictionary));
-const Library = Loader("Library", () => import("./library").then((l) => l.Libray));
 
 const Licenses = Loader("Legal", () => import("./legal/licenses").then((l) => l.Licenses));
 const Imprint = Loader("Imprint", () => import("./legal/imprint").then((i) => i.Imprint));
