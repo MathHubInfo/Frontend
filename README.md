@@ -43,14 +43,9 @@ MMT_URL=https://mmt.mathhub.info/:mathhub/ yarn webpack-dev-server
 MOCK_MMT=1 yarn webpack-dev-server
 ```
 
-As an IDE, it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) along with the [TSLint Extension](https://marketplace.visualstudio.com/items?itemName=eg2.tslint). 
+As an IDE, it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) (>= May 2018 (version 1.24)) along with the [TSLint Extension](https://marketplace.visualstudio.com/items?itemName=eg2.tslint). 
 
 Both should work out-of-the-box after cloning this repository and running the `yarn` command above. 
-
-**Caveat**: 
-Until VSCode has updated to TypeScript 2.9.x (this should happen sometime during early June), it is neccessary to use the workspace version of TypeScript instead of the bundled version. 
-To achieve this, install using `yarn`, then open any TypeScript file and left click on the TypeScript Version in the bottom right corner of VSCode.
-In the opening dialog select "use workspace version". 
 
 ## File Structure
 
