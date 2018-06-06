@@ -80,7 +80,7 @@ export interface IArchive extends IArchiveItem {
     responsible: string[];
 
     /** the narrative content contained in this archive, can be empty for some archives */
-    narrativeRoot?: IDocument;
+    narrativeRoot: IDocument;
 }
 
 //
@@ -91,7 +91,7 @@ export type INarrativeElement =
     IOpaqueElement |
     IDocument |
     IDocumentRef |
-    IModuleRef; // TODO: Add sub parts / other uris
+    IModuleRef; // TODO: Add declarations and sub-references
 
 /** parent of a document */
 export type IDocumentParentRef = IArchiveRef | IDocumentRef;
