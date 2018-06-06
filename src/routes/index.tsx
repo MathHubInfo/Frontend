@@ -8,6 +8,7 @@ import { Loader } from "../components/common/lazy";
 
 const Home = Loader("Home Page", () => import("./home").then((h) => h.Home));
 
+import { makeLibraryRouteSpec } from "./library";
 const Library = Loader("Library", () => import("./library/library").then((l) => l.Libray));
 const Group = Loader("Group", () => import("./library/group").then((g) => g.Group));
 const Archive = Loader("Archive", () => import("./library/archive").then((a) => a.Archive));
@@ -25,10 +26,11 @@ export default function Routes() {
     return (
         <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/content" component={Library} />
-            <Route exact path="/content/:name" component={Group} />
-            <Route exact path="/content/:group/:name" component={Archive} />
-            <Route exact path="/content/:group/:archive/:name" component={Document} />
+
+            <Route exact path={makeLibraryRouteSpec()} component={Library} />
+            <Route exact path={makeLibraryRouteSpec("group")} component={Group} />
+            <Route exact path={makeLibraryRouteSpec("archive")} component={Archive} />
+            <Route exact path={makeLibraryRouteSpec("document")} component={Document} />
 
             <Route exact path="/about" component={About} />
 

@@ -11,21 +11,15 @@ import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 
 import { MHTitle } from "../../utils/title";
 
-interface IArchiveProps {
-    match: {
-        params: {
-            id: string,
-        },
-    };
-}
+import { decodeLinkID, encodeLink, ILibraryRouteProps } from "./";
 
-export const Archive = WithContext((context: IMathHubContext) => class extends React.Component<IArchiveProps> {
-    constructor(props: IArchiveProps) {
+export const Archive = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
+    constructor(props: ILibraryRouteProps) {
         super(props);
         this.getArchive = this.getArchive.bind(this);
     }
 
-    private archiveID() { return `${this.props.match.params.id}`; }
+    private archiveID() { return decodeLinkID(this.props.match.params.id); }
     private getArchive() { return context.client.getArchive(this.archiveID()); }
 
     public render() {
@@ -86,10 +80,7 @@ class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
         return (
             <Card>
                 <Card.Content>
-                    <Card.Header
-                        as={Nav}
-                        to={`/content/${narrative.id}`}
-                    >
+                    <Card.Header as={Nav} to={encodeLink(narrative)} >
                         <div dangerouslySetInnerHTML={{__html: narrative.name}} />
                     </Card.Header>
                 </Card.Content>

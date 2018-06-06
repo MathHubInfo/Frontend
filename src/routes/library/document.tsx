@@ -8,24 +8,15 @@ import { IDocument } from "../../context/api";
 
 import { MHTitle } from "../../utils/title";
 
-interface IDocumentProps {
-    match: {
-        params: {
-            group: string,
-            archive: string,
-            name: string,
-        },
-    };
-}
+import { decodeLinkID, ILibraryRouteProps } from "./";
 
-export const Document = WithContext((context: IMathHubContext) => class extends React.Component<IDocumentProps> {
-    constructor(props: IDocumentProps) {
+export const Document = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
+    constructor(props: ILibraryRouteProps) {
         super(props);
         this.getDocument = this.getDocument.bind(this);
     }
 
-    private documentID() { return this.props.match.params.group + "/" +
-                            this.props.match.params.archive + "/" + this.props.match.params.name; }
+    private documentID() { return decodeLinkID(this.props.match.params.id); }
     private getDocument() { return context.client.getDocument(this.documentID()); }
 
     public render() {
@@ -39,23 +30,7 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                     <div>
                         <div>
                              <Breadcrumb style={{margin: "0em 0em 1em"}}>
-                                {/* TODO: Build dynamically
-                                <Breadcrumb.Section as={Nav} to={`/content`}>
-                                    Library
-                                </Breadcrumb.Section>
-                                <Breadcrumb.Divider />
-                                <Breadcrumb.Section as={Nav} to={`/content/${document.par}`}>
-                                    <div dangerouslySetInnerHTML={{__html: document.group}} />
-                                </Breadcrumb.Section>
-                                <Breadcrumb.Divider />
-                                <Breadcrumb.Section as={Nav} to={`/content/${document.group}/${document.archive}`}>
-                                    <div dangerouslySetInnerHTML={{__html: document.archive}} />
-                                </Breadcrumb.Section>
-                                <Breadcrumb.Divider />
-                                <Breadcrumb.Section as={Nav} to={`/content/` + this.documentID()}>
-                                    <div dangerouslySetInnerHTML={{__html: document.id}} />
-                                </Breadcrumb.Section>
-                                <Breadcrumb.Divider />
+                                {/* TODO: Use MHBreadCrumbs
                                 */}
                             </Breadcrumb>
                             <Container text>

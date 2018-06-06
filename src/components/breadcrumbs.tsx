@@ -5,6 +5,7 @@ import { AnyToRef } from "../context/api/utils";
 
 import { Breadcrumb } from "semantic-ui-react";
 import { Nav } from "../components/common/nav";
+import { encodeLink } from "../routes/library";
 
 /** renders a full list of BreadCrumbs by iterating over the reference */
 export class MHRefBreadCrumbs extends React.PureComponent<{to?: IApiObject}> {
@@ -31,11 +32,10 @@ export class MHRefBreadCrumbs extends React.PureComponent<{to?: IApiObject}> {
 function MHBreadCrumb(props: {to?: IReference}) {
 
     const text = props.to ? props.to!.name : "Library";
-    const url = props.to ? `/content/${encodeURIComponent(props.to.id)}` : "/content";
 
     return (
         <>
-            <Breadcrumb.Section as={Nav} to={url}>
+            <Breadcrumb.Section as={Nav} to={encodeLink(props.to)}>
                 {text}
             </Breadcrumb.Section>
             <Breadcrumb.Divider />
