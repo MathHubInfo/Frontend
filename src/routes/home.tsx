@@ -1,8 +1,10 @@
 import * as React from "react";
 
+import { Link } from "react-router-dom";
+
 import { Container, Divider, Image } from "semantic-ui-react";
 import { LoadWithPromise } from "../components/common/lazy";
-import { Nav } from "../components/common/nav";
+// import { Nav } from "../components/common/nav";
 import { MHTitle } from "../utils/title";
 
 export class Home extends React.Component<{}, {}> {
@@ -16,29 +18,29 @@ export class Home extends React.Component<{}, {}> {
 
     public render() {
         return (
-            <div>
+            <>
                 <LoadWithPromise promise={this.loadContent} title="HOME">{
                     ([h]) => <HomeDisplay content={h} />}
                 </LoadWithPromise>
                 <Divider />
-                <Container as={Nav} to={`/content`}>
+                <Link to={`/content`}>
                     <Image
                                 size={"medium"}
                                 src={require("../../../assets/library.jpg")}
                                 title="MathHub Libraries"
                                 inline={true}
                     />
-                </Container>
-                <Container as={Nav} to={`/content`}>
-                    MathHub Libraries
-                </Container>
-                <Container href={"https://github.com/MathHubInfo/Documentation/wiki/libraries"}>
-                    provide groups of
-                </Container>
+                </Link>
+                <Link to={`/content`}>
+                    <br />MathHub Libraries
+                </Link>
+                <Link to={"https://github.com/MathHubInfo/Documentation/wiki/libraries"}>
+                    <br />provide groups of
+                </Link>
                 <Container href={"https://github.com/MathHubInfo/Documentation/wiki/math-archives"}>
                     archives
                 </Container>
-            </div>
+            </>
         );
     }
 }
@@ -49,9 +51,9 @@ class HomeDisplay extends React.Component<{content: string}> {
 
         return (
             <MHTitle title="Home">
-                <Container text>
+                <>
                     <div dangerouslySetInnerHTML={{__html: content}}/>
-                    </Container>
+                </>
             </MHTitle>
         );
     }

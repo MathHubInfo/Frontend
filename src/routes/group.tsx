@@ -35,7 +35,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                     errorMessage={true}
                 >{
                     (group: IGroup) =>
-                        <div>
+                        <>
                             <Breadcrumb style={{margin: "0em 0em 1em"}}>
                                 <Breadcrumb.Section as={Nav} to={`/content`}>
                                     Library
@@ -46,20 +46,20 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                                 </Breadcrumb.Section>
                                 <Breadcrumb.Divider />
                             </Breadcrumb>
-                            <Container text>
+                            <>
                                 <Header as="h2">
                                     <div dangerouslySetInnerHTML={{__html: group.title}} />
                                 </Header>
                                 <div dangerouslySetInnerHTML={{__html: group.description}} />
-                                <div>
+                                <>
                                     <b>Responsible:</b> {group.responsible.map((p) => <Label key={p}>{p}</Label>)}
-                                </div>
-                            </Container>
+                                </>
+                            </>
                             <Divider />
                             <Container>
                                 <ArchiveItemList archives={group.archives} />
                             </Container>
-                        </div>
+                        </>
                 }
                 </LoadWithPromise>
             </MHTitle>

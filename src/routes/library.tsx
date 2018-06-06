@@ -18,9 +18,9 @@ export class Libray extends React.Component<{}, {}> {
                     </Breadcrumb.Section>
                     <Breadcrumb.Divider />
                 </Breadcrumb>
-                <Container text>
-                    This is the Library
-                </Container>
+                <h1>
+                    Library
+                </h1>
                 <Divider />
                 <Container>
                     <AsyncGroupList />

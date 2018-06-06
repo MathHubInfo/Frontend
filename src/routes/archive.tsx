@@ -1,19 +1,18 @@
 import * as React from "react";
 
-import { Breadcrumb, Container, Divider, Header, Label } from "semantic-ui-react";
+import { Breadcrumb, Card, Container, Divider, Header, Label } from "semantic-ui-react";
 import { LoadWithPromise } from "../components/common/lazy";
 import { Nav } from "../components/common/nav";
 
 import { IMathHubContext, WithContext } from "../context";
-import { IArchive } from "../context/api";
+import { IArchive, IDocument, INarrativeElement } from "../context/api";
 
 import { MHTitle } from "../utils/title";
 
 interface IArchiveProps {
     match: {
         params: {
-            group: string,
-            name: string,
+            id: string,
         },
     };
 }
@@ -24,7 +23,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
         this.getArchive = this.getArchive.bind(this);
     }
 
-    private archiveID() { return this.props.match.params.group + "/" + this.props.match.params.name; }
+    private archiveID() { return `${this.props.match.params.id}`; }
     private getArchive() { return context.client.getArchive(this.archiveID()); }
 
     public render() {
@@ -35,8 +34,8 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                     promise={this.getArchive}
                     errorMessage={true}
                 >{(archive: IArchive) =>
-                    <div>
-                        <div>
+                    <>
+                        <>
                              <Breadcrumb style={{margin: "0em 0em 1em"}}>
                                 <Breadcrumb.Section as={Nav} to={`/content`}>
                                     Library
@@ -47,26 +46,25 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                                 </Breadcrumb.Section>
                                 <Breadcrumb.Divider />
                                 <Breadcrumb.Section as={Nav} to={`/content/` + this.archiveID()}>
-                                    <div dangerouslySetInnerHTML={{__html: archive.id}} />
+                                    <div dangerouslySetInnerHTML={{__html: archive.name}} />
                                 </Breadcrumb.Section>
                                 <Breadcrumb.Divider />
                             </Breadcrumb>
-                            <Container text>
+                            <>
                                 <Header as="h2">
                                     <div dangerouslySetInnerHTML={{__html: archive.title}} />
                                 </Header>
                                 <div dangerouslySetInnerHTML={{__html: archive.description}} />
-                                <div>
+                                <>
                                     <b>Responsible:</b> {archive.responsible.map((p) => <Label key={p}>{p}</Label>)}
-                                </div>
-                            </Container>
+                                </>
+                            </>
                             <Divider />
                             <Container>{
-                            /* TODO: Share this element with document view
-                            <DocumentItemList documents={archive.documents} /> */
-                            }</Container>
-                        </div>
-                    </div>
+                                <DocumentItemList nRoot={archive.narrativeRoot} />}
+                            </Container>
+                        </>
+                    </>
                 }
                 </LoadWithPromise>
             </MHTitle>
@@ -74,34 +72,39 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
     }
 });
 
-/*
-class DocumentItemList extends React.Component<{documents: IDocumentRef[]}> {
+class DocumentItemList extends React.Component<{nRoot?: IDocument}> {
     public render() {
-        const {documents} = this.props;
-        return (
-            <Card.Group itemsPerRow="1">
-                {documents.map((document) => <DocumentListItem key={document.id} document={document} />)}
-            </Card.Group>
-        );
+        const {nRoot} = this.props;
+        if (nRoot !== undefined) {
+            return (
+                <Card.Group itemsPerRow="1">
+                    {nRoot.decls.map((narrative) => <DocumentListItem key={narrative.id} narrative={narrative} />)}
+                </Card.Group>
+            );
+        } else {
+            return(
+                <>
+                    This Archive is empty.
+                </>
+            );
+        }
     }
 }
 
-class DocumentListItem extends React.Component<{document: IDocumentRef}> {
+class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
     public render() {
-        const {document} = this.props;
+        const {narrative} = this.props;
         return (
             <Card>
                 <Card.Content>
                     <Card.Header
                         as={Nav}
-                        to={`/content/${document.id}`} //
+                        to={`/content/${narrative.id}`}
                     >
-                        <div dangerouslySetInnerHTML={{__html: document.id}} />
+                        <div dangerouslySetInnerHTML={{__html: narrative.name}} />
                     </Card.Header>
-                    <Card.Description>{document.name}</Card.Description>
                 </Card.Content>
             </Card>
         );
     }
 }
-*/
