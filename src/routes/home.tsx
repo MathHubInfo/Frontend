@@ -1,8 +1,9 @@
 import * as React from "react";
 
 import { Link } from "react-router-dom";
+import { encodeLink } from "./library";
 
-import { Container, Divider, Image } from "semantic-ui-react";
+import { Divider, Image } from "semantic-ui-react";
 import { LoadWithPromise } from "../components/common/lazy";
 // import { Nav } from "../components/common/nav";
 import { MHTitle } from "../utils/title";
@@ -23,7 +24,7 @@ export class Home extends React.Component<{}, {}> {
                     ([h]) => <HomeDisplay content={h} />}
                 </LoadWithPromise>
                 <Divider />
-                <Link to={`/content`}>
+                <Link to={encodeLink()}>
                     <Image
                                 size={"medium"}
                                 src={require("../../../assets/library.jpg")}
@@ -31,15 +32,15 @@ export class Home extends React.Component<{}, {}> {
                                 inline={true}
                     />
                 </Link>
-                <Link to={`/content`}>
+                <Link to={encodeLink()}>
                     <br />MathHub Libraries
                 </Link>
-                <Link to={"https://github.com/MathHubInfo/Documentation/wiki/libraries"}>
+                <a href={"https://github.com/MathHubInfo/Documentation/wiki/libraries"}>
                     <br />provide groups of
-                </Link>
-                <Container href={"https://github.com/MathHubInfo/Documentation/wiki/math-archives"}>
-                    archives
-                </Container>
+                </a>
+                <a href={"https://github.com/MathHubInfo/Documentation/wiki/math-archives"}>
+                    <br />archives
+                </a>
             </>
         );
     }
