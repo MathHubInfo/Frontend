@@ -53,7 +53,7 @@ export class RestAPIClient extends MMTAPIClient {
     }
 
     public getURI(uri: URI): Promise<IReferencable> {
-        return this.get("content/uri/" + this.encodeID(uri));
+        return this.get("content/uri?uri=" + this.encodeID(uri));
     }
 
     public getGroups(): Promise<IGroupRef[]> {
@@ -61,18 +61,18 @@ export class RestAPIClient extends MMTAPIClient {
     }
 
     public getGroup(id: string): Promise<IGroup> {
-        return this.get("content/group/" + this.encodeID(id));
+        return this.get("content/group?id=" + this.encodeID(id));
     }
 
     public getArchive(id: string): Promise<IArchive> {
-        return this.get("content/archive/" + this.encodeID(id));
+        return this.get("content/archive?id=" + this.encodeID(id));
     }
 
     public getDocument(id: string): Promise<IDocument> {
-        return this.get("content/document/" + this.encodeID(id));
+        return this.get("content/document?id=" + this.encodeID(id));
     }
 
     public getModule(id: string): Promise<IModule> {
-        return this.get("content/module/" + this.encodeID(id));
+        return this.get("content/module?id=" + this.encodeID(id));
     }
 }
