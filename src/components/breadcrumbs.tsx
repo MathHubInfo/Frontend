@@ -27,14 +27,15 @@ export class MHRefBreadCrumbs extends React.PureComponent<{to?: IApiObject}> {
 
         return (
             <Breadcrumb style={{margin: "0em 0em 1em"}}>{
-                locations.map((loc, index) => <MHBreadCrumb key={index} to={loc} />)}
+                locations.map((loc, index, ary) =>
+                    <MHBreadCrumb key={index} to={loc} last={index === ary.length - 1}/>)}
             </Breadcrumb>
         );
     }
 }
 
 /** renderder a current reference */
-function MHBreadCrumb(props: {to?: IReference}) {
+function MHBreadCrumb(props: {to?: IReference, last?: boolean}) {
 
     const text = props.to ? props.to!.name : "Library";
 
@@ -43,7 +44,7 @@ function MHBreadCrumb(props: {to?: IReference}) {
             <Breadcrumb.Section as={Nav} to={encodeLibraryLink(props.to)}>
                 {text}
             </Breadcrumb.Section>
-            <Breadcrumb.Divider />
+            {!props.last && <Breadcrumb.Divider />}
         </>
     );
 }
