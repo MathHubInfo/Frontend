@@ -5,7 +5,7 @@ import { AnyToRef } from "../context/api/utils";
 
 import { Breadcrumb } from "semantic-ui-react";
 import { Nav } from "../components/common/nav";
-import { encodeLink } from "../routes/library";
+import { encodeLibraryLink } from "../routes/library";
 
 /** renders a full list of BreadCrumbs by iterating over the reference */
 export class MHRefBreadCrumbs extends React.PureComponent<{to?: IApiObject}> {
@@ -18,6 +18,11 @@ export class MHRefBreadCrumbs extends React.PureComponent<{to?: IApiObject}> {
         // and keep adding the parents of each element
         while (locations[0]) {
             locations.unshift(locations[0]!.parent || undefined);
+            // if we have an archive, the next lower level is a document which *is* the achives content
+            // so if it exists, the next level should be removed
+            if (locations[0] && locations[1] && locations[0]!.kind === "archive") {
+                locations.splice(1, 1);
+            }
         }
 
         return (
@@ -35,7 +40,7 @@ function MHBreadCrumb(props: {to?: IReference}) {
 
     return (
         <>
-            <Breadcrumb.Section as={Nav} to={encodeLink(props.to)}>
+            <Breadcrumb.Section as={Nav} to={encodeLibraryLink(props.to)}>
                 {text}
             </Breadcrumb.Section>
             <Breadcrumb.Divider />

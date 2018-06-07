@@ -11,7 +11,7 @@ import { IArchiveRef, IGroup } from "../../context/api";
 
 import { MHTitle } from "../../utils/title";
 
-import { decodeLinkID, encodeLink, ILibraryRouteProps } from "./";
+import { decodeLibraryLinkID, encodeLibraryLink, ILibraryRouteProps } from "./";
 
 export const Group = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
@@ -19,7 +19,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
         this.getGroup = this.getGroup.bind(this);
     }
 
-    private groupName() { return decodeLinkID(this.props.match.params.id); }
+    private groupName() { return decodeLibraryLinkID(this.props.match.params.id); }
     private getGroup() { return context.client.getGroup(this.groupName()); }
 
     public render() {
@@ -73,7 +73,7 @@ class ArchiveListItem extends React.Component<{archive: IArchiveRef}> {
         return (
             <Card>
                 <Card.Content>
-                    <Card.Header as={Nav} to={encodeLink(archive)} >
+                    <Card.Header as={Nav} to={encodeLibraryLink(archive)} >
                         <div dangerouslySetInnerHTML={{__html: archive.title}} />
                     </Card.Header>
                     <Card.Description>{archive.teaser}</Card.Description>

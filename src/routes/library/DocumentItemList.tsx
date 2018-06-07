@@ -3,7 +3,7 @@ import * as React from "react";
 import { Card } from "semantic-ui-react";
 import { Nav } from "../../components/common/nav";
 import { INarrativeElement } from "../../context/api";
-import { encodeLink } from "./";
+import { encodeLibraryLink } from "./";
 
 export class DocumentItemList extends React.Component<{nRoot: INarrativeElement[]}> {
     public render() {
@@ -22,7 +22,7 @@ class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
         return (
             <Card>
                 <Card.Content>
-                    <Card.Header as={Nav} to={encodeLink(narrative)} >
+                    <Card.Header as={Nav} to={encodeLibraryLink(narrative)} >
                         <div dangerouslySetInnerHTML={{__html: narrative.name}} />
                     </Card.Header>
                     <Card.Description>

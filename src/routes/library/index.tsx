@@ -18,7 +18,7 @@ export function makeLibraryRouteSpec(kind?: string) {
 }
 
 /** encodes a link to an API Object */
-export function encodeLink(to?: IApiObject): string {
+export function encodeLibraryLink(to?: IApiObject): string {
     if (!to) {
         return `/library`;
     }
@@ -34,6 +34,6 @@ export function encodeLink(to?: IApiObject): string {
 }
 
 /** decodes the link parameter given to a library route */
-export function decodeLinkID(id: string): string {
+export function decodeLibraryLinkID(id: string): string {
     return decodeURIComponent(id);
 }

@@ -11,7 +11,7 @@ import { IMathHubContext, WithContext } from "../../context";
 
 import { IGroupRef } from "../../context/api";
 
-import { encodeLink } from "./";
+import { encodeLibraryLink } from "./";
 
 export class Libray extends React.Component<{}, {}> {
     public render() {
@@ -56,7 +56,7 @@ class GroupListItem extends React.Component<{group: IGroupRef}> {
         return (
             <Card>
                 <Card.Content>
-                    <Card.Header as={Nav} to={encodeLink(group)}>
+                    <Card.Header as={Nav} to={encodeLibraryLink(group)}>
                         <div dangerouslySetInnerHTML={{__html: group.title}} />
                     </Card.Header>
                     <Card.Description>
