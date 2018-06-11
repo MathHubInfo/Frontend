@@ -4,18 +4,37 @@ import { Container, Divider, Grid, Header, Image, List, Segment } from "semantic
 
 import { IMathHubContext, WithContext } from "../../context";
 
+import { Link } from "react-router-dom";
 import { Nav } from "../../components/common/nav";
 
 export const Footer = WithContext((context: IMathHubContext) => class extends React.Component {
   private getVersionString() {
+    return (process.env.NODE_ENV === "production") ? this.getProdFooter() : this.getDevelFooter();
+  }
+
+  private getProdFooter() {
     const version = process.env.MATHHUB_VERSION!;
     const date = (new Date(parseInt(process.env.MATHHUB_BUILD_TIME!, 10))).toTimeString();
 
-    if (process.env.NODE_ENV === "production") {
-      return `MathHub Version ${version} (built ${date})`;
-    } else {
-      return `MathHub Version ${version} (built ${date}, development mode)`;
-    }
+    return (
+      <>
+        MathHub Version {version}<br />
+        (built {date})
+      </>
+    );
+  }
+
+  private getDevelFooter() {
+    const version = process.env.MATHHUB_VERSION!;
+    const date = (new Date(parseInt(process.env.MATHHUB_BUILD_TIME!, 10))).toTimeString();
+
+    return (
+      <>
+        MathHub Version {version}<br />
+        (built {date} in development mode)<br />
+        <Link to="/devel">Testing Page</Link>
+      </>
+    );
   }
 
   public render() {

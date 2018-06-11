@@ -6,7 +6,7 @@ export interface IErrorData {
     info?: React.ErrorInfo;
 }
 
-export function ErrorText(props: IErrorData) {
+export function ErrorText(props: IErrorData & {message?: string | true}) {
     // no error => nothing to return
     if (!props.hasError) { return <></>; }
 
@@ -30,10 +30,11 @@ export function ErrorText(props: IErrorData) {
             </>
         );
     } else {
+        const message = props.message === true ? error.toString() : (props.message || "");
+
         return (
             <>
-                {error.toString()}. <br />
-                We are sorry for the inconvenience.
+                {message}
             </>
         );
     }

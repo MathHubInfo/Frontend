@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { LegalContainer } from "./container";
+import { MonospaceContainer } from "../../components/common/monospace";
 
 import { Container, Header } from "semantic-ui-react";
 import { LoadWithPromise } from "../../components/common/lazy";
@@ -53,12 +53,12 @@ class LicensesDisplay extends React.Component<{license: string, notices: string}
                     <br />
                     <Container text>
                         <Header as="h3">GPL 3.0 License Text</Header>
-                        <LegalContainer text={license} />
+                        <MonospaceContainer noTouch>{license}</MonospaceContainer>
                     </Container>
                     <br />
                     <Container text>
                         <Header as="h3">Used Software Licenses</Header>
-                        <LegalContainer text={notices} />
+                        <MonospaceContainer noTouch>{notices}</MonospaceContainer>
                     </Container>
                 </>
             </MHTitle>

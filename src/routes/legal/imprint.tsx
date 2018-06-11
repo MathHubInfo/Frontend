@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { LegalContainer } from "./container";
+import { MonospaceContainer } from "../../components/common/monospace";
 
 import { Container, Header } from "semantic-ui-react";
 import { MHTitle } from "../../utils/title";
@@ -14,7 +14,7 @@ export class Imprint extends React.Component<{}> {
                 <>
                     <Container text>
                         <Header as="h2">Imprint</Header>
-                        <LegalContainer text={legalText} />
+                        <MonospaceContainer noTouch>{legalText}</MonospaceContainer>
                     </Container>
                 </>
             </MHTitle>

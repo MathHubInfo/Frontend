@@ -16,7 +16,7 @@ import { encodeLibraryLink } from "./";
 export class Libray extends React.Component<{}, {}> {
     public render() {
         return (
-            <div>
+            <>
                 <MHRefBreadCrumbs />
                 <h1>
                     Library
@@ -25,7 +25,7 @@ export class Libray extends React.Component<{}, {}> {
                 <Container>
                     <AsyncGroupList />
                 </Container>
-            </div>
+            </>
         );
     }
 }
