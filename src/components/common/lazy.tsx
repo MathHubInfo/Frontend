@@ -88,14 +88,6 @@ function LoadingComponent(props: {title?: string, message?: string}) {
 }
 
 function ErrorComponent(props: {reason: any, title?: string, message?: string}) {
-
-    // in debugging mode, log the error to the console
-    // so that we can inspect it easily
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-        // tslint:disable-next-line:no-console
-        console.error(props.reason);
-    }
-
     return (
         <Message negative icon>
             <Icon name="exclamation triangle" />
