@@ -7,6 +7,17 @@ import { IMathHubContext, WithContext } from "../../context";
 import { Nav } from "../../components/common/nav";
 
 export const Footer = WithContext((context: IMathHubContext) => class extends React.Component {
+  private getVersionString() {
+    const version = process.env.MATHHUB_VERSION!;
+    const date = (new Date(parseInt(process.env.MATHHUB_BUILD_TIME!, 10))).toTimeString();
+
+    if (process.env.NODE_ENV === "production") {
+      return `MathHub Version ${version} (built ${date})`;
+    } else {
+      return `MathHub Version ${version} (built ${date}, development mode)`;
+    }
+  }
+
   public render() {
       return (
         <Segment vertical style={{ margin: "5em 0em 0em", padding: "5em 0em"}}>
@@ -91,7 +102,10 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
             <Divider inverted section />
             <Grid divided inverted stackable>
               <Grid.Column width={4}>
+                <small>
+                  {this.getVersionString()}<br />
                   Connected to MMT at {context.config.mmtURL}
+                </small>
               </Grid.Column>
               <Grid.Column width={3} floated={"right"}>
                 <List link>

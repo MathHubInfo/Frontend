@@ -13,6 +13,10 @@ const dist = resolve(root, 'dist')
 
 // environment variables
 export const env = {
+    // include mathhub meta information
+    'MATHHUB_VERSION': JSON.stringify(require("../package.json").version),
+    'MATHHUB_BUILD_TIME': JSON.stringify((new Date()).getTime()),
+
     'MMT_URL': JSON.stringify(process.env['MMT_URL']),
     'MOCK_MMT': JSON.stringify(process.env['MOCK_MMT'])
 }
