@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Link } from "react-router-dom";
 
-import { Divider, Image } from "semantic-ui-react";
+import { Button, Divider, Grid, Image } from "semantic-ui-react";
 
 import { LoadWithPromise } from "../components/common/lazy";
 // import { Nav } from "../components/common/nav";
@@ -27,23 +27,32 @@ export class Home extends React.Component<{}, {}> {
                     ([h]) => <HomeDisplay content={h} />}
                 </LoadWithPromise>
                 <Divider />
-                <Link to={encodeLibraryLink()}>
-                    <Image
-                                size={"medium"}
+                <Grid>
+                    <Grid.Column width={10}>
+                        <Link to={encodeLibraryLink()}>
+                            <Image
                                 src={require("../../../assets/library.jpg")}
                                 title="MathHub Libraries"
                                 inline={true}
-                    />
-                </Link>
-                <Link to={encodeLibraryLink()}>
-                    <br />MathHub Libraries
-                </Link>
-                <a href={"https://github.com/MathHubInfo/Documentation/wiki/libraries"}>
-                    <br />provide groups of
-                </a>
-                <a href={"https://github.com/MathHubInfo/Documentation/wiki/math-archives"}>
-                    <br />archives
-                </a>
+                            />
+                        </Link>
+                    </Grid.Column>
+                    <Grid.Column width={4}>
+                        <Link to={encodeLibraryLink()}>
+                            <Button size={"small"} fluid style={{ marginBottom: "0.8em" }}>
+                                MathHub Libraries
+                            </Button>
+                        </Link>
+                        <a href={"https://github.com/MathHubInfo/Documentation/wiki/libraries"}>
+                            <Button size={"small"} fluid style={{ marginBottom: "0.8em" }}>
+                                provide groups of
+                            </Button>
+                        </a>
+                        <a href={"https://github.com/MathHubInfo/Documentation/wiki/math-archives"}>
+                            <Button size={"small"} fluid>archives</Button>
+                        </a>
+                    </Grid.Column>
+                </Grid>
             </>
         );
     }

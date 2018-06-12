@@ -70,7 +70,6 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
                                 size="tiny"
                                 title="www.opendreamkit.org"
                                 src={require("../../../assets/logos/odk_logo.png")}
-                                style={{ marginRight: "1.5em" }}
                                 alt="ODK Logo"
                                 inline={true}
                                 href={"http://opendreamkit.org/"}

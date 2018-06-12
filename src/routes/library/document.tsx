@@ -11,6 +11,7 @@ import { IDocument } from "../../context/api";
 import { MHTitle } from "../../utils/title";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "./";
+import { DocumentItemList } from "./DocumentItemList";
 
 export const Document = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
@@ -35,13 +36,12 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                             <Header as="h2">
                                 <div dangerouslySetInnerHTML={{__html: document.id}} />
                             </Header>
-                            <div dangerouslySetInnerHTML={{__html: document.name}} />
+                            <div>{document.decls.length}</div>
                         </Container>
                         <Divider />
-                        <Container>{ /*
-                            // TODO: Re-use element used in archive
-                            <ModuleItemList modules={document.modules} />
-                        */}</Container>
+                        <Container>{
+                            <DocumentItemList nRoot={document.decls} />}
+                        </Container>
                     </>
                 }
                 </LoadWithPromise>
@@ -49,33 +49,3 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
         );
     }
 });
-
-/*
-class ModuleItemList extends React.Component<{modules: INarrativeElement[]}> {
-    public render() {
-        const {modules} = this.props;
-        return (
-            <Card.Group itemsPerRow="1">
-                {modules.map((module) => <ModuleListItem key={module.name} module={module} />)}
-            </Card.Group>
-        );
-    }
-}
-
-class ModuleListItem extends React.Component<{module: IModuleItem}> {
-    public render() {
-        const {module} = this.props;
-        return (
-            <Card>
-                <Card.Content>
-                    <Card.Header
-                    >
-                        <div dangerouslySetInnerHTML={{__html: module.name}} />
-                    </Card.Header>
-                    <Card.Description>{module.name}</Card.Description>
-                </Card.Content>
-            </Card>
-        );
-    }
-}
-*/
