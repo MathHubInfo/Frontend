@@ -2,7 +2,7 @@ import { IMathHubConfig } from "../config";
 
 import axios from "axios";
 
-import { IArchive, IDocument, IGroup, IGroupRef, IModule, IReferencable, URI } from "./index";
+import { IArchive, IDocument, IGroup, IGroupRef, IMMTVersionInfo, IModule, IReferencable, URI } from "./index";
 
 /**
  * A client for the mathhub-mmt api
@@ -13,6 +13,13 @@ export abstract class MMTAPIClient {
     constructor(config: IMathHubConfig) {
         this.config = config;
     }
+
+    /** gets the version of MMT */
+    public abstract getMMTVersion(): Promise<IMMTVersionInfo>;
+
+    //
+    // MMT Versions
+    //
 
     /** gets an object via a URI */
     public abstract getURI(uri: URI): Promise<IReferencable>;
@@ -45,6 +52,10 @@ export class RestAPIClient extends MMTAPIClient {
                 return Promise.resolve(c.data as T);
             }
         });
+    }
+
+    public getMMTVersion(): Promise<IMMTVersionInfo> {
+        return this.get("version");
     }
 
     /** encodes an ID for use with the API */

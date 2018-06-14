@@ -1,5 +1,8 @@
 /** This file contains type definitions for all OMDOC types exposed by the MMT API */
 
+/** anything returned by the API */
+export type IResponse = IApiObject | IMMTVersionInfo;
+
 /** any object returned by the public api */
 export type IApiObject = IReferencable | IReference ;
 
@@ -204,6 +207,15 @@ export interface IView extends IModuleCommon {
     domain: ITheoryRef;
     /** the co-domain of this view */
     codomain: ITheoryRef;
+}
+
+//
+// Other responses
+//
+
+/** version information exposed by MMT */
+export interface IMMTVersionInfo {
+    version: string;
 }
 
 //

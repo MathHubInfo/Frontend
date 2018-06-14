@@ -8,6 +8,7 @@ import {
     IDocumentRef,
     IGroup,
     IGroupRef,
+    IMMTVersionInfo,
     IModule,
     INarrativeElement,
     IOpaqueElement,
@@ -24,6 +25,11 @@ import { IMockDataSet, IMockModule, IMockObject, IMockReference } from "./mockse
 
 /** An API client to MMT that mocks results by resolving them statically from a given datatset */
 export class MockAPIClient extends MMTAPIClient {
+
+    /** get the MMT Version */
+    public getMMTVersion(): Promise<IMMTVersionInfo> {
+        return this.loadDataSet().then((d) => d.version);
+    }
 
     // #region "Dataset"
     private dataset: IMockDataSet | undefined;

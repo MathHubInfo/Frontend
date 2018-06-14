@@ -1,4 +1,7 @@
 {
+    "version": {
+        "version": "Mock MMT"
+    },
     "groups": [
         {
             "id": "smglom",

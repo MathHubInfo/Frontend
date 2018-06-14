@@ -1,6 +1,7 @@
 import {
     HTML,
     URI,
+    IMMTVersionInfo,
 } from "./index";
 
 /**
@@ -12,6 +13,8 @@ import {
  * Furthermore, the 'kind' and child atttributes may be omitted where unique.
  */
 export interface IMockDataSet {
+    version: IMMTVersionInfo;
+
     groups: IMockGroup[];
     archives: IMockArchive[];
 
