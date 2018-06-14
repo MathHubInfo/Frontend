@@ -215,7 +215,11 @@ export interface IView extends IModuleCommon {
 
 /** version information exposed by MMT */
 export interface IMMTVersionInfo {
-    version: string;
+    /** the version number (i.e. release number) of MMT */
+    versionNumber: string;
+
+    /** the build date of MMT, seconds since Unix epoch represented as a string */
+    buildDate?: string; // This should really be a number, but Florian's JSON interpretation doesn't do longs
 }
 
 //

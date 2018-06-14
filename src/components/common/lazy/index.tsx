@@ -71,6 +71,11 @@ interface ILoadWithSpinnerProps<T> extends Partial<ISpinningLoaderProps> {
 
 /** A Loader the loads content using a Semantic UI Spinning loader  */
 export class LoadWithSpinner<T> extends React.PureComponent<ILoadWithSpinnerProps<T>> {
+    constructor(props: ILoadWithSpinnerProps<T>) {
+        super(props);
+
+        this.loadingFactory = this.loadingFactory.bind(this);
+    }
     private loadingFactory() {
         // extract the title property
         const {title, promise, children, ...pprops} = this.props;
