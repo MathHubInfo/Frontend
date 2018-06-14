@@ -3,7 +3,7 @@ import * as React from "react";
 import { Container, Divider, Header } from "semantic-ui-react";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
-import { LoadWithPromise } from "../../components/common/lazy";
+import { LoadWithSpinner } from "../../components/common/lazy";
 
 import { IMathHubContext, WithContext } from "../../context";
 import { IDocument } from "../../context/api";
@@ -25,7 +25,7 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
     public render() {
         return (
             <MHTitle title={this.documentID()}>
-                <LoadWithPromise
+                <LoadWithSpinner
                     title={this.documentID()}
                     promise={this.getDocument}
                     errorMessage={true}
@@ -44,7 +44,7 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                         </Container>
                     </>
                 }
-                </LoadWithPromise>
+                </LoadWithSpinner>
             </MHTitle>
         );
     }

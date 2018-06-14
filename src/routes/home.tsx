@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Button, Divider, Grid, Image } from "semantic-ui-react";
 
-import { LoadWithPromise } from "../components/common/lazy";
+import { LoadWithSpinner } from "../components/common/lazy";
 // import { Nav } from "../components/common/nav";
 
 import { MHTitle } from "../utils/title";
@@ -23,9 +23,9 @@ export class Home extends React.Component<{}, {}> {
     public render() {
         return (
             <>
-                <LoadWithPromise promise={this.loadContent} title="HOME">{
+                <LoadWithSpinner promise={this.loadContent} title="HOME">{
                     ([h]) => <HomeDisplay content={h} />}
-                </LoadWithPromise>
+                </LoadWithSpinner>
                 <Divider />
                 <Grid>
                     <Grid.Column width={10}>

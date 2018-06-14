@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Card, Container, Divider, Header, Label } from "semantic-ui-react";
-import { LoadWithPromise } from "../../components/common/lazy";
+import { LoadWithSpinner } from "../../components/common/lazy";
 import { Nav } from "../../components/common/nav";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
@@ -25,7 +25,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
     public render() {
         return (
             <MHTitle title={this.groupName()}>
-                <LoadWithPromise
+                <LoadWithSpinner
                     title={this.groupName()}
                     promise={this.getGroup}
                     errorMessage={true}
@@ -48,7 +48,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                             </Container>
                         </>
                 }
-                </LoadWithPromise>
+                </LoadWithSpinner>
             </MHTitle>
         );
     }

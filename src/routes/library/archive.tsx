@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Container, Divider, Header, Label } from "semantic-ui-react";
-import { LoadWithPromise } from "../../components/common/lazy";
+import { LoadWithSpinner } from "../../components/common/lazy";
 
 import { IMathHubContext, WithContext } from "../../context";
 import { IArchive } from "../../context/api";
@@ -25,7 +25,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
     public render() {
         return (
             <MHTitle title={this.archiveID()}>
-                <LoadWithPromise
+                <LoadWithSpinner
                     title={this.archiveID()}
                     promise={this.getArchive}
                     errorMessage={true}
@@ -49,7 +49,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                         </>
                     </>
                 }
-                </LoadWithPromise>
+                </LoadWithSpinner>
             </MHTitle>
         );
     }

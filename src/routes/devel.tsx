@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Loader } from "../components/common/lazy";
+import { CreateSpinningLoader as Loader } from "../components/common/lazy";
 import { MonospaceContainer } from "../components/common/monospace";
 
 import { Context } from "../context";
@@ -55,11 +55,12 @@ const Fatal = Loader("Fatal", () => new Promise<React.SFC<{}>>((reject, resolve)
     throw new Error("Intended Failure");
 }));
 
-const Rejection = Loader("Rejection", () =>
-    delay(Promise.reject<React.SFC<{}>>("Nothing to worry about. "), loadTimeDelay), {
-        errorTitle: "Loading has been rejected as intended",
-        errorMessage: true,
-    });
+const Rejection = Loader({
+    title: "Rejection",
+    errorTitle: "Loading has been rejected as intended",
+    errorMessage: true,
+}, () =>
+    delay(Promise.reject<React.SFC<{}>>("Nothing to worry about. "), loadTimeDelay));
 
 let hasTriedBefore = false;
 const Retry = Loader("Retry", () => {

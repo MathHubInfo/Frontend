@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Card, Container, Divider } from "semantic-ui-react";
 
-import { LoadWithPromise } from "../../components/common/lazy";
+import { LoadWithSpinner } from "../../components/common/lazy";
 import { Nav } from "../../components/common/nav";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
@@ -40,11 +40,11 @@ const AsyncGroupList = WithContext((context: IMathHubContext) => class extends R
 
     public render() {
         return (
-            <LoadWithPromise title="Groups" promise={this.getGroups}>{
+            <LoadWithSpinner title="Groups" promise={this.getGroups}>{
                 (groups: IGroupRef[]) =>
                 <Card.Group itemsPerRow="1">{
                     groups.map((group) => <GroupListItem key={group.id} group={group} />)}</Card.Group>
-            }</LoadWithPromise>
+            }</LoadWithSpinner>
         );
     }
 });
