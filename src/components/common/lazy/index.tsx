@@ -49,17 +49,17 @@ interface IPromiseLoaderProps<T> extends IDataComponentProps<T> {
 }
 
 /** A Component loading content asyncronously using promises */
-export class PromiseLoader<T> extends React.Component<IPromiseLoaderProps<T>> {
-    constructor(props: IPromiseLoaderProps<T>) {
-        super(props);
-    }
-
-    public render() {
-        const CreatedLoader = CreateLoader(
+export class PromiseLoader<T> extends React.PureComponent<IPromiseLoaderProps<T>> {
+    private createLoader() {
+        return CreateLoader(
             () => this.props.promise().then(DataComponent),
             this.props.loadingFactory || (() => LoadingComponent),
         );
-        return <CreatedLoader>{this.props.children}</CreatedLoader>;
+    }
+
+    public render() {
+        const Loader = this.createLoader();
+        return <Loader>{this.props.children}</Loader>;
     }
 }
 
@@ -70,24 +70,29 @@ interface ILoadWithSpinnerProps<T> extends Partial<ISpinningLoaderProps> {
 }
 
 /** A Loader the loads content using a Semantic UI Spinning loader  */
-export class LoadWithSpinner<T> extends React.Component<ILoadWithSpinnerProps<T>> {
-    public render() {
+export class LoadWithSpinner<T> extends React.PureComponent<ILoadWithSpinnerProps<T>> {
+    private loadingFactory() {
         // extract the title property
         const {title, promise, children, ...pprops} = this.props;
 
         // create a spinning loader
-        const loadingFactory = () => createSpinningLoader({
+        return createSpinningLoader({
             ...pprops,
 
             loadingTitle: (pprops && pprops.loadingTitle) || `Loading ${(title || "Data")}`,
             errorTitle: (pprops && pprops.errorTitle) || `Failed to load ${title || "data"}`,
         });
+    }
+
+    public render() {
+        // extract the title property
+        const {promise, children} = this.props;
 
         // and return a promise loader
         return (
             <PromiseLoader
                 promise={promise}
-                loadingFactory={loadingFactory}
+                loadingFactory={this.loadingFactory}
                 children={children}
             />
         );
