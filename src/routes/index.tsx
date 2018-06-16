@@ -5,23 +5,35 @@ import { Route, Switch } from "react-router-dom";
 
 import { CreateSpinningLoader as Loader } from "../components/common/lazy";
 
-const Home = Loader("Home Page", () => import("./home").then((h) => h.Home));
+// #region "Loading Modules"
+const Home = Loader("Home Page", () =>
+    import(/* webpackChunkName: "home"*/"./home").then((h) => h.Home));
 
 import { makeLibraryRouteSpec } from "./library";
-const Library = Loader("Library", () => import("./library/library").then((l) => l.Libray));
-const Group = Loader("Group", () => import("./library/group").then((g) => g.Group));
-const Archive = Loader("Archive", () => import("./library/archive").then((a) => a.Archive));
-const Document = Loader("Document", () => import("./library/document").then((d) => d.Document));
+const Library = Loader("Library", () =>
+    import(/* webpackChunkName: "library"*/"./library/library").then((l) => l.Libray));
+const Group = Loader("Group", () =>
+    import(/* webpackChunkName: "library_group"*/"./library/group").then((g) => g.Group));
+const Archive = Loader("Archive", () =>
+    import(/* webpackChunkName: "library_archive"*/"./library/archive").then((a) => a.Archive));
+const Document = Loader("Document", () =>
+    import(/* webpackChunkName: "library_document"*/"./library/document").then((d) => d.Document));
 
-const Glossary = Loader("Glossary", () => import("./applications/glossary").then((g) => g.Glossary));
-const Dictionary = Loader("Dictionary", () => import("./applications/dictionary").then((d) => d.Dictionary));
+const Glossary = Loader("Glossary", () =>
+    import(/* webpackChunkName: "applications_glossary"*/"./applications/glossary").then((g) => g.Glossary));
+const Dictionary = Loader("Dictionary", () =>
+    import(/* webpackChunkName: "applications_dictionary"*/"./applications/dictionary").then((d) => d.Dictionary));
 
-const Licenses = Loader("Legal", () => import("./legal/licenses").then((l) => l.Licenses));
-const Imprint = Loader("Imprint", () => import("./legal/imprint").then((i) => i.Imprint));
+const Licenses = Loader("Legal", () =>
+    import(/* webpackChunkName: "legal"*/"./legal/licenses").then((l) => l.Licenses));
+const Imprint = Loader("Imprint", () =>
+    import(/* webpackChunkName: "imprint"*/"./legal/imprint").then((i) => i.Imprint));
 
 // for testing only, we have a debug route
 const Devel = process.env.NODE_ENV === "production" ? null :
     Loader("Debug", () => import("./devel").then((a) => a.Devel));
+
+// #endregion
 
 export default function Routes() {
     return (
