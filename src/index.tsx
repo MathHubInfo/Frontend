@@ -24,22 +24,21 @@ document.body.appendChild(policyScript);
 // load the polyfill for older browsers
 import "babel-polyfill";
 
-// loading nice CSS
-// tslint:disable-next-line:no-submodule-imports
-import "semantic-ui-css/semantic.min.css";
-
 Promise.all([
-    import("react"),
-    import("react-dom"),
+    // we import the modules that we directly need
+    import(/* webpackChunkName: "react" */"react"),
+    import(/* webpackChunkName: "react" */"react-dom"),
+    import(/* webpackChunkName: "components" */"./components").then((mh) => mh.MathHub),
 
-    import("./components").then((mh) => mh.MathHub),
-]).then(([
-    React,
-    ReactDOM,
-    MathHub,
-]) => {
+    // next we load the css, to style the page dynamically
+    // tslint:disable-next-line:no-submodule-imports
+    import(/* webpackChunkName: "semantic_ui_css" */"semantic-ui-css/semantic.min.css"),
+]).then(([ React, ReactDOM, MathHub ]) => {
     ReactDOM.render(
-        <MathHub mockMMT={!!process.env.MOCK_MMT} mmtURL={process.env.MMT_URL || "http://localhost:9000/:mathhub/"} />,
+        <MathHub
+            mockMMT={!!process.env.MOCK_MMT}
+            mmtURL={process.env.MMT_URL || "http://localhost:9000/:mathhub/"}
+        />,
         document.getElementById("mathhub"),
     );
 });

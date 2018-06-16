@@ -15,7 +15,7 @@ export default {
 
         minimizer: [
             new UglifyJsPlugin({
-                sourceMap: true, 
+                sourceMap: false, 
                 uglifyOptions: {
                     output: {
                         comments: /^\**!|@preserve|@license|@cc_on/

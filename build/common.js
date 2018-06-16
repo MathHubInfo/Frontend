@@ -7,7 +7,7 @@ import CleanWebpackPlugin from 'clean-webpack-plugin'
 
 import { resolve } from 'path'
 
-const root = resolve(__dirname, '..')
+export const root = resolve(__dirname, '..')
 const dist = resolve(root, 'dist')
 
 
@@ -30,9 +30,6 @@ export const common = {
         path: dist
     },
     
-    // for debugging this is insanely useful
-    devtool: 'source-map',
-    
 
     // load js, typescript and babel
     resolve: {
@@ -44,19 +41,6 @@ export const common = {
     },
     module: {
         rules: [
-            {
-                test: /\.tsx?$/, 
-                enforce: 'pre',
-                use: [{
-                    loader: 'tslint-loader', 
-                    options: {
-                        configFile: resolve(root, 'tslint.json'), 
-                        tsConfigFile: resolve(root, 'tsconfig.json'),
-                        typeCheck: true,
-                        failOnHint: true,
-                    }
-                }]
-            },
 
             {
                 test: /\.tsx?$/, 
@@ -80,14 +64,12 @@ export const common = {
 
             {
                 test: /\.(png|jpg|svg|gif|woff|woff2|eot|ttf)$/,
-                use: [ 'url-loader' ],
-            }, 
-            
-
-            {
-                test: /\.js$/,
-                enforce: 'pre', 
-                use: [ 'source-map-loader' ]
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192
+                    }
+                }]
             }
         ]
     }, 
@@ -107,10 +89,6 @@ export const common = {
         // generate index.html
         new HtmlWebpackPlugin({
             template: 'src/index.html'
-        }), 
-
-        // and allow lots of hot reloading
-        new webpack.HotModuleReplacementPlugin(), 
-        new webpack.NamedModulesPlugin()
+        })
     ]
 };
