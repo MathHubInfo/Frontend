@@ -3,19 +3,26 @@ import * as React from "react";
 import { LoadingComponentProps } from "react-loadable";
 import { ErrorText, IErrorData } from "../error";
 
-import { Button, Icon, Message } from "semantic-ui-react";
-
 /**
  * A LoadingComponent is used to indicate to the user that something is being loaded asyncronously.
  *
  * The default LoadingComponent does not display anything until the component is loaded.
  */
 export class LoadingComponent
-    extends React.Component<LoadingComponentProps, IErrorData & {reloading: boolean}> {
+    extends React.Component<LoadingComponentProps, IErrorData & {reloading: boolean, loadedPrereqs: boolean}> {
 
     constructor(props: LoadingComponentProps) {
         super(props);
-        this.state = { reloading: false, hasError: false };
+        this.state = { reloading: false, hasError: false, loadedPrereqs: false };
+    }
+
+    public componentDidMount() {
+        this.loadPreReqs(() => this.setState({ loadedPrereqs: true }));
+    }
+
+    /** a method that can be used to asyncronously load some loader display prerequisites */
+    protected loadPreReqs(markDone: () => void) {
+        markDone();
     }
 
     /** whenever a fatal error occurs, se the appropriate error state */
@@ -48,6 +55,9 @@ export class LoadingComponent
 
     /** renders this component */
     public render() {
+        // if we do not have the pre-reqs loaded, return nothing
+        if (!this.state.loadedPrereqs) { return null; }
+
         const props = this.props;
         if (this.state.hasError) {
             return this.renderFatalError();
@@ -86,8 +96,20 @@ export function createSpinningLoader(
     props: ISpinningLoaderProps,
 ): typeof LoadingComponent {
     return class extends LoadingComponent {
+        private semanticUI?: typeof import ("semantic-ui-react");
+
+        protected loadPreReqs(markDone: () => void) {
+            import(/* webpackChunkName: "semantic_ui_react" */"semantic-ui-react").then((suir) => {
+                this.semanticUI = suir;
+                markDone();
+            }).catch();
+        }
+
         /** renders an uncaught error in the child component */
         protected renderFatalError() {
+            const Icon = this.semanticUI!.Icon;
+            const Message = this.semanticUI!.Message;
+
             return (
                 <Message negative icon>
                     <Icon name="exclamation triangle" />
@@ -101,6 +123,9 @@ export function createSpinningLoader(
 
         /** renders the rejection of the promise */
         protected renderRejection() {
+            const Icon = this.semanticUI!.Icon;
+            const Message = this.semanticUI!.Message;
+
             const isProduction = process.env.NODE_ENV === "production";
 
             // in production, we simply show the error message
@@ -124,6 +149,10 @@ export function createSpinningLoader(
 
         /** renders the promise having timed out */
         protected renderTimeOut(retry: () => void) {
+            const Button = this.semanticUI!.Button;
+            const Icon = this.semanticUI!.Icon;
+            const Message = this.semanticUI!.Message;
+
             return (
                 <Message icon>
                     <Icon name="circle notched" loading />
@@ -151,6 +180,9 @@ export function createSpinningLoader(
 
         /** renders the component loading */
         protected renderLoading() {
+            const Icon = this.semanticUI!.Icon;
+            const Message = this.semanticUI!.Message;
+
             return (
                 <Message icon>
                     <Icon name="circle notched" loading />
