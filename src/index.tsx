@@ -28,7 +28,7 @@ Promise.all([
     // we import the modules that we directly need
     import(/* webpackChunkName: "react" */"react"),
     import(/* webpackChunkName: "react" */"react-dom"),
-    import(/* webpackChunkName: "components" */"./components").then((mh) => mh.MathHub),
+    import(/* webpackChunkName: "app" */"./components").then((mh) => mh.MathHub),
 
     // next we load the css, to style the page dynamically
     // tslint:disable-next-line:no-submodule-imports

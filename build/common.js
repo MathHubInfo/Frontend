@@ -58,11 +58,6 @@ export const common = {
             }, 
 
             {
-                test: /\.css$/,
-                use: [ 'style-loader', 'css-loader' ],
-            },
-
-            {
                 test: /\.(png|jpg|svg|gif|woff|woff2|eot|ttf)$/,
                 use: [{
                     loader: 'url-loader',
