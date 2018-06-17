@@ -40,6 +40,9 @@ export class Header extends React.Component<{}, {}> {
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
+                        <Menu.Item href={"http://new.mathhub.info/admin/"}>
+                            Login
+                        </Menu.Item>
                         <Menu.Item href={"https://github.com/MathHubInfo/Documentation/wiki/about"}>
                             About
                         </Menu.Item>
