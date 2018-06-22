@@ -18,7 +18,7 @@ export const Context = React.createContext<IMathHubContext>(null!);
 /** Creates a new config from a configuration */
 export function makeContext(config: IMathHubConfig): IMathHubContext {
     return {
-        client: config.mockMMT ? new MockAPIClient(config) : new RestAPIClient(config),
+        client: config.MOCK_MMT ? new MockAPIClient(config) : new RestAPIClient(config),
         config,
     };
 }

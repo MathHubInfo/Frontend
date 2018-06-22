@@ -45,7 +45,7 @@ export abstract class MMTAPIClient {
  */
 export class RestAPIClient extends MMTAPIClient {
     private get<T>(url: string): Promise<T> {
-        return axios.get<T | string>(this.config.mmtURL + url).then((c) => {
+        return axios.get<T | string>(this.config.MMT_URL + url).then((c) => {
             if (c.status !== 200 || typeof c.data === "string") {
                 return Promise.reject(c.data as string);
             } else {

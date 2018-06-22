@@ -2,7 +2,7 @@
  * Represents a configuration for the MathHub Context
  */
 export interface IMathHubConfig {
-    mockMMT: boolean;
-    mmtURL: string;
-    adminURL: string;
+    MMT_URL: string;
+    MOCK_MMT: boolean;
+    ADMIN_URL: string;
 }
