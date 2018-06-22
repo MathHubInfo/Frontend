@@ -13,7 +13,7 @@ export interface IMathHubContext {
 }
 
 /** a configuration for MathHub is global */
-export const Context = React.createContext<IMathHubContext>(makeContext({mmtURL: "(null)", mockMMT: true}));
+export const Context = React.createContext<IMathHubContext>(null!);
 
 /** Creates a new config from a configuration */
 export function makeContext(config: IMathHubConfig): IMathHubContext {

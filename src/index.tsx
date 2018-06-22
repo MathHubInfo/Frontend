@@ -36,8 +36,9 @@ Promise.all([
 ]).then(([ React, ReactDOM, MathHub ]) => {
     ReactDOM.render(
         <MathHub
-            mockMMT={!!process.env.MOCK_MMT}
-            mmtURL={process.env.MMT_URL || "http://localhost:9000/:mathhub/"}
+            mockMMT={process.env.MOCK_MMT === "true"}
+            mmtURL={process.env.MMT_URL!}
+            adminURL={process.env.ADMIN_URL!}
         />,
         document.getElementById("mathhub"),
     );

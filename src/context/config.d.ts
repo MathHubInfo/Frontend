@@ -4,4 +4,5 @@
 export interface IMathHubConfig {
     mockMMT: boolean;
     mmtURL: string;
+    adminURL: string;
 }

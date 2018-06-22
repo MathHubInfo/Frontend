@@ -12,14 +12,22 @@ const dist = resolve(root, 'dist')
 
 
 // environment variables
-export const env = {
-    // include mathhub meta information
-    'MATHHUB_VERSION': JSON.stringify(require("../package.json").version),
-    'MATHHUB_BUILD_TIME': JSON.stringify((new Date()).getTime()),
+export const env = (function(user){
+    const _env = {
+        'MATHHUB_VERSION': JSON.stringify(require("../package.json").version),
+        'MATHHUB_BUILD_TIME': JSON.stringify((new Date()).getTime()),
+    }
+    
+    for (var key in user){
+        if (user.hasOwnProperty(key)) {
+            _env[key] = JSON.stringify(
+                user[key](process.env[key]).toString()
+            );
+        }
+    }
 
-    'MMT_URL': JSON.stringify(process.env['MMT_URL']),
-    'MOCK_MMT': JSON.stringify(process.env['MOCK_MMT'])
-}
+    return _env;
+})(require("./env"));
 
 export const common = {
     // input / output
