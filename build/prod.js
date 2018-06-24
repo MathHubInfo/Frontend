@@ -1,4 +1,4 @@
-import {common, env} from "./common"
+import {common, dist, env, root} from "./common"
 
 import webpack from "webpack"
 
@@ -9,6 +9,7 @@ import ExtractCssChunks from 'extract-css-chunks-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import ImageminPlugin from 'imagemin-webpack-plugin';
 
+import CleanWebpackPlugin from 'clean-webpack-plugin'
 
 export default {
     ...common, 
@@ -46,6 +47,9 @@ export default {
 
     plugins: [
         ...common.plugins, 
+
+        // Cleanup the dist folder automatically
+        new CleanWebpackPlugin([dist], {root: root}), 
 
         // CSS Extraction Plugin
         new ExtractCssChunks({

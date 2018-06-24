@@ -1,14 +1,10 @@
-
-import webpack from 'webpack'
-
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
-import CleanWebpackPlugin from 'clean-webpack-plugin'
 
 import { resolve } from 'path'
 
 export const root = resolve(__dirname, '..')
-const dist = resolve(root, 'dist')
+export const dist = resolve(root, 'dist')
 
 
 // environment variables
@@ -86,9 +82,6 @@ export const common = {
     }, 
     
     plugins: [
-        // Cleanup the dist folder automatically
-        new CleanWebpackPlugin([dist], {root: root}), 
-
         // generate index.html
         new HtmlWebpackPlugin({
             template: 'src/index.html'
