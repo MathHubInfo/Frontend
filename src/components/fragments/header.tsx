@@ -41,7 +41,7 @@ export class Header extends React.Component<{}, {}> {
                             </Dropdown.Menu>
                         </Dropdown>
                         <Menu.Item href={"http://new.mathhub.info/admin/"}>
-                            Login
+                            Admin
                         </Menu.Item>
                         <Menu.Item href={"https://github.com/MathHubInfo/Documentation/wiki/about"}>
                             About
