@@ -8,6 +8,11 @@ import { encodeLibraryLink } from "./";
 export class DocumentItemList extends React.Component<{nRoot: INarrativeElement[]}> {
     public render() {
         const {nRoot} = this.props;
+        if (typeof nRoot === "undefined") {
+            return(
+                <></>
+            );
+        }
         return (
             <Card.Group itemsPerRow="1">
                 {nRoot.map((narrative) => <DocumentListItem key={narrative.id} narrative={narrative} />)}

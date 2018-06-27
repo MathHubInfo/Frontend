@@ -266,13 +266,16 @@ export class MockAPIClient extends MMTAPIClient {
         let narrativeRoot: IDocument;
 
         // if we have more than one child, try the first valid one or fail
-        if (children.length === 1) {
+        if (children.length !== 1) {
             // tslint:disable-next-line:no-console
             console.warn(`Mock Dataset: Expected exactly one child of ${archive.id}, found ${children.length}`);
 
             // tslint:disable-next-line:no-object-literal-type-assertion
             narrativeRoot = (children.find((c: INarrativeElement) => c.kind === "document") || {}) as IDocument;
-        } else {
+
+        // tslint:disable-next-line:no-console
+            console.warn(`Mock Dataset: child is of kind ${narrativeRoot.kind}`);
+         } else {
             narrativeRoot = children[0] as IDocument;
         }
 
