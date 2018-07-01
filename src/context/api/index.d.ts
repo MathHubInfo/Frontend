@@ -249,3 +249,10 @@ export type URI = string;
 
 /** anything that could be HTML */
 export type HTML = string;
+
+/** TODO:
+ * -Metadata for Jupyter, (Kai has those for now, so just put them into the mock)
+ * -Tabs: Metadata; View; src; graph (maybe more?)
+ * -run button in Metadata that starts Jupyter externaly
+ * =>make a screenshot 
+ */

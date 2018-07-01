@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Divider, Header } from "semantic-ui-react";
+import { Container, Divider, Header, Tab } from "semantic-ui-react";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 import { LoadWithSpinner } from "../../components/common/lazy";
@@ -11,7 +11,8 @@ import { IDocument } from "../../context/api";
 import { MHTitle } from "../../utils/title";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "./";
-import { DocumentItemList } from "./DocumentItemList";
+import { DocumentItemList } from "./NarrativeElements/DocumentItemList";
+import { ModuleSource, ModuleView } from "./NarrativeElements/module";
 
 export const Document = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
@@ -34,14 +35,25 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                         <MHRefBreadCrumbs to={document} />
                         <Container text>
                             <Header as="h2">
-                                <div dangerouslySetInnerHTML={{__html: document.id}} />
+                                <div dangerouslySetInnerHTML={{__html: document.name}} />
                             </Header>
-                            <div>{document.decls.length}</div>
-                        </Container>
+                            </Container>
+                        <Tab
+                                menu={{ secondary: true, pointing: true }}
+                                panes={[
+                                    { menuItem: "View", render: () =>
+                                        <ModuleView decls={document.decls} context={context} /> },
+                                    { menuItem: "source", render: () =>
+                                        <ModuleSource decls={document.decls} context={context} /> },
+                                    { menuItem: "Metadata", render: () =>
+                                        <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane> },
+                                    { menuItem: "graph", render: () =>
+                                        <Tab.Pane attached={false}>TGView will be added later</Tab.Pane> },
+                                  ]}
+                                style={{ margin: "1.5em 0em 1.5em"}}
+                        />
                         <Divider />
-                        <Container>{
-                            <DocumentItemList nRoot={document.decls} />}
-                        </Container>
+                        <>{<DocumentItemList nRoot={document.decls} />}</>
                     </>
                 }
                 </LoadWithSpinner>

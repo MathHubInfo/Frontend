@@ -1,9 +1,9 @@
 import * as React from "react";
 
 import { Card } from "semantic-ui-react";
-import { Nav } from "../../components/common/nav";
-import { INarrativeElement } from "../../context/api";
-import { encodeLibraryLink } from "./";
+import { Nav } from "../../../components/common/nav";
+import { INarrativeElement } from "../../../context/api";
+import { encodeLibraryLink } from "./../";
 
 export class DocumentItemList extends React.Component<{nRoot: INarrativeElement[]}> {
     public render() {
@@ -24,6 +24,11 @@ export class DocumentItemList extends React.Component<{nRoot: INarrativeElement[
 class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
     public render() {
         const {narrative} = this.props;
+        if (narrative.kind !== "document") {
+            return(
+                <></>
+            );
+        }
         return (
             <Card>
                 <Card.Content>

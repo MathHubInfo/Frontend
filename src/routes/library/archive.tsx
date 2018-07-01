@@ -11,7 +11,7 @@ import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 import { MHTitle } from "../../utils/title";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "./";
-import { DocumentItemList } from "./DocumentItemList";
+import { DocumentItemList } from "./NarrativeElements/DocumentItemList";
 
 export const Archive = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
