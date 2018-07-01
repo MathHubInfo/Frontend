@@ -37,13 +37,59 @@
             "responsible": [
                 "kohlhase@kwarc.info"
             ]
+        }, 
+        {
+            "parent": {"id": "MMT"},
+            "id": "MMT/example",
+            "name": "example",
+
+            "title": "MMT example archive",
+            "teaser": "This is an example archive for MMT",
+
+            "description": "<p>Stil an example.</p>  ",
+            "responsible": [
+                "johannes-sebastian-see@fau.de"
+            ]
+        }, 
+        {
+            "parent": {"id": "stagingRoot"},
+            "id": "smglom/staging/subArchive",
+            "name": "subArchive",
+
+            "title": "archive in an archive",
+            "teaser": "This is an archive in an archive",
+
+            "description": "<p>This is another archive.</p>  ",
+            "responsible": [
+                "johannes-sebastian-see@fau.de"
+            ]
         }
     ],
     "opaques": [],
     "documents": [{
-        "parent": {"id": "smglom"}, 
+        "parent": {"id": "MMT/example"}, 
+        "id": "exampleRoot",
+        "name": "exampleRoot"
+    }, {
+        "parent": {"id": "smglom/staging"}, 
+        "id": "stagingRoot",
+        "name": "stagingRoot"
+    }, {
+        "parent": {"id": "https://mathhub.info/mmt/example/fake"}, 
         "id": "https://mathhub.info/smglom/staging",
-        "name": "smglom/staging"
-    }],
-    "modules": []
+        "name": "staging"
+    }, {
+        "parent": {"id": "exampleRoot"}, 
+        "id": "https://mathhub.info/mmt/example/fake",
+        "name": "fake"
+    }
+    ],
+    "modules": [{
+        "kind": "theory",
+        "parent": {"id": "https://mathhub.info/mmt/example/fake"},
+        "name": "fakeTheory",
+        "id": "https://mathhub.info/mmt/example/fake/theory",
+        "presentation": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>",
+        "source": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>"
+    }]
 }
