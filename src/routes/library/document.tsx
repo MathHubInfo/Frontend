@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Divider, Header, Tab } from "semantic-ui-react";
+import { Container, Header, Tab } from "semantic-ui-react";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 import { LoadWithSpinner } from "../../components/common/lazy";
@@ -49,11 +49,10 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                                         <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane> },
                                     { menuItem: "graph", render: () =>
                                         <Tab.Pane attached={false}>TGView will be added later</Tab.Pane> },
+                                    { menuItem: "documents", render: () =>
+                                        <DocumentItemList nRoot={document.decls} /> },
                                   ]}
-                                style={{ margin: "1.5em 0em 1.5em"}}
                         />
-                        <Divider />
-                        <>{<DocumentItemList nRoot={document.decls} />}</>
                     </>
                 }
                 </LoadWithSpinner>
