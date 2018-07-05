@@ -84,6 +84,23 @@
         "name": "fake"
     }
     ],
+    "notebooks": [{
+        "parent": {"id": "exampleRoot"}, 
+        "id": "https://mathhub.info/mmt/example/exampleNotebook",
+        "name": "ExampleNotebook",
+        "kernel": {
+            "display_name": "TEST",
+            "language": "text",
+            "name": "test"},
+        "language": {
+            "file_extension": ".txt",
+            "mimetype": "text/plain",
+            "name": "Any text"
+        },
+        "other" : {
+            "author": "Kai"
+        }
+    }],
     "modules": [{
         "kind": "theory",
         "parent": {"id": "https://mathhub.info/mmt/example/fake"},
