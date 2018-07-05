@@ -19,6 +19,7 @@ export interface IMockDataSet {
     archives: IMockArchive[];
 
     documents: IMockDocument[];
+    notebooks: IMockNotebook[];
     opaques: IMockOpaqueElement[];
 
     modules: IMockModule[];
@@ -59,6 +60,13 @@ export interface IMockDocument extends IMockObject {
     parent: IMockReference;
 }
 
+export interface IMockNotebook extends IMockObject {
+    parent: IMockReference;
+
+    kernel: JSON[];
+    language: JSON[];
+    other: JSON[];
+}
 /** a mocked opaque element */
 export interface IMockOpaqueElement extends IMockObject {
     parent: IMockReference;

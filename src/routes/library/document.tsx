@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Header, Tab } from "semantic-ui-react";
+import { Button, Container, Header, Tab } from "semantic-ui-react";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 import { LoadWithSpinner } from "../../components/common/lazy";
@@ -46,7 +46,10 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                                     { menuItem: "source", render: () =>
                                         <ModuleSource decls={document.decls} context={context} /> },
                                     { menuItem: "Metadata", render: () =>
-                                        <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane> },
+                                        <>
+                                            <Button>Run</Button>
+                                            <Tab.Pane attached={false}>Tab 3 Content</Tab.Pane>
+                                        </> },
                                     { menuItem: "graph", render: () =>
                                         <Tab.Pane attached={false}>TGView will be added later</Tab.Pane> },
                                     { menuItem: "documents", render: () =>

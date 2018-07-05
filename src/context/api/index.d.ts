@@ -7,10 +7,10 @@ export type IResponse = IApiObject | IMMTVersionInfo;
 export type IApiObject = IReferencable | IReference ;
 
 /** any object that is referencable */
-export type IReferencable = IGroup | IArchive | IDocument | IOpaqueElement | IModule;
+export type IReferencable = IGroup | IArchive | IDocument | IOpaqueElement | IModule | INotebook;
 
 /** any concrete reference */
-export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IOpaqueElementRef | IModuleRef;
+export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IOpaqueElementRef | IModuleRef | INotebookRef;
 
 //
 // GROUP
@@ -94,7 +94,8 @@ export type INarrativeElement =
     IOpaqueElement |
     IDocument |
     IDocumentRef |
-    IModuleRef; // TODO: Add declarations and sub-references
+    IModuleRef |
+    INotebook; // TODO: Add declarations and sub-references
 
 /** parent of a document */
 export type IDocumentParentRef = IArchiveRef | IDocumentRef;
@@ -122,6 +123,27 @@ export interface IDocument extends IDocumentItem {
     decls: INarrativeElement[];
 }
 
+interface INotebookItem extends IAPIObjectItem {
+    kind: "notebook";
+    parent: IDocumentParentRef,
+
+    name: string;
+
+    id: URI;
+}
+
+export interface INotebookRef extends INotebookItem {
+    ref: true;
+}
+
+export interface INotebook extends INotebookItem {
+    ref: false;
+
+    /** This does not work like this */
+    kernel: JSON[];
+    language: JSON[];
+    other: JSON[];
+}
 interface IOpaqueElementItem extends IAPIObjectItem {
     kind: "opaque";
     parent: IDocumentRef;
@@ -229,7 +251,7 @@ export interface IMMTVersionInfo {
 /** any object exposed by the API */
 interface IAPIObjectItem {
     /** the kind of object that is returned */
-    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view";
+    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view" | "notebook";
 
     /** weather this object is a reference or a full description */
     ref: boolean;

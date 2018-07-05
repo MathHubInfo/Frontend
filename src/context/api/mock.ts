@@ -11,6 +11,8 @@ import {
     IMMTVersionInfo,
     IModule,
     INarrativeElement,
+    INotebook,
+    INotebookRef,
     IOpaqueElement,
     IOpaqueElementRef,
     IReferencable,
@@ -102,6 +104,9 @@ export class MockAPIClient extends MMTAPIClient {
             case "view":
                 co = this.cleanView(obj, ds);
                 break;
+            case "notebook":
+                co = this.cleanNotebook(obj, ds);
+                break;
             default:
                 // tslint:disable-next-line:no-console
                 console.warn(`Mock Dataset: Got object of unknown kind ${kind}, skipping cleanup. `);
@@ -167,6 +172,21 @@ export class MockAPIClient extends MMTAPIClient {
 
         return {
             kind: "document",
+            parent,
+            ref: true,
+
+            name: actual.name,
+            id: actual.id,
+        };
+    }
+
+    private cleanNotebookRef(notebook: IMockReference, ds: IMockDataSet): INotebookRef {
+        const actual = ds.notebooks.find((n) => n.id === notebook.id)!;
+        if (!actual) { this.logMockNotFound(notebook.id, "notebook"); }
+        const parent = this.cleanDocumentParentRef(actual.parent, ds);
+
+        return {
+            kind: "notebook",
             parent,
             ref: true,
 
@@ -254,8 +274,11 @@ export class MockAPIClient extends MMTAPIClient {
             .filter((m) => m.parent.id === parent.id)
             .map((m) => m.kind === "theory" ? this.cleanTheoryRef(m, ds) : this.cleanViewRef(m, ds));
 
+        const notebooks = ds.notebooks
+            .filter((n) => n.parent.id === parent.id)
+            .map((n) => this.cleanNotebook(n, ds));
         return ([] as any[])
-            .concat(opaques, documents, modules);
+            .concat(opaques, documents, modules, notebooks);
     }
 
     private cleanArchive(archive: IMockReference, ds: IMockDataSet): IArchive {
@@ -300,6 +323,20 @@ export class MockAPIClient extends MMTAPIClient {
             ref: false,
 
             decls,
+        };
+    }
+
+    private cleanNotebook(notebook: IMockReference, ds: IMockDataSet): INotebook {
+        const ref = this.cleanNotebookRef(notebook, ds);
+        const actual = ds.notebooks.find((n) => n.id === notebook.id)!;
+
+        return {
+            ...ref,
+            ref: false,
+
+            kernel: actual.kernel,
+            language: actual.language,
+            other: actual.other,
         };
     }
 
@@ -398,6 +435,11 @@ export class MockAPIClient extends MMTAPIClient {
                     return modules;
                 }
 
+                const notebooks = ds.notebooks.find((n) => n.id === uri);
+                if (notebooks) {
+                    kind = "notebook";
+                    return notebooks;
+                }
                 return undefined;
             },
             (d: IMockObject) => kind,
@@ -429,6 +471,14 @@ export class MockAPIClient extends MMTAPIClient {
             (ds: IMockDataSet) => ds.documents.find((d) => d.id === id),
             (d: IMockObject) => "document",
             `Document ${id} does not exist. `,
+        );
+    }
+
+    public getNotebook(id: string): Promise<INotebook> {
+        return this.getObjectOfType(
+            (ds: IMockDataSet) => ds.notebooks.find((n) => n.id === id),
+            (d: IMockObject) => "notebook",
+            `Notebook ${id} does not exist. `,
         );
     }
 

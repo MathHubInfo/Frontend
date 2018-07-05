@@ -24,7 +24,7 @@ export class DocumentItemList extends React.Component<{nRoot: INarrativeElement[
 class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
     public render() {
         const {narrative} = this.props;
-        if (narrative.kind !== "document") {
+        if (narrative.kind !== "document" && narrative.kind !== "notebook") {
             return(
                 <></>
             );

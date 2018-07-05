@@ -18,6 +18,8 @@ const Archive = Loader("Archive", () =>
     import(/* webpackChunkName: "library_archive"*/"./library/archive").then((a) => a.Archive));
 const Document = Loader("Document", () =>
     import(/* webpackChunkName: "library_document"*/"./library/document").then((d) => d.Document));
+const Notebook = Loader("Notebook", () =>
+    import(/* webpackChunkName: "library_document"*/"./library/notebook").then((n) => n.Notebook));
 
 const Glossary = Loader("Glossary", () =>
     import(/* webpackChunkName: "applications_glossary"*/"./applications/glossary").then((g) => g.Glossary));
@@ -44,6 +46,7 @@ export default function Routes() {
             <Route exact path={makeLibraryRouteSpec("group")} component={Group} />
             <Route exact path={makeLibraryRouteSpec("archive")} component={Archive} />
             <Route exact path={makeLibraryRouteSpec("document")} component={Document} />
+            <Route exact path={makeLibraryRouteSpec("notebook")} component={Notebook} />
 
             <Route exact path="/legal/imprint" component={Imprint} />
             <Route exact path="/legal/licenses" component={Licenses} />

@@ -1,10 +1,10 @@
 import * as React from "react";
 
 import { Tab } from "semantic-ui-react";
+import { decodeLibraryLinkID } from "../";
 import { LoadWithSpinner } from "../../../components/common/lazy";
 import { IMathHubContext } from "../../../context";
 import { IModuleCommon, INarrativeElement } from "../../../context/api";
-import { decodeLibraryLinkID } from "./../";
 
 /** returns the html-presentation of every theory and view */
 export class ModuleView extends React.Component<{decls: INarrativeElement[], context: IMathHubContext}> {
