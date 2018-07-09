@@ -24,7 +24,7 @@ export class MathHub extends React.Component<IMathHubConfig> {
                     <HashRouter>
                         <ScrollToTop>
                             <>
-                                <Header />
+                                <Header config={this.props}/>
 
                                 <Container text style={{ marginTop: "7em" }}>
                                     <Routes />

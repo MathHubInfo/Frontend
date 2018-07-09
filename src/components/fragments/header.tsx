@@ -2,9 +2,11 @@ import * as React from "react";
 
 import { Container, Dropdown, Image, Menu } from "semantic-ui-react";
 import { Nav } from "../../components/common/nav";
+import { IMathHubConfig } from "../../context/config";
 
-export class Header extends React.Component<{}, {}> {
+export class Header extends React.Component<{config: IMathHubConfig}, {}> {
     public render() {
+        const {config} = this.props;
         return (
             <Menu fixed="top">
                     <Container>
@@ -27,7 +29,7 @@ export class Header extends React.Component<{}, {}> {
                         </Dropdown>
                         <Dropdown text="Help" className="link item">
                             <Dropdown.Menu>
-                                <Dropdown.Item href={"https://github.com/MathHubInfo/Documentation/wiki"}>
+                                <Dropdown.Item href={config.ADMIN_URL}>
                                     Documentation
                                 </Dropdown.Item>
                                 <Dropdown.Item href={"https://gl.mathhub.info/"}>
