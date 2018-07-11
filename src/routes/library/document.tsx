@@ -11,9 +11,9 @@ import { IDocument } from "../../context/api";
 import { MHTitle } from "../../utils/title";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "./";
-import { DocumentItemList } from "./NarrativeElements/DocumentItemList";
-import { ModuleSource, ModuleView } from "./NarrativeElements/module";
-import { StatisticsTable } from "./NarrativeElements/Statistics";
+import { DocumentItemList } from "./narrative/documentItemList";
+import { ModuleSource, ModuleView } from "./narrative/module";
+import { StatisticsTable } from "./narrative/statistics";
 
 export const Document = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {

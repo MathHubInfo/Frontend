@@ -12,7 +12,7 @@ import { IArchiveRef, IGroup } from "../../context/api";
 import { MHTitle } from "../../utils/title";
 
 import { decodeLibraryLinkID, encodeLibraryLink, ILibraryRouteProps } from "./";
-import { StatisticsTable } from "./NarrativeElements/Statistics";
+import { StatisticsTable } from "./narrative/statistics";
 
 export const Group = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
