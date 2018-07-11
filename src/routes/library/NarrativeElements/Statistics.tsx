@@ -7,9 +7,9 @@ import { IStatistics } from "../../../context/api";
 export class StatisticsTable extends React.Component<{ statistics: IStatistics }> {
     public render() {
         const { statistics } = this.props;
-        if (statistics === "undefined") {
+        if (statistics === undefined) {
             return (
-                <div>No statistics available</div>
+                <p>No statistics available</p>
             );
         }
         return (

@@ -29,7 +29,7 @@ export class Header extends React.Component<{config: IMathHubConfig}, {}> {
                         </Dropdown>
                         <Dropdown text="Help" className="link item">
                             <Dropdown.Menu>
-                                <Dropdown.Item href={config.ADMIN_URL}>
+                                <Dropdown.Item href={"https://github.com/MathHubInfo/Documentation/wiki"}>
                                     Documentation
                                 </Dropdown.Item>
                                 <Dropdown.Item href={"https://gl.mathhub.info/"}>
@@ -42,7 +42,7 @@ export class Header extends React.Component<{config: IMathHubConfig}, {}> {
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                        <Menu.Item href={"http://new.mathhub.info/admin/"}>
+                        <Menu.Item href={config.ADMIN_URL}>
                             Admin
                         </Menu.Item>
                         <Menu.Item href={"https://github.com/MathHubInfo/Documentation/wiki/about"}>
