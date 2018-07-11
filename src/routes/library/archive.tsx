@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Divider, Header, Label } from "semantic-ui-react";
+import { Container, Divider, Dropdown, Grid, Header, Label } from "semantic-ui-react";
 import { LoadWithSpinner } from "../../components/common/lazy";
 
 import { IMathHubContext, WithContext } from "../../context";
@@ -12,6 +12,7 @@ import { MHTitle } from "../../utils/title";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "./";
 import { DocumentItemList } from "./NarrativeElements/DocumentItemList";
+import { StatisticsTable } from "./NarrativeElements/Statistics";
 
 export const Archive = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
@@ -34,9 +35,24 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                         <>
                             <MHRefBreadCrumbs to={archive} />
                             <>
-                                <Header as="h2">
-                                    <div dangerouslySetInnerHTML={{__html: archive.title}} />
-                                </Header>
+                            <Grid>
+                                    <Grid.Row>
+                                        <Grid.Column width={11}>
+                                            <Header as="h2">
+                                                <div dangerouslySetInnerHTML={{__html: archive.title}} />
+                                            </Header>
+                                        </Grid.Column>
+                                        <Grid.Column width={5}>
+                                            <Container textAlign={"right"}>
+                                                <Dropdown text={"statistics"} button icon={null} pointing={"right"}>
+                                                    <Dropdown.Menu>
+                                                        <StatisticsTable statistics={archive.statistics} />
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            </Container>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
                                 <div dangerouslySetInnerHTML={{__html: archive.description}} />
                                 <>
                                     <b>Responsible:</b> {archive.responsible.map((p) => <Label key={p}>{p}</Label>)}

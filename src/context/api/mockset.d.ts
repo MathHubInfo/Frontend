@@ -2,6 +2,7 @@ import {
     HTML,
     URI,
     IMMTVersionInfo,
+    IStatistics,
 } from "./index";
 
 /**
@@ -42,6 +43,7 @@ export interface IMockGroup extends IMockObject {
 
     description: HTML;
     responsible: string[];
+    statistics: IStatistics;
 }
 
 /** a mocked archive */
@@ -53,11 +55,13 @@ export interface IMockArchive extends IMockObject {
 
     description: HTML;
     responsible: string[];
+    statistics: IStatistics;
 }
 
 /** a mocked opaque element */
 export interface IMockDocument extends IMockObject {
     parent: IMockReference;
+    statistics: IStatistics;
 }
 
 export interface IMockNotebook extends IMockObject {

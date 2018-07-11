@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Card, Container, Divider, Header, Label } from "semantic-ui-react";
+import { Card, Container, Divider, Dropdown, Grid, Header, Label } from "semantic-ui-react";
 import { LoadWithSpinner } from "../../components/common/lazy";
 import { Nav } from "../../components/common/nav";
 
@@ -12,6 +12,7 @@ import { IArchiveRef, IGroup } from "../../context/api";
 import { MHTitle } from "../../utils/title";
 
 import { decodeLibraryLinkID, encodeLibraryLink, ILibraryRouteProps } from "./";
+import { StatisticsTable } from "./NarrativeElements/Statistics";
 
 export const Group = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
@@ -34,9 +35,24 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                         <>
                             <MHRefBreadCrumbs to={group} />
                             <>
-                                <Header as="h2">
-                                    <div dangerouslySetInnerHTML={{__html: group.title}} />
-                                </Header>
+                                <Grid>
+                                    <Grid.Row>
+                                        <Grid.Column width={11}>
+                                            <Header as="h2">
+                                                <div dangerouslySetInnerHTML={{__html: group.title}} />
+                                            </Header>
+                                        </Grid.Column>
+                                        <Grid.Column width={5}>
+                                            <Container textAlign={"right"}>
+                                                <Dropdown text={"statistics"} button icon={null} pointing={"right"}>
+                                                    <Dropdown.Menu>
+                                                        <StatisticsTable statistics={group.statistics} />
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            </Container>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
                                 <div dangerouslySetInnerHTML={{__html: group.description}} />
                                 <>
                                     <b>Responsible:</b> {group.responsible.map((p) => <Label key={p}>{p}</Label>)}

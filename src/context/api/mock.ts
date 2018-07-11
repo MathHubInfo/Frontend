@@ -255,6 +255,7 @@ export class MockAPIClient extends MMTAPIClient {
             description: actual.description,
             responsible: actual.responsible,
             archives,
+            statistics: actual.statistics,
         };
     }
 
@@ -309,12 +310,13 @@ export class MockAPIClient extends MMTAPIClient {
             description: actual.description,
             responsible: actual.responsible,
             narrativeRoot,
+            statistics: actual.statistics,
         };
     }
 
     private cleanDocument(document: IMockReference, ds: IMockDataSet): IDocument {
         const ref = this.cleanDocumentRef(document, ds);
-        // const actual = ds.documents.find((d) => d.id === document.id)!;
+        const actual = ds.documents.find((d) => d.id === document.id)!;
 
         const decls = this.findNarrativeChildren(document, ds);
 
@@ -323,6 +325,7 @@ export class MockAPIClient extends MMTAPIClient {
             ref: false,
 
             decls,
+            statistics: actual.statistics,
         };
     }
 

@@ -25,6 +25,8 @@ const Glossary = Loader("Glossary", () =>
     import(/* webpackChunkName: "applications_glossary"*/"./applications/glossary").then((g) => g.Glossary));
 const Dictionary = Loader("Dictionary", () =>
     import(/* webpackChunkName: "applications_dictionary"*/"./applications/dictionary").then((d) => d.Dictionary));
+const Keys = Loader("Keys", () =>
+import(/* webpackChunkName: "applications_glossary"*/"./applications/keys").then((k) => k.Keys));
 
 const Licenses = Loader("Legal", () =>
     import(/* webpackChunkName: "legal"*/"./legal/licenses").then((l) => l.Licenses));
@@ -53,6 +55,7 @@ export default function Routes() {
 
             <Route exact path="/applications/glossary" component={Glossary} />
             <Route exact path="/applications/dictionary" component={Dictionary} />
+            <Route exact path="/applications/keys" component={Keys} />
 
             {Devel && <Route exact path="/devel" component={Devel} />}
         </Switch>

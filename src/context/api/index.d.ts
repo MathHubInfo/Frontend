@@ -1,7 +1,7 @@
 /** This file contains type definitions for all OMDOC types exposed by the MMT API */
 
 /** anything returned by the API */
-export type IResponse = IApiObject | IMMTVersionInfo;
+export type IResponse = IApiObject | IMMTVersionInfo | IStatistics;
 
 /** any object returned by the public api */
 export type IApiObject = IReferencable | IReference ;
@@ -47,6 +47,10 @@ export interface IGroup extends IGroupItem {
     responsible: string[];
     /** a list of archives contained in this group */
     archives: IArchiveRef[];
+
+    /** statistics of this group */
+    statistics: IStatistics;
+
 }
 
 //
@@ -84,6 +88,10 @@ export interface IArchive extends IArchiveItem {
 
     /** the narrative content contained in this archive, can be empty for some archives */
     narrativeRoot: IDocument;
+
+    /** statistics of this archive */
+    statistics: IStatistics;
+
 }
 
 //
@@ -121,6 +129,10 @@ export interface IDocument extends IDocumentItem {
 
     /** a set of declarations */
     decls: INarrativeElement[];
+
+    /** statistics of this document */
+    statistics: IStatistics;
+
 }
 
 interface INotebookItem extends IAPIObjectItem {
@@ -167,6 +179,7 @@ export interface IOpaqueElement extends IOpaqueElementItem {
     contentFormat: string;
     /** the content contained in this IOpaqueElement */
     content: string;
+    
 }
 
 //
@@ -211,6 +224,7 @@ interface IModuleCommon extends IModuleItem {
 
     /** source code of this module, if available */
     source?: string;
+
 }
 
 /** a description of a theory */
@@ -235,6 +249,29 @@ export interface IView extends IModuleCommon {
 // Other responses
 //
 
+/** various statistics of an Item */
+export interface IStatistics {
+    
+    decl?: number;
+    exp?: number;
+    any?: number;
+    align?: number;
+    theo?: number;
+    doc?: number;
+    unty_con?: number;
+    ty_con?: number;
+    mal_con?: number;
+    struc?: number;
+    pat?: number;
+    judg?: number;
+    data?: number;
+    type?: number;
+    rule?: number;
+    view?: number;
+    high?: number;
+    exp_mor?: number;
+    any_mor?: number;
+}
 /** version information exposed by MMT */
 export interface IMMTVersionInfo {
     /** the version number (i.e. release number) of MMT */
@@ -264,6 +301,7 @@ interface IAPIObjectItem {
 
     /** parent of this object, if any */
     parent: IReference | null;
+
 }
 
 /** a URL */

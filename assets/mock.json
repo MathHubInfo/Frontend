@@ -11,7 +11,8 @@
             "description": "<p>One of the challenging aspects of mathematical language is its special terminology of technical terms that are defined in various mathematical documents. The SMGloM is a lexical resource that combines the characteristics of dictionaries and glossaries with those of mathematical ontologies. It facilitates a large variety of knowledge management applications without requiring full formalization, the cost of which would be prohibitive. See the license <a href=\"https://mathhub.info/help/spl0.1.html\">here</a>.</p>",
             "responsible": [
                 "kohlhase@kwarc.info"
-            ]
+            ],
+            "statistics": {}
         },
         {
             "id": "MMT",
@@ -21,7 +22,28 @@
             "description": "<p>This group contains various libraries built and maintained by the MMT group. </p>",
             "responsible": [
                 "f.rabe@jacobs-university.de"
-            ]
+            ],
+            "statistics": {}
+        },
+        {
+            "id": "ODK",
+            "name": "OpenDreamKit",
+            "title": "OpenDreamKit Meta/System Knowledge",
+            "teaser": "<p>The meta/system knowledge and specifications the  <a href='http://opendreamkit.org'>OpenDreamKit</a> project.</p>",
+            "description": "<p>The meta/system knowledge and specifications the  <a href='http://opendreamkit.org'>OpenDreamKit</a> project.</p>",
+            "responsible": [
+                "f.rabe@jacobs-university.de"
+            ],
+            "statistics": {
+                "decl": 647,
+                "exp": 2,
+                "view": 3,
+                "doc": 1,
+                "pat": 7,
+                "theo": 74,
+                "align": 22,
+                "any_mor": 1
+            }
         }
     ],
     "archives": [
@@ -36,7 +58,8 @@
             "description": "<p>This SMGloM repository is a staging ground for other repositories, it contains glossary modules that either do not fit a repository yet, or are left over from early content development.</p>  ",
             "responsible": [
                 "kohlhase@kwarc.info"
-            ]
+            ],
+            "statistics": {}
         }, 
         {
             "parent": {"id": "MMT"},
@@ -49,7 +72,8 @@
             "description": "<p>Stil an example.</p>  ",
             "responsible": [
                 "johannes-sebastian-see@fau.de"
-            ]
+            ],
+            "statistics": {}
         }, 
         {
             "parent": {"id": "stagingRoot"},
@@ -62,26 +86,68 @@
             "description": "<p>This is another archive.</p>  ",
             "responsible": [
                 "johannes-sebastian-see@fau.de"
-            ]
+            ],
+            "statistics": {}
+        }, 
+        {
+            "parent": {"id": "ODK"},
+            "id": "ODK/Notebooks",
+            "name": "Notebooks",
+
+            "title": "Jupyter Notebooks",
+            "teaser": "Jupyter Notebooks developed by Kai",
+
+            "description": "<p>This archive contains the Jupyter notebook used for Demo purposes</p>  ",
+            "responsible": [
+                "kai-amann@fau.de"
+            ],
+            "statistics": {
+                "decl": 647,
+                "exp": 2,
+                "view": 3,
+                "doc": 1,
+                "pat": 7,
+                "theo": 74,
+                "align": 22,
+                "any_mor": 1
+              }
         }
     ],
     "opaques": [],
     "documents": [{
         "parent": {"id": "MMT/example"}, 
         "id": "exampleRoot",
-        "name": "exampleRoot"
+        "name": "exampleRoot",
+        "statistics": {}
+    },{
+        "parent": {"id": "ODK/Notebooks"}, 
+        "id": "notebookRoot",
+        "name": "notebookRoot",
+        "statistics": {}
     }, {
         "parent": {"id": "smglom/staging"}, 
         "id": "stagingRoot",
-        "name": "stagingRoot"
+        "name": "stagingRoot",
+        "statistics": {}
     }, {
         "parent": {"id": "https://mathhub.info/mmt/example/fake"}, 
         "id": "https://mathhub.info/smglom/staging",
-        "name": "staging"
+        "name": "staging",
+        "statistics": {}
     }, {
         "parent": {"id": "exampleRoot"}, 
         "id": "https://mathhub.info/mmt/example/fake",
-        "name": "fake"
+        "name": "fake",
+        "statistics": {
+            "decl": 647,
+            "exp": 2,
+            "view": 3,
+            "doc": 1,
+            "pat": 7,
+            "theo": 74,
+            "align": 22,
+            "any_mor": 1
+        }
     }
     ],
     "notebooks": [{
@@ -99,6 +165,22 @@
         },
         "other" : {
             "author": "Kai"
+        }
+    },{
+        "parent": {"id": "notebookRoot"}, 
+        "id": "https://mathhub.info/ODK/Notebooks/MMTDemo",
+        "name": "MMTDemo",
+        "kernel": {
+            "display_name": "MMTDemo",
+            "language": "text",
+            "name": "MMTDemo"},
+        "language": {
+            "file_extension": ".txt",
+            "mimetype": "text/plain",
+            "name": "Any text"
+        },
+        "other" : {
+            "author": "Kai Amann"
         }
     }],
     "modules": [{
