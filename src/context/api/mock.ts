@@ -340,6 +340,7 @@ export class MockAPIClient extends MMTAPIClient {
             kernel: actual.kernel,
             language: actual.language,
             other: actual.other,
+            statistics: actual.statistics,
         };
     }
 

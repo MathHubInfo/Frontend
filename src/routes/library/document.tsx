@@ -40,7 +40,6 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                             </Header>
                         </Container>
                         <Tab
-                            menu={{ secondary: true, pointing: true }}
                             panes={[
                                 {
                                     menuItem: "View", render: () =>

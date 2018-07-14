@@ -1,9 +1,10 @@
 import * as React from "react";
 
-import { Button, Container, Header, Image, Table } from "semantic-ui-react";
+import { Container, Header, Image, Tab, Table } from "semantic-ui-react";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 import { LoadWithSpinner } from "../../components/common/lazy";
+import { StatisticsTable } from "./NarrativeElements/Statistics";
 
 import { IMathHubContext, WithContext } from "../../context";
 import { INotebook } from "../../context/api";
@@ -34,15 +35,40 @@ export const Notebook = WithContext((context: IMathHubContext) => class extends 
                         <Container text>
                             <Header as="h2">
                                 <div dangerouslySetInnerHTML={{ __html: notebook.name }} />
-                                <Button floated={"right"} size={"small"}>RUN</Button>
-                                <Image
-                                    src={require("../../../assets/logos/jupyter_logo.png")}
-                                    size={"small"}
-                                    inline
-                                    floated={"right"}
-                                />
                             </Header>
-                            <Screenshot />
+                            <Tab
+                                panes={[
+                                    {
+                                        menuItem: "view", render: () =>
+                                            <Tab.Pane />,
+                                    },
+                                    {
+                                        menuItem: "run/edit", render: () =>
+                                            <Tab.Pane>
+                                                <Image
+                                                    src={require("../../../assets/logos/jupyter_logo.png")}
+                                                    size={"mini"}
+                                                />
+                                            </Tab.Pane>,
+                                    },
+                                    {
+                                        menuItem: "metadata", render: () =>
+                                            <Tab.Pane>
+                                                <Screenshot />
+                                            </Tab.Pane>,
+                                    },
+                                    {
+                                        menuItem: "statistics", render: () =>
+                                            <Tab.Pane>
+                                                <StatisticsTable statistics={notebook.statistics} />
+                                            </Tab.Pane>,
+                                    },
+                                    {
+                                        menuItem: "graph", render: () =>
+                                            <Tab.Pane attached={false}>TGView will be added later</Tab.Pane>,
+                                    },
+                                ]}
+                            />
                         </Container>
                     </>
                     }
@@ -61,7 +87,7 @@ class Screenshot extends React.Component<{}> {
                         <Table.Row >
                             <Table.Cell width={4}>author:</Table.Cell>
                             <Table.Cell>Kai Amann</Table.Cell>
-                            <Table.Cell width={7}/>
+                            <Table.Cell width={7} />
                         </Table.Row>
                         <Table.Row>
                             <Table.Cell width={4}>date:</Table.Cell>
@@ -84,7 +110,7 @@ class Screenshot extends React.Component<{}> {
                         <Table.Row>
                             <Table.Cell>display_name:</Table.Cell>
                             <Table.Cell>MMTDemo</Table.Cell>
-                            <Table.Cell width={7}/>
+                            <Table.Cell width={7} />
                         </Table.Row>
                         <Table.Row>
                             <Table.Cell>language:</Table.Cell>
@@ -107,7 +133,7 @@ class Screenshot extends React.Component<{}> {
                         <Table.Row>
                             <Table.Cell>file_extension:</Table.Cell>
                             <Table.Cell>.mmt</Table.Cell>
-                            <Table.Cell width={7}/>
+                            <Table.Cell width={7} />
                         </Table.Row>
                         <Table.Row>
                             <Table.Cell>mimetype:</Table.Cell>

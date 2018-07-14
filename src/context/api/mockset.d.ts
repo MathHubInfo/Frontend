@@ -70,6 +70,8 @@ export interface IMockNotebook extends IMockObject {
     kernel: JSON[];
     language: JSON[];
     other: JSON[];
+
+    statistics: IStatistics;
 }
 /** a mocked opaque element */
 export interface IMockOpaqueElement extends IMockObject {

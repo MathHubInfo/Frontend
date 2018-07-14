@@ -155,6 +155,8 @@ export interface INotebook extends INotebookItem {
     kernel: JSON[];
     language: JSON[];
     other: JSON[];
+
+    statistics: IStatistics;
 }
 interface IOpaqueElementItem extends IAPIObjectItem {
     kind: "opaque";
