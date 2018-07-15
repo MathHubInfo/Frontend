@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Header, Image, Tab, Table } from "semantic-ui-react";
+import { Button, Container, Grid, Header, Image, Tab, Table } from "semantic-ui-react";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 import { LoadWithSpinner } from "../../components/common/lazy";
@@ -34,22 +34,29 @@ export const Notebook = WithContext((context: IMathHubContext) => class extends 
                         <MHRefBreadCrumbs to={notebook} />
                         <Container text>
                             <Header as="h2">
-                                <div dangerouslySetInnerHTML={{ __html: notebook.name }} />
+                                <Grid>
+                                    <Grid.Column width={6}>
+                                        <p dangerouslySetInnerHTML={{ __html: notebook.name }} />
+                                    </Grid.Column>
+                                    <Grid.Column width={10}>
+                                        <Button floated={"right"}>
+                                            source
+                                        </Button>
+                                        <Button floated={"right"}>run/edit</Button>
+                                        <Image
+
+                                                src={require("../../../assets/logos/jupyter_logo.png")}
+                                                size={"mini"}
+                                                floated={"right"}
+                                        />
+                                    </Grid.Column>
+                                </Grid>
                             </Header>
                             <Tab
                                 panes={[
                                     {
-                                        menuItem: "view", render: () =>
+                                        menuItem: "preview", render: () =>
                                             <Tab.Pane />,
-                                    },
-                                    {
-                                        menuItem: "run/edit", render: () =>
-                                            <Tab.Pane>
-                                                <Image
-                                                    src={require("../../../assets/logos/jupyter_logo.png")}
-                                                    size={"mini"}
-                                                />
-                                            </Tab.Pane>,
                                     },
                                     {
                                         menuItem: "metadata", render: () =>
