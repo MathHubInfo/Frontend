@@ -4,7 +4,7 @@ import { Button, Container, Grid, Header, Image, Tab, Table } from "semantic-ui-
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 import { LoadWithSpinner } from "../../components/common/lazy";
-import { StatisticsTable } from "./NarrativeElements/Statistics";
+import { StatisticsTable } from "./narrative/statistics";
 
 import { IMathHubContext, WithContext } from "../../context";
 import { INotebook } from "../../context/api";
