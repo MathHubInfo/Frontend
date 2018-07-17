@@ -2,7 +2,7 @@ import {
     HTML,
     URI,
     IMMTVersionInfo,
-    IStatistics,
+    IStatistic,
 } from "./index";
 
 /**
@@ -43,7 +43,7 @@ export interface IMockGroup extends IMockObject {
 
     description: HTML;
     responsible: string[];
-    statistics: IStatistics;
+    statistics: IStatistic[];
 }
 
 /** a mocked archive */
@@ -55,13 +55,13 @@ export interface IMockArchive extends IMockObject {
 
     description: HTML;
     responsible: string[];
-    statistics: IStatistics;
+    statistics: IStatistic[];
 }
 
 /** a mocked opaque element */
 export interface IMockDocument extends IMockObject {
     parent: IMockReference;
-    statistics: IStatistics;
+    statistics: IStatistic[];
 }
 
 export interface IMockNotebook extends IMockObject {
@@ -71,7 +71,7 @@ export interface IMockNotebook extends IMockObject {
     language: JSON[];
     other: JSON[];
 
-    statistics: IStatistics;
+    statistics: IStatistic[];
 }
 /** a mocked opaque element */
 export interface IMockOpaqueElement extends IMockObject {

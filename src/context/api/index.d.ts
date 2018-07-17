@@ -1,7 +1,7 @@
 /** This file contains type definitions for all OMDOC types exposed by the MMT API */
 
 /** anything returned by the API */
-export type IResponse = IApiObject | IMMTVersionInfo | IStatistics;
+export type IResponse = IApiObject | IMMTVersionInfo | IStatistic;
 
 /** any object returned by the public api */
 export type IApiObject = IReferencable | IReference ;
@@ -49,7 +49,7 @@ export interface IGroup extends IGroupItem {
     archives: IArchiveRef[];
 
     /** statistics of this group */
-    statistics: IStatistics;
+    statistics: IStatistic[];
 
 }
 
@@ -90,7 +90,7 @@ export interface IArchive extends IArchiveItem {
     narrativeRoot: IDocument;
 
     /** statistics of this archive */
-    statistics: IStatistics;
+    statistics: IStatistic[];
 
 }
 
@@ -131,7 +131,7 @@ export interface IDocument extends IDocumentItem {
     decls: INarrativeElement[];
 
     /** statistics of this document */
-    statistics: IStatistics;
+    statistics: IStatistic[];
 
 }
 
@@ -156,7 +156,7 @@ export interface INotebook extends INotebookItem {
     language: JSON[];
     other: JSON[];
 
-    statistics: IStatistics;
+    statistics: IStatistic[];
 }
 interface IOpaqueElementItem extends IAPIObjectItem {
     kind: "opaque";
@@ -250,30 +250,16 @@ export interface IView extends IModuleCommon {
 //
 // Other responses
 //
-
+ interface IStat {
+     key: string;
+     value: number;
+ }
 /** various statistics of an Item */
-export interface IStatistics {
-    
-    decl?: number;
-    exp?: number;
-    any?: number;
-    align?: number;
-    theo?: number;
-    doc?: number;
-    unty_con?: number;
-    ty_con?: number;
-    mal_con?: number;
-    struc?: number;
-    pat?: number;
-    judg?: number;
-    data?: number;
-    type?: number;
-    rule?: number;
-    view?: number;
-    high?: number;
-    exp_mor?: number;
-    any_mor?: number;
+export interface IStatistic {
+    key: string;
+    value: number;
 }
+
 /** version information exposed by MMT */
 export interface IMMTVersionInfo {
     /** the version number (i.e. release number) of MMT */

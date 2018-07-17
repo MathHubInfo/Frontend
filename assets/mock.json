@@ -12,7 +12,16 @@
             "responsible": [
                 "kohlhase@kwarc.info"
             ],
-            "statistics": {}
+            "statistics": [
+                    {
+                        "key": "decl",
+                        "value": 5
+                    },
+                    {
+                        "key": "doc",
+                        "value": 1
+                    }
+                ]
         },
         {
             "id": "MMT",
@@ -23,7 +32,7 @@
             "responsible": [
                 "f.rabe@jacobs-university.de"
             ],
-            "statistics": {}
+            "statistics": []
         },
         {
             "id": "ODK",
@@ -34,17 +43,42 @@
             "responsible": [
                 "f.rabe@jacobs-university.de"
             ],
-            "statistics": {
-                "decl": 647,
-                "exp": 2,
-                "view": 3,
-                "doc": 1,
-                "pat": 7,
-                "theo": 74,
-                "align": 22,
-                "any_mor": 1
+            "statistics": 
+                [
+                    {
+                        "key": "decl",
+                        "value": 647
+                    },
+                    {
+                        "key": "exp",
+                        "value": 2
+                    },
+                    {
+                        "key": "view",
+                        "value": 3
+                    },
+                    {
+                        "key": "doc",
+                        "value": 1
+                    },
+                    {
+                        "key": "pat",
+                        "value": 7
+                    },
+                    {
+                        "key": "theo",
+                        "value": 4
+                    },
+                    {
+                        "key": "align",
+                        "value": 22
+                    },
+                    {
+                        "key": "any_mor",
+                        "value": 1
+                    }
+                ]
             }
-        }
     ],
     "archives": [
         {
@@ -59,7 +93,7 @@
             "responsible": [
                 "kohlhase@kwarc.info"
             ],
-            "statistics": {}
+            "statistics": []
         }, 
         {
             "parent": {"id": "MMT"},
@@ -73,7 +107,7 @@
             "responsible": [
                 "johannes-sebastian-see@fau.de"
             ],
-            "statistics": {}
+            "statistics": []
         }, 
         {
             "parent": {"id": "stagingRoot"},
@@ -87,7 +121,7 @@
             "responsible": [
                 "johannes-sebastian-see@fau.de"
             ],
-            "statistics": {}
+            "statistics": []
         }, 
         {
             "parent": {"id": "ODK"},
@@ -101,54 +135,104 @@
             "responsible": [
                 "kai-amann@fau.de"
             ],
-            "statistics": {
-                "decl": 647,
-                "exp": 2,
-                "view": 3,
-                "doc": 1,
-                "pat": 7,
-                "theo": 74,
-                "align": 22,
-                "any_mor": 1
+            "statistics": 
+                [
+                    {
+                        "key": "decl",
+                        "value": 647
+                    },
+                    {
+                        "key": "exp",
+                        "value": 2
+                    },
+                    {
+                        "key": "view",
+                        "value": 3
+                    },
+                    {
+                        "key": "doc",
+                        "value": 1
+                    },
+                    {
+                        "key": "pat",
+                        "value": 7
+                    },
+                    {
+                        "key": "theo",
+                        "value": 4
+                    },
+                    {
+                        "key": "align",
+                        "value": 22
+                    },
+                    {
+                        "key": "any_mor",
+                        "value": 1
+                    }
+                ]
               }
-        }
     ],
     "opaques": [],
     "documents": [{
         "parent": {"id": "MMT/example"}, 
         "id": "exampleRoot",
         "name": "exampleRoot",
-        "statistics": {}
+        "statistics": []
     },{
         "parent": {"id": "ODK/Notebooks"}, 
         "id": "notebookRoot",
         "name": "notebookRoot",
-        "statistics": {}
+        "statistics": []
     }, {
         "parent": {"id": "smglom/staging"}, 
         "id": "stagingRoot",
         "name": "stagingRoot",
-        "statistics": {}
+        "statistics": []
     }, {
         "parent": {"id": "https://mathhub.info/mmt/example/fake"}, 
         "id": "https://mathhub.info/smglom/staging",
         "name": "staging",
-        "statistics": {}
+        "statistics": []
     }, {
         "parent": {"id": "exampleRoot"}, 
         "id": "https://mathhub.info/mmt/example/fake",
         "name": "fake",
-        "statistics": {
-            "decl": 647,
-            "exp": 2,
-            "view": 3,
-            "doc": 1,
-            "pat": 7,
-            "theo": 74,
-            "align": 22,
-            "any_mor": 1
+        "statistics": 
+            [
+                {
+                    "key": "decl",
+                    "value": 647
+                },
+                {
+                    "key": "exp",
+                    "value": 2
+                },
+                {
+                    "key": "view",
+                    "value": 3
+                },
+                {
+                    "key": "doc",
+                    "value": 1
+                },
+                {
+                    "key": "pat",
+                    "value": 7
+                },
+                {
+                    "key": "theo",
+                    "value": 4
+                },
+                {
+                    "key": "align",
+                    "value": 22
+                },
+                {
+                    "key": "any_mor",
+                    "value": 1
+                }
+            ]
         }
-    }
     ],
     "notebooks": [{
         "parent": {"id": "exampleRoot"}, 

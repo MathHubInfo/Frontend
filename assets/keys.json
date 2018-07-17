@@ -1,0 +1,97 @@
+[
+    {
+        "key": "decl",
+        "teaser": "Declared declaration",
+        "description": "Declarations declared (possibly via multiplehops) by the given theory/document/archive"
+    },
+    {
+        "key": "exp",
+        "teaser": "Induced declaration by explicit morphisms (views)",
+        "description": "Declarations induced via (possibly multiple concatenated) explicit theory morphisms (aka. views)"
+    },
+    {
+        "key": "any",
+        "teaser": "Induced declaration by any morphisms",
+        "description": "Declarations induced via any (possibly multiple concatenated) theory morphisms (views, includes, metas and implicit morphisms)"
+    },
+    {
+        "key": "align",
+        "teaser": "Alignment",
+        "description": "Declarations aligned (possibly via multiple intermediate alignments) with declaration declared by the given theory/document/archive"
+    },
+    {
+        "key": "theo",
+        "teaser": "theory",
+        "description": "theory"
+    },
+    {
+        "key": "doc",
+        "teaser": "document",
+        "description": "document"
+    },
+    {
+        "key": "unty_con",
+        "teaser": "untyped constant",
+        "description": "declaration of untyped constant"
+    },
+    {
+        "key": "ty_con",
+        "teaser": "typed constant",
+        "description": "declaration of typed constant"
+    },
+    {
+        "key": "mal_con",
+        "teaser": "maltyped constant",
+        "description": "maltyped (type can't be infered) constant declaration"
+    },
+    {
+        "key": "struc",
+        "teaser": "structure",
+        "description": "structure"
+    },
+    {
+        "key": "pat",
+        "teaser": "pattern",
+        "description": "pattern"
+    },
+    {
+        "key": "judg",
+        "teaser": "judgement constructor",
+        "description": "judgement constructor"
+    },
+    {
+        "key": "data",
+        "teaser": "data constructor",
+        "description": "data constructor"
+    },
+    {
+        "key": "type",
+        "teaser": "datatype constructor",
+        "description": "datatype constructor"
+    },
+    {
+        "key": "rule",
+        "teaser": "rule",
+        "description": "rule declarations"
+    },
+    {
+        "key": "view",
+        "teaser": "view",
+        "description": "views in the theory"
+    },
+    {
+        "key": "high",
+        "teaser": "high universe",
+        "description": "constructors returning kinds or object in even higher typing universes"
+    },
+    {
+        "key": "exp_mor",
+        "teaser": "explicit theory morphism",
+        "description": "the transitive closure of all theory morphisms into the theory"
+    },
+    {
+        "key": "any_mor",
+        "teaser": "any theory morphism",
+        "description": "the transitive closure of all theory morphisms into the theory"
+    }
+]
