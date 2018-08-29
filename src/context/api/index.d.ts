@@ -260,6 +260,15 @@ export interface IStatistic {
     value: number;
 }
 
+export interface IGlossaryEntry {
+    kind: "entry";
+    id: string;
+    name: string;
+    language: string;
+    other?: string[];
+    about: HTML;
+}
+
 /** version information exposed by MMT */
 export interface IMMTVersionInfo {
     /** the version number (i.e. release number) of MMT */

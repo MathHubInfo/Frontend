@@ -2,7 +2,7 @@ import { IMathHubConfig } from "../config";
 
 import axios from "axios";
 
-import { IArchive, IDocument, IGroup, IGroupRef, IMMTVersionInfo,
+import { IArchive, IDocument, IGlossaryEntry, IGroup, IGroupRef, IMMTVersionInfo,
          IModule, INotebook, IReferencable, URI } from "./index";
 
 /**
@@ -41,6 +41,8 @@ export abstract class MMTAPIClient {
     public abstract getModule(id: string): Promise<IModule>;
 
     public abstract getNotebook(id: string): Promise<INotebook>;
+
+    public abstract getGlossary(): Promise<IGlossaryEntry[]>;
 }
 
 /**
@@ -92,5 +94,9 @@ export class RestAPIClient extends MMTAPIClient {
 
     public getNotebook(id: string): Promise<INotebook> {
         return this.get("conten/module?id=" + this.encodeID(id));
+    }
+
+    public getGlossary(): Promise<IGlossaryEntry[]> {
+        return this.get("content/glossary");
     }
 }

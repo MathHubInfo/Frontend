@@ -24,6 +24,8 @@ export interface IMockDataSet {
     opaques: IMockOpaqueElement[];
 
     modules: IMockModule[];
+
+    glossary: IMockGlossaryEntry[];
 }
 
 /** a shallow mock reference */
@@ -103,4 +105,10 @@ interface IMockView extends IMockObject {
 
     domain: IMockReference;
     codomain: IMockReference;
+}
+
+interface IMockGlossaryEntry extends IMockObject {
+    language: string;
+    about: HTML;
+    other: string[];
 }

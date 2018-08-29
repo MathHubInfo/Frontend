@@ -274,5 +274,6 @@
         "id": "https://mathhub.info/mmt/example/fake/theory",
         "presentation": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>",
         "source": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>"
-    }]
+    }],
+    "glossary": [{}]
 }

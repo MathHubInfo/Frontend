@@ -6,6 +6,7 @@ import {
     IDocument,
     IDocumentParentRef,
     IDocumentRef,
+    IGlossaryEntry,
     IGroup,
     IGroupRef,
     IMMTVersionInfo,
@@ -106,6 +107,9 @@ export class MockAPIClient extends MMTAPIClient {
                 break;
             case "notebook":
                 co = this.cleanNotebook(obj, ds);
+                break;
+            case "entry":
+                co = this.cleanGlossaryEntry(obj, ds);
                 break;
             default:
                 // tslint:disable-next-line:no-console
@@ -394,6 +398,20 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
+    private cleanGlossaryEntry(entry: IMockReference, ds: IMockDataSet): IGlossaryEntry {
+        const actual = ds.glossary.find((g) => g.id === entry.id)!;
+        if (!actual) { this.logMockNotFound(entry.id, "glossary"); }
+
+        return {
+            kind: "entry",
+            id: actual.id,
+            name: actual.name,
+            language: actual.language,
+            about: actual.about,
+            other: actual.other,
+        };
+    }
+
     // #endregion
 
     // #region "Getters"
@@ -493,6 +511,11 @@ export class MockAPIClient extends MMTAPIClient {
             (d: IMockObject) => (d as IMockModule).kind,
             `Module ${id} does not exist. `,
         );
+    }
+
+    public getGlossary(): Promise<IGlossaryEntry[]> {
+        return this.loadDataSet().then((ds) => ds.glossary.map((g) => this.cleanGlossaryEntry(g, ds)));
+
     }
 
     // #endregion
