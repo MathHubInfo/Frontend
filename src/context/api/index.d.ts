@@ -263,10 +263,22 @@ export interface IStatistic {
 export interface IGlossaryEntry {
     kind: "entry";
     id: string;
-    name: string;
-    language: string;
-    other?: string[];
-    about: HTML;
+    kwd: {
+        en?: string;
+        de?: string;
+        tr?: string;
+        ro?: string;
+        zhs?: string;
+        zht?: string;
+    };
+    def: {
+        en?: HTML;
+        de?: HTML;
+        tr?: HTML;
+        ro?: HTML;
+        zhs?: HTML;
+        zht?: HTML;
+    };
 }
 
 /** version information exposed by MMT */

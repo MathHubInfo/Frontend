@@ -108,7 +108,20 @@ interface IMockView extends IMockObject {
 }
 
 interface IMockGlossaryEntry extends IMockObject {
-    language: string;
-    about: HTML;
-    other: string[];
+    kwd: {
+        en?: string;
+        de?: string;
+        tr?: string;
+        ro?: string;
+        zhs?: string;
+        zht?: string;
+    };
+    def: {
+        en?: HTML;
+        de?: HTML;
+        tr?: HTML;
+        ro?: HTML;
+        zhs?: HTML;
+        zht?: HTML;
+    };
 }

@@ -405,10 +405,8 @@ export class MockAPIClient extends MMTAPIClient {
         return {
             kind: "entry",
             id: actual.id,
-            name: actual.name,
-            language: actual.language,
-            about: actual.about,
-            other: actual.other,
+            kwd: actual.kwd,
+            def: actual.def,
         };
     }
 
