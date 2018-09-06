@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { Container, Divider, Header, List, Tab } from "semantic-ui-react";
+import { Card, Container, Divider, Grid, Header, List, Tab } from "semantic-ui-react";
 
 import { LoadWithSpinner } from "../../components/common/lazy";
 import { IMathHubContext, WithContext } from "../../context";
-import { IGlossaryEntry } from "../../context/api";
+import { IGlossaryEntry, Pane, TKnownLanguages } from "../../context/api";
 
 export class Glossary extends React.Component<{}, {}> {
     public render() {
@@ -29,70 +29,31 @@ const GlossaryEntryTabs = WithContext((context: IMathHubContext) => class extend
         this.getGlossary = this.getGlossary.bind(this);
     }
 
+    private createPanes(glossary: IGlossaryEntry[]) {
+        const languages: TKnownLanguages[] = ["en", "de", "fr", "tr", "ro", "zhs", "zht"];
+        const panes: Pane[] = [];
+        languages.map((l) => panes.push({
+            menuItem: l, render: () =>
+                (
+                    <List bulleted>
+                        {glossary
+                            .filter((e) => e.kind === "entry")
+                            .map((entry) =>
+                                <GlossaryEntry key={entry.id} entry={entry} language={l} />)}
+                    </List>
+                ),
+        }),
+        );
+        return panes;
+    }
     private getGlossary() { return context.client.getGlossary(); }
 
     public render() {
-
         return (
             <LoadWithSpinner title="Glossary" promise={this.getGlossary}>{
                 (glossary: IGlossaryEntry[]) =>
                     <Tab
-                        panes={[
-                            {
-                                menuItem: "en", render: () =>
-                                    <List bulleted>
-                                        {glossary
-                                            .filter((e) => e.kind === "entry")
-                                            .map((entry) =>
-                                                <GlossaryEntry key={entry.id} entry={entry} language="en" />)}
-                                    </List>,
-                            },
-                            {
-                                menuItem: "de", render: () =>
-                                    <List bulleted>
-                                        {glossary
-                                            .filter((e) => e.kind === "entry")
-                                            .map((entry) =>
-                                                <GlossaryEntry key={entry.id} entry={entry} language="de" />)}
-                                    </List>,
-                            },
-                            {
-                                menuItem: "ro", render: () =>
-                                    <List bulleted>
-                                        {glossary
-                                            .filter((e) => e.kind === "entry")
-                                            .map((entry) =>
-                                                <GlossaryEntry key={entry.id} entry={entry} language="ro" />)}
-                                    </List>,
-                            },
-                            {
-                                menuItem: "tr", render: () =>
-                                    <List bulleted>
-                                        {glossary
-                                            .filter((e) => e.kind === "entry")
-                                            .map((entry) =>
-                                                <GlossaryEntry key={entry.id} entry={entry} language="tr" />)}
-                                    </List>,
-                            },
-                            {
-                                menuItem: "zht", render: () =>
-                                    <List bulleted>
-                                        {glossary
-                                            .filter((e) => e.kind === "entry")
-                                            .map((entry) =>
-                                                <GlossaryEntry key={entry.id} entry={entry} language="zht" />)}
-                                    </List>,
-                            },
-                            {
-                                menuItem: "zhs", render: () =>
-                                    <List bulleted>
-                                        {glossary
-                                            .filter((e) => e.kind === "entry")
-                                            .map((entry) =>
-                                                <GlossaryEntry key={entry.id} entry={entry} language="zhs" />)}
-                                    </List>,
-                            },
-                        ]}
+                        panes={this.createPanes(glossary)}
                     />
             }</LoadWithSpinner>
         );
@@ -100,108 +61,63 @@ const GlossaryEntryTabs = WithContext((context: IMathHubContext) => class extend
     }
 });
 
-class GlossaryEntry extends React.Component<{ entry: IGlossaryEntry, language: string }> {
+class GlossaryEntry extends React.Component<{ entry: IGlossaryEntry, language: TKnownLanguages }> {
+    public state = { show: false };
+
+    private handleClick = () =>
+        this.setState({
+            show: !this.state.show,
+        })
     private other() {
         const { entry } = this.props;
         const { language } = this.props;
         let ret = "=>";
-        if (language !== "en" && entry.kwd.en !== undefined) {
-            ret = ret + " en";
-        }
-        if (language !== "de" && entry.kwd.de !== undefined) {
-            ret = ret + " de";
-        }
-        if (language !== "ro" && entry.kwd.ro !== undefined) {
-            ret = ret + " ro";
-        }
-        if (language !== "tr" && entry.kwd.tr !== undefined) {
-            ret = ret + " tr";
-        }
-        if (language !== "zht" && entry.kwd.zht !== undefined) {
-            ret = ret + " zht";
-        }
-        if (language !== "zhs" && entry.kwd.zhs !== undefined) {
-            ret = ret + " zhs";
-        }
+        const languages: TKnownLanguages[] = ["en", "de", "fr", "tr", "ro", "zhs", "zht"];
+        languages
+            .filter((l) => (l !== language && entry.kwd[l] !== undefined))
+            .map((l) => ret = ret + " " + l);
         if (ret === "=>") {
             return "";
         }
         return ret;
     }
+
+    private showDefinition(definition?: string) {
+        if (this.state.show) {
+            return (
+                <div dangerouslySetInnerHTML={{ __html: definition === undefined ? "" : definition }}/>
+            );
+        }
+        return(<></>);
+    }
     public render() {
         const { entry } = this.props;
         const { language } = this.props;
-        switch (language) {
-            case "en":
-                if (entry.kwd.en === undefined) {
-                    return (<></>);
-                }
-                return (
-                    <List.Item>
-                        <h3>{entry.kwd.en}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: (entry.def.en === undefined ? "" : entry.def.en) }} />
-                        <>{this.other()}</>
-                    </List.Item >
-                );
-            case "de":
-                if (entry.kwd.de === undefined) {
-                    return (<></>);
-                }
-                return (
-                    <List.Item>
-                        <h3>{entry.kwd.de}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: (entry.def.de === undefined ? "" : entry.def.de) }} />
-                        <>{this.other()}</>
-                    </List.Item>
-                );
-            case "ro":
-                if (entry.kwd.ro === undefined) {
-                    return (<></>);
-                }
-                return (
-                    <List.Item>
-                        <h3>{entry.kwd.ro}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: (entry.def.ro === undefined ? "" : entry.def.ro) }} />
-                        <>{this.other()}</>
-                    </List.Item>
-                );
-            case "tr":
-                if (entry.kwd.tr === undefined) {
-                    return (<></>);
-                }
-                return (
-                    <List.Item>
-                        <h3>{entry.kwd.tr}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: (entry.def.tr === undefined ? "" : entry.def.tr) }} />
-                        <>{this.other()}</>
-                    </List.Item>
-                );
-            case "zhs":
-                if (entry.kwd.zhs === undefined) {
-                    return (<></>);
-                }
-                return (
-                    <List.Item>
-                        <h3>{entry.kwd.zhs}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: (entry.def.zhs === undefined ? "" : entry.def.zhs) }} />
-                        <>{this.other()}</>
-                    </List.Item>
-                );
-            case "zht":
-                if (entry.kwd.zht === undefined) {
-                    return (<></>);
-                }
-                return (
-                    <List.Item>
-                        <h3>{entry.kwd.zht}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: (entry.def.zht === undefined ? "" : entry.def.zht) }} />
-                        <>{this.other()}</>
-                    </List.Item>
-                );
-
-            default:
-                return (<></>);
-
+        if (entry.kwd[language] === undefined) {
+            return (<></>);
         }
+        const definition = entry.def[language];
+
+        return (
+            <Card fluid onClick={this.handleClick}>
+                <Card.Content>
+                    <Card.Header>
+                        <Grid>
+                            <Grid.Column width={11}>
+                                <div>{entry.kwd[language]}</div>
+                            </Grid.Column>
+                            <Grid.Column width={5}>
+                                <Container textAlign={"right"}>
+                                    <h4>{this.other()}</h4>
+                                </Container>
+                            </Grid.Column>
+                        </Grid>
+                    </Card.Header>
+                    <Card.Description>
+                        {this.showDefinition(definition)}
+                    </Card.Description>
+                </Card.Content>
+            </Card>
+        );
     }
 }

@@ -260,25 +260,18 @@ export interface IStatistic {
     value: number;
 }
 
+export type TKnownLanguages = "en" | "de" | "fr" | "tr" | "ro" | "zhs" | "zht"; 
+
 export interface IGlossaryEntry {
     kind: "entry";
     id: string;
-    kwd: {
-        en?: string;
-        de?: string;
-        tr?: string;
-        ro?: string;
-        zhs?: string;
-        zht?: string;
-    };
-    def: {
-        en?: HTML;
-        de?: HTML;
-        tr?: HTML;
-        ro?: HTML;
-        zhs?: HTML;
-        zht?: HTML;
-    };
+    kwd: {[k in TKnownLanguages]?: string};
+    def: {[k in TKnownLanguages]?: string};
+}
+
+export interface Pane {
+    menuItem: string;
+    render: () => JSX.Element;
 }
 
 /** version information exposed by MMT */
