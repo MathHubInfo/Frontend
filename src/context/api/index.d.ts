@@ -269,11 +269,6 @@ export interface IGlossaryEntry {
     def: {[k in TKnownLanguages]?: string};
 }
 
-export interface Pane {
-    menuItem: string;
-    render: () => JSX.Element;
-}
-
 /** version information exposed by MMT */
 export interface IMMTVersionInfo {
     /** the version number (i.e. release number) of MMT */
