@@ -4,6 +4,7 @@ import { Button, Container, Grid, Header, Image, Tab, Table } from "semantic-ui-
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 import { LoadWithSpinner } from "../../components/common/lazy";
+import { MathHtmlDiv } from "../../components/common/mathhtmldiv";
 import { StatisticsTable } from "./narrative/statistics";
 
 import { IMathHubContext, WithContext } from "../../context";
@@ -36,7 +37,7 @@ export const Notebook = WithContext((context: IMathHubContext) => class extends 
                             <Header as="h2">
                                 <Grid>
                                     <Grid.Column width={6}>
-                                        <p dangerouslySetInnerHTML={{ __html: notebook.name }} />
+                                        <MathHtmlDiv content={notebook.name} />
                                     </Grid.Column>
                                     <Grid.Column width={10}>
                                         <Button floated={"right"}>

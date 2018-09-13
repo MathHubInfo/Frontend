@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { Card, Container, Divider, Dropdown, Grid, Header, Label } from "semantic-ui-react";
 import { LoadWithSpinner } from "../../components/common/lazy";
+import { MathHtmlDiv } from "../../components/common/mathhtmldiv";
 import { Nav } from "../../components/common/nav";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
@@ -39,7 +40,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                                     <Grid.Row>
                                         <Grid.Column width={11}>
                                             <Header as="h2">
-                                                <div dangerouslySetInnerHTML={{__html: group.title}} />
+                                                <MathHtmlDiv content={group.title} />
                                             </Header>
                                         </Grid.Column>
                                         <Grid.Column width={5}>
@@ -53,7 +54,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                                         </Grid.Column>
                                     </Grid.Row>
                                 </Grid>
-                                <div dangerouslySetInnerHTML={{__html: group.description}} />
+                                <MathHtmlDiv content={group.description} />
                                 <>
                                     <b>Responsible:</b> {group.responsible.map((p) => <Label key={p}>{p}</Label>)}
                                 </>
@@ -90,7 +91,7 @@ class ArchiveListItem extends React.Component<{archive: IArchiveRef}> {
             <Card>
                 <Card.Content>
                     <Card.Header as={Nav} to={encodeLibraryLink(archive)} >
-                        <div dangerouslySetInnerHTML={{__html: archive.title}} />
+                        <MathHtmlDiv content={archive.title} />
                     </Card.Header>
                     <Card.Description>{archive.teaser}</Card.Description>
                 </Card.Content>

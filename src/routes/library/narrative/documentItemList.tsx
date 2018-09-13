@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { Card } from "semantic-ui-react";
+import { MathHtmlDiv } from "../../../components/common/mathhtmldiv";
 import { Nav } from "../../../components/common/nav";
 import { INarrativeElement } from "../../../context/api";
 import { encodeLibraryLink } from "./../";
@@ -33,10 +34,10 @@ class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
             <Card>
                 <Card.Content>
                     <Card.Header as={Nav} to={encodeLibraryLink(narrative)} >
-                        <div dangerouslySetInnerHTML={{__html: narrative.name}} />
+                        <MathHtmlDiv content={narrative.name} />
                     </Card.Header>
                     <Card.Description>
-                        <div dangerouslySetInnerHTML={{__html: narrative.id}} />
+                        <MathHtmlDiv content={narrative.id} />
                     </Card.Description>
                 </Card.Content>
             </Card>

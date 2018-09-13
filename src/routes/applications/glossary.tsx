@@ -3,6 +3,7 @@ import * as React from "react";
 import { Card, Container, Divider, Grid, Header, Label, List, Tab } from "semantic-ui-react";
 
 import { LoadWithSpinner } from "../../components/common/lazy";
+import { MathHtmlDiv } from "../../components/common/mathhtmldiv";
 import { IMathHubContext, WithContext } from "../../context";
 import { IGlossaryEntry, TKnownLanguages } from "../../context/api";
 
@@ -31,13 +32,30 @@ const GlossaryEntryTabs = WithContext((context: IMathHubContext) => class extend
         this.getGlossary = this.getGlossary.bind(this);
     }
 
+    private getGlossary() { return context.client.getGlossary(); }
+
+    public render() {
+        return (
+            <LoadWithSpinner title="Glossary" promise={this.getGlossary}>{
+                (glossary: IGlossaryEntry[]) =>
+                    <GlossaryTab glossary={glossary}/>
+            }</LoadWithSpinner>
+        );
+
+    }
+});
+
+class GlossaryTab extends React.Component<{glossary: IGlossaryEntry[]}> {
+
     public state = { activeIndex: 0 };
 
-    public changeTab = (language: TKnownLanguages) => () => {
+    public changeTab = (language: TKnownLanguages) => (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
         this.setState({ activeIndex: languages.indexOf(language) });
     }
-    public handleTabChange = (e: any, { activeIndex }: any) =>
-        this.setState({ activeIndex })
+    public handleTabChange = (e: any, { activeIndex }: any) => {
+        this.setState({ activeIndex });
+    }
 
     private createPanes(glossary: IGlossaryEntry[]) {
         return languages.map((l) => {
@@ -59,27 +77,22 @@ const GlossaryEntryTabs = WithContext((context: IMathHubContext) => class extend
             };
         });
     }
-    private getGlossary() { return context.client.getGlossary(); }
 
     public render() {
+        const { glossary } = this.props;
         return (
-            <LoadWithSpinner title="Glossary" promise={this.getGlossary}>{
-                (glossary: IGlossaryEntry[]) =>
-                    <Tab
-                        panes={this.createPanes(glossary)}
-                        activeIndex={this.state.activeIndex}
-                        onTabChange={this.handleTabChange}
-                    />
-            }</LoadWithSpinner>
+            <Tab
+                panes={this.createPanes(glossary)}
+                activeIndex={this.state.activeIndex}
+                onTabChange={this.handleTabChange}
+            />
         );
-
     }
-});
-
+}
 class GlossaryEntry extends React.Component<{
     entry: IGlossaryEntry,
     language: TKnownLanguages,
-    changeTab: ((language: TKnownLanguages) => () => void),
+    changeTab: ((language: TKnownLanguages) => (e: React.MouseEvent<HTMLElement>) => void),
 }> {
 
     public state = { show: false };
@@ -96,13 +109,14 @@ class GlossaryEntry extends React.Component<{
 
         return languages
             .filter((l) => (l !== language && entry.kwd[l] !== undefined))
-            .map((l) => <Label key={`${entry.id}_${l}`} onClick={changeTab(l)}>{l}</Label>);
+            .map((l) =>
+                (<Label key={`${entry.id}_${l}`} onClick={changeTab(l)}>{l}</Label>));
     }
 
     private showDefinition(definition?: string) {
         if (this.state.show) {
             return (
-                <div dangerouslySetInnerHTML={{ __html: definition === undefined ? "" : definition }} />
+                <MathHtmlDiv content={definition === undefined ? "" : definition}/>
             );
         }
         return null;
@@ -111,7 +125,7 @@ class GlossaryEntry extends React.Component<{
         const { entry } = this.props;
         const { language } = this.props;
         if (entry.kwd[language] === undefined) {
-           return null;
+            return null;
         }
         const definition = entry.def[language];
 

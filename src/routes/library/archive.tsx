@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { Container, Divider, Dropdown, Grid, Header, Label } from "semantic-ui-react";
 import { LoadWithSpinner } from "../../components/common/lazy";
+import { MathHtmlDiv } from "../../components/common/mathhtmldiv";
 
 import { IMathHubContext, WithContext } from "../../context";
 import { IArchive } from "../../context/api";
@@ -39,7 +40,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                                     <Grid.Row>
                                         <Grid.Column width={11}>
                                             <Header as="h2">
-                                                <div dangerouslySetInnerHTML={{__html: archive.title}} />
+                                                <MathHtmlDiv content={archive.title} />
                                             </Header>
                                         </Grid.Column>
                                         <Grid.Column width={5}>
@@ -53,7 +54,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                                         </Grid.Column>
                                     </Grid.Row>
                                 </Grid>
-                                <div dangerouslySetInnerHTML={{__html: archive.description}} />
+                                <MathHtmlDiv content={archive.description} />
                                 <>
                                     <b>Responsible:</b> {archive.responsible.map((p) => <Label key={p}>{p}</Label>)}
                                 </>

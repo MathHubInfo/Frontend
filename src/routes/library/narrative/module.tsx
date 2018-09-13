@@ -3,6 +3,7 @@ import * as React from "react";
 import { Tab } from "semantic-ui-react";
 import { decodeLibraryLinkID } from "../";
 import { LoadWithSpinner } from "../../../components/common/lazy";
+import { MathHtmlDiv } from "../../../components/common/mathhtmldiv";
 import { IMathHubContext } from "../../../context";
 import { IModuleCommon, INarrativeElement } from "../../../context/api";
 
@@ -41,7 +42,7 @@ class ModuleViewElement extends React.Component<{narrative: INarrativeElement, c
                     promise={this.getModule}
                     errorMessage={true}
             >{(module: IModuleCommon) =>
-                <div dangerouslySetInnerHTML={{__html: module.presentation}} />
+                <MathHtmlDiv content={module.presentation} />
             }
             </LoadWithSpinner>
         );
