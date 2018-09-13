@@ -10,9 +10,7 @@ export class DocumentItemList extends React.Component<{nRoot: INarrativeElement[
     public render() {
         const {nRoot} = this.props;
         if (typeof nRoot === "undefined") {
-            return(
-                <></>
-            );
+            return null;
         }
         return (
             <Card.Group itemsPerRow="1">
@@ -26,9 +24,7 @@ class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
     public render() {
         const {narrative} = this.props;
         if (narrative.kind !== "document" && narrative.kind !== "notebook") {
-            return(
-                <></>
-            );
+            return null;
         }
         return (
             <Card>

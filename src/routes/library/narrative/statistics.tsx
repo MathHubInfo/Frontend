@@ -28,9 +28,7 @@ class StatisticsElement extends React.Component<{ name: string, value?: number }
         const { name } = this.props;
         const { value } = this.props;
         if (value == null) {
-            return (
-                <></>
-            );
+            return null;
         }
         for (const s of statsKeys) {
             if (s.key === name) {
