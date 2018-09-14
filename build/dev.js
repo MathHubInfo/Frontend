@@ -56,7 +56,7 @@ export default {
 
         // fewer logging
         clientLogLevel: "error", 
-        noInfo: true
+        noInfo: false,
     }, 
 
     plugins: [

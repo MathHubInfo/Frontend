@@ -24,10 +24,12 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.2",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "browserslist": "^4.1.1",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
     "extract-css-chunks-webpack-plugin": "^3.1.1",
     "file-loader": "^2.0.0",
+    "hard-source-webpack-plugin": "^0.12.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "imagemin-webpack-plugin": "^2.2.0",
@@ -62,5 +64,6 @@
     "react-router-dom": "^4.3.1",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react": "^0.82.5"
-  }
+  },
+  "browserslist": "last 2 versions, not dead, not IE > 0, Firefox ESR"
 }

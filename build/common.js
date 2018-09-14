@@ -1,5 +1,6 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
+import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 
 import { resolve } from 'path'
 
@@ -85,6 +86,24 @@ export const common = {
         // generate index.html
         new HtmlWebpackPlugin({
             template: 'src/index.html'
+        }),
+        
+        new HardSourceWebpackPlugin({
+            configHash: function(webpackConfig) {
+                let hash = [
+                    webpackConfig, 
+                    require('../tsconfig.json'),
+                    JSON.parse(require('fs').readFileSync(resolve(root, '.babelrc'))),
+                    require('../tslint.json'),
+                    require('../package.json').browserslist
+                ].map(o => require('node-object-hash')({sort: false}).hash(o)).join('-');
+                
+                // and then also all our user-environment
+                for(var key in require('./env')){
+                    hash += '-' + (process.env[key] || '');
+                }
+                return require('crypto').createHash('md5').update(hash).digest('hex');
+            }
         })
     ]
 };
