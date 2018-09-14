@@ -1,6 +1,6 @@
 {
     "version": {
-        "version": "Mock MMT"
+        "versionNumber": "Mock MMT"
     },
     "groups": [
         {
@@ -249,7 +249,8 @@
         },
         "other" : {
             "author": "Kai"
-        }
+        },
+        "statistics": {}
     },{
         "parent": {"id": "notebookRoot"}, 
         "id": "https://mathhub.info/ODK/Notebooks/MMTDemo",
