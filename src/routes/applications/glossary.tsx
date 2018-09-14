@@ -3,7 +3,7 @@ import * as React from "react";
 import { Card, Container, Divider, Grid, Header, Label, List, Tab } from "semantic-ui-react";
 
 import { LoadWithSpinner } from "../../components/common/lazy";
-import { MathHtmlDiv } from "../../components/common/mathhtmldiv";
+import { MathHTML } from "../../components/common/mathhtml";
 import { IMathHubContext, WithContext } from "../../context";
 import { IGlossaryEntry, TKnownLanguages } from "../../context/api";
 
@@ -116,7 +116,7 @@ class GlossaryEntry extends React.Component<{
     private showDefinition(definition?: string) {
         if (this.state.show) {
             return (
-                <MathHtmlDiv content={definition === undefined ? "" : definition}/>
+                <MathHTML content={definition === undefined ? "" : definition}/>
             );
         }
         return null;

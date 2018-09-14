@@ -3,7 +3,7 @@ import * as React from "react";
 import { Tab } from "semantic-ui-react";
 import { decodeLibraryLinkID } from "../";
 import { LoadWithSpinner } from "../../../components/common/lazy";
-import { MathHtmlDiv } from "../../../components/common/mathhtmldiv";
+import { MathHTML } from "../../../components/common/mathhtml";
 import { IMathHubContext } from "../../../context";
 import { IModuleCommon, INarrativeElement } from "../../../context/api";
 
@@ -42,7 +42,7 @@ class ModuleViewElement extends React.Component<{narrative: INarrativeElement, c
                     promise={this.getModule}
                     errorMessage={true}
             >{(module: IModuleCommon) =>
-                <MathHtmlDiv content={module.presentation} />
+                <MathHTML content={module.presentation} />
             }
             </LoadWithSpinner>
         );

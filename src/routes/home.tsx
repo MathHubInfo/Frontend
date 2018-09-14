@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Button, Divider, Grid, Image } from "semantic-ui-react";
 
 import { LoadWithSpinner } from "../components/common/lazy";
-import { MathHtmlDiv } from "../components/common/mathhtmldiv";
+import { MathHTML } from "../components/common/mathhtml";
 // import { Nav } from "../components/common/nav";
 
 import { MHTitle } from "../utils/title";
@@ -66,7 +66,7 @@ class HomeDisplay extends React.Component<{content: string}> {
         return (
             <MHTitle title="Home">
                 <>
-                    <MathHtmlDiv content={content}/>
+                    <MathHTML content={content}/>
                 </>
             </MHTitle>
         );

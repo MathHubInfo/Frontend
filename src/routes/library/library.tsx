@@ -3,7 +3,7 @@ import * as React from "react";
 import { Card, Container, Divider } from "semantic-ui-react";
 
 import { LoadWithSpinner } from "../../components/common/lazy";
-import { MathHtmlDiv } from "../../components/common/mathhtmldiv";
+import { MathHTML } from "../../components/common/mathhtml";
 import { Nav } from "../../components/common/nav";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
@@ -58,10 +58,10 @@ class GroupListItem extends React.Component<{group: IGroupRef}> {
             <Card>
                 <Card.Content>
                     <Card.Header as={Nav} to={encodeLibraryLink(group)}>
-                        <MathHtmlDiv content={group.title} />
+                        <MathHTML content={group.title} />
                     </Card.Header>
                     <Card.Description>
-                        <MathHtmlDiv content={group.teaser} />
+                        <MathHTML content={group.teaser} />
                     </Card.Description>
                 </Card.Content>
             </Card>
