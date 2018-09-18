@@ -10,6 +10,28 @@ import { delay } from "../utils/promises";
 import { Icon, Message } from "semantic-ui-react";
 
 export function Devel(props: {}) {
+    const parser = require("html-react-parser");
+    const parserOptions = {
+        replace: ({ attribs, children }: any) => {
+            if (!attribs) {
+                return null;
+            }
+            if (attribs.id === "main") {
+                return (
+                    <h1 style={{ fontSize: 42 }}>
+                        {parser.domToReact(children, parserOptions)}
+                    </h1>
+                );
+            }
+            if (attribs.id === "child") {
+                return (
+                    <div style={{ color: "red" }}>
+                        {parser.domToReact(children, parserOptions)}
+                    </div>
+                );
+            }
+        },
+    };
     return (
         <>
             This page is intended for debugging purposes only. <br />
@@ -17,6 +39,21 @@ export function Devel(props: {}) {
 
             This page might also have a memory leak.
             You have been warned.
+
+            <h2>Parser</h2>
+            <div><div id="replace">Hello</div> world!</div>
+            <div>=></div>
+            {parser("<div><div id='replace'>Hello</div> world!</div>", {
+                replace: (domNode: any) => {
+                    if (domNode.attribs && domNode.attribs.id === "replace") {
+                        return (<span>Hello</span>);
+                    }
+                },
+            })}
+
+            <div id="main">BIG<span id="child">red</span>BIG</div>
+            <div>=></div>
+            {parser("<div id='main'>BIG<span id='child'>red</span>BIG</div>")}
 
             <h2>Process.Env</h2>
             <MonospaceContainer>{JSON.stringify(process.env, undefined, 4)}</MonospaceContainer>
@@ -60,7 +97,7 @@ const Rejection = Loader({
     errorTitle: "Loading has been rejected as intended",
     errorMessage: true,
 }, () =>
-    delay(Promise.reject<React.SFC<{}>>("Nothing to worry about. "), loadTimeDelay));
+        delay(Promise.reject<React.SFC<{}>>("Nothing to worry about. "), loadTimeDelay));
 
 let hasTriedBefore = false;
 const Retry = Loader("Retry", () => {
