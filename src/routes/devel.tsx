@@ -1,3 +1,6 @@
+import { default as Parser, DOMNode, IHTMLReactParserOptions } from "html-react-parser";
+// tslint:disable-next-line:no-submodule-imports
+import domToReact from "html-react-parser/lib/dom-to-react";
 import * as React from "react";
 
 import { CreateSpinningLoader as Loader } from "../components/common/lazy";
@@ -8,36 +11,48 @@ import { Context } from "../context";
 import { delay } from "../utils/promises";
 
 import { Icon, Message } from "semantic-ui-react";
-
-import {default as Parser, DOMNode, ReactElement } from "html-react-parser";
-// These work if you need them
-// tslint:disable-next-line:no-submodule-imports
-// import domToReact from "html-react-parser/lib/dom-to-react";
+import { MathHTML } from "../components/common/mathhtml";
 
 export function Devel(props: {}) {
+    const htmlstring = "<div>Before <a href='http://opendreamkit.org' id='replace'>OpenDreamKit</a> after</div>";
+    const parserOptions: IHTMLReactParserOptions = {
+        replace: (node: DOMNode) => {
+            if (node.type !== "tag") { return; }
+            const { attribs, children } = node;
+            if (!attribs) { return; }
+            if (attribs.id === "main") {
+                return (
+                    <h1 style={{ fontSize: 41 }}>
+                        {domToReact(children, parserOptions)}
+                    </h1>
+                );
+            }
+            if (attribs.id === "child") {
+                return (
+                    <div style={{ color: "red", fontSize: 12 }}>
+                        {domToReact(children, parserOptions)}
+                    </div>
+                );
+            }
+            return;
+        },
+    };
     return (
         <>
             This page is intended for debugging purposes only. <br />
             If you are seeing it in production, you did something wrong. <br />
 
             This page might also have a memory leak.
-            You have been warned.
-
+            You have been warned. <br />
             <h2>Parser</h2>
             <div><div id="replace">Hello</div> world!</div>
             <div>=></div>
-            {Parser("<div><div id='make-me-red'>Hello</div> <div class='stuff'>world!</div></div>", {
-                replace: (domNode: DOMNode): ReactElement | null | undefined => {
-                    if (domNode.type !== "tag") { return; } // we need to ignore non-tags
-                    if (domNode.attribs && domNode.attribs.id === "replace") {
-                        return (<span style={{color: "red"}}>Hello</span>);
-                    }
-                },
-            })}
+            <MathHTML content={htmlstring} reference />
 
             <div id="main">BIG<span id="child">red</span>BIG</div>
             <div>=></div>
-            {Parser("<div id='main'>BIG<span id='child'>red</span>BIG</div>")}
+            {Parser("<div id='main'>BIG<span id='child'>red</span>BIG</div>", parserOptions)}< br/>
+            <MathHTML content={"<div id='main'>BIG<span id='child'>red</span>BIG</div>"} reference />
 
             <h2>Process.Env</h2>
             <MonospaceContainer>{JSON.stringify(process.env, undefined, 4)}</MonospaceContainer>

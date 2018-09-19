@@ -54,7 +54,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                                         </Grid.Column>
                                     </Grid.Row>
                                 </Grid>
-                                <MathHTML content={archive.description} />
+                                <MathHTML content={archive.description} reference/>
                                 <>
                                     <b>Responsible:</b> {archive.responsible.map((p) => <Label key={p}>{p}</Label>)}
                                 </>
