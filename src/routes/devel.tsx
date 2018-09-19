@@ -9,29 +9,12 @@ import { delay } from "../utils/promises";
 
 import { Icon, Message } from "semantic-ui-react";
 
+import {default as Parser, DOMNode, ReactElement } from "html-react-parser";
+// These work if you need them
+// tslint:disable-next-line:no-submodule-imports
+// import domToReact from "html-react-parser/lib/dom-to-react";
+
 export function Devel(props: {}) {
-    const parser = require("html-react-parser");
-    const parserOptions = {
-        replace: ({ attribs, children }: any) => {
-            if (!attribs) {
-                return null;
-            }
-            if (attribs.id === "main") {
-                return (
-                    <h1 style={{ fontSize: 42 }}>
-                        {parser.domToReact(children, parserOptions)}
-                    </h1>
-                );
-            }
-            if (attribs.id === "child") {
-                return (
-                    <div style={{ color: "red" }}>
-                        {parser.domToReact(children, parserOptions)}
-                    </div>
-                );
-            }
-        },
-    };
     return (
         <>
             This page is intended for debugging purposes only. <br />
@@ -43,17 +26,18 @@ export function Devel(props: {}) {
             <h2>Parser</h2>
             <div><div id="replace">Hello</div> world!</div>
             <div>=></div>
-            {parser("<div><div id='replace'>Hello</div> world!</div>", {
-                replace: (domNode: any) => {
+            {Parser("<div><div id='make-me-red'>Hello</div> <div class='stuff'>world!</div></div>", {
+                replace: (domNode: DOMNode): ReactElement | null | undefined => {
+                    if (domNode.type !== "tag") { return; } // we need to ignore non-tags
                     if (domNode.attribs && domNode.attribs.id === "replace") {
-                        return (<span>Hello</span>);
+                        return (<span style={{color: "red"}}>Hello</span>);
                     }
                 },
             })}
 
             <div id="main">BIG<span id="child">red</span>BIG</div>
             <div>=></div>
-            {parser("<div id='main'>BIG<span id='child'>red</span>BIG</div>")}
+            {Parser("<div id='main'>BIG<span id='child'>red</span>BIG</div>")}
 
             <h2>Process.Env</h2>
             <MonospaceContainer>{JSON.stringify(process.env, undefined, 4)}</MonospaceContainer>
