@@ -38,7 +38,6 @@ Promise.all([
         <MathHub
             MOCK_MMT={process.env.MOCK_MMT === "true"}
             MMT_URL={process.env.MMT_URL!}
-            ADMIN_URL={process.env.ADMIN_URL!}
         />,
         document.getElementById("mathhub"),
     );

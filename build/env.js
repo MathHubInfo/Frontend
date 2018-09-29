@@ -5,6 +5,4 @@
 module.exports = {
     'MMT_URL': (url) => url || "http://localhost:9000/:mathhub/", 
     'MOCK_MMT': (mock) => mock === "1",
-
-    'ADMIN_URL': (url) => url || "/admin/"
 };
