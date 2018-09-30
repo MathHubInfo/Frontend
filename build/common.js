@@ -88,6 +88,7 @@ export const common = {
             template: 'src/index.html'
         }),
         
+        /*
         new HardSourceWebpackPlugin({
             configHash: function(webpackConfig) {
                 let hash = [
@@ -104,6 +105,6 @@ export const common = {
                 }
                 return require('crypto').createHash('md5').update(hash).digest('hex');
             }
-        })
+        })*/
     ]
 };
