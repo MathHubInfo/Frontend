@@ -3,6 +3,7 @@ import {
     URI,
     IMMTVersionInfo,
     IStatistic,
+    TKnownLanguages
 } from "./index";
 
 /**
@@ -108,20 +109,6 @@ interface IMockView extends IMockObject {
 }
 
 interface IMockGlossaryEntry extends IMockObject {
-    kwd: {
-        en?: string;
-        de?: string;
-        tr?: string;
-        ro?: string;
-        zhs?: string;
-        zht?: string;
-    };
-    def: {
-        en?: HTML;
-        de?: HTML;
-        tr?: HTML;
-        ro?: HTML;
-        zhs?: HTML;
-        zht?: HTML;
-    };
+    kwd: {[k in TKnownLanguages]?: string};
+    def: {[k in TKnownLanguages]?: string};
 }

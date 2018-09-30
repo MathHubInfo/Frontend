@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/MathHubInfo/Frontend.svg)](https://travis-ci.org/MathHubInfo/Frontend)
 [![DockerHub Status](https://img.shields.io/docker/automated/mathhub/frontend.svg)](https://hub.docker.com/r/mathhub/frontend/)
 
-WIP on a new MathHub Frontend written in React. 
+A new MathHub Frontend written in React. 
 
 ## Development Usage
 We use [yarn](https://yarnpkg.com/en/), which we assume in the following is installed. 
@@ -46,6 +46,15 @@ MOCK_MMT=1 yarn webpack-dev-server
 As an IDE, it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) (>= May 2018 (version 1.24)) along with the [TSLint Extension](https://marketplace.visualstudio.com/items?itemName=eg2.tslint). 
 
 Both should work out-of-the-box after cloning this repository and running the `yarn` command above. 
+
+### A note on caching
+
+We make extensive use of caching. 
+This means that subsequent builds should be much faster than initial builds. 
+
+To clean the cache completly, run ```git clean -xdf .``` to remove all untracked files and folders from the current directory. 
+Note that this will require to re-install dependencies using ```yarn```. 
+
 
 ## File Structure
 
@@ -96,6 +105,18 @@ docker run -p 8043:8043 mathhub/frontend
 This project has minimal Travis CI tests. 
 
 These check that the project *compiles* in both production and non-production configurations under Node Versions 8, 9 and 10. 
+
+## Supported browsers
+
+We support the following browsers:
+    * the last two major versions of all browsers excluding Internet Explorer, unless they have <0.5% share
+    * Firefox ESR
+
+To view a concrete list of supported browsers, run:
+
+```bash
+    yarn browserslist
+```
 
 ## License & Acknowledgements
 

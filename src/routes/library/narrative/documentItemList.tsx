@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { Card } from "semantic-ui-react";
+import { MathHTML } from "../../../components/common/mathhtml";
 import { Nav } from "../../../components/common/nav";
 import { INarrativeElement } from "../../../context/api";
 import { encodeLibraryLink } from "./../";
@@ -9,9 +10,7 @@ export class DocumentItemList extends React.Component<{nRoot: INarrativeElement[
     public render() {
         const {nRoot} = this.props;
         if (typeof nRoot === "undefined") {
-            return(
-                <></>
-            );
+            return null;
         }
         return (
             <Card.Group itemsPerRow="1">
@@ -25,18 +24,16 @@ class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
     public render() {
         const {narrative} = this.props;
         if (narrative.kind !== "document" && narrative.kind !== "notebook") {
-            return(
-                <></>
-            );
+            return null;
         }
         return (
             <Card>
                 <Card.Content>
                     <Card.Header as={Nav} to={encodeLibraryLink(narrative)} >
-                        <div dangerouslySetInnerHTML={{__html: narrative.name}} />
+                        <MathHTML content={narrative.name} />
                     </Card.Header>
                     <Card.Description>
-                        <div dangerouslySetInnerHTML={{__html: narrative.id}} />
+                        <MathHTML content={narrative.id} />
                     </Card.Description>
                 </Card.Content>
             </Card>

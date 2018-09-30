@@ -1,4 +1,4 @@
-import { IMathHubConfig } from "../config";
+import { IMathHubClientConfig } from "../config";
 
 import axios from "axios";
 
@@ -9,9 +9,9 @@ import { IArchive, IDocument, IGlossaryEntry, IGroup, IGroupRef, IMMTVersionInfo
  * A client for the mathhub-mmt api
  */
 export abstract class MMTAPIClient {
-    protected readonly config: IMathHubConfig;
+    protected readonly config: IMathHubClientConfig;
 
-    constructor(config: IMathHubConfig) {
+    constructor(config: IMathHubClientConfig) {
         this.config = config;
     }
 

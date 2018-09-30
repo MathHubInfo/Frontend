@@ -4,6 +4,7 @@ import { Container, Header, Tab } from "semantic-ui-react";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 import { LoadWithSpinner } from "../../components/common/lazy";
+import { MathHTML } from "../../components/common/mathhtml";
 
 import { IMathHubContext, WithContext } from "../../context";
 import { IDocument } from "../../context/api";
@@ -36,7 +37,7 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                         <MHRefBreadCrumbs to={document} />
                         <Container text>
                             <Header as="h2">
-                                <div dangerouslySetInnerHTML={{ __html: document.name }} />
+                                <MathHTML content={document.name} />
                             </Header>
                         </Container>
                         <Tab
