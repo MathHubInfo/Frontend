@@ -282,21 +282,14 @@
             "kwd": {
                 "en": "bijective",
                 "de": "bijektiv",
-<<<<<<< HEAD
 		"zhs": "<p>simplified Chinese Keyword</p>"
-=======
                 "fr": "bijective"
->>>>>>> 6aa814014bbc63227322b244d51d2798c308dc77
             },
             "def": {
                 "en": "<p about='#bijective.def.CMP1.p1' class='ltx_p' id='bijective.def.CMP1.p1' xmlns='http: //www.w3.org/1999/xhtml' xmlns:m='http://www.w3.org/1998/Math/MathML' xmlns:om='http://www.openmath.org/OpenMath' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:stex='http://kwarc.info/ns/sTeX' xmlns:omdoc='http://omdoc.org/ns'>A function <math id='517387514' ><semantics><mrow jobad:mmtref=''><mi jobad:mmtref='0'>f</mi><mo jobad:href='http: //mathhub.info/smglom/sets/functions.omdoc?functions?fun' jobad:mmtref='0'>:</mo><mi jobad:mmtref='1'>S</mi><mo jobad:href='http://mathhub.info/smglom/sets/functions.omdoc?functions?fun' jobad:mmtref='0'>→</mo><mi jobad:mmtref='2'>T</mi></mrow><annotation-xml encoding='MathML-Content'><apply><csymbol>http://mathhub.info/smglom/sets/functions.omdoc?functions?fun</csymbol><ci>f</ci><ci>S</ci><ci>T</ci></apply></annotation-xml></semantics></math> is called <span class='definiendum' jobad:href='http://mathhub.info/smglom/sets/bijective.omdoc?bijective?bijective'> bijective</span>, iff <math id='-960354059' ><semantics><mi jobad:mmtr0ef=''>f</mi><annotation-xml encoding='MathML-Content'><ci>f</ci></annotation-xml></semantics></math> is<span jobad:href='http: //mathhub.info/smglom/sets/injective.omdoc?injective?injective'> injective</span> and <span jobad:href='http://mathhub.info/smglom/sets/surjective.omdoc?surjective?surjective'>surjective</span>.</p>",
                 "de": "<p about='#bijective.def.CMP1.p1' class='ltx_p' id='bijective.def.CMP1.p1' xmlns='http://www.w3.org/1999/xhtml' xmlns:m='http://www.w3.org/1998/Math/MathML' xmlns:om='http://www.openmath.org/OpenMath' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:stex='http://kwarc.info/ns/sTeX' xmlns:omdoc='http://omdoc.org/ns'>Eine <span jobad:href='http: //mathhub.info/smglom/sets/functions.omdoc?functions?function'>Funktion</span> <math id='517387514' ><semantics><mrow jobad:mmtref=''><mi jobad:mmtref='0'>f</mi><mo jobad:href='http://mathhub.info/smglom/sets/functions.omdoc?functions?fun' jobad:mmtref='0'>:</mo><mi jobad:mmtref='1'>S</mi><mo jobad:href='http://mathhub.info/smglom/sets/functions.omdoc?functions?fun' jobad:mmtref='0'>→</mo><mi jobad:mmtref='2'>T</mi></mrow><annotation-xml encoding='MathML-Content'><apply><csymbol>http://mathhub.info/smglom/sets/functions.omdoc?functions?fun</csymbol><ci>f</ci><ci>S</ci><ci>T</ci></apply></annotation-xml></semantics></math> heißt<span class='definiendum' jobad:href='http: //mathhub.info/smglom/sets/bijective.omdoc?bijective?bijective'> bijektiv</span>, wenn <math id='-960354059' ><semantics><mi jobad:mmtref=''>f</mi><annotation-xml encoding='MathML-Content'><ci>f</ci></annotation-xml></semantics></math> <span jobad:href='http://mathhub.info/smglom/sets/injective.omdoc?injective?injective'>injektiv</span> und <span jobad:href='http: //mathhub.info/smglom/sets/surjective.omdoc?surjective?surjective'>surjektiv</span> ist.</p>",
-<<<<<<< HEAD
 		"ro": "<p>A Romanian Definition for testing</p>",
 		"fr": "<p>Une application est bijective si et seulement si tout élément de son ensemble d'arrivée a un et un seul antécédent, c'est-à-dire est image d'exactement un élément (de son domaine de définition), ou encore si elle est injective et surjective. Les bijections sont aussi parfois appelées correspondances biunivoques.</p>" 
-=======
-                "fr": "the same just in french"
->>>>>>> 6aa814014bbc63227322b244d51d2798c308dc77
             }
         },
         {
