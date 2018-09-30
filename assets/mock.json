@@ -13,15 +13,15 @@
                 "kohlhase@kwarc.info"
             ],
             "statistics": [
-                    {
-                        "key": "decl",
-                        "value": 5
-                    },
-                    {
-                        "key": "doc",
-                        "value": 1
-                    }
-                ]
+                {
+                    "key": "decl",
+                    "value": 5
+                },
+                {
+                    "key": "doc",
+                    "value": 1
+                }
+            ]
         },
         {
             "id": "MMT",
@@ -43,162 +43,7 @@
             "responsible": [
                 "f.rabe@jacobs-university.de"
             ],
-            "statistics": 
-                [
-                    {
-                        "key": "decl",
-                        "value": 647
-                    },
-                    {
-                        "key": "exp",
-                        "value": 2
-                    },
-                    {
-                        "key": "view",
-                        "value": 3
-                    },
-                    {
-                        "key": "doc",
-                        "value": 1
-                    },
-                    {
-                        "key": "pat",
-                        "value": 7
-                    },
-                    {
-                        "key": "theo",
-                        "value": 4
-                    },
-                    {
-                        "key": "align",
-                        "value": 22
-                    },
-                    {
-                        "key": "any_mor",
-                        "value": 1
-                    }
-                ]
-            }
-    ],
-    "archives": [
-        {
-            "parent": {"id": "smglom"},
-            "id": "smglom/staging",
-            "name": "staging",
-
-            "title": "Staging Ground",
-            "teaser": "Various mathematical concepts to be sorted into SMGloM repositories",
-
-            "description": "<p>This SMGloM repository is a staging ground for other repositories, it contains glossary modules that either do not fit a repository yet, or are left over from early content development.</p>  ",
-            "responsible": [
-                "kohlhase@kwarc.info"
-            ],
-            "statistics": []
-        }, 
-        {
-            "parent": {"id": "MMT"},
-            "id": "MMT/example",
-            "name": "example",
-
-            "title": "MMT example archive",
-            "teaser": "This is an example archive for MMT",
-
-            "description": "<p>Stil an example.</p>  ",
-            "responsible": [
-                "johannes-sebastian-see@fau.de"
-            ],
-            "statistics": []
-        }, 
-        {
-            "parent": {"id": "stagingRoot"},
-            "id": "smglom/staging/subArchive",
-            "name": "subArchive",
-
-            "title": "archive in an archive",
-            "teaser": "This is an archive in an archive",
-
-            "description": "<p>This is another archive.</p>  ",
-            "responsible": [
-                "johannes-sebastian-see@fau.de"
-            ],
-            "statistics": []
-        }, 
-        {
-            "parent": {"id": "ODK"},
-            "id": "ODK/Notebooks",
-            "name": "Notebooks",
-
-            "title": "Jupyter Notebooks",
-            "teaser": "Jupyter Notebooks developed by Kai",
-
-            "description": "<p>This archive contains the Jupyter notebook used for Demo purposes</p>  ",
-            "responsible": [
-                "kai-amann@fau.de"
-            ],
-            "statistics": 
-                [
-                    {
-                        "key": "decl",
-                        "value": 647
-                    },
-                    {
-                        "key": "exp",
-                        "value": 2
-                    },
-                    {
-                        "key": "view",
-                        "value": 3
-                    },
-                    {
-                        "key": "doc",
-                        "value": 1
-                    },
-                    {
-                        "key": "pat",
-                        "value": 7
-                    },
-                    {
-                        "key": "theo",
-                        "value": 4
-                    },
-                    {
-                        "key": "align",
-                        "value": 22
-                    },
-                    {
-                        "key": "any_mor",
-                        "value": 1
-                    }
-                ]
-              }
-    ],
-    "opaques": [],
-    "documents": [{
-        "parent": {"id": "MMT/example"}, 
-        "id": "exampleRoot",
-        "name": "exampleRoot",
-        "statistics": []
-    },{
-        "parent": {"id": "ODK/Notebooks"}, 
-        "id": "notebookRoot",
-        "name": "notebookRoot",
-        "statistics": []
-    }, {
-        "parent": {"id": "smglom/staging"}, 
-        "id": "stagingRoot",
-        "name": "stagingRoot",
-        "statistics": []
-    }, {
-        "parent": {"id": "https://mathhub.info/mmt/example/fake"}, 
-        "id": "https://mathhub.info/smglom/staging",
-        "name": "staging",
-        "statistics": []
-    }, {
-        "parent": {"id": "exampleRoot"}, 
-        "id": "https://mathhub.info/mmt/example/fake",
-        "name": "fake",
-        "statistics": 
-            [
+            "statistics": [
                 {
                     "key": "decl",
                     "value": 647
@@ -234,62 +79,242 @@
             ]
         }
     ],
-    "notebooks": [{
-        "parent": {"id": "exampleRoot"}, 
-        "id": "https://mathhub.info/mmt/example/exampleNotebook",
-        "name": "ExampleNotebook",
-        "kernel": {
-            "display_name": "TEST",
-            "language": "text",
-            "name": "test"},
-        "language": {
-            "file_extension": ".txt",
-            "mimetype": "text/plain",
-            "name": "Any text"
+    "archives": [
+        {
+            "parent": {
+                "id": "smglom"
+            },
+            "id": "smglom/staging",
+            "name": "staging",
+            "title": "Staging Ground",
+            "teaser": "Various mathematical concepts to be sorted into SMGloM repositories",
+            "description": "<p>This SMGloM repository is a staging ground for other repositories, it contains glossary modules that either do not fit a repository yet, or are left over from early content development.</p>  ",
+            "responsible": [
+                "kohlhase@kwarc.info"
+            ],
+            "statistics": []
         },
-        "other" : {
-            "author": "Kai"
+        {
+            "parent": {
+                "id": "MMT"
+            },
+            "id": "MMT/example",
+            "name": "example",
+            "title": "MMT example archive",
+            "teaser": "This is an example archive for MMT",
+            "description": "<p>Stil an example.</p>  ",
+            "responsible": [
+                "johannes-sebastian-see@fau.de"
+            ],
+            "statistics": []
         },
-        "statistics": {}
-    },{
-        "parent": {"id": "notebookRoot"}, 
-        "id": "https://mathhub.info/ODK/Notebooks/MMTDemo",
-        "name": "MMTDemo",
-        "kernel": {
-            "display_name": "MMTDemo",
-            "language": "text",
-            "name": "MMTDemo"},
-        "language": {
-            "file_extension": ".txt",
-            "mimetype": "text/plain",
-            "name": "Any text"
+        {
+            "parent": {
+                "id": "stagingRoot"
+            },
+            "id": "smglom/staging/subArchive",
+            "name": "subArchive",
+            "title": "archive in an archive",
+            "teaser": "This is an archive in an archive",
+            "description": "<p>This is another archive.</p>  ",
+            "responsible": [
+                "johannes-sebastian-see@fau.de"
+            ],
+            "statistics": []
         },
-        "other" : {
-            "author": "Kai Amann"
+        {
+            "parent": {
+                "id": "ODK"
+            },
+            "id": "ODK/Notebooks",
+            "name": "Notebooks",
+            "title": "Jupyter Notebooks",
+            "teaser": "Jupyter Notebooks developed by Kai",
+            "description": "<p>This archive contains the Jupyter notebook used for Demo purposes</p>  ",
+            "responsible": [
+                "kai-amann@fau.de"
+            ],
+            "statistics": [
+                {
+                    "key": "decl",
+                    "value": 647
+                },
+                {
+                    "key": "exp",
+                    "value": 2
+                },
+                {
+                    "key": "view",
+                    "value": 3
+                },
+                {
+                    "key": "doc",
+                    "value": 1
+                },
+                {
+                    "key": "pat",
+                    "value": 7
+                },
+                {
+                    "key": "theo",
+                    "value": 4
+                },
+                {
+                    "key": "align",
+                    "value": 22
+                },
+                {
+                    "key": "any_mor",
+                    "value": 1
+                }
+            ]
         }
-    }],
-    "modules": [{
-        "kind": "theory",
-        "parent": {"id": "https://mathhub.info/mmt/example/fake"},
-        "name": "fakeTheory",
-        "id": "https://mathhub.info/mmt/example/fake/theory",
-        "presentation": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>",
-        "source": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>"
-    }],
+    ],
+    "opaques": [],
+    "documents": [
+        {
+            "parent": {
+                "id": "MMT/example"
+            },
+            "id": "exampleRoot",
+            "name": "exampleRoot",
+            "statistics": []
+        },
+        {
+            "parent": {
+                "id": "ODK/Notebooks"
+            },
+            "id": "notebookRoot",
+            "name": "notebookRoot",
+            "statistics": []
+        },
+        {
+            "parent": {
+                "id": "smglom/staging"
+            },
+            "id": "stagingRoot",
+            "name": "stagingRoot",
+            "statistics": []
+        },
+        {
+            "parent": {
+                "id": "https://mathhub.info/mmt/example/fake"
+            },
+            "id": "https://mathhub.info/smglom/staging",
+            "name": "staging",
+            "statistics": []
+        },
+        {
+            "parent": {
+                "id": "exampleRoot"
+            },
+            "id": "https://mathhub.info/mmt/example/fake",
+            "name": "fake",
+            "statistics": [
+                {
+                    "key": "decl",
+                    "value": 647
+                },
+                {
+                    "key": "exp",
+                    "value": 2
+                },
+                {
+                    "key": "view",
+                    "value": 3
+                },
+                {
+                    "key": "doc",
+                    "value": 1
+                },
+                {
+                    "key": "pat",
+                    "value": 7
+                },
+                {
+                    "key": "theo",
+                    "value": 4
+                },
+                {
+                    "key": "align",
+                    "value": 22
+                },
+                {
+                    "key": "any_mor",
+                    "value": 1
+                }
+            ]
+        }
+    ],
+    "notebooks": [
+        {
+            "parent": {
+                "id": "exampleRoot"
+            },
+            "id": "https://mathhub.info/mmt/example/exampleNotebook",
+            "name": "ExampleNotebook",
+            "kernel": {
+                "display_name": "TEST",
+                "language": "text",
+                "name": "test"
+            },
+            "language": {
+                "file_extension": ".txt",
+                "mimetype": "text/plain",
+                "name": "Any text"
+            },
+            "other": {
+                "author": "Kai"
+            },
+            "statistics": {}
+        },
+        {
+            "parent": {
+                "id": "notebookRoot"
+            },
+            "id": "https://mathhub.info/ODK/Notebooks/MMTDemo",
+            "name": "MMTDemo",
+            "kernel": {
+                "display_name": "MMTDemo",
+                "language": "text",
+                "name": "MMTDemo"
+            },
+            "language": {
+                "file_extension": ".txt",
+                "mimetype": "text/plain",
+                "name": "Any text"
+            },
+            "other": {
+                "author": "Kai Amann"
+            }
+        }
+    ],
+    "modules": [
+        {
+            "kind": "theory",
+            "parent": {
+                "id": "https://mathhub.info/mmt/example/fake"
+            },
+            "name": "fakeTheory",
+            "id": "https://mathhub.info/mmt/example/fake/theory",
+            "presentation": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>",
+            "source": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>"
+        }
+    ],
     "glossary": [
         {
             "id": "bijective?bijective",
             "kwd": {
                 "en": "bijective",
                 "de": "bijektiv",
-		"zhs": "<p>simplified Chinese Keyword</p>"
+                "zhs": "<p>simplified Chinese Keyword</p>",
                 "fr": "bijective"
             },
             "def": {
                 "en": "<p about='#bijective.def.CMP1.p1' class='ltx_p' id='bijective.def.CMP1.p1' xmlns='http: //www.w3.org/1999/xhtml' xmlns:m='http://www.w3.org/1998/Math/MathML' xmlns:om='http://www.openmath.org/OpenMath' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:stex='http://kwarc.info/ns/sTeX' xmlns:omdoc='http://omdoc.org/ns'>A function <math id='517387514' ><semantics><mrow jobad:mmtref=''><mi jobad:mmtref='0'>f</mi><mo jobad:href='http: //mathhub.info/smglom/sets/functions.omdoc?functions?fun' jobad:mmtref='0'>:</mo><mi jobad:mmtref='1'>S</mi><mo jobad:href='http://mathhub.info/smglom/sets/functions.omdoc?functions?fun' jobad:mmtref='0'>→</mo><mi jobad:mmtref='2'>T</mi></mrow><annotation-xml encoding='MathML-Content'><apply><csymbol>http://mathhub.info/smglom/sets/functions.omdoc?functions?fun</csymbol><ci>f</ci><ci>S</ci><ci>T</ci></apply></annotation-xml></semantics></math> is called <span class='definiendum' jobad:href='http://mathhub.info/smglom/sets/bijective.omdoc?bijective?bijective'> bijective</span>, iff <math id='-960354059' ><semantics><mi jobad:mmtr0ef=''>f</mi><annotation-xml encoding='MathML-Content'><ci>f</ci></annotation-xml></semantics></math> is<span jobad:href='http: //mathhub.info/smglom/sets/injective.omdoc?injective?injective'> injective</span> and <span jobad:href='http://mathhub.info/smglom/sets/surjective.omdoc?surjective?surjective'>surjective</span>.</p>",
                 "de": "<p about='#bijective.def.CMP1.p1' class='ltx_p' id='bijective.def.CMP1.p1' xmlns='http://www.w3.org/1999/xhtml' xmlns:m='http://www.w3.org/1998/Math/MathML' xmlns:om='http://www.openmath.org/OpenMath' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:stex='http://kwarc.info/ns/sTeX' xmlns:omdoc='http://omdoc.org/ns'>Eine <span jobad:href='http: //mathhub.info/smglom/sets/functions.omdoc?functions?function'>Funktion</span> <math id='517387514' ><semantics><mrow jobad:mmtref=''><mi jobad:mmtref='0'>f</mi><mo jobad:href='http://mathhub.info/smglom/sets/functions.omdoc?functions?fun' jobad:mmtref='0'>:</mo><mi jobad:mmtref='1'>S</mi><mo jobad:href='http://mathhub.info/smglom/sets/functions.omdoc?functions?fun' jobad:mmtref='0'>→</mo><mi jobad:mmtref='2'>T</mi></mrow><annotation-xml encoding='MathML-Content'><apply><csymbol>http://mathhub.info/smglom/sets/functions.omdoc?functions?fun</csymbol><ci>f</ci><ci>S</ci><ci>T</ci></apply></annotation-xml></semantics></math> heißt<span class='definiendum' jobad:href='http: //mathhub.info/smglom/sets/bijective.omdoc?bijective?bijective'> bijektiv</span>, wenn <math id='-960354059' ><semantics><mi jobad:mmtref=''>f</mi><annotation-xml encoding='MathML-Content'><ci>f</ci></annotation-xml></semantics></math> <span jobad:href='http://mathhub.info/smglom/sets/injective.omdoc?injective?injective'>injektiv</span> und <span jobad:href='http: //mathhub.info/smglom/sets/surjective.omdoc?surjective?surjective'>surjektiv</span> ist.</p>",
-		"ro": "<p>A Romanian Definition for testing</p>",
-		"fr": "<p>Une application est bijective si et seulement si tout élément de son ensemble d'arrivée a un et un seul antécédent, c'est-à-dire est image d'exactement un élément (de son domaine de définition), ou encore si elle est injective et surjective. Les bijections sont aussi parfois appelées correspondances biunivoques.</p>" 
+                "ro": "<p>A Romanian Definition for testing</p>",
+                "fr": "<p>Une application est bijective si et seulement si tout élément de son ensemble d'arrivée a un et un seul antécédent, c'est-à-dire est image d'exactement un élément (de son domaine de définition), ou encore si elle est injective et surjective. Les bijections sont aussi parfois appelées correspondances biunivoques.</p>"
             }
         },
         {
