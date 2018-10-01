@@ -54,7 +54,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                                         </Grid.Column>
                                     </Grid.Row>
                                 </Grid>
-                                <MathHTML reference>{group.description}</MathHTML>
+                                <MathHTML renderReferences>{group.description}</MathHTML>
                                 <>
                                     <b>Responsible:</b> {group.responsible.map((p) => <Label key={p}>{p}</Label>)}
                                 </>

@@ -64,7 +64,7 @@ class HomeDisplay extends React.Component<{content: string}> {
         const {content} = this.props;
 
         return (
-            <MHTitle title="Home"><MathHTML reference>{content}</MathHTML></MHTitle>
+            <MHTitle title="Home"><MathHTML renderReferences>{content}</MathHTML></MHTitle>
         );
     }
 }

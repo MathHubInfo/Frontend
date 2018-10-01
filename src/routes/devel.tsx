@@ -1,6 +1,3 @@
-import { default as Parser, DOMNode, IHTMLReactParserOptions } from "html-react-parser";
-// tslint:disable-next-line:no-submodule-imports
-import domToReact from "html-react-parser/lib/dom-to-react";
 import * as React from "react";
 
 import { CreateSpinningLoader as Loader } from "../components/common/lazy";
@@ -14,29 +11,6 @@ import { Icon, Message } from "semantic-ui-react";
 import { MathHTML } from "../components/common/mathhtml";
 
 export function Devel(props: {}) {
-    const htmlstring = "<div>Before <a href='http://opendreamkit.org' id='replace'>OpenDreamKit</a> after</div>";
-    const parserOptions: IHTMLReactParserOptions = {
-        replace: (node: DOMNode) => {
-            if (node.type !== "tag") { return; }
-            const { attribs, children } = node;
-            if (!attribs) { return; }
-            if (attribs.id === "main") {
-                return (
-                    <h1 style={{ fontSize: 41 }}>
-                        {domToReact(children, parserOptions)}
-                    </h1>
-                );
-            }
-            if (attribs.id === "child") {
-                return (
-                    <div style={{ color: "red", fontSize: 12 }}>
-                        {domToReact(children, parserOptions)}
-                    </div>
-                );
-            }
-            return;
-        },
-    };
     return (
         <>
             This page is intended for debugging purposes only. <br />
@@ -44,15 +18,6 @@ export function Devel(props: {}) {
 
             This page might also have a memory leak.
             You have been warned. <br />
-            <h2>Parser</h2>
-            <div><div id="replace">Hello</div> world!</div>
-            <div>=></div>
-            <MathHTML reference>{htmlstring}</MathHTML>
-
-            <div id="main">BIG<span id="child">red</span>BIG</div>
-            <div>=></div>
-            {Parser("<div id='main'>BIG<span id='child'>red</span>BIG</div>", parserOptions)}< br/>
-            <MathHTML reference>{"<div id='main'>BIG<span id='child'>red</span>BIG</div>"}</MathHTML>
 
             <h2>Process.Env</h2>
             <MonospaceContainer>{JSON.stringify(process.env, undefined, 4)}</MonospaceContainer>
@@ -79,8 +44,17 @@ export function Devel(props: {}) {
             <h3>Fatal Error</h3>
             This component should fail to load because of a fatal error almost immediatly.
             <Fatal />
+
+            <h2>Math</h2>
+            <SampleMath />
         </>
     );
+}
+
+function SampleMath() {
+    // tslint:disable-next-line:max-line-length
+    const theMath = "<math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><msub><mi>a</mi><mrow><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>b</mi><mrow><mn>1</mn></mrow></msub></mrow></math>";
+    return <MathHTML>{theMath}</MathHTML>;
 }
 
 const loadTimeDelay = 5000;

@@ -61,7 +61,7 @@ class GroupListItem extends React.Component<{group: IGroupRef}> {
                         <MathHTML>{group.title}</MathHTML>
                     </Card.Header>
                     <Card.Description>
-                        <MathHTML reference>{group.teaser}</MathHTML>
+                        <MathHTML renderReferences>{group.teaser}</MathHTML>
                     </Card.Description>
                 </Card.Content>
             </Card>

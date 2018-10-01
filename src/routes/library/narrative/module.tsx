@@ -42,7 +42,7 @@ class ModuleViewElement extends React.Component<{narrative: INarrativeElement, c
                     promise={this.getModule}
                     errorMessage={true}
             >{(module: IModuleCommon) =>
-                <MathHTML reference>{module.presentation}</MathHTML>
+                <MathHTML renderReferences>{module.presentation}</MathHTML>
             }
             </LoadWithSpinner>
         );
