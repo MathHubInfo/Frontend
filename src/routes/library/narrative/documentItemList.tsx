@@ -30,10 +30,10 @@ class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
             <Card>
                 <Card.Content>
                     <Card.Header as={Nav} to={encodeLibraryLink(narrative)} >
-                        <MathHTML content={narrative.name} />
+                        <MathHTML>{narrative.name}</MathHTML>
                     </Card.Header>
                     <Card.Description>
-                        <MathHTML content={narrative.id} />
+                        <MathHTML>{narrative.id}</MathHTML>
                     </Card.Description>
                 </Card.Content>
             </Card>

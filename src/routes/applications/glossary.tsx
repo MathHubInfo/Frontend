@@ -116,7 +116,7 @@ class GlossaryEntry extends React.Component<{
     private showDefinition(definition?: string) {
         if (this.state.show) {
             return (
-                <MathHTML content={definition === undefined ? "" : definition}/>
+                <MathHTML>{definition === undefined ? "" : definition}</MathHTML>
             );
         }
         return null;

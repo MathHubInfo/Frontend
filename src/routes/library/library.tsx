@@ -58,10 +58,10 @@ class GroupListItem extends React.Component<{group: IGroupRef}> {
             <Card>
                 <Card.Content>
                     <Card.Header as={Nav} to={encodeLibraryLink(group)}>
-                        <MathHTML content={group.title} />
+                        <MathHTML>{group.title}</MathHTML>
                     </Card.Header>
                     <Card.Description>
-                        <MathHTML content={group.teaser} reference/>
+                        <MathHTML reference>{group.teaser}</MathHTML>
                     </Card.Description>
                 </Card.Content>
             </Card>

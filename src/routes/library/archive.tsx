@@ -40,7 +40,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                                     <Grid.Row>
                                         <Grid.Column width={11}>
                                             <Header as="h2">
-                                                <MathHTML content={archive.title} />
+                                                <MathHTML>{archive.title}</MathHTML>
                                             </Header>
                                         </Grid.Column>
                                         <Grid.Column width={5}>
@@ -54,7 +54,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                                         </Grid.Column>
                                     </Grid.Row>
                                 </Grid>
-                                <MathHTML content={archive.description} reference/>
+                                <MathHTML reference>{archive.description}</MathHTML>
                                 <>
                                     <b>Responsible:</b> {archive.responsible.map((p) => <Label key={p}>{p}</Label>)}
                                 </>

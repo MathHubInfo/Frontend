@@ -40,7 +40,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                                     <Grid.Row>
                                         <Grid.Column width={11}>
                                             <Header as="h2">
-                                                <MathHTML content={group.title} />
+                                                <MathHTML>{group.title}</MathHTML>
                                             </Header>
                                         </Grid.Column>
                                         <Grid.Column width={5}>
@@ -54,7 +54,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                                         </Grid.Column>
                                     </Grid.Row>
                                 </Grid>
-                                <MathHTML content={group.description} reference/>
+                                <MathHTML reference>{group.description}</MathHTML>
                                 <>
                                     <b>Responsible:</b> {group.responsible.map((p) => <Label key={p}>{p}</Label>)}
                                 </>
@@ -91,7 +91,7 @@ class ArchiveListItem extends React.Component<{archive: IArchiveRef}> {
             <Card>
                 <Card.Content>
                     <Card.Header as={Nav} to={encodeLibraryLink(archive)} >
-                        <MathHTML content={archive.title} />
+                        <MathHTML>{archive.title}</MathHTML>
                     </Card.Header>
                     <Card.Description>{archive.teaser}</Card.Description>
                 </Card.Content>

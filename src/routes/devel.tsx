@@ -47,12 +47,12 @@ export function Devel(props: {}) {
             <h2>Parser</h2>
             <div><div id="replace">Hello</div> world!</div>
             <div>=></div>
-            <MathHTML content={htmlstring} reference />
+            <MathHTML reference>{htmlstring}</MathHTML>
 
             <div id="main">BIG<span id="child">red</span>BIG</div>
             <div>=></div>
             {Parser("<div id='main'>BIG<span id='child'>red</span>BIG</div>", parserOptions)}< br/>
-            <MathHTML content={"<div id='main'>BIG<span id='child'>red</span>BIG</div>"} reference />
+            <MathHTML reference>{"<div id='main'>BIG<span id='child'>red</span>BIG</div>"}</MathHTML>
 
             <h2>Process.Env</h2>
             <MonospaceContainer>{JSON.stringify(process.env, undefined, 4)}</MonospaceContainer>

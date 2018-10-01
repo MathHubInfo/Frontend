@@ -1,40 +1,49 @@
-import { default as Parser, DOMNode, IHTMLReactParserOptions } from "html-react-parser";
-// tslint:disable-next-line:no-submodule-imports
-import domToReact from "html-react-parser/lib/dom-to-react";
+import { default as Parser, DOMNode, ReactElement } from "../../utils/react-html-parser";
+
 import * as React from "react";
 import { Popup } from "semantic-ui-react";
 import { HTML } from "../../context/api";
 
-export class MathHTML extends React.Component<{ content: HTML, reference?: boolean }> {
-    public render() {
-        const { content } = this.props;
-        const { reference } = this.props;
-        if (reference) {
-            const parserOptions: IHTMLReactParserOptions = {
-                replace: (node: DOMNode) => {
-                    if (node.type !== "tag") { return; }
-                    const { attribs, children } = node;
-                    if (!attribs) { return; }
-                    if (node.name === "a") {
-                        return (
-                            <Popup
-                                trigger={
-                                    <a href={attribs.href}>
-                                        {domToReact(children, parserOptions)}
-                                    </a>}
-                                content={<div>{attribs.href}</div>}
-                            />
-                        );
-                    }
-                    return;
-                },
-            };
+export interface IMathHTMLProps {
+    /** the html (string) that should be rendered */
+    children: HTML;
+
+    /** should we render references as html */
+    reference?: boolean;
+
+    /** override the default type this element should appear as */
+    as?: any;
+}
+
+/**
+ * An element representing mathmatically relevant text based on html input
+ */
+export class MathHTML extends React.Component<IMathHTMLProps> {
+    constructor(props: IMathHTMLProps) {
+        super(props);
+        this.replaceHTMLNodes = this.replaceHTMLNodes.bind(this);
+    }
+    private replaceHTMLNodes(node: DOMNode, callback: (nodes: DOMNode[]) => ReactElement[]) {
+        if (node.type !== "tag") { return; }
+
+        const { attribs, children } = node;
+        if (!attribs) { return; }
+        if (node.name === "a") {
             return (
-                Parser(content, parserOptions)
+                <Popup
+                    trigger={
+                        <a href={attribs.href}>{callback(children)}</a>}
+                    content={<div>{attribs.href}</div>}
+                />
             );
         }
-        return (
-            <div dangerouslySetInnerHTML={{ __html: content }} />
-        );
+        return;
+    }
+
+    public render() {
+        const { children: content, reference, as: asElement} = this.props;
+
+        const children = Parser(content, reference ? {replace: this.replaceHTMLNodes} : {});
+        return React.createElement(asElement || React.Fragment, { children });
     }
 }

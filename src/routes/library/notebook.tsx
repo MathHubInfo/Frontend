@@ -37,7 +37,7 @@ export const Notebook = WithContext((context: IMathHubContext) => class extends 
                             <Header as="h2">
                                 <Grid>
                                     <Grid.Column width={6}>
-                                        <MathHTML content={notebook.name} />
+                                        <MathHTML>{notebook.name}</MathHTML>
                                     </Grid.Column>
                                     <Grid.Column width={10}>
                                         <Button floated={"right"}>

@@ -37,7 +37,7 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                         <MHRefBreadCrumbs to={document} />
                         <Container text>
                             <Header as="h2">
-                                <MathHTML content={document.name} />
+                                <MathHTML>{document.name}</MathHTML>
                             </Header>
                         </Container>
                         <Tab
