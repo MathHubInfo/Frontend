@@ -4,7 +4,7 @@ import { ReactComponent } from "../types/types";
 
 import { MMTAPIClient, RestAPIClient } from "./api/client";
 import { MockAPIClient } from "./api/mock";
-import { IMathHubConfig } from "./config.d";
+import { IMathHubConfig } from "./config";
 
 /** Represents a global context for MathHub */
 export interface IMathHubContext {
@@ -13,12 +13,13 @@ export interface IMathHubContext {
 }
 
 /** a configuration for MathHub is global */
-export const Context = React.createContext<IMathHubContext>(makeContext({mmtURL: "(null)", mockMMT: true}));
+export const Context = React.createContext<IMathHubContext>(null!);
 
 /** Creates a new config from a configuration */
 export function makeContext(config: IMathHubConfig): IMathHubContext {
+    const clientConfig = config.client;
     return {
-        client: config.mockMMT ? new MockAPIClient(config) : new RestAPIClient(config),
+        client: clientConfig.MOCK_MMT ? new MockAPIClient(clientConfig) : new RestAPIClient(clientConfig),
         config,
     };
 }

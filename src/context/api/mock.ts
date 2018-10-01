@@ -6,10 +6,14 @@ import {
     IDocument,
     IDocumentParentRef,
     IDocumentRef,
+    IGlossaryEntry,
     IGroup,
     IGroupRef,
+    IMMTVersionInfo,
     IModule,
     INarrativeElement,
+    INotebook,
+    INotebookRef,
     IOpaqueElement,
     IOpaqueElementRef,
     IReferencable,
@@ -24,6 +28,11 @@ import { IMockDataSet, IMockModule, IMockObject, IMockReference } from "./mockse
 
 /** An API client to MMT that mocks results by resolving them statically from a given datatset */
 export class MockAPIClient extends MMTAPIClient {
+
+    /** get the MMT Version */
+    public getMMTVersion(): Promise<IMMTVersionInfo> {
+        return this.loadDataSet().then((d) => d.version);
+    }
 
     // #region "Dataset"
     private dataset: IMockDataSet | undefined;
@@ -95,6 +104,12 @@ export class MockAPIClient extends MMTAPIClient {
                 break;
             case "view":
                 co = this.cleanView(obj, ds);
+                break;
+            case "notebook":
+                co = this.cleanNotebook(obj, ds);
+                break;
+            case "entry":
+                co = this.cleanGlossaryEntry(obj, ds);
                 break;
             default:
                 // tslint:disable-next-line:no-console
@@ -169,6 +184,21 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
+    private cleanNotebookRef(notebook: IMockReference, ds: IMockDataSet): INotebookRef {
+        const actual = ds.notebooks.find((n) => n.id === notebook.id)!;
+        if (!actual) { this.logMockNotFound(notebook.id, "notebook"); }
+        const parent = this.cleanDocumentParentRef(actual.parent, ds);
+
+        return {
+            kind: "notebook",
+            parent,
+            ref: true,
+
+            name: actual.name,
+            id: actual.id,
+        };
+    }
+
     private cleanOpaqueElementRef(opaque: IMockReference, ds: IMockDataSet): IOpaqueElementRef {
         const actual = ds.opaques.find((o) => o.id === opaque.id)!;
         if (!actual) { this.logMockNotFound(opaque.id, "opaques"); }
@@ -229,6 +259,7 @@ export class MockAPIClient extends MMTAPIClient {
             description: actual.description,
             responsible: actual.responsible,
             archives,
+            statistics: actual.statistics,
         };
     }
 
@@ -248,8 +279,11 @@ export class MockAPIClient extends MMTAPIClient {
             .filter((m) => m.parent.id === parent.id)
             .map((m) => m.kind === "theory" ? this.cleanTheoryRef(m, ds) : this.cleanViewRef(m, ds));
 
+        const notebooks = ds.notebooks
+            .filter((n) => n.parent.id === parent.id)
+            .map((n) => this.cleanNotebook(n, ds));
         return ([] as any[])
-            .concat(opaques, documents, modules);
+            .concat(opaques, documents, modules, notebooks);
     }
 
     private cleanArchive(archive: IMockReference, ds: IMockDataSet): IArchive {
@@ -260,13 +294,16 @@ export class MockAPIClient extends MMTAPIClient {
         let narrativeRoot: IDocument;
 
         // if we have more than one child, try the first valid one or fail
-        if (children.length === 1) {
+        if (children.length !== 1) {
             // tslint:disable-next-line:no-console
             console.warn(`Mock Dataset: Expected exactly one child of ${archive.id}, found ${children.length}`);
 
             // tslint:disable-next-line:no-object-literal-type-assertion
             narrativeRoot = (children.find((c: INarrativeElement) => c.kind === "document") || {}) as IDocument;
-        } else {
+
+        // tslint:disable-next-line:no-console
+            console.warn(`Mock Dataset: child is of kind ${narrativeRoot.kind}`);
+         } else {
             narrativeRoot = children[0] as IDocument;
         }
 
@@ -277,12 +314,13 @@ export class MockAPIClient extends MMTAPIClient {
             description: actual.description,
             responsible: actual.responsible,
             narrativeRoot,
+            statistics: actual.statistics,
         };
     }
 
     private cleanDocument(document: IMockReference, ds: IMockDataSet): IDocument {
         const ref = this.cleanDocumentRef(document, ds);
-        // const actual = ds.documents.find((d) => d.id === document.id)!;
+        const actual = ds.documents.find((d) => d.id === document.id)!;
 
         const decls = this.findNarrativeChildren(document, ds);
 
@@ -291,6 +329,22 @@ export class MockAPIClient extends MMTAPIClient {
             ref: false,
 
             decls,
+            statistics: actual.statistics,
+        };
+    }
+
+    private cleanNotebook(notebook: IMockReference, ds: IMockDataSet): INotebook {
+        const ref = this.cleanNotebookRef(notebook, ds);
+        const actual = ds.notebooks.find((n) => n.id === notebook.id)!;
+
+        return {
+            ...ref,
+            ref: false,
+
+            kernel: actual.kernel,
+            language: actual.language,
+            other: actual.other,
+            statistics: actual.statistics,
         };
     }
 
@@ -344,6 +398,18 @@ export class MockAPIClient extends MMTAPIClient {
         };
     }
 
+    private cleanGlossaryEntry(entry: IMockReference, ds: IMockDataSet): IGlossaryEntry {
+        const actual = ds.glossary.find((g) => g.id === entry.id)!;
+        if (!actual) { this.logMockNotFound(entry.id, "glossary"); }
+
+        return {
+            kind: "entry",
+            id: actual.id,
+            kwd: actual.kwd,
+            def: actual.def,
+        };
+    }
+
     // #endregion
 
     // #region "Getters"
@@ -389,6 +455,11 @@ export class MockAPIClient extends MMTAPIClient {
                     return modules;
                 }
 
+                const notebooks = ds.notebooks.find((n) => n.id === uri);
+                if (notebooks) {
+                    kind = "notebook";
+                    return notebooks;
+                }
                 return undefined;
             },
             (d: IMockObject) => kind,
@@ -423,6 +494,14 @@ export class MockAPIClient extends MMTAPIClient {
         );
     }
 
+    public getNotebook(id: string): Promise<INotebook> {
+        return this.getObjectOfType(
+            (ds: IMockDataSet) => ds.notebooks.find((n) => n.id === id),
+            (d: IMockObject) => "notebook",
+            `Notebook ${id} does not exist. `,
+        );
+    }
+
     /** gets a module from the mock dataset */
     public getModule(id: string): Promise<IModule> {
         return this.getObjectOfType(
@@ -430,6 +509,11 @@ export class MockAPIClient extends MMTAPIClient {
             (d: IMockObject) => (d as IMockModule).kind,
             `Module ${id} does not exist. `,
         );
+    }
+
+    public getGlossary(): Promise<IGlossaryEntry[]> {
+        return this.loadDataSet().then((ds) => ds.glossary.map((g) => this.cleanGlossaryEntry(g, ds)));
+
     }
 
     // #endregion

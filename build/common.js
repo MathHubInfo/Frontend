@@ -1,25 +1,30 @@
-
-import webpack from 'webpack'
-
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
-import CleanWebpackPlugin from 'clean-webpack-plugin'
+import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 
 import { resolve } from 'path'
 
-const root = resolve(__dirname, '..')
-const dist = resolve(root, 'dist')
+export const root = resolve(__dirname, '..')
+export const dist = resolve(root, 'dist')
 
 
 // environment variables
-export const env = {
-    // include mathhub meta information
-    'MATHHUB_VERSION': JSON.stringify(require("../package.json").version),
-    'MATHHUB_BUILD_TIME': JSON.stringify((new Date()).getTime()),
+export const env = (function(user){
+    const _env = {
+        'MATHHUB_VERSION': JSON.stringify(require("../package.json").version),
+        'MATHHUB_BUILD_TIME': JSON.stringify((new Date()).getTime()),
+    }
+    
+    for (var key in user){
+        if (user.hasOwnProperty(key)) {
+            _env[key] = JSON.stringify(
+                user[key](process.env[key]).toString()
+            );
+        }
+    }
 
-    'MMT_URL': JSON.stringify(process.env['MMT_URL']),
-    'MOCK_MMT': JSON.stringify(process.env['MOCK_MMT'])
-}
+    return _env;
+})(require("./env"));
 
 export const common = {
     // input / output
@@ -29,9 +34,6 @@ export const common = {
         chunkFilename: '[name]-[hash].chunk.js',
         path: dist
     },
-    
-    // for debugging this is insanely useful
-    devtool: 'source-map',
     
 
     // load js, typescript and babel
@@ -44,19 +46,6 @@ export const common = {
     },
     module: {
         rules: [
-            {
-                test: /\.tsx?$/, 
-                enforce: 'pre',
-                use: [{
-                    loader: 'tslint-loader', 
-                    options: {
-                        configFile: resolve(root, 'tslint.json'), 
-                        tsConfigFile: resolve(root, 'tsconfig.json'),
-                        typeCheck: true,
-                        failOnHint: true,
-                    }
-                }]
-            },
 
             {
                 test: /\.tsx?$/, 
@@ -74,20 +63,13 @@ export const common = {
             }, 
 
             {
-                test: /\.css$/,
-                use: [ 'style-loader', 'css-loader' ],
-            },
-
-            {
                 test: /\.(png|jpg|svg|gif|woff|woff2|eot|ttf)$/,
-                use: [ 'url-loader' ],
-            }, 
-            
-
-            {
-                test: /\.js$/,
-                enforce: 'pre', 
-                use: [ 'source-map-loader' ]
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192
+                    }
+                }]
             }
         ]
     }, 
@@ -101,16 +83,28 @@ export const common = {
     }, 
     
     plugins: [
-        // Cleanup the dist folder automatically
-        new CleanWebpackPlugin([dist], {root: root}), 
-
         // generate index.html
         new HtmlWebpackPlugin({
             template: 'src/index.html'
-        }), 
-
-        // and allow lots of hot reloading
-        new webpack.HotModuleReplacementPlugin(), 
-        new webpack.NamedModulesPlugin()
+        }),
+        
+        /*
+        new HardSourceWebpackPlugin({
+            configHash: function(webpackConfig) {
+                let hash = [
+                    webpackConfig, 
+                    require('../tsconfig.json'),
+                    JSON.parse(require('fs').readFileSync(resolve(root, '.babelrc'))),
+                    require('../tslint.json'),
+                    require('../package.json').browserslist
+                ].map(o => require('node-object-hash')({sort: false}).hash(o)).join('-');
+                
+                // and then also all our user-environment
+                for(var key in require('./env')){
+                    hash += '-' + (process.env[key] || '');
+                }
+                return require('crypto').createHash('md5').update(hash).digest('hex');
+            }
+        })*/
     ]
 };

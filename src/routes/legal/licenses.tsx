@@ -3,7 +3,7 @@ import * as React from "react";
 import { MonospaceContainer } from "../../components/common/monospace";
 
 import { Container, Header } from "semantic-ui-react";
-import { LoadWithPromise } from "../../components/common/lazy";
+import { LoadWithSpinner } from "../../components/common/lazy";
 import { MHTitle } from "../../utils/title";
 
 export class Licenses extends React.Component<{}, {}> {
@@ -23,9 +23,9 @@ export class Licenses extends React.Component<{}, {}> {
 
     public render() {
         return (
-            <LoadWithPromise promise={this.loadContent} title="LICENSE">{
+            <LoadWithSpinner promise={this.loadContent} title="LICENSE">{
                 ([l, n]) => <LicensesDisplay license={l} notices={n}/>}
-            </LoadWithPromise>
+            </LoadWithSpinner>
         );
     }
 }

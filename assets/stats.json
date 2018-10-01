@@ -1,0 +1,97 @@
+[
+    [
+        "decl",
+        "Declared declaration",
+        "Declarations declared (possibly via multiple hops) by the given theory/document/archive"
+    ],
+    [
+        "exp",
+        "Induced declaration by explicit morphisms (views)",
+        "Declarations induced via (possibly multiple concatenated) explicit theory morphisms (aka. views)"
+    ],
+    [
+        "any",
+        "Induced declaration by any morphisms",
+        "Declarations induced via any (possibly multiple concatenated) theory morphisms (views, includes, metas andimplicit morphisms)"
+    ],
+    [
+        "align",
+        "Alignment",
+        "Declarations aligned (possibly via multiple intermediate alignments) with declaration declared by the giventheory/document/archive"
+    ],
+    [
+        "theo",
+        "theory",
+        "theory"
+    ],
+    [
+        "doc",
+        "document",
+        "document"
+    ],
+    [
+        "unty_con",
+        "untyped constant",
+        "declaration of untyped constant"
+    ],
+    [
+        "ty_con",
+        "typed constant",
+        "declaration of typed constant"
+    ],
+    [
+        "mal_con",
+        "maltyped constant",
+        "maltyped (type can't be infered) constant declaration"
+    ],
+    [
+        "struc",
+        "structure",
+        "structure"
+    ],
+    [
+        "pat",
+        "pattern",
+        "pattern"
+    ],
+    [
+        "judg",
+        "judgement constructor",
+        "judgement constructor"
+    ],
+    [
+        "data",
+        "data constructor",
+        "data constructor"
+    ],
+    [
+        "type",
+        "datatype constructor",
+        "datatype constructor"
+    ],
+    [
+        "rule",
+        "rule",
+        "rule declarations"
+    ],
+    [
+        "view",
+        "view",
+        "views in the theory"
+    ],
+    [
+        "high",
+        "high universe",
+        "constructors returning kinds or object in even higher typing universes"
+    ],
+    [
+        "exp_mor",
+        "explicit theory morphism",
+        "the transitive closure of all theory morphisms into the theory"
+    ],
+    [
+        "any_mor",
+        "any theory morphism",
+        "the transitive closure of all theory morphisms into the theory"
+    ]
+]

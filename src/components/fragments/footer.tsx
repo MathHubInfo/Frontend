@@ -5,11 +5,19 @@ import { Container, Divider, Grid, Header, Image, List, Segment } from "semantic
 import { IMathHubContext, WithContext } from "../../context";
 
 import { Link } from "react-router-dom";
-import { Nav } from "../../components/common/nav";
+
+import { PromiseLoader } from "../common/lazy";
+import { Nav } from "../common/nav";
+
+import { IMMTVersionInfo } from "../../context/api";
 
 export const Footer = WithContext((context: IMathHubContext) => class extends React.Component {
   private getVersionString() {
     return (process.env.NODE_ENV === "production") ? this.getProdFooter() : this.getDevelFooter();
+  }
+
+  private getMMTVersion() {
+    return context.client.getMMTVersion();
   }
 
   private getProdFooter() {
@@ -39,7 +47,7 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
 
   public render() {
       return (
-        <Segment vertical style={{ margin: "5em 0em 0em", padding: "5em 0em"}}>
+        <Segment vertical style={{ margin: "2em 0em 0em", padding: "2em 0em"}}>
           <Container textAlign="left">
             <Divider inverted section />
             <Grid divided inverted stackable>
@@ -70,7 +78,6 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
                                 size="tiny"
                                 title="www.opendreamkit.org"
                                 src={require("../../../assets/logos/odk_logo.png")}
-                                style={{ marginRight: "1.5em" }}
                                 alt="ODK Logo"
                                 inline={true}
                                 href={"http://opendreamkit.org/"}
@@ -122,8 +129,14 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
             <Grid divided inverted stackable>
               <Grid.Column width={4}>
                 <small>
-                  {this.getVersionString()}<br />
-                  Connected to MMT at {context.config.mmtURL}
+                  {this.getVersionString()}
+                </small>
+              </Grid.Column>
+              <Grid.Column width={4}>
+                <small>
+                  <PromiseLoader promise={this.getMMTVersion}>
+                    {(version: IMMTVersionInfo) => <MMTVersionFooter version={version} />}
+                  </PromiseLoader>
                 </small>
               </Grid.Column>
               <Grid.Column width={3} floated={"right"}>
@@ -147,3 +160,15 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
       );
     }
 });
+
+/** MMT Version Information */
+function MMTVersionFooter(props: {version: IMMTVersionInfo}) {
+  return (
+    <>
+      MMT Version {props.version.versionNumber}
+      {props.version.buildDate && <><br />
+        (built {new Date(parseInt(props.version.buildDate, 10)!).toTimeString()})
+      </>}
+    </>
+  );
+}

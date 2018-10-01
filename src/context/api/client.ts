@@ -1,18 +1,26 @@
-import { IMathHubConfig } from "../config";
+import { IMathHubClientConfig } from "../config";
 
 import axios from "axios";
 
-import { IArchive, IDocument, IGroup, IGroupRef, IModule, IReferencable, URI } from "./index";
+import { IArchive, IDocument, IGlossaryEntry, IGroup, IGroupRef, IMMTVersionInfo,
+         IModule, INotebook, IReferencable, URI } from "./index";
 
 /**
  * A client for the mathhub-mmt api
  */
 export abstract class MMTAPIClient {
-    protected readonly config: IMathHubConfig;
+    protected readonly config: IMathHubClientConfig;
 
-    constructor(config: IMathHubConfig) {
+    constructor(config: IMathHubClientConfig) {
         this.config = config;
     }
+
+    /** gets the version of MMT */
+    public abstract getMMTVersion(): Promise<IMMTVersionInfo>;
+
+    //
+    // MMT Versions
+    //
 
     /** gets an object via a URI */
     public abstract getURI(uri: URI): Promise<IReferencable>;
@@ -31,6 +39,10 @@ export abstract class MMTAPIClient {
 
     /** gets a specific module */
     public abstract getModule(id: string): Promise<IModule>;
+
+    public abstract getNotebook(id: string): Promise<INotebook>;
+
+    public abstract getGlossary(): Promise<IGlossaryEntry[]>;
 }
 
 /**
@@ -38,13 +50,17 @@ export abstract class MMTAPIClient {
  */
 export class RestAPIClient extends MMTAPIClient {
     private get<T>(url: string): Promise<T> {
-        return axios.get<T | string>(this.config.mmtURL + url).then((c) => {
+        return axios.get<T | string>(this.config.MMT_URL + url).then((c) => {
             if (c.status !== 200 || typeof c.data === "string") {
                 return Promise.reject(c.data as string);
             } else {
                 return Promise.resolve(c.data as T);
             }
         });
+    }
+
+    public getMMTVersion(): Promise<IMMTVersionInfo> {
+        return this.get("version");
     }
 
     /** encodes an ID for use with the API */
@@ -74,5 +90,13 @@ export class RestAPIClient extends MMTAPIClient {
 
     public getModule(id: string): Promise<IModule> {
         return this.get("content/module?id=" + this.encodeID(id));
+    }
+
+    public getNotebook(id: string): Promise<INotebook> {
+        return this.get("conten/module?id=" + this.encodeID(id));
+    }
+
+    public getGlossary(): Promise<IGlossaryEntry[]> {
+        return this.get("content/glossary");
     }
 }

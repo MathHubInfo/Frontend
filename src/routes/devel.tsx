@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Loader } from "../components/common/lazy";
+import { CreateSpinningLoader as Loader } from "../components/common/lazy";
 import { MonospaceContainer } from "../components/common/monospace";
 
 import { Context } from "../context";
@@ -8,6 +8,7 @@ import { Context } from "../context";
 import { delay } from "../utils/promises";
 
 import { Icon, Message } from "semantic-ui-react";
+import { MathHTML } from "../components/common/mathhtml";
 
 export function Devel(props: {}) {
     return (
@@ -16,7 +17,7 @@ export function Devel(props: {}) {
             If you are seeing it in production, you did something wrong. <br />
 
             This page might also have a memory leak.
-            You have been warned.
+            You have been warned. <br />
 
             <h2>Process.Env</h2>
             <MonospaceContainer>{JSON.stringify(process.env, undefined, 4)}</MonospaceContainer>
@@ -43,8 +44,17 @@ export function Devel(props: {}) {
             <h3>Fatal Error</h3>
             This component should fail to load because of a fatal error almost immediatly.
             <Fatal />
+
+            <h2>Math</h2>
+            <SampleMath />
         </>
     );
+}
+
+function SampleMath() {
+    // tslint:disable-next-line:max-line-length
+    const theMath = "<math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><msub><mi>a</mi><mrow><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>b</mi><mrow><mn>1</mn></mrow></msub></mrow></math>";
+    return <MathHTML>{theMath}</MathHTML>;
 }
 
 const loadTimeDelay = 5000;
@@ -55,11 +65,12 @@ const Fatal = Loader("Fatal", () => new Promise<React.SFC<{}>>((reject, resolve)
     throw new Error("Intended Failure");
 }));
 
-const Rejection = Loader("Rejection", () =>
-    delay(Promise.reject<React.SFC<{}>>("Nothing to worry about. "), loadTimeDelay), {
-        errorTitle: "Loading has been rejected as intended",
-        errorMessage: true,
-    });
+const Rejection = Loader({
+    title: "Rejection",
+    errorTitle: "Loading has been rejected as intended",
+    errorMessage: true,
+}, () =>
+        delay(Promise.reject<React.SFC<{}>>("Nothing to worry about. "), loadTimeDelay));
 
 let hasTriedBefore = false;
 const Retry = Loader("Retry", () => {

@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import { Card, Container, Divider, Header, Label } from "semantic-ui-react";
-import { LoadWithPromise } from "../../components/common/lazy";
+import { Card, Container, Divider, Dropdown, Grid, Header, Label } from "semantic-ui-react";
+import { LoadWithSpinner } from "../../components/common/lazy";
+import { MathHTML } from "../../components/common/mathhtml";
 import { Nav } from "../../components/common/nav";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
@@ -12,6 +13,7 @@ import { IArchiveRef, IGroup } from "../../context/api";
 import { MHTitle } from "../../utils/title";
 
 import { decodeLibraryLinkID, encodeLibraryLink, ILibraryRouteProps } from "./";
+import { StatisticsTable } from "./narrative/statistics";
 
 export const Group = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
@@ -25,7 +27,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
     public render() {
         return (
             <MHTitle title={this.groupName()}>
-                <LoadWithPromise
+                <LoadWithSpinner
                     title={this.groupName()}
                     promise={this.getGroup}
                     errorMessage={true}
@@ -34,10 +36,25 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                         <>
                             <MHRefBreadCrumbs to={group} />
                             <>
-                                <Header as="h2">
-                                    <div dangerouslySetInnerHTML={{__html: group.title}} />
-                                </Header>
-                                <div dangerouslySetInnerHTML={{__html: group.description}} />
+                                <Grid>
+                                    <Grid.Row>
+                                        <Grid.Column width={11}>
+                                            <Header as="h2">
+                                                <MathHTML>{group.title}</MathHTML>
+                                            </Header>
+                                        </Grid.Column>
+                                        <Grid.Column width={5}>
+                                            <Container textAlign={"right"}>
+                                                <Dropdown text={"statistics"} button icon={null} pointing={"right"}>
+                                                    <Dropdown.Menu>
+                                                        <StatisticsTable statistics={group.statistics} />
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            </Container>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
+                                <MathHTML renderReferences>{group.description}</MathHTML>
                                 <>
                                     <b>Responsible:</b> {group.responsible.map((p) => <Label key={p}>{p}</Label>)}
                                 </>
@@ -48,7 +65,7 @@ export const Group = WithContext((context: IMathHubContext) => class extends Rea
                             </Container>
                         </>
                 }
-                </LoadWithPromise>
+                </LoadWithSpinner>
             </MHTitle>
         );
     }
@@ -74,7 +91,7 @@ class ArchiveListItem extends React.Component<{archive: IArchiveRef}> {
             <Card>
                 <Card.Content>
                     <Card.Header as={Nav} to={encodeLibraryLink(archive)} >
-                        <div dangerouslySetInnerHTML={{__html: archive.title}} />
+                        <MathHTML>{archive.title}</MathHTML>
                     </Card.Header>
                     <Card.Description>{archive.teaser}</Card.Description>
                 </Card.Content>

@@ -1,13 +1,16 @@
 /** This file contains type definitions for all OMDOC types exposed by the MMT API */
 
+/** anything returned by the API */
+export type IResponse = IApiObject | IMMTVersionInfo | IStatistic;
+
 /** any object returned by the public api */
 export type IApiObject = IReferencable | IReference ;
 
 /** any object that is referencable */
-export type IReferencable = IGroup | IArchive | IDocument | IOpaqueElement | IModule;
+export type IReferencable = IGroup | IArchive | IDocument | IOpaqueElement | IModule | INotebook;
 
 /** any concrete reference */
-export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IOpaqueElementRef | IModuleRef;
+export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IOpaqueElementRef | IModuleRef | INotebookRef;
 
 //
 // GROUP
@@ -44,6 +47,10 @@ export interface IGroup extends IGroupItem {
     responsible: string[];
     /** a list of archives contained in this group */
     archives: IArchiveRef[];
+
+    /** statistics of this group */
+    statistics: IStatistic[];
+
 }
 
 //
@@ -81,6 +88,10 @@ export interface IArchive extends IArchiveItem {
 
     /** the narrative content contained in this archive, can be empty for some archives */
     narrativeRoot: IDocument;
+
+    /** statistics of this archive */
+    statistics: IStatistic[];
+
 }
 
 //
@@ -91,7 +102,8 @@ export type INarrativeElement =
     IOpaqueElement |
     IDocument |
     IDocumentRef |
-    IModuleRef; // TODO: Add declarations and sub-references
+    IModuleRef |
+    INotebook; // TODO: Add declarations and sub-references
 
 /** parent of a document */
 export type IDocumentParentRef = IArchiveRef | IDocumentRef;
@@ -117,8 +129,35 @@ export interface IDocument extends IDocumentItem {
 
     /** a set of declarations */
     decls: INarrativeElement[];
+
+    /** statistics of this document */
+    statistics: IStatistic[];
+
 }
 
+interface INotebookItem extends IAPIObjectItem {
+    kind: "notebook";
+    parent: IDocumentParentRef,
+
+    name: string;
+
+    id: URI;
+}
+
+export interface INotebookRef extends INotebookItem {
+    ref: true;
+}
+
+export interface INotebook extends INotebookItem {
+    ref: false;
+
+    /** This does not work like this */
+    kernel: JSON[];
+    language: JSON[];
+    other: JSON[];
+
+    statistics: IStatistic[];
+}
 interface IOpaqueElementItem extends IAPIObjectItem {
     kind: "opaque";
     parent: IDocumentRef;
@@ -142,6 +181,7 @@ export interface IOpaqueElement extends IOpaqueElementItem {
     contentFormat: string;
     /** the content contained in this IOpaqueElement */
     content: string;
+    
 }
 
 //
@@ -186,6 +226,7 @@ interface IModuleCommon extends IModuleItem {
 
     /** source code of this module, if available */
     source?: string;
+
 }
 
 /** a description of a theory */
@@ -207,13 +248,44 @@ export interface IView extends IModuleCommon {
 }
 
 //
+// Other responses
+//
+ interface IStat {
+     key: string;
+     value: number;
+ }
+/** various statistics of an Item */
+export interface IStatistic {
+    key: string;
+    value: number;
+}
+
+export type TKnownLanguages = "en" | "de" | "fr" | "tr" | "ro" | "zhs" | "zht"; 
+
+export interface IGlossaryEntry {
+    kind: "entry";
+    id: string;
+    kwd: {[k in TKnownLanguages]?: string};
+    def: {[k in TKnownLanguages]?: string};
+}
+
+/** version information exposed by MMT */
+export interface IMMTVersionInfo {
+    /** the version number (i.e. release number) of MMT */
+    versionNumber: string;
+
+    /** the build date of MMT, seconds since Unix epoch represented as a string */
+    buildDate?: string; // This should really be a number, but Florian's JSON interpretation doesn't do longs
+}
+
+//
 // Helper types
 //
 
 /** any object exposed by the API */
 interface IAPIObjectItem {
     /** the kind of object that is returned */
-    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view";
+    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view" | "notebook";
 
     /** weather this object is a reference or a full description */
     ref: boolean;
@@ -226,6 +298,7 @@ interface IAPIObjectItem {
 
     /** parent of this object, if any */
     parent: IReference | null;
+
 }
 
 /** a URL */
@@ -233,3 +306,10 @@ export type URI = string;
 
 /** anything that could be HTML */
 export type HTML = string;
+
+/** TODO:
+ * -Metadata for Jupyter, (Kai has those for now, so just put them into the mock)
+ * -Tabs: Metadata; View; src; graph (maybe more?)
+ * -run button in Metadata that starts Jupyter externaly
+ * =>make a screenshot 
+ */

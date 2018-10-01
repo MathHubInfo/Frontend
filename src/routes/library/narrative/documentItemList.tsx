@@ -1,13 +1,17 @@
 import * as React from "react";
 
 import { Card } from "semantic-ui-react";
-import { Nav } from "../../components/common/nav";
-import { INarrativeElement } from "../../context/api";
-import { encodeLibraryLink } from "./";
+import { MathHTML } from "../../../components/common/mathhtml";
+import { Nav } from "../../../components/common/nav";
+import { INarrativeElement } from "../../../context/api";
+import { encodeLibraryLink } from "./../";
 
 export class DocumentItemList extends React.Component<{nRoot: INarrativeElement[]}> {
     public render() {
         const {nRoot} = this.props;
+        if (typeof nRoot === "undefined") {
+            return null;
+        }
         return (
             <Card.Group itemsPerRow="1">
                 {nRoot.map((narrative) => <DocumentListItem key={narrative.id} narrative={narrative} />)}
@@ -19,14 +23,17 @@ export class DocumentItemList extends React.Component<{nRoot: INarrativeElement[
 class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
     public render() {
         const {narrative} = this.props;
+        if (narrative.kind !== "document" && narrative.kind !== "notebook") {
+            return null;
+        }
         return (
             <Card>
                 <Card.Content>
                     <Card.Header as={Nav} to={encodeLibraryLink(narrative)} >
-                        <div dangerouslySetInnerHTML={{__html: narrative.name}} />
+                        <MathHTML>{narrative.name}</MathHTML>
                     </Card.Header>
                     <Card.Description>
-                        <div dangerouslySetInnerHTML={{__html: narrative.id}} />
+                        <MathHTML>{narrative.id}</MathHTML>
                     </Card.Description>
                 </Card.Content>
             </Card>

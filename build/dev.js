@@ -1,12 +1,49 @@
-import {common, env} from "./common"
+import {common, env, root } from "./common"
 
 import webpack from "webpack"
+
+import { resolve } from 'path'
 
 export default {
     ...common, 
 
-    // heya we're developing
-    mode: 'development', 
+    // heya we're developing, so be friendly and stuff
+    mode: 'development',
+    devtool: 'eval-source-map',
+
+    module: {
+        ...common.module, 
+
+        rules: [
+            ...common.module.rules,
+
+            // tslint only for development
+            {
+                test: /\.tsx?$/, 
+                enforce: 'pre',
+                use: [{
+                    loader: 'tslint-loader', 
+                    options: {
+                        configFile: resolve(root, 'tslint.json'), 
+                        tsConfigFile: resolve(root, 'tsconfig.json'),
+                        typeCheck: true,
+                        failOnHint: true,
+                    }
+                }]
+            },
+
+            {
+                test: /\.js$/,
+                enforce: 'pre', 
+                use: [ 'source-map-loader' ]
+            }, 
+
+            {
+                test: /\.css$/,
+                use: [ 'style-loader', 'css-loader' ],
+            },
+        ], 
+    },
 
     // add a server for development
     devServer: {
@@ -19,7 +56,7 @@ export default {
 
         // fewer logging
         clientLogLevel: "error", 
-        noInfo: true
+        noInfo: false,
     }, 
 
     plugins: [

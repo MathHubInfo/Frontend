@@ -1,17 +1,19 @@
 import * as React from "react";
 
-import { Card, Container, Divider, Header, Label } from "semantic-ui-react";
-import { LoadWithPromise } from "../../components/common/lazy";
-import { Nav } from "../../components/common/nav";
+import { Container, Divider, Dropdown, Grid, Header, Label } from "semantic-ui-react";
+import { LoadWithSpinner } from "../../components/common/lazy";
+import { MathHTML } from "../../components/common/mathhtml";
 
 import { IMathHubContext, WithContext } from "../../context";
-import { IArchive, IDocument, INarrativeElement } from "../../context/api";
+import { IArchive } from "../../context/api";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 
 import { MHTitle } from "../../utils/title";
 
-import { decodeLibraryLinkID, encodeLibraryLink, ILibraryRouteProps } from "./";
+import { decodeLibraryLinkID, ILibraryRouteProps } from "./";
+import { DocumentItemList } from "./narrative/documentItemList";
+import { StatisticsTable } from "./narrative/statistics";
 
 export const Archive = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
@@ -25,7 +27,7 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
     public render() {
         return (
             <MHTitle title={this.archiveID()}>
-                <LoadWithPromise
+                <LoadWithSpinner
                     title={this.archiveID()}
                     promise={this.getArchive}
                     errorMessage={true}
@@ -34,57 +36,38 @@ export const Archive = WithContext((context: IMathHubContext) => class extends R
                         <>
                             <MHRefBreadCrumbs to={archive} />
                             <>
-                                <Header as="h2">
-                                    <div dangerouslySetInnerHTML={{__html: archive.title}} />
-                                </Header>
-                                <div dangerouslySetInnerHTML={{__html: archive.description}} />
+                            <Grid>
+                                    <Grid.Row>
+                                        <Grid.Column width={11}>
+                                            <Header as="h2">
+                                                <MathHTML>{archive.title}</MathHTML>
+                                            </Header>
+                                        </Grid.Column>
+                                        <Grid.Column width={5}>
+                                            <Container textAlign={"right"}>
+                                                <Dropdown text={"statistics"} button icon={null} pointing={"right"}>
+                                                    <Dropdown.Menu>
+                                                        <StatisticsTable statistics={archive.statistics} />
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            </Container>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
+                                <MathHTML renderReferences>{archive.description}</MathHTML>
                                 <>
                                     <b>Responsible:</b> {archive.responsible.map((p) => <Label key={p}>{p}</Label>)}
                                 </>
                             </>
                             <Divider />
                             <Container>{
-                                <DocumentItemList nRoot={archive.narrativeRoot} />}
+                                <DocumentItemList nRoot={archive.narrativeRoot.decls} />}
                             </Container>
                         </>
                     </>
                 }
-                </LoadWithPromise>
+                </LoadWithSpinner>
             </MHTitle>
         );
     }
 });
-
-class DocumentItemList extends React.Component<{nRoot?: IDocument}> {
-    public render() {
-        const {nRoot} = this.props;
-        if (nRoot !== undefined) {
-            return (
-                <Card.Group itemsPerRow="1">
-                    {nRoot.decls.map((narrative) => <DocumentListItem key={narrative.id} narrative={narrative} />)}
-                </Card.Group>
-            );
-        } else {
-            return(
-                <>
-                    This Archive is empty.
-                </>
-            );
-        }
-    }
-}
-
-class DocumentListItem extends React.Component<{narrative: INarrativeElement}> {
-    public render() {
-        const {narrative} = this.props;
-        return (
-            <Card>
-                <Card.Content>
-                    <Card.Header as={Nav} to={encodeLibraryLink(narrative)} >
-                        <div dangerouslySetInnerHTML={{__html: narrative.name}} />
-                    </Card.Header>
-                </Card.Content>
-            </Card>
-        );
-    }
-}

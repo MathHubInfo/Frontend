@@ -1,6 +1,9 @@
 import {
     HTML,
     URI,
+    IMMTVersionInfo,
+    IStatistic,
+    TKnownLanguages
 } from "./index";
 
 /**
@@ -12,13 +15,18 @@ import {
  * Furthermore, the 'kind' and child atttributes may be omitted where unique.
  */
 export interface IMockDataSet {
+    version: IMMTVersionInfo;
+
     groups: IMockGroup[];
     archives: IMockArchive[];
 
     documents: IMockDocument[];
+    notebooks: IMockNotebook[];
     opaques: IMockOpaqueElement[];
 
     modules: IMockModule[];
+
+    glossary: IMockGlossaryEntry[];
 }
 
 /** a shallow mock reference */
@@ -38,6 +46,7 @@ export interface IMockGroup extends IMockObject {
 
     description: HTML;
     responsible: string[];
+    statistics: IStatistic[];
 }
 
 /** a mocked archive */
@@ -49,13 +58,24 @@ export interface IMockArchive extends IMockObject {
 
     description: HTML;
     responsible: string[];
+    statistics: IStatistic[];
 }
 
 /** a mocked opaque element */
 export interface IMockDocument extends IMockObject {
     parent: IMockReference;
+    statistics: IStatistic[];
 }
 
+export interface IMockNotebook extends IMockObject {
+    parent: IMockReference;
+
+    kernel: JSON[];
+    language: JSON[];
+    other: JSON[];
+
+    statistics: IStatistic[];
+}
 /** a mocked opaque element */
 export interface IMockOpaqueElement extends IMockObject {
     parent: IMockReference;
@@ -86,4 +106,9 @@ interface IMockView extends IMockObject {
 
     domain: IMockReference;
     codomain: IMockReference;
+}
+
+interface IMockGlossaryEntry extends IMockObject {
+    kwd: {[k in TKnownLanguages]?: string};
+    def: {[k in TKnownLanguages]?: string};
 }

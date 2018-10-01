@@ -1,13 +1,9 @@
 import { IApiObject } from "../../context/api";
 
 /** properties for a library route */
-export interface ILibraryRouteProps {
-    match: {
-        params: {
-            id: string,
-        },
-    };
-}
+import { RouteComponentProps } from "react-router";
+export type ILibraryRouteProps = RouteComponentProps<{id: string}>;
+export type IGlossaryProps = RouteComponentProps<{language: string}>;
 
 /** generates a route for a library page */
 export function makeLibraryRouteSpec(kind?: string) {

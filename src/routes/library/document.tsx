@@ -1,9 +1,10 @@
 import * as React from "react";
 
-import { Container, Divider, Header } from "semantic-ui-react";
+import { Container, Header, Tab } from "semantic-ui-react";
 
 import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
-import { LoadWithPromise } from "../../components/common/lazy";
+import { LoadWithSpinner } from "../../components/common/lazy";
+import { MathHTML } from "../../components/common/mathhtml";
 
 import { IMathHubContext, WithContext } from "../../context";
 import { IDocument } from "../../context/api";
@@ -11,6 +12,9 @@ import { IDocument } from "../../context/api";
 import { MHTitle } from "../../utils/title";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "./";
+import { DocumentItemList } from "./narrative/documentItemList";
+import { ModuleSource, ModuleView } from "./narrative/module";
+import { StatisticsTable } from "./narrative/statistics";
 
 export const Document = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
@@ -24,7 +28,7 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
     public render() {
         return (
             <MHTitle title={this.documentID()}>
-                <LoadWithPromise
+                <LoadWithSpinner
                     title={this.documentID()}
                     promise={this.getDocument}
                     errorMessage={true}
@@ -33,49 +37,37 @@ export const Document = WithContext((context: IMathHubContext) => class extends 
                         <MHRefBreadCrumbs to={document} />
                         <Container text>
                             <Header as="h2">
-                                <div dangerouslySetInnerHTML={{__html: document.id}} />
+                                <MathHTML>{document.name}</MathHTML>
                             </Header>
-                            <div dangerouslySetInnerHTML={{__html: document.name}} />
                         </Container>
-                        <Divider />
-                        <Container>{ /*
-                            // TODO: Re-use element used in archive
-                            <ModuleItemList modules={document.modules} />
-                        */}</Container>
+                        <Tab
+                            panes={[
+                                {
+                                    menuItem: "View", render: () =>
+                                        <ModuleView decls={document.decls} context={context} />,
+                                },
+                                {
+                                    menuItem: "source", render: () =>
+                                        <ModuleSource decls={document.decls} context={context} />,
+                                },
+                                {
+                                    menuItem: "statistics", render: () =>
+                                        <StatisticsTable statistics={document.statistics} />,
+                                },
+                                {
+                                    menuItem: "graph", render: () =>
+                                        <Tab.Pane attached={false}>TGView will be added later</Tab.Pane>,
+                                },
+                                {
+                                    menuItem: "documents", render: () =>
+                                        <DocumentItemList nRoot={document.decls} />,
+                                },
+                            ]}
+                        />
                     </>
-                }
-                </LoadWithPromise>
+                    }
+                </LoadWithSpinner>
             </MHTitle>
         );
     }
 });
-
-/*
-class ModuleItemList extends React.Component<{modules: INarrativeElement[]}> {
-    public render() {
-        const {modules} = this.props;
-        return (
-            <Card.Group itemsPerRow="1">
-                {modules.map((module) => <ModuleListItem key={module.name} module={module} />)}
-            </Card.Group>
-        );
-    }
-}
-
-class ModuleListItem extends React.Component<{module: IModuleItem}> {
-    public render() {
-        const {module} = this.props;
-        return (
-            <Card>
-                <Card.Content>
-                    <Card.Header
-                    >
-                        <div dangerouslySetInnerHTML={{__html: module.name}} />
-                    </Card.Header>
-                    <Card.Description>{module.name}</Card.Description>
-                </Card.Content>
-            </Card>
-        );
-    }
-}
-*/
