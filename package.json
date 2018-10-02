@@ -54,7 +54,6 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
-    "html-react-parser": "^0.4.7",
     "node": "10.11.0",
     "package.json": "^2.0.1",
     "react": "^16.5.2",

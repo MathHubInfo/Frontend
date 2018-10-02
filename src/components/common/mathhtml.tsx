@@ -1,4 +1,4 @@
-import { default as Parser, DOMNode, DOMTagNode, domToString, ReactElement } from "../../utils/react-html-parser";
+import { default as Parser, TNodeList, TReactElement } from "../../utils/react-html-parser";
 
 import * as React from "react";
 import { Popup } from "semantic-ui-react";
@@ -29,41 +29,40 @@ export class MathHTML extends React.Component<IMathHTMLProps> {
         this.replaceLinkNode = this.replaceLinkNode.bind(this);
         this.replaceMathNode = this.replaceMathNode.bind(this);
     }
-    private replaceHTMLNodes(node: DOMNode, callback: (nodes: DOMNode[]) => ReactElement[]) {
-        if (node.type !== "tag") { return; }
+    private replaceHTMLNodes(node: Node, callback: (nodes: TNodeList) => TReactElement[]) {
+        if (node.nodeType !== Node.ELEMENT_NODE) { return; }
 
         const {renderReferences, renderMath} = this.props;
 
         if (renderReferences) {
-            const linkReplaced = this.replaceLinkNode(node, callback);
+            const linkReplaced = this.replaceLinkNode(node as Element, callback);
             if (linkReplaced) { return linkReplaced; }
         }
 
         if (renderMath !== false) {
-            const mathReplaced = this.replaceMathNode(node, callback);
+            const mathReplaced = this.replaceMathNode(node as Element, callback);
             if (mathReplaced) { return mathReplaced; }
         }
 
         return;
     }
 
-    private replaceLinkNode(node: DOMTagNode, callback: (nodes: DOMNode[]) => ReactElement[]) {
-        const { attribs, children } = node;
-        if (!attribs) { return; }
-        if (node.name === "a") {
+    private replaceLinkNode(node: Element, callback: (nodes: TNodeList) => TReactElement[]) {
+        if (node.nodeName === "a") {
+            const href = node.getAttribute("href") || "";
             return (
                 <Popup
                     trigger={
-                        <a href={attribs.href}>{callback(children)}</a>}
-                    content={<div>{attribs.href}</div>}
+                        <a href={href}>{callback(node.childNodes)}</a>}
+                    content={<div>{href}</div>}
                 />
             );
         }
     }
 
-    private replaceMathNode(node: DOMTagNode, callback: (nodes: DOMNode[]) => ReactElement[]) {
-        if (node.name === "math") {
-            return <RenderedMath>{domToString(node)}</RenderedMath>;
+    private replaceMathNode(node: Element, callback: (nodes: Node[]) => TReactElement[]) {
+        if (node.nodeName === "math") {
+            return <RenderedMath>{node.outerHTML}</RenderedMath>;
         }
     }
 
@@ -77,26 +76,9 @@ export class MathHTML extends React.Component<IMathHTMLProps> {
     }
 }
 
-/** rendering a single math element */
-export class RenderedMath extends React.Component<{children: string}, {renderedHTML: string}> {
-    constructor(props: {children: string}) {
-        super(props);
-        this.state = this.generateState(props);
-    }
-
-    private generateState(props: {children: string}) {
-        // TODO: MathML => HTML Polyfill
-        // nothing that doesn't require us to load external scripts (at runtime) seems to do this
-        return {renderedHTML: props.children};
-    }
-
-    public componentWillReceiveProps(nextProps: {children: string}) {
-        if (nextProps.children !== this.props.children) {
-            this.setState(this.generateState(nextProps));
-        }
-    }
-
+/** renders a single math element */
+export class RenderedMath extends React.Component<{children: string}> {
     public render() {
-        return <div dangerouslySetInnerHTML={{__html: this.state.renderedHTML}} />;
+        return <span dangerouslySetInnerHTML={{__html: this.props.children}} />;
     }
 }
