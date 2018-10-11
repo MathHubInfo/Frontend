@@ -2,17 +2,17 @@ import * as React from "react";
 
 import { Button, Container, Grid, Header, Image, Tab, Table } from "semantic-ui-react";
 
-import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
-import { LoadWithSpinner } from "../../components/common/lazy";
-import { MathHTML } from "../../components/common/mathhtml";
-import { StatisticsTable } from "./structure/statistics";
+import { MHRefBreadCrumbs } from "../../../components/breadcrumbs";
+import { LoadWithSpinner } from "../../../components/common/lazy";
+import { MathHTML } from "../../../components/common/mathhtml";
+import { StatisticsTable } from "../structure/statistics";
 
-import { IMathHubContext, WithContext } from "../../context";
-import { INotebook } from "../../context/api";
+import { IMathHubContext, WithContext } from "../../../context";
+import { INotebook } from "../../../context/api";
 
-import { MHTitle } from "../../utils/title";
+import { MHTitle } from "../../../utils/title";
 
-import { decodeLibraryLinkID, ILibraryRouteProps } from "./structure/links";
+import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 
 export const Notebook = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
@@ -46,7 +46,7 @@ export const Notebook = WithContext((context: IMathHubContext) => class extends 
                                         <Button floated={"right"}>run/edit</Button>
                                         <Image
 
-                                                src={require("../../../assets/logos/jupyter_logo.png")}
+                                                src={require("../../../../assets/logos/jupyter_logo.png")}
                                                 size={"mini"}
                                                 floated={"right"}
                                         />

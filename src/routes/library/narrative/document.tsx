@@ -2,19 +2,19 @@ import * as React from "react";
 
 import { Container, Header, Tab } from "semantic-ui-react";
 
-import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
-import { LoadWithSpinner } from "../../components/common/lazy";
-import { MathHTML } from "../../components/common/mathhtml";
+import { MHRefBreadCrumbs } from "../../../components/breadcrumbs";
+import { LoadWithSpinner } from "../../../components/common/lazy";
+import { MathHTML } from "../../../components/common/mathhtml";
 
-import { IMathHubContext, WithContext } from "../../context";
-import { IDocument } from "../../context/api";
+import { IMathHubContext, WithContext } from "../../../context";
+import { IDocument } from "../../../context/api";
 
-import { MHTitle } from "../../utils/title";
+import { MHTitle } from "../../../utils/title";
 
-import { DocumentItemList } from "./narrative/documentItemList";
-import { ModuleSource, ModuleView } from "./narrative/module";
-import { decodeLibraryLinkID, ILibraryRouteProps } from "./structure/links";
-import { StatisticsTable } from "./structure/statistics";
+import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
+import { StatisticsTable } from "../structure/statistics";
+import { DocumentItemList } from "./documentItemList";
+import { ModuleSource, ModuleView } from "./module";
 
 export const Document = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {

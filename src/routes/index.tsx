@@ -18,9 +18,9 @@ const Group = Loader("Group", () => libImport().then((g) => g.Group));
 const Archive = Loader("Archive", () => libImport().then((a) => a.Archive));
 
 const Document = Loader("Document", () =>
-    import(/* webpackChunkName: "library_document"*/"./library/document").then((d) => d.Document));
+    import(/* webpackChunkName: "library_document"*/"./library/narrative/document").then((d) => d.Document));
 const Notebook = Loader("Notebook", () =>
-    import(/* webpackChunkName: "library_document"*/"./library/notebook").then((n) => n.Notebook));
+    import(/* webpackChunkName: "library_document"*/"./library/narrative/notebook").then((n) => n.Notebook));
 
 const Glossary = Loader("Glossary", () =>
     import(/* webpackChunkName: "applications_glossary"*/"./applications/glossary").then((g) => g.Glossary));
