@@ -9,13 +9,14 @@ import { CreateSpinningLoader as Loader } from "../components/common/lazy";
 const Home = Loader("Home Page", () =>
     import(/* webpackChunkName: "home"*/"./home").then((h) => h.Home));
 
-import { makeLibraryRouteSpec } from "./library";
-const Library = Loader("Library", () =>
-    import(/* webpackChunkName: "library"*/"./library/library").then((l) => l.Library));
-const Group = Loader("Group", () =>
-    import(/* webpackChunkName: "library_group"*/"./library/group").then((g) => g.Group));
-const Archive = Loader("Archive", () =>
-    import(/* webpackChunkName: "library_archive"*/"./library/archive").then((a) => a.Archive));
+import { makeLibraryRouteSpec } from "./library/structure/links";
+
+const libImport = () => import(/* webpackChunkName: "content"*/"./library/content");
+
+const Library = Loader("Library", () => libImport().then((l) => l.Library));
+const Group = Loader("Group", () => libImport().then((g) => g.Group));
+const Archive = Loader("Archive", () => libImport().then((a) => a.Archive));
+
 const Document = Loader("Document", () =>
     import(/* webpackChunkName: "library_document"*/"./library/document").then((d) => d.Document));
 const Notebook = Loader("Notebook", () =>

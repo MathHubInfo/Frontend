@@ -1,11 +1,16 @@
 import * as React from "react";
 
-import { Popup, Table } from "semantic-ui-react";
+import {  Container, Dropdown, Popup, Table } from "semantic-ui-react";
 import { IStatistic } from "../../../context/api";
 
 import statsKeys from "../../../../assets/keys.json";
 
-export class StatisticsTable extends React.Component<{ statistics: IStatistic[] }> {
+interface IStatisticsTableProps {
+    statistics: IStatistic[];
+}
+
+/** Renders a table showing statistics */
+export class StatisticsTable extends React.Component<IStatisticsTableProps> {
     public render() {
         const { statistics } = this.props;
         if (statistics === undefined || statistics.length === 0) {
@@ -23,6 +28,22 @@ export class StatisticsTable extends React.Component<{ statistics: IStatistic[] 
     }
 }
 
+/** Same as StatisticsTable, but adds a dropdown menu to it */
+export class StatisticsTableDropdown extends React.Component<IStatisticsTableProps> {
+    public render() {
+        return (
+            <Container textAlign={"right"}>
+                <Dropdown text={"statistics"} button icon={null} pointing={"right"}>
+                    <Dropdown.Menu>
+                        <StatisticsTable statistics={this.props.statistics} />
+                    </Dropdown.Menu>
+                </Dropdown>
+            </Container>
+        );
+    }
+}
+
+/** A single element within the statistics table */
 class StatisticsElement extends React.Component<{ name: string, value?: number }> {
     public render() {
         const { name } = this.props;

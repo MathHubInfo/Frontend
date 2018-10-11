@@ -12,7 +12,7 @@ import { INotebook } from "../../context/api";
 
 import { MHTitle } from "../../utils/title";
 
-import { decodeLibraryLinkID, ILibraryRouteProps } from "./";
+import { decodeLibraryLinkID, ILibraryRouteProps } from "./structure/links";
 
 export const Notebook = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {

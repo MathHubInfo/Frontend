@@ -11,10 +11,10 @@ import { IDocument } from "../../context/api";
 
 import { MHTitle } from "../../utils/title";
 
-import { decodeLibraryLinkID, ILibraryRouteProps } from "./";
 import { DocumentItemList } from "./narrative/documentItemList";
 import { ModuleSource, ModuleView } from "./narrative/module";
 import { StatisticsTable } from "./narrative/statistics";
+import { decodeLibraryLinkID, ILibraryRouteProps } from "./structure/links";
 
 export const Document = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {

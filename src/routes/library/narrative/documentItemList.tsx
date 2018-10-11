@@ -4,7 +4,7 @@ import { Card } from "semantic-ui-react";
 import { MathHTML } from "../../../components/common/mathhtml";
 import { Nav } from "../../../components/common/nav";
 import { INarrativeElement } from "../../../context/api";
-import { encodeLibraryLink } from "./../";
+import { encodeLibraryLink } from "../structure/links";
 
 export class DocumentItemList extends React.Component<{nRoot: INarrativeElement[]}> {
     public render() {

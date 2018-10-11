@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { ReactComponent } from "../types/types";
 
+import { MHTitle } from "../utils/title";
 import { MMTAPIClient, RestAPIClient } from "./api/client";
 import { MockAPIClient } from "./api/mock";
 import { IMathHubConfig } from "./config";
@@ -22,6 +23,23 @@ export function makeContext(config: IMathHubConfig): IMathHubContext {
         client: clientConfig.MOCK_MMT ? new MockAPIClient(clientConfig) : new RestAPIClient(clientConfig),
         config,
     };
+}
+
+interface ITitledWithContextProps {
+    title?: string;
+    children: (context: IMathHubContext) => React.ReactNode;
+}
+
+/** Combines the MHTitle and Context.Consumer elements */
+export class TitledWithContext extends React.Component<ITitledWithContextProps> {
+    public render() {
+        const { title, children } = this.props;
+        return (
+            <MHTitle title={title}>
+                <Context.Consumer>{children}</Context.Consumer>
+            </MHTitle>
+        );
+    }
 }
 
 /**  Creates a new Element that takes MathHubContext as Parameter */

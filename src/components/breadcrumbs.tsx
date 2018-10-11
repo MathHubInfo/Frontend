@@ -5,7 +5,7 @@ import { AnyToRef } from "../context/api/utils";
 
 import { Breadcrumb } from "semantic-ui-react";
 import { Nav } from "../components/common/nav";
-import { encodeLibraryLink } from "../routes/library";
+import { encodeLibraryLink } from "../routes/library/structure/links";
 
 /** renders a full list of BreadCrumbs by iterating over the reference */
 export class MHRefBreadCrumbs extends React.PureComponent<{to?: IApiObject}> {

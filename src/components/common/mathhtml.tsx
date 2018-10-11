@@ -16,6 +16,9 @@ export interface IMathHTMLProps {
 
     /** override the default type this element should appear as */
     as?: any;
+
+    /** extra properties to give to the element being created */
+    extra?: { [key: string]: any };
 }
 
 /**
@@ -67,12 +70,13 @@ export class MathHTML extends React.Component<IMathHTMLProps> {
     }
 
     public render() {
-        const { children: content, as: asElement} = this.props;
+        const { children: content, as: asElement, extra} = this.props;
 
         const children = Parser(content, {replace: this.replaceHTMLNodes}).map(
             (child: React.ReactElement<any>, index: number) => React.cloneElement(child, {key: index}),
         );
-        return React.createElement(asElement || React.Fragment, { children });
+
+        return React.createElement(asElement || React.Fragment, { children, ...(extra || {}) });
     }
 }
 
