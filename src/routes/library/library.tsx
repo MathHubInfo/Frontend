@@ -14,7 +14,8 @@ import { IGroupRef } from "../../context/api";
 
 import { encodeLibraryLink } from "./";
 
-export class Libray extends React.Component<{}, {}> {
+/** Renders the library route, showing a list of all libraries */
+export class Library extends React.Component<{}, {}> {
     public render() {
         return (
             <>

@@ -11,7 +11,7 @@ const Home = Loader("Home Page", () =>
 
 import { makeLibraryRouteSpec } from "./library";
 const Library = Loader("Library", () =>
-    import(/* webpackChunkName: "library"*/"./library/library").then((l) => l.Libray));
+    import(/* webpackChunkName: "library"*/"./library/library").then((l) => l.Library));
 const Group = Loader("Group", () =>
     import(/* webpackChunkName: "library_group"*/"./library/group").then((g) => g.Group));
 const Archive = Loader("Archive", () =>
