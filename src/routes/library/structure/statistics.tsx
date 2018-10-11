@@ -13,7 +13,7 @@ interface IStatisticsTableProps {
 export class StatisticsTable extends React.Component<IStatisticsTableProps> {
     public render() {
         const { statistics } = this.props;
-        if (statistics === undefined || statistics.length === 0) {
+        if (typeof statistics === "undefined" || statistics.length === 0) {
             return (
                 <p>No statistics available</p>
             );

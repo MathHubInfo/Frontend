@@ -9,7 +9,7 @@ import { MHRefBreadCrumbs } from "../../components/breadcrumbs";
 import { IMathHubContext, TitledWithContext } from "../../context";
 import { HTML, IApiObject, IStatistic } from "../../context/api";
 
-import { StatisticsTableDropdown } from "./narrative/statistics";
+import { StatisticsTableDropdown } from "./structure/statistics";
 
 interface ILibraryItemProps<T> {
     /** the loading title of this library item */
