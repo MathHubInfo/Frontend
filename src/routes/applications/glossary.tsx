@@ -7,7 +7,7 @@ import { MathHTML } from "../../components/common/mathhtml";
 import { IMathHubContext, WithContext } from "../../context";
 import { IGlossaryEntry, TKnownLanguages } from "../../context/api";
 
-const languages: TKnownLanguages[] = ["en", "de", "fr", "tr", "ro", "zhs", "zht"];
+export const languages: TKnownLanguages[] = ["en", "de", "fr", "tr", "ro", "zhs", "zht"];
 
 export class Glossary extends React.Component<{}, {}> {
     public render() {
