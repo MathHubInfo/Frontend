@@ -15,6 +15,7 @@ export class Library extends React.Component<ILibraryRouteProps> {
         super(props);
         this.getGroups = this.getGroups.bind(this);
         this.getGroupsProps = this.getGroupsProps.bind(this);
+        this.getGroupsBody = this.getGroupsBody.bind(this);
     }
 
     private getGroups(context: IMathHubContext) { return () => context.client.getGroups(); }
@@ -24,11 +25,14 @@ export class Library extends React.Component<ILibraryRouteProps> {
             crumbs: undefined,
         };
     }
+    private getGroupsBody(groups: IGroupRef[]) {
+        return <ContentItemList items={groups} />;
+    }
 
     public render() {
         return (
             <LibraryItem title="Library" promise={this.getGroups} props={this.getGroupsProps} {...this.props}>{
-                (groups: IGroupRef[]) => <ContentItemList items={groups} />}</LibraryItem>
+                this.getGroupsBody}</LibraryItem>
         );
     }
 }
@@ -40,6 +44,7 @@ export class Group extends React.Component<ILibraryRouteProps> {
         this.getID = this.getID.bind(this);
         this.getGroup = this.getGroup.bind(this);
         this.getGroupProps = this.getGroupProps.bind(this);
+        this.getGroupBody = this.getGroupBody.bind(this);
     }
 
     private getID() { return this.props.match.params.id; }
@@ -53,11 +58,14 @@ export class Group extends React.Component<ILibraryRouteProps> {
             responsible: group.responsible,
         };
     }
+    private getGroupBody(group: IGroup) {
+        return <ContentItemList items={group.archives} />;
+    }
 
     public render() {
         return (
             <LibraryItem title={this.getID()} promise={this.getGroup} props={this.getGroupProps} {...this.props}>{
-                (group: IGroup) => <ContentItemList items={group.archives} />}</LibraryItem>
+                this.getGroupBody}</LibraryItem>
         );
     }
 }
@@ -69,6 +77,7 @@ export class Archive extends React.Component<ILibraryRouteProps> {
         this.getID = this.getID.bind(this);
         this.getArchive = this.getArchive.bind(this);
         this.getArchiveProps = this.getArchiveProps.bind(this);
+        this.getArchiveBody = this.getArchiveBody.bind(this);
     }
 
     private getID() { return this.props.match.params.id; }
@@ -82,11 +91,14 @@ export class Archive extends React.Component<ILibraryRouteProps> {
             responsible: archive.responsible,
         };
     }
+    private getArchiveBody(archive: IArchive) {
+        return <DocumentItemList nRoot={archive.narrativeRoot.decls} />;
+    }
 
     public render() {
         return (
             <LibraryItem title={this.getID()} promise={this.getArchive} props={this.getArchiveProps} {...this.props}>{
-                (archive: IArchive) => <DocumentItemList nRoot={archive.narrativeRoot.decls} />}</LibraryItem>
+                this.getArchiveBody}</LibraryItem>
         );
     }
 }
