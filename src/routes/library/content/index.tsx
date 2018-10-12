@@ -6,7 +6,7 @@ import { IMathHubContext } from "../../../context";
 import { IArchive, IGroup, IGroupRef } from "../../../context/api";
 
 import { LibraryItem } from "..";
-import { DocumentItemList } from "../narrative/documentItemList";
+import { NarrativeElementViewList } from "../narrative/view";
 import { ContentItemList } from "./list";
 
 /** The library, i.e. list of all groups */
@@ -92,7 +92,7 @@ export class Archive extends React.Component<ILibraryRouteProps> {
         };
     }
     private getArchiveBody(archive: IArchive) {
-        return <DocumentItemList nRoot={archive.narrativeRoot.decls} />;
+        return <NarrativeElementViewList elements={archive.narrativeRoot.decls} />;
     }
 
     public render() {
