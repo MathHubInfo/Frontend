@@ -11,23 +11,26 @@ const Home = Loader("Home Page", () =>
 
 import { makeLibraryRouteSpec } from "./library/structure/links";
 
-const libImport = () => import(/* webpackChunkName: "content"*/"./library/content");
+// content
+const contentImport = () => import(/* webpackChunkName: "content" */"./library/content");
+const Library = Loader("Library", () => contentImport().then((l) => l.Library));
+const Group = Loader("Group", () => contentImport().then((g) => g.Group));
+const Archive = Loader("Archive", () => contentImport().then((a) => a.Archive));
 
-const Library = Loader("Library", () => libImport().then((l) => l.Library));
-const Group = Loader("Group", () => libImport().then((g) => g.Group));
-const Archive = Loader("Archive", () => libImport().then((a) => a.Archive));
-
-const Document = Loader("Document", () =>
-    import(/* webpackChunkName: "library_document"*/"./library/narrative/document").then((d) => d.Document));
-const Notebook = Loader("Notebook", () =>
-    import(/* webpackChunkName: "library_document"*/"./library/narrative/notebook").then((n) => n.Notebook));
+// narration
+const narrativeImport = () => import(/* webpackChunkName: "narrative" */"./library/narrative");
+const Document = Loader("Document", () => narrativeImport().then((d) => d.Document));
+const Module = Loader("Module", () => narrativeImport().then((m) => m.Module));
+const Notebook = Loader("Notebook", () => narrativeImport().then((n) => n.Notebook));
 
 const Glossary = Loader("Glossary", () =>
     import(/* webpackChunkName: "applications_glossary"*/"./applications/glossary").then((g) => g.Glossary));
 const Dictionary = Loader("Dictionary", () =>
     import(/* webpackChunkName: "applications_dictionary"*/"./applications/dictionary").then((d) => d.Dictionary));
-const Keys = Loader("Keys", () =>
-import(/* webpackChunkName: "applications_glossary"*/"./applications/keys").then((k) => k.Keys));
+
+// the keys route is unused
+// const Keys = Loader("Keys", () =>
+// import(/* webpackChunkName: "applications_glossary"*/"./applications/keys").then((k) => k.Keys));
 
 const Licenses = Loader("Legal", () =>
     import(/* webpackChunkName: "legal"*/"./legal/licenses").then((l) => l.Licenses));
@@ -49,6 +52,7 @@ export default function Routes() {
             <Route exact path={makeLibraryRouteSpec("group")} component={Group} />
             <Route exact path={makeLibraryRouteSpec("archive")} component={Archive} />
             <Route exact path={makeLibraryRouteSpec("document")} component={Document} />
+            <Route exact path={makeLibraryRouteSpec("module")} component={Module} />
             <Route exact path={makeLibraryRouteSpec("notebook")} component={Notebook} />
 
             <Route exact path="/legal/imprint" component={Imprint} />
@@ -56,7 +60,6 @@ export default function Routes() {
 
             <Route exact path="/applications/glossary" component={Glossary} />
             <Route exact path="/applications/dictionary" component={Dictionary} />
-            <Route exact path="/applications/keys" component={Keys} />
 
             {Devel && <Route exact path="/devel" component={Devel} />}
         </Switch>

@@ -1,19 +1,45 @@
 import * as React from "react";
 
-import { Button, Container, Grid, Header, Image, Tab, Table } from "semantic-ui-react";
-
-import { MHRefBreadCrumbs } from "../../../components/breadcrumbs";
-import { LoadWithSpinner } from "../../../components/common/lazy";
-import { MathHTML } from "../../../components/common/mathhtml";
-import { StatisticsTable } from "../structure/statistics";
-
-import { IMathHubContext, WithContext } from "../../../context";
+import { IMathHubContext } from "../../../context";
 import { INotebook } from "../../../context/api";
 
-import { MHTitle } from "../../../utils/title";
+import { LibraryItem } from "..";
+import { ILibraryRouteProps } from "../structure/links";
 
-import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
+/** a single notebook */
+export class Notebook extends React.Component<ILibraryRouteProps> {
+    constructor(props: ILibraryRouteProps) {
+        super(props);
+        this.getID = this.getID.bind(this);
+        this.getNotebook = this.getNotebook.bind(this);
+        this.getNotebookProps = this.getNotebookProps.bind(this);
+        this.getNotebookBody = this.getNotebookBody.bind(this);
+    }
 
+    private getID() { return this.props.match.params.id; }
+    private getNotebook(context: IMathHubContext) { return () => context.client.getNotebook(this.getID()); }
+    private getNotebookProps(notebook: INotebook) {
+        return {
+            title: notebook.name,
+            crumbs: notebook,
+            statistics: notebook.statistics,
+        };
+    }
+    private getNotebookBody(module: INotebook) {
+        // TODO: I am not sure if even the notebook abstraction is right
+        // and we need to rethink this entire route
+        // hence leaving it empty for now
+        return <></>;
+    }
+
+    public render() {
+        return (
+            <LibraryItem title={this.getID()} promise={this.getNotebook} props={this.getNotebookProps} {...this.props}>{
+                this.getNotebookBody}</LibraryItem>
+        );
+    }
+}
+/*
 export const Notebook = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
         super(props);
@@ -157,3 +183,4 @@ class Screenshot extends React.Component<{}> {
         );
     }
 }
+*/

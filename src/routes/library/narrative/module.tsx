@@ -1,92 +1,60 @@
 import * as React from "react";
 
 import { Tab } from "semantic-ui-react";
-import { LoadWithSpinner } from "../../../components/common/lazy";
-import { MathHTML } from "../../../components/common/mathhtml";
+
 import { IMathHubContext } from "../../../context";
-import { IModuleCommon, INarrativeElement } from "../../../context/api";
-import { decodeLibraryLinkID } from "../structure/links";
+import { IModule } from "../../../context/api";
 
-/** returns the html-presentation of every theory and view */
-export class ModuleView extends React.Component<{decls: INarrativeElement[], context: IMathHubContext}> {
-    public render() {
-        const {decls} = this.props;
-        const {context} = this.props;
-        return(
-            <Tab.Pane attached={false}>
-                {decls
-                        .filter((m) => m.kind === "theory" || m.kind === "view")
-                        .map((module) => <ModuleViewElement key={module.id} narrative={module} context={context}/>)
-                }
-            </Tab.Pane>
-        );
-    }
-}
+import { LibraryItem } from "..";
+import { ILibraryRouteProps } from "../structure/links";
 
-class ModuleViewElement extends React.Component<{narrative: INarrativeElement, context: IMathHubContext}> {
+import { MathHTML } from "../../../components/common/mathhtml";
+import { MonospaceContainer } from "../../../components/common/monospace";
 
-    private ModuleID() {
-        const {narrative} = this.props;
-        return decodeLibraryLinkID(narrative.id);
-    }
-    private getModule() {
-        const {context} = this.props;
-        return context.client.getModule(this.ModuleID());
-    }
-
-    public render() {
+/** a single module */
+export class Module extends React.Component<ILibraryRouteProps> {
+    constructor(props: ILibraryRouteProps) {
+        super(props);
+        this.getID = this.getID.bind(this);
         this.getModule = this.getModule.bind(this);
-        return(
-            <LoadWithSpinner
-                    title={this.ModuleID()}
-                    promise={this.getModule}
-                    errorMessage={true}
-            >{(module: IModuleCommon) =>
-                <MathHTML renderReferences>{module.presentation}</MathHTML>
-            }
-            </LoadWithSpinner>
+        this.getModuleProps = this.getModuleProps.bind(this);
+        this.getModuleBody = this.getModuleBody.bind(this);
+    }
+
+    private getID() { return this.props.match.params.id; }
+    private getModule(context: IMathHubContext) { return () => context.client.getModule(this.getID()); }
+    private getModuleProps(module: IModule) {
+        return {
+            title: module.name,
+            crumbs: module,
+            statistics: undefined,
+        };
+    }
+    private getModuleBody(module: IModule) {
+        // TODO: Render meta-theory and general information about the object
+        // and also show if it is a theory or a view
+        return (
+            <Tab
+                panes={[
+                    { menuItem: "View", render: () => <Tab.Pane>
+                        <MathHTML>{module.presentation}</MathHTML>
+                    </Tab.Pane> },
+                    { menuItem: "source", render: () => <Tab.Pane>
+                        {module.source ? <MonospaceContainer>{module.source!}</MonospaceContainer> : null}
+                    </Tab.Pane>},
+                    {
+                        menuItem: "graph", render: () =>
+                            <Tab.Pane attached={false}>TGView will be added later</Tab.Pane>,
+                    },
+                ]}
+            />
         );
-    }
-}
-
-/** returns the source of every theory and view if available */
-export class ModuleSource extends React.Component<{decls: INarrativeElement[], context: IMathHubContext}> {
-    public render() {
-        const {decls} = this.props;
-        const {context} = this.props;
-        return(
-            <Tab.Pane attached={false}>
-                {decls
-                        .filter((m) => m.kind === "theory" || m.kind === "view")
-                        .map((module) => <ModuleSourceElement key={module.id} narrative={module} context={context}/>)
-                }
-            </Tab.Pane>
-        );
-    }
-}
-
-class ModuleSourceElement extends React.Component<{narrative: INarrativeElement, context: IMathHubContext}> {
-
-    private ModuleID() {
-        const {narrative} = this.props;
-        return decodeLibraryLinkID(narrative.id);
-    }
-    private getModule() {
-        const {context} = this.props;
-        return context.client.getModule(this.ModuleID());
     }
 
     public render() {
-        this.getModule = this.getModule.bind(this);
-        return(
-            <LoadWithSpinner
-                    title={this.ModuleID()}
-                    promise={this.getModule}
-                    errorMessage={true}
-            >{(module: IModuleCommon) =>
-                <>{module.source}</>
-            }
-            </LoadWithSpinner>
+        return (
+            <LibraryItem title={this.getID()} promise={this.getModule} props={this.getModuleProps} {...this.props}>{
+                this.getModuleBody}</LibraryItem>
         );
     }
 }
