@@ -1,67 +1,87 @@
+import { IRouteDict } from "../components/common/urls";
 
-import * as React from "react";
+export {makeLibraryRouteSpec as urlMaker} from "./library/structure/links";
 
-import { Route, Switch } from "react-router-dom";
+/** the home route */
+const Home = () => import(/* webpackChunkName: "home"*/"./home").then((h) => h.Home);
+Home.routeTitle = "Home";
 
-import { CreateSpinningLoader as Loader } from "../components/common/lazy";
+// #region "Archive Structure"
+const archivesImport = () => import(/* webpackChunkName: "archives" */"./library/archives");
 
-// #region "Loading Modules"
-const Home = Loader("Home Page", () =>
-    import(/* webpackChunkName: "home"*/"./home").then((h) => h.Home));
+const Library = () => archivesImport().then((l) => l.Library);
+Library.routeTitle = "Library";
 
-import { makeLibraryRouteSpec } from "./library/structure/links";
+const Group = () => archivesImport().then((g) => g.Group);
+Group.routeTitle = "Group";
 
-// content
-const contentImport = () => import(/* webpackChunkName: "content" */"./library/content");
-const Library = Loader("Library", () => contentImport().then((l) => l.Library));
-const Group = Loader("Group", () => contentImport().then((g) => g.Group));
-const Archive = Loader("Archive", () => contentImport().then((a) => a.Archive));
-
-// narration
-const narrativeImport = () => import(/* webpackChunkName: "narrative" */"./library/narrative");
-const Document = Loader("Document", () => narrativeImport().then((d) => d.Document));
-const Module = Loader("Module", () => narrativeImport().then((m) => m.Module));
-const Notebook = Loader("Notebook", () => narrativeImport().then((n) => n.Notebook));
-
-const Glossary = Loader("Glossary", () =>
-    import(/* webpackChunkName: "applications_glossary"*/"./applications/glossary").then((g) => g.Glossary));
-const Dictionary = Loader("Dictionary", () =>
-    import(/* webpackChunkName: "applications_dictionary"*/"./applications/dictionary").then((d) => d.Dictionary));
-
-// the keys route is unused
-// const Keys = Loader("Keys", () =>
-// import(/* webpackChunkName: "applications_glossary"*/"./applications/keys").then((k) => k.Keys));
-
-const Licenses = Loader("Legal", () =>
-    import(/* webpackChunkName: "legal"*/"./legal/licenses").then((l) => l.Licenses));
-const Imprint = Loader("Imprint", () =>
-    import(/* webpackChunkName: "imprint"*/"./legal/imprint").then((i) => i.Imprint));
-
-// for testing only, we have a debug route
-const Devel = process.env.NODE_ENV === "production" ? null :
-    Loader("Debug", () => import("./devel").then((a) => a.Devel));
+const Archive = () => archivesImport().then((a) => a.Archive);
+Archive.routeTitle = "Archive";
 
 // #endregion
 
-export default function Routes() {
-    return (
-        <Switch>
-            <Route exact path="/" component={Home} />
+// #region "Narration"
+const narrativeImport = () => import(/* webpackChunkName: "narrative" */"./library/narrative");
 
-            <Route exact path={makeLibraryRouteSpec()} component={Library} />
-            <Route exact path={makeLibraryRouteSpec("group")} component={Group} />
-            <Route exact path={makeLibraryRouteSpec("archive")} component={Archive} />
-            <Route exact path={makeLibraryRouteSpec("document")} component={Document} />
-            <Route exact path={makeLibraryRouteSpec("module")} component={Module} />
-            <Route exact path={makeLibraryRouteSpec("notebook")} component={Notebook} />
+const Document = () => narrativeImport().then((d) => d.Document);
+Document.routeTitle = "Document";
 
-            <Route exact path="/legal/imprint" component={Imprint} />
-            <Route exact path="/legal/licenses" component={Licenses} />
+const Notebook = () => narrativeImport().then((n) => n.Notebook);
+Notebook.routeTitle = "Notebook";
+// #endregion
 
-            <Route exact path="/applications/glossary" component={Glossary} />
-            <Route exact path="/applications/dictionary" component={Dictionary} />
+// #region "Applications"
+const applicationImport = () => import(/* webpackChunkName: "applications" */"./applications");
 
-            {Devel && <Route exact path="/devel" component={Devel} />}
-        </Switch>
-    );
-}
+const Glossary = () => applicationImport().then((g) => g.Glossary);
+Glossary.routeTitle = "Glossary";
+
+const Dictionary = () => applicationImport().then((d) => d.Dictionary);
+Dictionary.routeTitle = "Glossary";
+
+const Keys = () => applicationImport().then((k) => k.Keys);
+Keys.routeTitle = "Keys";
+// #endregion
+
+// # region "Legal"
+const legalImport = () => import(/* webpackChunkName: "legal"*/"./legal");
+
+const Licenses = () => legalImport().then((l) => l.Licenses);
+Licenses.routeTitle = "Legal";
+
+const Imprint = () => legalImport().then((i) => i.Imprint);
+Imprint.routeTitle = "Imprint";
+// # endregion
+
+const Devel = () => import(/* webpackChunkName: "devel"*/"./devel").then((d) => d.Devel);
+Devel.routeTitle = "Devel";
+
+// #endregion
+
+/**
+ * All our routes
+ */
+export const routes: IRouteDict = {
+    // the home route
+    "/": Home,
+
+    // library Routes
+    "": Library,
+    "group": Group,
+    "archive": Archive,
+    "document": Document,
+    "notebook": Notebook,
+
+    // legal
+    "/legal/imprint": Imprint,
+    "/legal/licenses": Licenses,
+
+    // applications
+    "/applications/glossary": Glossary,
+    "/applications/dictionary": Dictionary,
+    "/applications/keys": Keys,
+
+    "/devel/": Devel,
+};
+
+export default routes;

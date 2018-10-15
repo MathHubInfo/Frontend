@@ -1,12 +1,9 @@
 import * as React from "react";
 
 import { HashRouter } from "react-router-dom";
-
 import { Container } from "semantic-ui-react";
 
 import { MHTitle } from "../utils/title";
-
-import Routes from "../routes";
 
 import { Footer } from "./fragments/footer";
 import { Header } from "./fragments/header";
@@ -14,7 +11,10 @@ import { Header } from "./fragments/header";
 import { Context, makeContext } from "../context";
 import { IMathHubClientConfig, urls } from "../context/config";
 
-import ScrollToTop from "../components/common/scroll";
+import ScrollToTop from "./common/scroll";
+import DictToSwitch from "./common/urls";
+
+import { routes, urlMaker } from "../routes";
 
 export class MathHub extends React.Component<IMathHubClientConfig> {
     public render() {
@@ -28,7 +28,7 @@ export class MathHub extends React.Component<IMathHubClientConfig> {
                                 <Header config={theConfig}/>
 
                                 <Container text style={{ marginTop: "7em" }}>
-                                    <Routes />
+                                    <DictToSwitch routes={routes} urlMaker={urlMaker} />
                                 </Container>
 
                                 <Footer />

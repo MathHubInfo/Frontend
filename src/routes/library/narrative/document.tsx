@@ -6,7 +6,7 @@ import { IMathHubContext } from "../../../context";
 import { IDocument } from "../../../context/api";
 
 import { LibraryItem } from "..";
-import { ILibraryRouteProps } from "../structure/links";
+import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 import { NarrativeElementSourceList } from "./source";
 import { NarrativeElementViewList } from "./view";
 
@@ -20,7 +20,7 @@ export class Document extends React.Component<ILibraryRouteProps> {
         this.getDocumentBody = this.getDocumentBody.bind(this);
     }
 
-    private getID() { return this.props.match.params.id; }
+    private getID() { return decodeLibraryLinkID(this.props); }
     private getDocument(context: IMathHubContext) { return () => context.client.getDocument(this.getID()); }
     private getDocumentProps(document: IDocument) {
         return {

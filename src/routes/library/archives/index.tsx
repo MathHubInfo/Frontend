@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ILibraryRouteProps } from "../structure/links";
+import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 
 import { IMathHubContext } from "../../../context";
 import { IArchive, IGroup, IGroupRef } from "../../../context/api";
@@ -47,7 +47,7 @@ export class Group extends React.Component<ILibraryRouteProps> {
         this.getGroupBody = this.getGroupBody.bind(this);
     }
 
-    private getID() { return this.props.match.params.id; }
+    private getID() { return decodeLibraryLinkID(this.props); }
     private getGroup(context: IMathHubContext) { return () => context.client.getGroup(this.getID()); }
     private getGroupProps(group: IGroup) {
         return {
@@ -80,7 +80,7 @@ export class Archive extends React.Component<ILibraryRouteProps> {
         this.getArchiveBody = this.getArchiveBody.bind(this);
     }
 
-    private getID() { return this.props.match.params.id; }
+    private getID() { return decodeLibraryLinkID(this.props); }
     private getArchive(context: IMathHubContext) { return () => context.client.getArchive(this.getID()); }
     private getArchiveProps(archive: IArchive) {
         return {

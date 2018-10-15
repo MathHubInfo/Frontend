@@ -4,7 +4,7 @@ import { IMathHubContext } from "../../../context";
 import { INotebook } from "../../../context/api";
 
 import { LibraryItem } from "..";
-import { ILibraryRouteProps } from "../structure/links";
+import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 
 /** a single notebook */
 export class Notebook extends React.Component<ILibraryRouteProps> {
@@ -16,7 +16,7 @@ export class Notebook extends React.Component<ILibraryRouteProps> {
         this.getNotebookBody = this.getNotebookBody.bind(this);
     }
 
-    private getID() { return this.props.match.params.id; }
+    private getID() { return decodeLibraryLinkID(this.props); }
     private getNotebook(context: IMathHubContext) { return () => context.client.getNotebook(this.getID()); }
     private getNotebookProps(notebook: INotebook) {
         return {
