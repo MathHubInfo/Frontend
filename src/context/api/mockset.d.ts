@@ -109,6 +109,6 @@ interface IMockView extends IMockObject {
 }
 
 interface IMockGlossaryEntry extends IMockObject {
-    kwd: {[k in TKnownLanguages]?: string};
+    kwd: {[k in TKnownLanguages]?: string[]};
     def: {[k in TKnownLanguages]?: string};
 }

@@ -63,8 +63,9 @@ class MathDictionary extends React.Component<{ glossary: IGlossaryEntry[] }> {
     private handleClick = () => {
         const { glossary } = this.props;
         const entry = glossary
-            .filter((e) => e.kind === "entry")
-            .find((e) => e.kwd[this.state.from] === this.state.input);
+            .filter((g) => g.kind === "entry")
+            .find((e) =>
+                e.kwd[this.state.from]!.find((s) => s === this.state.input) !== undefined);
         const result = entry === undefined ? `${this.state.input} not found` : entry.kwd[this.state.to];
         const definition = entry === undefined ? "" : entry.def[this.state.to];
         this.setState({ output: result, def: definition });

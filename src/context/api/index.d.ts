@@ -265,7 +265,7 @@ export type TKnownLanguages = "en" | "de" | "fr" | "tr" | "ro" | "zhs" | "zht";
 export interface IGlossaryEntry {
     kind: "entry";
     id: string;
-    kwd: {[k in TKnownLanguages]?: string};
+    kwd: {[k in TKnownLanguages]?: string[]};
     def: {[k in TKnownLanguages]?: string};
 }
 
