@@ -31,7 +31,7 @@ interface ITitledWithContextProps {
 }
 
 /** Combines the MHTitle and Context.Consumer elements */
-export class TitledWithContext extends React.Component<ITitledWithContextProps> {
+export class TitledWithContext extends React.PureComponent<ITitledWithContextProps> {
     public render() {
         const { title, children } = this.props;
         return (
@@ -44,6 +44,7 @@ export class TitledWithContext extends React.Component<ITitledWithContextProps> 
 
 /**  Creates a new Element that takes MathHubContext as Parameter */
 export function WithContext<P>(makeComponent: (context: IMathHubContext) => ReactComponent<P>): ReactComponent<P> {
+    // TODO: This function should not be used anymore
     return class WithContextComponent extends React.Component<P> {
         public render() {
             return (

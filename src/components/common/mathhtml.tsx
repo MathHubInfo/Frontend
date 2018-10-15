@@ -24,7 +24,7 @@ export interface IMathHTMLProps {
 /**
  * An element representing mathmatically relevant text based on html input
  */
-export class MathHTML extends React.Component<IMathHTMLProps> {
+export class MathHTML extends React.PureComponent<IMathHTMLProps> {
     constructor(props: IMathHTMLProps) {
         super(props);
 
@@ -81,7 +81,7 @@ export class MathHTML extends React.Component<IMathHTMLProps> {
 }
 
 /** renders a single math element */
-export class RenderedMath extends React.Component<{children: string}> {
+export class RenderedMath extends React.PureComponent<{children: string}> {
     public render() {
         return <span dangerouslySetInnerHTML={{__html: this.props.children}} />;
     }

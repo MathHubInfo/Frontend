@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { CreateSpinningLoader as Loader } from "../components/common/lazy";
-import { MonospaceContainer } from "../components/common/monospace";
+import MonospaceContainer from "../components/common/monospace";
 
 import { Context } from "../context";
 

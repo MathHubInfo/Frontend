@@ -5,6 +5,8 @@ import { Nav } from "../../components/common/nav";
 import { IMathHubConfig } from "../../context/config";
 
 export class Header extends React.Component<{config: IMathHubConfig}, {}> {
+    private mathHubImage = require("../../../assets/logos/MathHub.svg");
+
     public render() {
         const {config} = this.props;
         return (
@@ -13,7 +15,7 @@ export class Header extends React.Component<{config: IMathHubConfig}, {}> {
                     <Menu.Item as={Nav} exact to="/" header>
                         <Image
                             size="mini"
-                            src={require("../../../assets/logos/MathHub.svg")}
+                            src={this.mathHubImage}
                             style={{ marginRight: "1.5em" }}
                             alt="MathHub Logo"
                         />

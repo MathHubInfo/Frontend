@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Card, Label } from "semantic-ui-react";
-import { MonospaceContainer } from "../../../components/common/monospace";
+import MonospaceContainer from "../../../components/common/monospace";
 import {
     IDocument, IDocumentRef,
     IModuleRef,

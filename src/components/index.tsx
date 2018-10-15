@@ -16,27 +16,25 @@ import DictToSwitch from "./common/urls";
 
 import { routes, urlMaker } from "../routes";
 
-export class MathHub extends React.Component<IMathHubClientConfig> {
-    public render() {
-        const theConfig = {client: this.props, urls};
-        return (
-            <Context.Provider value={makeContext(theConfig)}>
-                <MHTitle>
-                    <HashRouter>
-                        <ScrollToTop>
-                            <>
-                                <Header config={theConfig}/>
+export function MathHub(client: IMathHubClientConfig) {
+    const theConfig = {client, urls};
+    return (
+        <Context.Provider value={makeContext(theConfig)}>
+            <MHTitle>
+                <HashRouter>
+                    <ScrollToTop>
+                        <>
+                            <Header config={theConfig}/>
 
-                                <Container text style={{ marginTop: "7em" }}>
-                                    <DictToSwitch routes={routes} urlMaker={urlMaker} />
-                                </Container>
+                            <Container text style={{ marginTop: "7em" }}>
+                                <DictToSwitch routes={routes} urlMaker={urlMaker} />
+                            </Container>
 
-                                <Footer />
-                            </>
-                        </ScrollToTop>
-                    </HashRouter>
-                </MHTitle>
-            </Context.Provider>
-        );
-    }
+                            <Footer />
+                        </>
+                    </ScrollToTop>
+                </HashRouter>
+            </MHTitle>
+        </Context.Provider>
+    );
 }
