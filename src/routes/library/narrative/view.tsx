@@ -29,7 +29,9 @@ class NarrativeElementViewItem extends React.Component<{element: INarrativeEleme
     public render() {
         const { element } = this.props;
 
-        if (element.ref) {
+        if (element.ref && (element.kind === "theory" || element.kind === "view")) {
+            return <ModuleViewInline module={element} />;
+        } else if (element.ref) {
             return <NarrativeElementViewRef element={element} />;
         } else if (element.kind === "opaque") {
             return <OpaqueViewInline element={element} />;
@@ -73,6 +75,23 @@ class NarrativeElementViewInline extends React.Component<{element: IDocument | I
                         {element.id}
                         <Label>{element.kind}</Label>
                     </Card.Description>
+                </Card.Content>
+            </Card>
+        );
+    }
+}
+
+/** views a module reference */
+class ModuleViewInline extends React.Component<{module: IModuleRef}> {
+    public render() {
+        const {module} = this.props;
+
+        // TODO: Allow this to be expandable
+        return (
+            <Card>
+                <Card.Content>
+                    <Label>{module.kind} reference</Label>
+                    {module.name}
                 </Card.Content>
             </Card>
         );

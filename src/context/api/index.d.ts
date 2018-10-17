@@ -35,6 +35,7 @@ interface IGroupItem extends IAPIObjectItem {
 /** a reference to a MathHub Group */
 export interface IGroupRef extends IGroupItem {
     ref: true;
+    statistics?: undefined;
 }
 
 /** a full description of a MathHub Group */
@@ -75,6 +76,7 @@ interface IArchiveItem extends IAPIObjectItem {
 /** a reference to a MathHub Archive */
 export interface IArchiveRef extends IArchiveItem {
     ref: true;
+    statistics?: undefined;
 }
 
 /** a full description of a MathHub Archive */
@@ -121,6 +123,7 @@ interface IDocumentItem extends IAPIObjectItem {
 /** a reference to an OMDOC Document */
 export interface IDocumentRef extends IDocumentItem {
     ref: true;
+    statistics?: undefined;
 }
 
 /** a document of content */
@@ -146,6 +149,7 @@ interface INotebookItem extends IAPIObjectItem {
 
 export interface INotebookRef extends INotebookItem {
     ref: true;
+    statistics?: undefined;
 }
 
 export interface INotebook extends INotebookItem {
@@ -171,6 +175,7 @@ interface IOpaqueElementItem extends IAPIObjectItem {
 /* a reference to an opaque item */
 export interface IOpaqueElementRef extends IOpaqueElementItem {
     ref: true;
+    statistics?: undefined;
 }
 
 /** an opaque element */
@@ -189,7 +194,7 @@ export interface IOpaqueElement extends IOpaqueElementItem {
 //
 interface IModuleItem extends IAPIObjectItem {
     kind: "theory" | "view";
-    parent: IDocumentRef;
+    parent: null;
 
     /** name of the module */
     name: string;
@@ -203,6 +208,7 @@ export type IModuleRef = ITheoryRef | IViewRef;
 
 interface IModuleCommonRef extends IModuleItem {
     ref: true;
+    statistics?: undefined;
 }
 
 /** a reference to a theory */
@@ -299,6 +305,8 @@ interface IAPIObjectItem {
     /** parent of this object, if any */
     parent: IReference | null;
 
+    /** statistics of this element (if any) */
+    statistics?: IStatistic[];
 }
 
 /** a URL */

@@ -76,7 +76,8 @@
                     "key": "any_mor",
                     "value": 1
                 }
-            ]
+            ],
+            "modules": []
         }
     ],
     "archives": [
@@ -92,7 +93,8 @@
             "responsible": [
                 "kohlhase@kwarc.info"
             ],
-            "statistics": []
+            "statistics": [],
+            "modules": []
         },
         {
             "parent": {
@@ -106,7 +108,8 @@
             "responsible": [
                 "johannes-sebastian-see@fau.de"
             ],
-            "statistics": []
+            "statistics": [],
+            "modules": []
         },
         {
             "parent": {
@@ -120,7 +123,8 @@
             "responsible": [
                 "johannes-sebastian-see@fau.de"
             ],
-            "statistics": []
+            "statistics": [],
+            "modules": []
         },
         {
             "parent": {
@@ -167,7 +171,8 @@
                     "key": "any_mor",
                     "value": 1
                 }
-            ]
+            ],
+            "modules": []
         }
     ],
     "opaques": [],
@@ -178,7 +183,8 @@
             },
             "id": "exampleRoot",
             "name": "exampleRoot",
-            "statistics": []
+            "statistics": [],
+            "modules": []
         },
         {
             "parent": {
@@ -186,7 +192,8 @@
             },
             "id": "notebookRoot",
             "name": "notebookRoot",
-            "statistics": []
+            "statistics": [],
+            "modules": []
         },
         {
             "parent": {
@@ -194,7 +201,8 @@
             },
             "id": "stagingRoot",
             "name": "stagingRoot",
-            "statistics": []
+            "statistics": [],
+            "modules": []
         },
         {
             "parent": {
@@ -202,7 +210,8 @@
             },
             "id": "https://mathhub.info/smglom/staging",
             "name": "staging",
-            "statistics": []
+            "statistics": [],
+            "modules": []
         },
         {
             "parent": {
@@ -243,6 +252,9 @@
                     "key": "any_mor",
                     "value": 1
                 }
+            ],
+            "modules": [
+                {"id": "https://mathhub.info/mmt/example/fake/theory"}
             ]
         }
     ],
@@ -292,9 +304,6 @@
     "modules": [
         {
             "kind": "theory",
-            "parent": {
-                "id": "https://mathhub.info/mmt/example/fake"
-            },
             "name": "fakeTheory",
             "id": "https://mathhub.info/mmt/example/fake/theory",
             "presentation": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>",
