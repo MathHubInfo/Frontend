@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button, Card, Container, Divider, Grid, Header, Label, List, Tab } from "semantic-ui-react";
+import { Button, Card, Container, Divider, Grid, Header, Label, Tab } from "semantic-ui-react";
 
 import { LoadWithSpinner } from "../../components/common/lazy";
 import { MathHTML } from "../../components/common/mathhtml";
@@ -45,6 +45,11 @@ const GlossaryEntryTabs = WithContext((context: IMathHubContext) => class extend
     }
 });
 
+interface IEntry {
+    name: string;
+    entry: IGlossaryEntry;
+    i: number;
+}
 class GlossaryTab extends React.Component<{ glossary: IGlossaryEntry[] }> {
 
     public state = { activeIndex: 0 };
@@ -53,36 +58,42 @@ class GlossaryTab extends React.Component<{ glossary: IGlossaryEntry[] }> {
         e.stopPropagation();
         this.setState({ activeIndex: languages.indexOf(language) });
     }
+
     public handleTabChange = (e: any, { activeIndex }: any) => {
         this.setState({ activeIndex });
     }
-    private createEntries(entry: IGlossaryEntry, language: TKnownLanguages) {
-        if (entry.kwd[language] === undefined) {
-            return null;
-        }
-        return entry.kwd[language]!.map((k, i) =>
-            (
-                <GlossaryEntry
-                    key={`${entry.id}_${i}`}
-                    name={k}
-                    entry={entry}
-                    language={language}
-                    changeTab={this.changeTab}
-                />
-            ),
-        );
+
+    private flatten(array: IEntry[][]) {
+        const result: IEntry[] = [];
+        array.forEach((fst) => fst.forEach((snd) => result.push(snd)));
+        return result;
+    }
+    private createEntries(glossary: IGlossaryEntry[], language: TKnownLanguages) {
+        return this.flatten(glossary.map((entry) => entry.kwd[language]!.map((name, i) => {
+            return { name, entry, i };
+        }))).sort((l, r) => (l.name > r.name ? 1 : -1));
     }
     private createPanes(glossary: IGlossaryEntry[]) {
         return languages.map((l) => {
             return {
                 menuItem: l, render: () =>
                     (
-                        <List bulleted>
-                            {glossary
-                                .filter((e) => e.kind === "entry")
-                                .map((entry) => this.createEntries(entry, l))
+                        <Card.Group itemsPerRow="1" style={{ marginTop: "1em" }}>
+                            {
+                                this.createEntries(
+                                    glossary.filter((en) => en.kind === "entry" && en.kwd[l] !== undefined), l,
+                                )
+                                .map((e) => (
+                                    <GlossaryEntry
+                                        key={`${e.entry.id}_${e.i}`}
+                                        name={e.name}
+                                        entry={e.entry}
+                                        language={l}
+                                        changeTab={this.changeTab}
+                                    />
+                                ))
                             }
-                        </List>
+                        </Card.Group>
                     ),
             };
         });
@@ -144,7 +155,7 @@ class GlossaryEntry extends React.Component<{
         const synonyms = entry.kwd[language]!.filter((k) => k !== name).join(", ");
         if (this.state.syn && synonyms !== undefined) {
             return (
-                <MathHTML>{synonyms.length === 0 ? "" : `synonyms: ${synonyms}`}</MathHTML>
+                <MathHTML >{synonyms.length === 0 ? "" : `synonyms: ${synonyms}`}</MathHTML>
             );
         }
         return null;
