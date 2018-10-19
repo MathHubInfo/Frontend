@@ -29,14 +29,15 @@ export class Keys extends React.Component<{}> {
     }
 }
 
-class Content extends React.Component<{ more: boolean }> {
-    public render() {
-        const { more } = this.props;
-        return statsKeys.map((e, i) => (
+function Content(props: { more: boolean }) {
+    const { more } = props;
+
+    return (
+        <>{statsKeys.map((e, i) => (
             <Table.Row key={i}>
                 <Table.Cell>{e[0]}</Table.Cell>
                 <Table.Cell>{e[more ? 2 : 1]}</Table.Cell>
             </Table.Row>
-        ));
-    }
+        ))}</>
+    );
 }

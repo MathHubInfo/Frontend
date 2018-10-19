@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Card, Container, Divider, Grid, Header, Label, List, Tab } from "semantic-ui-react";
+import { Button, Card, Container, Divider, Grid, Header, Label, Tab } from "semantic-ui-react";
 
 import { LoadWithSpinner } from "../../components/common/lazy";
 import { MathHTML } from "../../components/common/mathhtml";
@@ -38,14 +38,19 @@ const GlossaryEntryTabs = WithContext((context: IMathHubContext) => class extend
         return (
             <LoadWithSpinner title="Glossary" promise={this.getGlossary}>{
                 (glossary: IGlossaryEntry[]) =>
-                    <GlossaryTab glossary={glossary}/>
+                    <GlossaryTab glossary={glossary} />
             }</LoadWithSpinner>
         );
 
     }
 });
 
-class GlossaryTab extends React.Component<{glossary: IGlossaryEntry[]}> {
+interface IEntry {
+    name: string;
+    entry: IGlossaryEntry;
+    i: number;
+}
+class GlossaryTab extends React.Component<{ glossary: IGlossaryEntry[] }> {
 
     public state = { activeIndex: 0 };
 
@@ -53,26 +58,42 @@ class GlossaryTab extends React.Component<{glossary: IGlossaryEntry[]}> {
         e.stopPropagation();
         this.setState({ activeIndex: languages.indexOf(language) });
     }
+
     public handleTabChange = (e: any, { activeIndex }: any) => {
         this.setState({ activeIndex });
     }
 
+    private flatten(array: IEntry[][]) {
+        const result: IEntry[] = [];
+        array.forEach((fst) => fst.forEach((snd) => result.push(snd)));
+        return result;
+    }
+    private createEntries(glossary: IGlossaryEntry[], language: TKnownLanguages) {
+        return this.flatten(glossary.map((entry) => entry.kwd[language]!.map((name, i) => {
+            return { name, entry, i };
+        }))).sort((l, r) => (l.name > r.name ? 1 : -1));
+    }
     private createPanes(glossary: IGlossaryEntry[]) {
         return languages.map((l) => {
             return {
                 menuItem: l, render: () =>
                     (
-                        <List bulleted>
-                            {glossary
-                                .filter((e) => e.kind === "entry")
-                                .map((entry) =>
+                        <Card.Group itemsPerRow="1" style={{ marginTop: "1em" }}>
+                            {
+                                this.createEntries(
+                                    glossary.filter((en) => en.kind === "entry" && en.kwd[l] !== undefined), l,
+                                )
+                                .map((e) => (
                                     <GlossaryEntry
-                                        key={entry.id}
-                                        entry={entry}
+                                        key={`${e.entry.id}_${e.i}`}
+                                        name={e.name}
+                                        entry={e.entry}
                                         language={l}
                                         changeTab={this.changeTab}
-                                    />)}
-                        </List>
+                                    />
+                                ))
+                            }
+                        </Card.Group>
                     ),
             };
         });
@@ -91,32 +112,50 @@ class GlossaryTab extends React.Component<{glossary: IGlossaryEntry[]}> {
 }
 class GlossaryEntry extends React.Component<{
     entry: IGlossaryEntry,
+    name: string,
     language: TKnownLanguages,
     changeTab: ((language: TKnownLanguages) => (e: React.MouseEvent<HTMLElement>) => void),
 }> {
 
-    public state = { show: false };
+    public state = { def: false, syn: false };
 
     private handleClick = () =>
         this.setState({
-            show: !this.state.show,
+            def: !this.state.def,
         })
+    private handleButtonClick = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+        this.setState({
+            syn: !this.state.syn,
+        });
+    }
 
     private other() {
         const { entry } = this.props;
         const { language } = this.props;
         const { changeTab } = this.props;
-
         return languages
             .filter((l) => (l !== language && entry.kwd[l] !== undefined))
-            .map((l) =>
-                (<Label key={`${entry.id}_${l}`} onClick={changeTab(l)}>{l}</Label>));
+            .map((l, i) =>
+                (<Label key={`${entry.id}_${i}`} onClick={changeTab(l)}>{l}</Label>));
     }
 
     private showDefinition(definition?: string) {
-        if (this.state.show) {
+        if (this.state.def) {
             return (
                 <MathHTML>{definition === undefined ? "" : definition}</MathHTML>
+            );
+        }
+        return null;
+    }
+    private showSynonyms() {
+        const { entry } = this.props;
+        const { language } = this.props;
+        const { name } = this.props;
+        const synonyms = entry.kwd[language]!.filter((k) => k !== name).join(", ");
+        if (this.state.syn && synonyms !== undefined) {
+            return (
+                <MathHTML >{synonyms.length === 0 ? "" : `synonyms: ${synonyms}`}</MathHTML>
             );
         }
         return null;
@@ -124,18 +163,42 @@ class GlossaryEntry extends React.Component<{
     public render() {
         const { entry } = this.props;
         const { language } = this.props;
-        if (entry.kwd[language] === undefined) {
-            return null;
-        }
+        const { name } = this.props;
         const definition = entry.def[language];
-
+        if (entry.kwd[language]!.length === 1) {
+            return (
+                <Card fluid onClick={this.handleClick}>
+                    <Card.Content>
+                        <Card.Header>
+                            <Grid>
+                                <Grid.Column width={11}>
+                                    <MathHTML renderMath>{name}</MathHTML>
+                                </Grid.Column>
+                                <Grid.Column width={5}>
+                                    <Container textAlign={"right"}>
+                                        {this.other()}
+                                    </Container>
+                                </Grid.Column>
+                            </Grid>
+                        </Card.Header>
+                        <Card.Description>
+                            {this.showSynonyms()}
+                            {this.showDefinition(definition)}
+                        </Card.Description>
+                    </Card.Content>
+                </Card>
+            );
+        }
         return (
             <Card fluid onClick={this.handleClick}>
                 <Card.Content>
                     <Card.Header>
                         <Grid>
                             <Grid.Column width={11}>
-                                <div>{entry.kwd[language]}</div>
+                                <MathHTML renderMath>{name}</MathHTML>
+                                <Button size={"small"} style={{ marginLeft: "1.5em" }} onClick={this.handleButtonClick}>
+                                    synonyms
+                                </Button>
                             </Grid.Column>
                             <Grid.Column width={5}>
                                 <Container textAlign={"right"}>
@@ -145,6 +208,7 @@ class GlossaryEntry extends React.Component<{
                         </Grid>
                     </Card.Header>
                     <Card.Description>
+                        {this.showSynonyms()}
                         {this.showDefinition(definition)}
                     </Card.Description>
                 </Card.Content>

@@ -6,13 +6,7 @@ interface IMHTTitleProps {
     children?: React.ReactChild | React.ReactChild[];
 }
 
-export class MHTitle extends React.Component<IMHTTitleProps> {
-    constructor(props: IMHTTitleProps) {
-        super(props);
-    }
-
-    public render() {
-        const {title, ...props} = this.props;
-        return <DocumentTitle title={title ? `${title} | MathHub` : "MathHub"} {...props} />;
-    }
+export function MHTitle(props: IMHTTitleProps) {
+    const {title, ...rprops} = props;
+    return <DocumentTitle title={title ? `${title} | MathHub` : "MathHub"} {...rprops} />;
 }

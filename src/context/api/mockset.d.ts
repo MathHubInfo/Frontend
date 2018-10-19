@@ -59,12 +59,16 @@ export interface IMockArchive extends IMockObject {
     description: HTML;
     responsible: string[];
     statistics: IStatistic[];
+
+    modules: IMockReference[];
 }
 
 /** a mocked opaque element */
 export interface IMockDocument extends IMockObject {
     parent: IMockReference;
     statistics: IStatistic[];
+
+    modules: IMockReference[],
 }
 
 export interface IMockNotebook extends IMockObject {
@@ -89,7 +93,7 @@ export type IMockModule = IMockTheory | IMockView;
 
 interface IMockTheory extends IMockObject {
     kind: "theory";
-    parent: IMockReference;
+    parent: null;
 
     presentation: HTML;
     source?: string;
@@ -99,7 +103,7 @@ interface IMockTheory extends IMockObject {
 
 interface IMockView extends IMockObject {
     kind: "view";
-    parent: IMockReference;
+    parent: null;
 
     presentation: HTML;
     source?: string;
@@ -109,6 +113,6 @@ interface IMockView extends IMockObject {
 }
 
 interface IMockGlossaryEntry extends IMockObject {
-    kwd: {[k in TKnownLanguages]?: string};
+    kwd: {[k in TKnownLanguages]?: string[]};
     def: {[k in TKnownLanguages]?: string};
 }

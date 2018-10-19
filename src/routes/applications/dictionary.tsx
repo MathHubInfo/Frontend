@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import { Button, Container, Divider, Dropdown, Grid, Header, Input, Segment } from "semantic-ui-react";
+import { Button, Container, Divider, Dropdown, Grid, Header, Input, Popup } from "semantic-ui-react";
 import { LoadWithSpinner } from "../../components/common/lazy";
+import { MathHTML } from "../../components/common/mathhtml";
 import { IMathHubContext, WithContext } from "../../context";
 import { IGlossaryEntry, TKnownLanguages } from "../../context/api";
 import { languages } from "./glossary";
@@ -36,19 +37,17 @@ const Translator = WithContext((context: IMathHubContext) => class extends React
         return (
             <LoadWithSpinner title="Glossary" promise={this.getGlossary}>{
                 (glossary: IGlossaryEntry[]) =>
-                    <Trans glossary={glossary} />
+                    <MathDictionary glossary={glossary} />
             }</LoadWithSpinner>
         );
     }
 });
 
-class Trans extends React.Component<{ glossary: IGlossaryEntry[] }> {
-    public state = { from: initialState, to: initialState, input: "", output: " " };
+class MathDictionary extends React.Component<{ glossary: IGlossaryEntry[] }> {
+    public state = { from: initialState, to: initialState, input: "", output: "", def: "" };
 
     private updateFrom = (e: any, { value }: any) => {
         this.setState({ from: value });
-        // tslint:disable-next-line:no-console
-        console.warn(`changed from to ${value}`);
     }
     private updateTo = (e: any, { value }: any) => {
         this.setState({ to: value });
@@ -64,10 +63,12 @@ class Trans extends React.Component<{ glossary: IGlossaryEntry[] }> {
     private handleClick = () => {
         const { glossary } = this.props;
         const entry = glossary
-            .filter((e) => e.kind === "entry")
-            .find((e) => e.kwd[this.state.from] === this.state.input);
+            .filter((g) => g.kind === "entry")
+            .find((e) =>
+                e.kwd[this.state.from]!.find((s) => s === this.state.input) !== undefined);
         const result = entry === undefined ? `${this.state.input} not found` : entry.kwd[this.state.to];
-        this.setState({ output: result });
+        const definition = entry === undefined ? "" : entry.def[this.state.to];
+        this.setState({ output: result, def: definition });
     }
     public render() {
         const options = languages.map((l) => this.createDropdownItem(l, l, l));
@@ -101,9 +102,10 @@ class Trans extends React.Component<{ glossary: IGlossaryEntry[] }> {
                         <Input fluid onChange={this.updateInput} size={"large"} />
                     </Grid.Column>
                     <Grid.Column width={8}>
-                        <Segment size={"small"}>
-                            {this.state.output}
-                        </Segment>
+                        <Popup
+                            trigger={<div>{this.state.output}</div>}
+                            content={< MathHTML children={this.state.def} renderMath />}
+                        />
                     </Grid.Column>
                 </Grid>
             </>

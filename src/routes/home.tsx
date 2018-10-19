@@ -10,7 +10,7 @@ import { MathHTML } from "../components/common/mathhtml";
 
 import { MHTitle } from "../utils/title";
 
-import { encodeLibraryLink } from "./library";
+import { encodeLibraryLink } from "./library/structure/links";
 
 export class Home extends React.Component<{}, {}> {
     constructor(props: {}) {

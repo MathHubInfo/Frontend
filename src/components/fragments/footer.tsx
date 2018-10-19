@@ -11,6 +11,7 @@ import { Nav } from "../common/nav";
 
 import { IMMTVersionInfo } from "../../context/api";
 
+// TODO: Rework this to not use WithContext()
 export const Footer = WithContext((context: IMathHubContext) => class extends React.Component {
   private getVersionString() {
     return (process.env.NODE_ENV === "production") ? this.getProdFooter() : this.getDevelFooter();
@@ -50,81 +51,7 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
         <Segment vertical style={{ margin: "2em 0em 0em", padding: "2em 0em"}}>
           <Container textAlign="left">
             <Divider inverted section />
-            <Grid divided inverted stackable>
-              <Grid.Row>
-                <Grid.Column width={4}>
-                  <Header as="h4" content="Developed by:" />
-                  <Image
-                                size="tiny"
-                                title="wwww.kwarc.info"
-                                src={require("../../../assets/logos/kwarc_logo.png")}
-                                style={{ marginRight: "1.5em" }}
-                                alt="kwarc Logo"
-                                href={"https://kwarc.info/"}
-                  />
-                  </Grid.Column>
-                <Grid.Column width={5}>
-                  <Header as="h4" content="Institutions:" />
-                  <Image
-                                size="tiny"
-                                title="www.fau.eu"
-                                src={require("../../../assets/logos/fau_logo.png")}
-                                style={{ marginRight: "1.5em" }}
-                                alt="FAU Logo"
-                                inline={true}
-                                href={"https://www.fau.eu/"}
-                  />
-                  <Image
-                                size="tiny"
-                                title="www.opendreamkit.org"
-                                src={require("../../../assets/logos/odk_logo.png")}
-                                alt="ODK Logo"
-                                inline={true}
-                                href={"http://opendreamkit.org/"}
-                  />
-                  <Image
-                                size="tiny"
-                                title="www.jacobs-university.de"
-                                src={require("../../../assets/logos/jacobs_logo.png")}
-                                style={{ marginRight: "1.5em" }}
-                                alt="Jacobs University Logo"
-                                inline={true}
-                                href={"https://www.jacobs-university.de/"}
-                  />
-                  </Grid.Column>
-                <Grid.Column width={5}>
-                  <Header as="h4" content="Funding:" />
-                  <Image
-                                size="tiny"
-                                src={require("../../../assets/logos/eu_logo.png")}
-                                title="ec.europa.eu/info/research-and-innovation_en"
-                                style={{ marginRight: "1.5em" }}
-                                alt="EU Logo"
-                                inline={true}
-                                href={"https://ec.europa.eu/info/research-and-innovation_en"}
-                  />
-                  <Image
-                                size="tiny"
-                                src={require("../../../assets/logos/leibniz_logo.png")}
-                                title="www.leibniz-gemeinschaft.de"
-                                style={{ marginRight: "1.5em" }}
-                                alt="leibniz Logo"
-                                inline={true}
-                                href={"https://www.leibniz-gemeinschaft.de/"}
-                  />
-                  <Image
-                                size="tiny"
-                                src={require("../../../assets/logos/dfg_logo.png")}
-                                title="www.dfg.de"
-                                style={{ marginRight: "1.5em" }}
-                                alt="dfg University Logo"
-                                inline={true}
-                                href={"http://dfg.de"}
-                  />
-                  </Grid.Column>
-              </Grid.Row>
-            </Grid>
-
+            <FooterLogos />
             <Divider inverted section />
             <Grid divided inverted stackable>
               <Grid.Column width={4}>
@@ -160,6 +87,85 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
       );
     }
 });
+
+function FooterLogos() {
+  return (
+    <Grid divided inverted stackable>
+      <Grid.Row>
+        <Grid.Column width={4}>
+          <Header as="h4" content="Developed by:" />
+          <Image
+                        size="tiny"
+                        title="wwww.kwarc.info"
+                        src={require("../../../assets/logos/kwarc_logo.png")}
+                        style={{ marginRight: "1.5em" }}
+                        alt="kwarc Logo"
+                        href={"https://kwarc.info/"}
+          />
+          </Grid.Column>
+        <Grid.Column width={5}>
+          <Header as="h4" content="Institutions:" />
+          <Image
+                        size="tiny"
+                        title="www.fau.eu"
+                        src={require("../../../assets/logos/fau_logo.png")}
+                        style={{ marginRight: "1.5em" }}
+                        alt="FAU Logo"
+                        inline={true}
+                        href={"https://www.fau.eu/"}
+          />
+          <Image
+                        size="tiny"
+                        title="www.opendreamkit.org"
+                        src={require("../../../assets/logos/odk_logo.png")}
+                        alt="ODK Logo"
+                        inline={true}
+                        href={"http://opendreamkit.org/"}
+          />
+          <Image
+                        size="tiny"
+                        title="www.jacobs-university.de"
+                        src={require("../../../assets/logos/jacobs_logo.png")}
+                        style={{ marginRight: "1.5em" }}
+                        alt="Jacobs University Logo"
+                        inline={true}
+                        href={"https://www.jacobs-university.de/"}
+          />
+          </Grid.Column>
+        <Grid.Column width={5}>
+          <Header as="h4" content="Funding:" />
+          <Image
+                        size="tiny"
+                        src={require("../../../assets/logos/eu_logo.png")}
+                        title="ec.europa.eu/info/research-and-innovation_en"
+                        style={{ marginRight: "1.5em" }}
+                        alt="EU Logo"
+                        inline={true}
+                        href={"https://ec.europa.eu/info/research-and-innovation_en"}
+          />
+          <Image
+                        size="tiny"
+                        src={require("../../../assets/logos/leibniz_logo.png")}
+                        title="www.leibniz-gemeinschaft.de"
+                        style={{ marginRight: "1.5em" }}
+                        alt="leibniz Logo"
+                        inline={true}
+                        href={"https://www.leibniz-gemeinschaft.de/"}
+          />
+          <Image
+                        size="tiny"
+                        src={require("../../../assets/logos/dfg_logo.png")}
+                        title="www.dfg.de"
+                        style={{ marginRight: "1.5em" }}
+                        alt="dfg University Logo"
+                        inline={true}
+                        href={"http://dfg.de"}
+          />
+          </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  );
+}
 
 /** MMT Version Information */
 function MMTVersionFooter(props: {version: IMMTVersionInfo}) {
