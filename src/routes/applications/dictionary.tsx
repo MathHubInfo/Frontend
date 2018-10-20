@@ -1,11 +1,10 @@
 import * as React from "react";
 
 import { Button, Container, Divider, Dropdown, Grid, Header, Input, Popup } from "semantic-ui-react";
+import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
 import { LoadWithSpinner } from "../../components/common/lazy";
 import { MathHTML } from "../../components/common/mathhtml";
 import { IMathHubContext, WithContext } from "../../context";
-import { IGlossaryEntry, TKnownLanguages } from "../../context/api";
-import { languages } from "./glossary";
 
 export class Dictionary extends React.Component<{}, {}> {
     public render() {
@@ -71,7 +70,7 @@ class MathDictionary extends React.Component<{ glossary: IGlossaryEntry[] }> {
         this.setState({ output: result, def: definition });
     }
     public render() {
-        const options = languages.map((l) => this.createDropdownItem(l, l, l));
+        const options = knownLanguages.map((l: TKnownLanguages) => this.createDropdownItem(l, l, l));
         return (
             <>
                 <Grid>

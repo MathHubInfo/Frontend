@@ -1,13 +1,13 @@
 import * as React from "react";
 
 import { Card, Label } from "semantic-ui-react";
-import { MathHTML } from "../../../components/common/mathhtml";
-import { Nav } from "../../../components/common/nav";
 import {
     IDocument, IDocumentRef,
     IModuleRef,
     INarrativeElement, INotebook,
-    IOpaqueElement } from "../../../context/api";
+    IOpaqueElement } from "../../../api";
+import { MathHTML } from "../../../components/common/mathhtml";
+import { Nav } from "../../../components/common/nav";
 import { encodeLibraryLink } from "../structure/links";
 
 /** Views a list of narrative elements */

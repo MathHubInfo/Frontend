@@ -1,10 +1,9 @@
 import {
     HTML,
-    URI,
     IMMTVersionInfo,
     IStatistic,
-    TKnownLanguages
-} from "./index";
+    TKnownLanguages,
+} from "../objects";
 
 /**
  * The Mock Data Set contained in mock.json
@@ -52,7 +51,7 @@ export interface IMockGroup extends IMockObject {
 /** a mocked archive */
 export interface IMockArchive extends IMockObject {
     parent: IMockReference;
-    
+
     title: HTML;
     teaser: HTML;
 
@@ -68,15 +67,15 @@ export interface IMockDocument extends IMockObject {
     parent: IMockReference;
     statistics: IStatistic[];
 
-    modules: IMockReference[],
+    modules: IMockReference[];
 }
 
 export interface IMockNotebook extends IMockObject {
     parent: IMockReference;
 
-    kernel: JSON[];
-    language: JSON[];
-    other: JSON[];
+    kernel: any[];
+    language: any[];
+    other: any[];
 
     statistics: IStatistic[];
 }
@@ -98,7 +97,7 @@ interface IMockTheory extends IMockObject {
     presentation: HTML;
     source?: string;
 
-    meta?: IMockReference
+    meta?: IMockReference;
 }
 
 interface IMockView extends IMockObject {

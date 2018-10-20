@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Card } from "semantic-ui-react";
+import { IArchiveRef, IGroupRef } from "../../../api";
 import { MathHTML } from "../../../components/common/mathhtml";
 import { Nav } from "../../../components/common/nav";
-import { IArchiveRef, IGroupRef } from "../../../context/api";
 import { encodeLibraryLink } from "../structure/links";
 
 type ContentRef = IGroupRef | IArchiveRef;

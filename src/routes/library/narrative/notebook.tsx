@@ -1,7 +1,7 @@
 import * as React from "react";
 
+import { INotebook } from "../../../api";
 import { IMathHubContext } from "../../../context";
-import { INotebook } from "../../../context/api";
 
 import { LibraryItem } from "..";
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";

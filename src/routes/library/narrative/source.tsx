@@ -1,12 +1,12 @@
 import * as React from "react";
 
 import { Card, Label } from "semantic-ui-react";
-import MonospaceContainer from "../../../components/common/monospace";
 import {
     IDocument, IDocumentRef,
     IModuleRef,
     INarrativeElement, INotebook,
-    IOpaqueElement } from "../../../context/api";
+    IOpaqueElement } from "../../../api";
+import MonospaceContainer from "../../../components/common/monospace";
 
 /** Shows the source view of a list of elements */
 export class NarrativeElementSourceList extends React.Component<{elements: INarrativeElement[]}> {

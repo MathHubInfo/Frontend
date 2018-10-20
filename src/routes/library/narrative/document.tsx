@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { Tab } from "semantic-ui-react";
 
+import { IDocument } from "../../../api";
 import { IMathHubContext } from "../../../context";
-import { IDocument } from "../../../context/api";
 
 import { LibraryItem } from "..";
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";

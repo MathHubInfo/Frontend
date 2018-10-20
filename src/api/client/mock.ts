@@ -1,4 +1,5 @@
-import { MMTAPIClient } from "./client";
+import { Client } from "./client";
+
 import {
     IApiObject,
     IArchive,
@@ -22,12 +23,18 @@ import {
     IView,
     IViewRef,
     URI,
-} from "./index";
+} from "../objects";
 
 import { IMockDataSet, IMockModule, IMockObject, IMockReference } from "./mockset";
 
 /** An API client to MMT that mocks results by resolving them statically from a given datatset */
-export class MockAPIClient extends MMTAPIClient {
+export class LazyMockClient extends Client {
+
+    constructor(datasetFactory: () => Promise<IMockDataSet>) {
+        super();
+        this.datasetFactory = datasetFactory;
+    }
+    private readonly datasetFactory: () => Promise<IMockDataSet>;
 
     /** get the MMT Version */
     public getMMTVersion(): Promise<IMMTVersionInfo> {
@@ -47,8 +54,7 @@ export class MockAPIClient extends MMTAPIClient {
         }
 
         // else we need to fetch it
-        return import("../../../assets/mock.json")
-            .then((ds) => {
+        return this.datasetFactory().then((ds) => {
                 this.dataset = ds;
                 return this.dataset!;
             });
@@ -521,4 +527,13 @@ export class MockAPIClient extends MMTAPIClient {
     }
 
     // #endregion
+}
+
+export class MockClient extends LazyMockClient {
+    constructor() {
+        super(async () => {
+            const mock = await import("../../../assets/mock.json");
+            return mock.default as any as IMockDataSet; // TODO: Fix the errors here
+        });
+    }
 }

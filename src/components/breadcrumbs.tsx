@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { IApiObject, IReference } from "../context/api";
-import { AnyToRef } from "../context/api/utils";
+import { IApiObject, IReference } from "../api";
+import { AnyToRef } from "../api/utils";
 
 import { Breadcrumb } from "semantic-ui-react";
 import { Nav } from "../components/common/nav";

@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { PromiseLoader } from "../common/lazy";
 import { Nav } from "../common/nav";
 
-import { IMMTVersionInfo } from "../../context/api";
+import { IMMTVersionInfo } from "../../api";
 
 // TODO: Rework this to not use WithContext()
 export const Footer = WithContext((context: IMathHubContext) => class extends React.Component {

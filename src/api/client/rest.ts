@@ -1,56 +1,26 @@
-import { IMathHubClientConfig } from "../config";
+import { Client } from "./client";
 
 import axios from "axios";
 
 import { IArchive, IDocument, IGlossaryEntry, IGroup, IGroupRef, IMMTVersionInfo,
-         IModule, INotebook, IReferencable, URI } from "./index";
+         IModule, INotebook, IReferencable, URI } from "../objects";
 
-/**
- * A client for the mathhub-mmt api
- */
-export abstract class MMTAPIClient {
-    protected readonly config: IMathHubClientConfig;
-
-    constructor(config: IMathHubClientConfig) {
-        this.config = config;
+/** A client that talks to MMT via the REST interface */
+export class RestClient extends Client {
+    /**
+     * Creates a new RestClient
+     * @param MMT_URL The URL this client talks to
+     */
+    constructor(MMT_URL: string) {
+        super();
+        this.MMT_URL = MMT_URL;
     }
 
-    /** gets the version of MMT */
-    public abstract getMMTVersion(): Promise<IMMTVersionInfo>;
+    /** the mmt url this Client communicates with */
+    public readonly MMT_URL: string;
 
-    //
-    // MMT Versions
-    //
-
-    /** gets an object via a URI */
-    public abstract getURI(uri: URI): Promise<IReferencable>;
-
-    /** gets a list of existing groups */
-    public abstract getGroups(): Promise<IGroupRef[]>;
-
-    /** gets a specific group from MMT */
-    public abstract getGroup(id: string): Promise<IGroup>;
-
-    /** gets a given archive */
-    public abstract getArchive(id: string): Promise<IArchive>;
-
-    /** gets a specific document */
-    public abstract getDocument(id: string): Promise<IDocument>;
-
-    /** gets a specific module */
-    public abstract getModule(id: string): Promise<IModule>;
-
-    public abstract getNotebook(id: string): Promise<INotebook>;
-
-    public abstract getGlossary(): Promise<IGlossaryEntry[]>;
-}
-
-/**
- * A client for the mathhub-mmt api that requests content via REST
- */
-export class RestAPIClient extends MMTAPIClient {
     private get<T>(url: string): Promise<T> {
-        return axios.get<T | string>(this.config.MMT_URL + url).then((c) => {
+        return axios.get<T | string>(this.MMT_URL + url).then((c) => {
             if (c.status !== 200 || typeof c.data === "string") {
                 return Promise.reject(c.data as string);
             } else {

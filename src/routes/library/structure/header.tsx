@@ -3,7 +3,7 @@ import * as React from "react";
 import { Container, Grid, Header, Label } from "semantic-ui-react";
 import { MathHTML } from "../../../components/common/mathhtml";
 
-import { HTML, IApiObject, IStatistic } from "../../../context/api";
+import { HTML, IApiObject, IStatistic } from "../../../api";
 
 import { MHRefBreadCrumbs } from "../../../components/breadcrumbs";
 import { StatisticsTableDropdown } from "../structure/statistics";

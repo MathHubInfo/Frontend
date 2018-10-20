@@ -1,3 +1,5 @@
+import { EnumKeys, getEnumKeys } from "../utils/enumkeys";
+
 /** This file contains type definitions for all OMDOC types exposed by the MMT API */
 
 /** anything returned by the API */
@@ -140,7 +142,7 @@ export interface IDocument extends IDocumentItem {
 
 interface INotebookItem extends IAPIObjectItem {
     kind: "notebook";
-    parent: IDocumentParentRef,
+    parent: IDocumentParentRef;
 
     name: string;
 
@@ -156,9 +158,9 @@ export interface INotebook extends INotebookItem {
     ref: false;
 
     /** This does not work like this */
-    kernel: JSON[];
-    language: JSON[];
-    other: JSON[];
+    kernel: any[];
+    language: any[];
+    other: any[];
 
     statistics: IStatistic[];
 }
@@ -186,7 +188,6 @@ export interface IOpaqueElement extends IOpaqueElementItem {
     contentFormat: string;
     /** the content contained in this IOpaqueElement */
     content: string;
-    
 }
 
 //
@@ -256,17 +257,17 @@ export interface IView extends IModuleCommon {
 //
 // Other responses
 //
- interface IStat {
-     key: string;
-     value: number;
- }
+
 /** various statistics of an Item */
 export interface IStatistic {
     key: string;
     value: number;
 }
 
-export type TKnownLanguages = "en" | "de" | "fr" | "tr" | "ro" | "zhs" | "zht"; 
+// known languages
+enum Languages { en, de, fr, tr, ro, zhs, zht }
+export type TKnownLanguages = EnumKeys<typeof Languages>;
+export const knownLanguages = getEnumKeys<typeof Languages>(Languages);
 
 export interface IGlossaryEntry {
     kind: "entry";
@@ -315,9 +316,10 @@ export type URI = string;
 /** anything that could be HTML */
 export type HTML = string;
 
-/** TODO:
+/**
+ * TODO:
  * -Metadata for Jupyter, (Kai has those for now, so just put them into the mock)
  * -Tabs: Metadata; View; src; graph (maybe more?)
  * -run button in Metadata that starts Jupyter externaly
- * =>make a screenshot 
+ * =>make a screenshot
  */

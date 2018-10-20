@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 
+import { IArchive, IGroup, IGroupRef } from "../../../api";
 import { IMathHubContext } from "../../../context";
-import { IArchive, IGroup, IGroupRef } from "../../../context/api";
 
 import { LibraryItem } from "..";
 import { NarrativeElementViewList } from "../narrative/view";

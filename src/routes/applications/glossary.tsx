@@ -2,12 +2,10 @@ import * as React from "react";
 
 import { Button, Card, Container, Divider, Grid, Header, Label, Tab } from "semantic-ui-react";
 
+import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
 import { LoadWithSpinner } from "../../components/common/lazy";
 import { MathHTML } from "../../components/common/mathhtml";
 import { IMathHubContext, WithContext } from "../../context";
-import { IGlossaryEntry, TKnownLanguages } from "../../context/api";
-
-export const languages: TKnownLanguages[] = ["en", "de", "fr", "tr", "ro", "zhs", "zht"];
 
 export class Glossary extends React.Component<{}, {}> {
     public render() {
@@ -56,7 +54,7 @@ class GlossaryTab extends React.Component<{ glossary: IGlossaryEntry[] }> {
 
     public changeTab = (language: TKnownLanguages) => (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
-        this.setState({ activeIndex: languages.indexOf(language) });
+        this.setState({ activeIndex: knownLanguages.indexOf(language) });
     }
 
     public handleTabChange = (e: any, { activeIndex }: any) => {
@@ -74,7 +72,7 @@ class GlossaryTab extends React.Component<{ glossary: IGlossaryEntry[] }> {
         }))).sort((l, r) => (l.name > r.name ? 1 : -1));
     }
     private createPanes(glossary: IGlossaryEntry[]) {
-        return languages.map((l) => {
+        return knownLanguages.map((l) => {
             return {
                 menuItem: l, render: () =>
                     (
@@ -134,7 +132,7 @@ class GlossaryEntry extends React.Component<{
         const { entry } = this.props;
         const { language } = this.props;
         const { changeTab } = this.props;
-        return languages
+        return knownLanguages
             .filter((l) => (l !== language && entry.kwd[l] !== undefined))
             .map((l, i) =>
                 (<Label key={`${entry.id}_${i}`} onClick={changeTab(l)}>{l}</Label>));
