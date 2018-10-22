@@ -170,11 +170,14 @@ function FooterLogos() {
 /** MMT Version Information */
 function MMTVersionFooter(props: {version: IMMTVersionInfo}) {
   return (
-    <>
-      MMT Version {props.version.versionNumber}
-      {props.version.buildDate && <><br />
-        (built {new Date(parseInt(props.version.buildDate, 10)!).toTimeString()})
-      </>}
-    </>
+    <List>
+      <List.Item>
+        MMT Version {props.version.versionNumber}
+        {props.version.buildDate && <><br />
+          (built {new Date(parseInt(props.version.buildDate, 10)!).toTimeString()})
+        </>}
+      </List.Item>
+      <List.Item as={Nav} to={`/applications/logger`}>View Log</List.Item>
+    </List>
   );
 }

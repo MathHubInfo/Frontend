@@ -41,6 +41,9 @@ Dictionary.routeTitle = "Glossary";
 
 const Keys = () => applicationImport().then((k) => k.Keys);
 Keys.routeTitle = "Keys";
+
+const Logger = () => applicationImport().then((l) => l.Logger);
+Logger.routeTitle = "Logger";
 // #endregion
 
 // # region "Legal"
@@ -80,6 +83,7 @@ export const routes: IRouteDict = {
     "/applications/glossary": Glossary,
     "/applications/dictionary": Dictionary,
     "/applications/keys": Keys,
+    "/applications/logger": Logger,
 
     "/devel/": Devel,
 };

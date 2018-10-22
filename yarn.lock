@@ -8231,6 +8231,11 @@ tryer@^1.0.0:
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
 
+ts-debounce@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/ts-debounce/-/ts-debounce-0.3.2.tgz#20f8e1659a6d52905d74f77a1145d8662547bfad"
+  integrity sha512-eV9cKwx1MXhc7H3AF9+Pkeloejcd7bppOvCQJJCJS6j6H3Z9kwgoCM0VGYtUjnRBAYE28LP+ka9qeKM8PR/ScQ==
+
 tsconfig-paths-webpack-plugin@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/tsconfig-paths-webpack-plugin/-/tsconfig-paths-webpack-plugin-3.2.0.tgz#6e70bd42915ad0efb64d3385163f0c1270f3e04d"

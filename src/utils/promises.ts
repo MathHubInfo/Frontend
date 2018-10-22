@@ -27,3 +27,30 @@ export function rejectAfter<T>(promise: Promise<T>, timeout: number, reason?: an
         window.setTimeout(() => reject(reason), timeout)
     )));
 }
+
+export interface ICanncelablePromise<T> {
+    promise: Promise<T>;
+    cancel: () => void;
+}
+/**
+ * Makes a promise cancellable.
+ * Adpoted from https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+ * @param promise promise to wrap
+ */
+export function makeCancelable<T>(promise: Promise<T>): ICanncelablePromise<T> {
+    let hasCanceled: boolean = false;
+
+    const wrappedPromise = new Promise<T>((resolve, reject) => {
+      promise.then(
+        (val) => hasCanceled ? reject({isCanceled: true}) : resolve(val),
+        (error) => hasCanceled ? reject({isCanceled: true}) : reject(error),
+      );
+    });
+
+    return {
+      promise: wrappedPromise,
+      cancel() {
+        hasCanceled = true;
+      },
+    };
+}
