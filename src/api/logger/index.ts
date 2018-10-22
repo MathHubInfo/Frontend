@@ -16,7 +16,7 @@ export default class LoggerClient {
     private entries: ILogEntry[] = [];
 
     /** polls some data from the server */
-    public async poll(): Promise<ILogEntry[]> {
+    private async doPoll(): Promise<ILogEntry[]> {
         // load entries from the server
         const newEntries = await this.get<ILogEntry[]>(this.lastUUID ? ("log/after?uuid=" + this.lastUUID) : "log/all");
 
@@ -26,6 +26,24 @@ export default class LoggerClient {
 
         // and return
         return this.entries.slice(0);
+    }
+
+    private cancelled = false;
+    public poll(callback: (entries: ILogEntry[]) => void, timeout?: number) {
+        const theTimeout = timeout || 1000;
+        this.doPoll().then((r) => {
+            if (this.cancelled) {
+                return;
+            }
+            callback(r);
+            window.setTimeout(() => {
+                this.poll(callback, theTimeout);
+            }, theTimeout);
+        });
+    }
+
+    public stopPoll() {
+        this.cancelled = true;
     }
 
     /** the last received uuid */

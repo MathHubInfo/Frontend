@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import LoggerClient, { ILogEntry } from "../../api/logger";
-import { ICanncelablePromise, makeCancelable } from "../../utils/promises";
 
 import { Input, InputOnChangeData, Table } from "semantic-ui-react";
 import { Context, IMathHubContext } from "../../context";
@@ -28,65 +27,30 @@ export class Logger extends React.Component {
 interface ILoggerProps {
     MMT_URL: string;
 }
-const POLLING_INTERVAL = 1000;
 class LoggerDisplay extends React.Component<ILoggerProps, {entries: ILogEntry[], filter: string}> {
+    /** the client to receive data from */
+    private client: LoggerClient;
+
     constructor(props: ILoggerProps) {
         super(props);
 
         this.state = {entries: [], filter: ""};
-        this.client = new LoggerClient(props.MMT_URL);
 
         this.changeFilter = debounce(this.changeFilter.bind(this), 500);
+        this.client = new LoggerClient(props.MMT_URL);
+
     }
 
     public changeFilter(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
         this.setState({filter: data.value});
     }
 
-    /** the client to receive data from */
-    private client: LoggerClient;
-
-    /** a promise that polls for new log entries */
-    private pollPromise: ICanncelablePromise<ILogEntry[]> | null = null;
-
-    /** a timer for the next poll */
-    private timer: number | null = null;
-
     public componentWillMount() {
-        // start polling
-        this.poll();
+        this.client.poll((entries) => this.setState({entries}));
     }
 
     public componentWillUnmount() {
-
-        // if we have a poll promise, cancel it
-        if (this.pollPromise) {
-            this.pollPromise.cancel();
-        }
-
-        // if we have a timer, cancel it
-        if (this.timer) {
-            window.clearTimeout(this.timer);
-        }
-    }
-
-    private poll() {
-        // clear the reference to the timer and get new entries
-        this.timer = null;
-        this.pollPromise = makeCancelable(this.client.poll());
-
-        this.pollPromise.promise.then((entries) => {
-            entries.reverse();
-            // tslint:disable-next-line:no-console
-            console.log("got entries: " + entries);
-
-            // update the entries we have
-            this.pollPromise = null;
-            this.setState({ entries });
-
-            // and start a timer for the next one
-            this.timer = window.setTimeout(this.poll.bind(this), POLLING_INTERVAL);
-        });
+        this.client.stopPoll();
     }
 
     public render() {
