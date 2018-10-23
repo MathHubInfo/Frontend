@@ -1,6 +1,7 @@
 {
     "version": {
-        "versionNumber": "Mock MMT"
+        "versionNumber": "Mock MMT",
+        "buildDate": "770880099000"
     },
     "groups": [
         {

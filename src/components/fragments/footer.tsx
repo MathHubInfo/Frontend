@@ -28,7 +28,7 @@ class Footer extends React.Component<{context: IMathHubContext}> {
 
   private getProdFooter() {
     const version = process.env.MATHHUB_VERSION!;
-    const date = (new Date(parseInt(process.env.MATHHUB_BUILD_TIME!, 10))).toTimeString();
+    const date = (new Date(parseInt(process.env.MATHHUB_BUILD_TIME!, 10))).toString();
 
     return (
       <>
@@ -40,7 +40,7 @@ class Footer extends React.Component<{context: IMathHubContext}> {
 
   private getDevelFooter() {
     const version = process.env.MATHHUB_VERSION!;
-    const date = (new Date(parseInt(process.env.MATHHUB_BUILD_TIME!, 10))).toTimeString();
+    const date = (new Date(parseInt(process.env.MATHHUB_BUILD_TIME!, 10))).toString();
 
     return (
       <>
@@ -181,7 +181,7 @@ function MMTVersionFooter(props: {version: IMMTVersionInfo}) {
       <List.Item>
         MMT Version {props.version.versionNumber}
         {props.version.buildDate && <><br />
-          (built {new Date(parseInt(props.version.buildDate, 10)!).toTimeString()})
+          (built {new Date(parseInt(props.version.buildDate, 10)!).toString()})
         </>}
       </List.Item>
       <List.Item as={Nav} to={`/applications/logger`}>View Log</List.Item>
