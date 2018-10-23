@@ -5,7 +5,7 @@ import { Container } from "semantic-ui-react";
 
 import { MHTitle } from "../utils/title";
 
-import { Footer } from "./fragments/footer";
+import { default as Footer } from "./fragments/footer";
 import { Header } from "./fragments/header";
 
 import { Context, makeContext } from "../context";

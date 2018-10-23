@@ -2,7 +2,8 @@ import { IApiObject } from "../../../api";
 
 /** properties for a library route */
 import { RouteComponentProps } from "react-router";
-export type ILibraryRouteProps = RouteComponentProps<{id: string}>;
+import { IMathHubContext } from "../../../context";
+export type ILibraryRouteProps = RouteComponentProps<{id: string}> & {context: IMathHubContext};
 export type IGlossaryProps = RouteComponentProps<{language: string}>;
 
 /** generates a route for a library page */

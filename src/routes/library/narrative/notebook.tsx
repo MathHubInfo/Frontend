@@ -1,13 +1,13 @@
 import * as React from "react";
 
 import { INotebook } from "../../../api";
-import { IMathHubContext } from "../../../context";
+import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 
 /** a single notebook */
-export class Notebook extends React.Component<ILibraryRouteProps> {
+class Notebook extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
         super(props);
         this.getID = this.getID.bind(this);
@@ -17,7 +17,7 @@ export class Notebook extends React.Component<ILibraryRouteProps> {
     }
 
     private getID() { return decodeLibraryLinkID(this.props); }
-    private getNotebook(context: IMathHubContext) { return () => context.client.getNotebook(this.getID()); }
+    private getNotebook() { return this.props.context.client.getNotebook(this.getID()); }
     private getNotebookProps(notebook: INotebook) {
         return {
             title: notebook.name,
@@ -39,6 +39,8 @@ export class Notebook extends React.Component<ILibraryRouteProps> {
         );
     }
 }
+
+export default withContext(Notebook);
 /*
 export const Notebook = WithContext((context: IMathHubContext) => class extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {

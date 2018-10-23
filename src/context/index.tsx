@@ -41,18 +41,17 @@ export class TitledWithContext extends React.PureComponent<ITitledWithContextPro
     }
 }
 
-/**  Creates a new Element that takes MathHubContext as Parameter */
-export function WithContext<P>(makeComponent: (context: IMathHubContext) => ReactComponent<P>): ReactComponent<P> {
-    // TODO: This function should not be used anymore
+export type TWithContext<P> = P & {context: IMathHubContext};
+
+/**
+ * Creates a new component that takes an additional context parameter
+ * @param WrappedComponent component to wrap
+ */
+export function withContext<P = {}>(WrappedComponent: ReactComponent<TWithContext<P>>): ReactComponent<P> {
     return class WithContextComponent extends React.Component<P> {
         public render() {
             return (
-                <Context.Consumer>{
-                    (ctx) => {
-                        const Component = makeComponent(ctx);
-                        return <Component {...this.props} />;
-                    }
-                }</Context.Consumer>
+                <Context.Consumer>{(ctx) => <WrappedComponent context={ctx} {...this.props} />}</Context.Consumer>
             );
         }
     };

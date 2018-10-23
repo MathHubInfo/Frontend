@@ -5,7 +5,7 @@ import { Button, Card, Container, Divider, Grid, Header, Label, Tab } from "sema
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
 import { LoadWithSpinner } from "../../components/common/lazy";
 import { MathHTML } from "../../components/common/mathhtml";
-import { IMathHubContext, WithContext } from "../../context";
+import { IMathHubContext, withContext } from "../../context";
 
 export class Glossary extends React.Component<{}, {}> {
     public render() {
@@ -23,14 +23,14 @@ export class Glossary extends React.Component<{}, {}> {
     }
 }
 
-const GlossaryEntryTabs = WithContext((context: IMathHubContext) => class extends React.Component<{}> {
+const GlossaryEntryTabs = withContext<{}>(class GlossaryEntryTabsC extends React.Component<{context: IMathHubContext}> {
 
-    constructor(props: {}) {
+    constructor(props: {context: IMathHubContext}) {
         super(props);
         this.getGlossary = this.getGlossary.bind(this);
     }
 
-    private getGlossary() { return context.client.getGlossary(); }
+    private getGlossary() { return this.props.context.client.getGlossary(); }
 
     public render() {
         return (

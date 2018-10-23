@@ -3,7 +3,7 @@ import * as React from "react";
 import { Container, Divider } from "semantic-ui-react";
 import { LoadWithSpinner } from "../../components/common/lazy";
 
-import { IMathHubContext, TitledWithContext } from "../../context";
+import { MHTitle } from "../../utils/title";
 import { IItemProps, LibraryItemHeader } from "./structure/header";
 
 interface ILibraryItemProps<T> {
@@ -11,7 +11,7 @@ interface ILibraryItemProps<T> {
     title: string;
 
     /** the promise fetching this item */
-    promise: (context: IMathHubContext) => () => Promise<T>;
+    promise: () => Promise<T>;
 
     /** the properties of this item */
     props: (item: T) => IItemProps;
@@ -25,10 +25,10 @@ export class LibraryItem<T> extends React.Component<ILibraryItemProps<T>> {
     public render() {
         const { children, promise, props, title } = this.props;
         return (
-            <TitledWithContext title={title}>{(context: IMathHubContext) =>
+            <MHTitle title={title}>
                 <LoadWithSpinner
                     title={title}
-                    promise={promise(context)}
+                    promise={promise}
                     errorMessage={true}
                 >{(item: T) => <>
                     <LibraryItemHeader itemProps={props(item)} />
@@ -36,7 +36,7 @@ export class LibraryItem<T> extends React.Component<ILibraryItemProps<T>> {
                     <Container>{children(item)}</Container>
                 </>}
                 </LoadWithSpinner>
-            }</TitledWithContext>
+            </MHTitle>
         );
     }
 }

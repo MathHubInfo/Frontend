@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Container, Divider, Grid, Header, Image, List, Segment } from "semantic-ui-react";
 
-import { IMathHubContext, WithContext } from "../../context";
+import { IMathHubContext, withContext } from "../../context";
 
 import { Link } from "react-router-dom";
 
@@ -12,13 +12,18 @@ import { Nav } from "../common/nav";
 import { IMMTVersionInfo } from "../../api";
 
 // TODO: Rework this to not use WithContext()
-export const Footer = WithContext((context: IMathHubContext) => class extends React.Component {
+class Footer extends React.Component<{context: IMathHubContext}> {
+  constructor(props: {context: IMathHubContext}) {
+    super(props);
+    this.getVersionString = this.getVersionString.bind(this);
+    this.getMMTVersion = this.getMMTVersion.bind(this);
+  }
   private getVersionString() {
     return (process.env.NODE_ENV === "production") ? this.getProdFooter() : this.getDevelFooter();
   }
 
   private getMMTVersion() {
-    return context.client.getMMTVersion();
+    return this.props.context.client.getMMTVersion();
   }
 
   private getProdFooter() {
@@ -86,7 +91,9 @@ export const Footer = WithContext((context: IMathHubContext) => class extends Re
         </Segment>
       );
     }
-});
+}
+
+export default withContext<{}>(Footer);
 
 function FooterLogos() {
   return (

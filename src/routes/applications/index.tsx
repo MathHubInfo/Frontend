@@ -1,4 +1,4 @@
 export { Dictionary } from "./dictionary";
 export { Glossary } from "./glossary";
 export { Keys } from "./keys";
-export { Logger } from "./logger";
+export { default as Logger } from "./logger";

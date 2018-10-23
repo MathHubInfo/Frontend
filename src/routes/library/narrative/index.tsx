@@ -1,2 +1,2 @@
-export {Document} from "./document";
-export {Notebook} from "./notebook";
+export {default as Document} from "./document";
+export {default as Notebook} from "./notebook";

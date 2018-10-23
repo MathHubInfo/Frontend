@@ -3,42 +3,22 @@ import * as React from "react";
 import LoggerClient, { ILogEntry } from "../../api/logger";
 
 import { Input, InputOnChangeData, Table } from "semantic-ui-react";
-import { Context, IMathHubContext } from "../../context";
+import { IMathHubContext, withContext } from "../../context";
 
 import { debounce } from "ts-debounce";
 
-export class Logger extends React.Component {
-    constructor(props: {}) {
-        super(props);
-    }
-
-    private makeLoggerDisplay(context: IMathHubContext) {
-        if (context.config.client.MOCK_MMT) {
-            return <>(Can not mock logs)</>;
-        }
-        return <LoggerDisplay MMT_URL={context.config.client.MMT_URL} />;
-    }
-
-    public render() {
-        return <Context.Consumer children={this.makeLoggerDisplay}/>;
-    }
-}
-
-interface ILoggerProps {
-    MMT_URL: string;
-}
-class LoggerDisplay extends React.Component<ILoggerProps, {entries: ILogEntry[], filter: string}> {
+class Logger extends React.Component<{context: IMathHubContext}, {entries: ILogEntry[], filter: string}> {
     /** the client to receive data from */
-    private client: LoggerClient;
+    private client: LoggerClient | null;
 
-    constructor(props: ILoggerProps) {
+    constructor(props: {context: IMathHubContext}) {
         super(props);
 
         this.state = {entries: [], filter: ""};
 
         this.changeFilter = debounce(this.changeFilter.bind(this), 500);
-        this.client = new LoggerClient(props.MMT_URL);
-
+        this.client = this.props.context.config.client.MOCK_MMT ?
+            null : new LoggerClient(this.props.context.config.client.MMT_URL);
     }
 
     public changeFilter(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
@@ -46,11 +26,15 @@ class LoggerDisplay extends React.Component<ILoggerProps, {entries: ILogEntry[],
     }
 
     public componentWillMount() {
-        this.client.poll((entries) => this.setState({entries: entries.reverse()}));
+        if (this.client) {
+            this.client.poll((entries) => this.setState({entries: entries.reverse()}));
+        }
     }
 
     public componentWillUnmount() {
-        this.client.stopPoll();
+        if (this.client) {
+            this.client.stopPoll();
+        }
     }
 
     public render() {
@@ -72,6 +56,8 @@ class LoggerDisplay extends React.Component<ILoggerProps, {entries: ILogEntry[],
         );
     }
 }
+
+export default withContext(Logger);
 
 function LogListView(props: {entries: ILogEntry[], filter: string}) {
     const theEntries = props.entries.filter((e) => e.prefix.startsWith(props.filter));

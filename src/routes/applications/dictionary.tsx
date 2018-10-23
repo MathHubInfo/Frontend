@@ -4,7 +4,7 @@ import { Button, Container, Divider, Dropdown, Grid, Header, Input, Popup } from
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
 import { LoadWithSpinner } from "../../components/common/lazy";
 import { MathHTML } from "../../components/common/mathhtml";
-import { IMathHubContext, WithContext } from "../../context";
+import { IMathHubContext, withContext } from "../../context";
 
 export class Dictionary extends React.Component<{}, {}> {
     public render() {
@@ -24,13 +24,13 @@ export class Dictionary extends React.Component<{}, {}> {
 
 const initialState: TKnownLanguages = "en";
 
-const Translator = WithContext((context: IMathHubContext) => class extends React.Component<{}> {
-    constructor(props: {}) {
+const Translator = withContext<{}>(class TranslatorC extends React.Component<{context: IMathHubContext}> {
+    constructor(props: {context: IMathHubContext}) {
         super(props);
         this.getGlossary = this.getGlossary.bind(this);
     }
 
-    private getGlossary() { return context.client.getGlossary(); }
+    private getGlossary() { return this.props.context.client.getGlossary(); }
 
     public render() {
         return (

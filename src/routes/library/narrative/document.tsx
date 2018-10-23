@@ -3,7 +3,7 @@ import * as React from "react";
 import { Tab } from "semantic-ui-react";
 
 import { IDocument } from "../../../api";
-import { IMathHubContext } from "../../../context";
+import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
@@ -11,7 +11,7 @@ import { NarrativeElementSourceList } from "./source";
 import { NarrativeElementViewList } from "./view";
 
 /** a single document */
-export class Document extends React.Component<ILibraryRouteProps> {
+class Document extends React.Component<ILibraryRouteProps> {
     constructor(props: ILibraryRouteProps) {
         super(props);
         this.getID = this.getID.bind(this);
@@ -21,7 +21,7 @@ export class Document extends React.Component<ILibraryRouteProps> {
     }
 
     private getID() { return decodeLibraryLinkID(this.props); }
-    private getDocument(context: IMathHubContext) { return () => context.client.getDocument(this.getID()); }
+    private getDocument() { return this.props.context.client.getDocument(this.getID()); }
     private getDocumentProps(document: IDocument) {
         return {
             title: document.id,
@@ -55,3 +55,5 @@ export class Document extends React.Component<ILibraryRouteProps> {
         );
     }
 }
+
+export default withContext(Document);
