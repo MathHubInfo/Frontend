@@ -82,6 +82,7 @@ The supported variables are:
 * `MMT_URL` -- The URL to the MathHub MMT Extension, defaults to `http://localhost:9000/:mathhub/`
 * `MOCK_MMT` -- If set to `1`, use a mocked dataset instead of communicating with an actual MMT
 * `ADMIN_URL` -- URL to the admin interface, defaults to `/admin/`
+* `BROWSER_ROUTER` -- If set to a non-empty string, use real webserver urls instead of fragments with the given base path. For this to work, the webserver should fallback to `index.html` on 404s. 
 
 ## Deployment via Docker
 

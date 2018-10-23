@@ -11,6 +11,8 @@ export interface IMathHubClientConfig {
     MMT_URL: string;
     /** if set to true, use a mocked MMT client instead of a real one */
     MOCK_MMT: boolean;
+    /** are we using browser router */
+    BROWSER_ROUTER: string;
 }
 
 /** configuration for external urls used by mathHub */

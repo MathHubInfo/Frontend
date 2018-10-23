@@ -50,6 +50,9 @@ export default {
         contentBase: false, 
         publicPath: "/",
         
+        // if using BrowserRouter
+        historyApiFallback: env.BROWSER_ROUTER !== '""',
+
         // hot reloading
         hot: true, 
         inline: true, 

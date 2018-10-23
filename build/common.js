@@ -85,7 +85,8 @@ export const common = {
     plugins: [
         // generate index.html
         new HtmlWebpackPlugin({
-            template: 'src/index.html'
+            template: 'src/index.html',
+            publicPath: env.BROWSER_ROUTER !== '""' ? env.BROWSER_ROUTER : undefined,
         }),
         
         /*
