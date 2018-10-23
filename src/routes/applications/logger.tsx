@@ -46,7 +46,7 @@ class LoggerDisplay extends React.Component<ILoggerProps, {entries: ILogEntry[],
     }
 
     public componentWillMount() {
-        this.client.poll((entries) => this.setState({entries}));
+        this.client.poll((entries) => this.setState({entries: entries.reverse()}));
     }
 
     public componentWillUnmount() {
