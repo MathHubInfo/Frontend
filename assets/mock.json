@@ -259,50 +259,6 @@
             ]
         }
     ],
-    "notebooks": [
-        {
-            "parent": {
-                "id": "exampleRoot"
-            },
-            "id": "https://mathhub.info/mmt/example/exampleNotebook",
-            "name": "ExampleNotebook",
-            "kernel": [{
-                "display_name": "TEST",
-                "language": "text",
-                "name": "test"
-            }],
-            "language": [{
-                "file_extension": ".txt",
-                "mimetype": "text/plain",
-                "name": "Any text"
-            }],
-            "other": [{
-                "author": "Kai"
-            }],
-            "statistics": []
-        },
-        {
-            "parent": {
-                "id": "notebookRoot"
-            },
-            "id": "https://mathhub.info/ODK/Notebooks/MMTDemo",
-            "name": "MMTDemo",
-            "kernel": [{
-                "display_name": "MMTDemo",
-                "language": "text",
-                "name": "MMTDemo"
-            }],
-            "language": [{
-                "file_extension": ".txt",
-                "mimetype": "text/plain",
-                "name": "Any text"
-            }],
-            "other": [{
-                "author": "Kai Amann"
-            }],
-            "statistics": []
-        }
-    ],
     "modules": [
         {
             "kind": "theory",

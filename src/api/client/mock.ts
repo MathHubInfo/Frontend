@@ -13,8 +13,6 @@ import {
     IMMTVersionInfo,
     IModule,
     INarrativeElement,
-    INotebook,
-    INotebookRef,
     IOpaqueElement,
     IOpaqueElementRef,
     IReferencable,
@@ -111,9 +109,6 @@ export class LazyMockClient extends Client {
             case "view":
                 co = this.cleanView(obj, ds);
                 break;
-            case "notebook":
-                co = this.cleanNotebook(obj, ds);
-                break;
             case "entry":
                 co = this.cleanGlossaryEntry(obj, ds);
                 break;
@@ -182,21 +177,6 @@ export class LazyMockClient extends Client {
 
         return {
             kind: "document",
-            parent,
-            ref: true,
-
-            name: actual.name,
-            id: actual.id,
-        };
-    }
-
-    private cleanNotebookRef(notebook: IMockReference, ds: IMockDataSet): INotebookRef {
-        const actual = ds.notebooks.find((n) => n.id === notebook.id)!;
-        if (!actual) { this.logMockNotFound(notebook.id, "notebook"); }
-        const parent = this.cleanDocumentParentRef(actual.parent, ds);
-
-        return {
-            kind: "notebook",
             parent,
             ref: true,
 
@@ -288,12 +268,8 @@ export class LazyMockClient extends Client {
             .filter((m) => typeof m !== "undefined")
             .map((m) => m!.kind === "theory" ? this.cleanTheoryRef(m!, ds) : this.cleanViewRef(m!, ds));
 
-        const notebooks = ds.notebooks
-            .filter((n) => n.parent.id === parent.id)
-            .map((n) => this.cleanNotebook(n, ds));
-
         return ([] as INarrativeElement[])
-            .concat(opaques, documents, modules, notebooks);
+            .concat(opaques, documents, modules);
     }
 
     private cleanArchive(archive: IMockReference, ds: IMockDataSet): IArchive {
@@ -339,21 +315,6 @@ export class LazyMockClient extends Client {
             ref: false,
 
             decls,
-            statistics: actual.statistics,
-        };
-    }
-
-    private cleanNotebook(notebook: IMockReference, ds: IMockDataSet): INotebook {
-        const ref = this.cleanNotebookRef(notebook, ds);
-        const actual = ds.notebooks.find((n) => n.id === notebook.id)!;
-
-        return {
-            ...ref,
-            ref: false,
-
-            kernel: actual.kernel,
-            language: actual.language,
-            other: actual.other,
             statistics: actual.statistics,
         };
     }
@@ -465,11 +426,6 @@ export class LazyMockClient extends Client {
                     return modules;
                 }
 
-                const notebooks = ds.notebooks.find((n) => n.id === uri);
-                if (notebooks) {
-                    kind = "notebook";
-                    return notebooks;
-                }
                 return undefined;
             },
             (d: IMockObject) => kind,
@@ -501,14 +457,6 @@ export class LazyMockClient extends Client {
             (ds: IMockDataSet) => ds.documents.find((d) => d.id === id),
             (d: IMockObject) => "document",
             `Document ${id} does not exist. `,
-        );
-    }
-
-    public getNotebook(id: string): Promise<INotebook> {
-        return this.getObjectOfType(
-            (ds: IMockDataSet) => ds.notebooks.find((n) => n.id === id),
-            (d: IMockObject) => "notebook",
-            `Notebook ${id} does not exist. `,
         );
     }
 

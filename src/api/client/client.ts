@@ -1,5 +1,5 @@
 import { IArchive, IDocument, IGlossaryEntry, IGroup, IGroupRef, IMMTVersionInfo,
-         IModule, INotebook, IReferencable, URI } from "../objects";
+         IModule, IReferencable, URI } from "../objects";
 
 export abstract class Client {
     /** gets the version of MMT */
@@ -26,9 +26,6 @@ export abstract class Client {
 
     /** gets a specific module */
     public abstract getModule(id: string): Promise<IModule>;
-
-    /** gets a specific notebook */
-    public abstract getNotebook(id: string): Promise<INotebook>;
 
     /** gets a set of glossary entries */
     public abstract getGlossary(): Promise<IGlossaryEntry[]>;

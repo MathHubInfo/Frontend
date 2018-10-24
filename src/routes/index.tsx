@@ -25,9 +25,6 @@ const narrativeImport = () => import(/* webpackChunkName: "narrative" */"./libra
 
 const Document = () => narrativeImport().then((d) => d.Document);
 Document.routeTitle = "Document";
-
-const Notebook = () => narrativeImport().then((n) => n.Notebook);
-Notebook.routeTitle = "Notebook";
 // #endregion
 
 // #region "Applications"
@@ -73,7 +70,6 @@ export const routes: IRouteDict = {
     "group": Group,
     "archive": Archive,
     "document": Document,
-    "notebook": Notebook,
 
     // legal
     "/legal/imprint": Imprint,

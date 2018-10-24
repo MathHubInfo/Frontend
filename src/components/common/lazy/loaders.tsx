@@ -16,13 +16,14 @@ export class LoadingComponent
         this.state = { reloading: false, hasError: false, loadedPrereqs: false };
     }
 
-    public componentDidMount() {
-        this.loadPreReqs(() => this.setState({ loadedPrereqs: true }));
+    public async componentDidMount() {
+        await this.loadPreReqs();
+        this.setState({ loadedPrereqs: true });
     }
 
     /** a method that can be used to asyncronously load some loader display prerequisites */
-    protected loadPreReqs(markDone: () => void) {
-        markDone();
+    protected async loadPreReqs(): Promise<void> {
+        return;
     }
 
     /** whenever a fatal error occurs, se the appropriate error state */
@@ -98,11 +99,8 @@ export function createSpinningLoader(
     return class extends LoadingComponent {
         private semanticUI?: typeof import ("semantic-ui-react");
 
-        protected loadPreReqs(markDone: () => void) {
-            import(/* webpackChunkName: "semantic_ui_react" */"semantic-ui-react").then((suir) => {
-                this.semanticUI = suir;
-                markDone();
-            }).catch();
+        protected async loadPreReqs() {
+            this.semanticUI = await import(/* webpackChunkName: "semantic_ui_react" */"semantic-ui-react");
         }
 
         /** renders an uncaught error in the child component */

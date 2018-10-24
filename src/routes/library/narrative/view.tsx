@@ -4,7 +4,7 @@ import { Card, Label } from "semantic-ui-react";
 import {
     IDocument, IDocumentRef,
     IModuleRef,
-    INarrativeElement, INotebook,
+    INarrativeElement,
     IOpaqueElement } from "../../../api";
 import { MathHTML } from "../../../components/common/mathhtml";
 import { Nav } from "../../../components/common/nav";
@@ -60,7 +60,7 @@ class NarrativeElementViewRef extends React.Component<{element: IDocumentRef | I
 }
 
 /** views an inline narrative element */
-class NarrativeElementViewInline extends React.Component<{element: IDocument | INotebook }> {
+class NarrativeElementViewInline extends React.Component<{element: IDocument }> {
     public render() {
         const { element } = this.props;
 

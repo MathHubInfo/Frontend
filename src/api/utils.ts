@@ -6,8 +6,6 @@ import {
     IDocumentRef,
     IGroup,
     IGroupRef,
-    INotebook,
-    INotebookRef,
     IOpaqueElement,
     IOpaqueElementRef,
     IReferencable,
@@ -41,8 +39,6 @@ export function ObjectToRef(obj: IReferencable): IReference {
         return ViewObjectToRef(obj);
     } else if (obj.kind === "theory") {
         return TheoryObjectToRef(obj);
-    } else if (obj.kind === "notebook") {
-        return NotebookObjectToRef(obj);
     }
 
     throw new Error("Invalid IReferencable passed. ");
@@ -88,17 +84,6 @@ export function DocumentObjectToRef(doc: IDocument): IDocumentRef {
 
         id: doc.id,
         name: doc.name,
-    };
-}
-
-export function NotebookObjectToRef(note: INotebook): INotebookRef {
-    return {
-        kind: "notebook",
-        parent: note.parent,
-        ref: true,
-
-        id: note.id,
-        name: note.name,
     };
 }
 

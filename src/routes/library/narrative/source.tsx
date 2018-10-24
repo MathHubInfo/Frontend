@@ -4,7 +4,7 @@ import { Card, Label } from "semantic-ui-react";
 import {
     IDocument, IDocumentRef,
     IModuleRef,
-    INarrativeElement, INotebook,
+    INarrativeElement,
     IOpaqueElement } from "../../../api";
 import MonospaceContainer from "../../../components/common/monospace";
 
@@ -45,7 +45,7 @@ class NarrativeElementSourceRef extends React.Component<{element: IDocumentRef |
     }
 }
 
-class NarrativeElementSourceInline extends React.Component<{element: IDocument | INotebook }> {
+class NarrativeElementSourceInline extends React.Component<{element: IDocument }> {
     public render() {
         // TODO: We should have some source code here, but for now we do not
         return null;

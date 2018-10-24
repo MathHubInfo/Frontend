@@ -9,10 +9,10 @@ export type IResponse = IApiObject | IMMTVersionInfo | IStatistic;
 export type IApiObject = IReferencable | IReference ;
 
 /** any object that is referencable */
-export type IReferencable = IGroup | IArchive | IDocument | IOpaqueElement | IModule | INotebook;
+export type IReferencable = IGroup | IArchive | IDocument | IOpaqueElement | IModule;
 
 /** any concrete reference */
-export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IOpaqueElementRef | IModuleRef | INotebookRef;
+export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IOpaqueElementRef | IModuleRef;
 
 //
 // GROUP
@@ -106,8 +106,7 @@ export type INarrativeElement =
     IOpaqueElement |
     IDocument |
     IDocumentRef |
-    IModuleRef |
-    INotebook; // TODO: Add declarations and sub-references
+    IModuleRef; // TODO: Add declarations and sub-references
 
 /** parent of a document */
 export type IDocumentParentRef = IArchiveRef | IDocumentRef;
@@ -132,6 +131,12 @@ export interface IDocumentRef extends IDocumentItem {
 export interface IDocument extends IDocumentItem {
     ref: false;
 
+    /** tags for this document */
+    tags?: TDocumentTags[];
+
+    /** source reference of this document */
+    sourceRef?: IFileReference;
+
     /** a set of declarations */
     decls: INarrativeElement[];
 
@@ -140,30 +145,10 @@ export interface IDocument extends IDocumentItem {
 
 }
 
-interface INotebookItem extends IAPIObjectItem {
-    kind: "notebook";
-    parent: IDocumentParentRef;
+enum DocumentTags { "ipynb-omdoc" }
+export type TDocumentTags = EnumKeys<typeof DocumentTags>;
+export const knownDocumentTags = getEnumKeys<typeof DocumentTags>(DocumentTags);
 
-    name: string;
-
-    id: URI;
-}
-
-export interface INotebookRef extends INotebookItem {
-    ref: true;
-    statistics?: undefined;
-}
-
-export interface INotebook extends INotebookItem {
-    ref: false;
-
-    /** This does not work like this */
-    kernel: any[];
-    language: any[];
-    other: any[];
-
-    statistics: IStatistic[];
-}
 interface IOpaqueElementItem extends IAPIObjectItem {
     kind: "opaque";
     parent: IDocumentRef;
@@ -289,10 +274,22 @@ export interface IMMTVersionInfo {
 // Helper types
 //
 
+/** a reference to a single source file */
+export interface IFileReference {
+    kind: "file";
+    ref: true;
+
+    /** archive the file is located in */
+    archive: IArchiveRef;
+
+    /** path of the file relative to the root of the archive */
+    path: string;
+}
+
 /** any object exposed by the API */
 interface IAPIObjectItem {
     /** the kind of object that is returned */
-    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view" | "notebook";
+    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view";
 
     /** weather this object is a reference or a full description */
     ref: boolean;

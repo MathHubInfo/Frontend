@@ -53,6 +53,11 @@ export default {
         // if using BrowserRouter
         historyApiFallback: env.BROWSER_ROUTER !== '""',
 
+        watchOptions: {
+            aggregateTimeout: 1000,
+            ignored: /node_modules/,
+        },
+
         // hot reloading
         hot: true, 
         inline: true, 
