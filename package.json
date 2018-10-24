@@ -55,6 +55,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "node": "10.11.0",
+    "openmath-json": "https://github.com/tkw1536/OpenMath-JSON",
     "package.json": "^2.0.1",
     "react": "^16.5.2",
     "react-document-title": "^2.0.3",
