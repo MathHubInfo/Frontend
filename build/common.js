@@ -32,7 +32,8 @@ export const common = {
     output: {
         filename: '[name].js',
         chunkFilename: '[name]-[hash].chunk.js',
-        path: dist
+        path: dist,
+        publicPath: env.BROWSER_ROUTER !== '""' ? JSON.parse(env.BROWSER_ROUTER) : undefined,
     },
     
 
@@ -86,7 +87,6 @@ export const common = {
         // generate index.html
         new HtmlWebpackPlugin({
             template: 'src/index.html',
-            publicPath: env.BROWSER_ROUTER !== '""' ? env.BROWSER_ROUTER : undefined,
         }),
         
         /*
