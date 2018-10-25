@@ -1,12 +1,14 @@
 import * as React from "react";
 
-import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
+import { decodeLibraryLinkID, encodeLibraryLink, ILibraryRouteProps } from "../structure/links";
 
-import { IArchive } from "../../../api";
+import { IArchive, ITagRef } from "../../../api";
 import { withContext } from "../../../context";
 
+import { Button } from "semantic-ui-react";
 import { LibraryItem } from "..";
-import NarrativeElementContentList from "../narrative/content";
+import { Nav } from "../../../components/common/nav";
+import NarrativeElementContentList from "../document/content";
 
 /** a single archive */
 class Archive extends React.Component<ILibraryRouteProps> {
@@ -30,7 +32,14 @@ class Archive extends React.Component<ILibraryRouteProps> {
         };
     }
     private getArchiveBody(archive: IArchive) {
-        return <NarrativeElementContentList elements={archive.narrativeRoot.decls} />;
+        return (
+            <>
+                <div>
+                    {archive.tags.map((t) => <TagLink key={t.id} to={t} />)}
+                </div>
+                <NarrativeElementContentList elements={archive.narrativeRoot.decls} />
+            </>
+        );
     }
 
     public render() {
@@ -42,3 +51,8 @@ class Archive extends React.Component<ILibraryRouteProps> {
 }
 
 export default withContext(Archive);
+
+function TagLink(props: {to: ITagRef}) {
+    const {to: tag} = props;
+    return <Button as={Nav} to={encodeLibraryLink(tag)}>{tag.name}</Button>;
+}

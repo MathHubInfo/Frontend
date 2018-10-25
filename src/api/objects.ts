@@ -9,10 +9,10 @@ export type IResponse = IApiObject | IMMTVersionInfo | IStatistic;
 export type IApiObject = IReferencable | IReference ;
 
 /** any object that is referencable */
-export type IReferencable = IGroup | IArchive | IDocument | IOpaqueElement | IModule;
+export type IReferencable = IGroup | ITag | IArchive | IDocument | IOpaqueElement | IModule;
 
 /** any concrete reference */
-export type IReference = IGroupRef | IArchiveRef | IDocumentRef | IOpaqueElementRef | IModuleRef;
+export type IReference = IGroupRef | ITagRef | IArchiveRef | IDocumentRef | IOpaqueElementRef | IModuleRef;
 
 //
 // GROUP
@@ -57,6 +57,34 @@ export interface IGroup extends IGroupItem {
 }
 
 //
+// TAGS
+//
+
+interface ITagItem extends IAPIObjectItem {
+    kind: "tag";
+    parent: null;
+
+    /** a machine-readable ID of the tag */
+    id: string;
+
+    /** the name of this tag, corresponds to id */
+    name: string;
+}
+
+/** a reference to a MathHub Group */
+export interface ITagRef extends ITagItem {
+    ref: true;
+    statistics?: undefined;
+}
+
+/** a full description of a MathHub Group */
+export interface ITag extends ITagItem {
+    ref: false;
+    /** a list of archives contained in this tag */
+    archives: IArchiveRef[];
+}
+
+//
 // ARCHIVE
 //
 
@@ -84,6 +112,9 @@ export interface IArchiveRef extends IArchiveItem {
 /** a full description of a MathHub Archive */
 export interface IArchive extends IArchiveItem {
     ref: false;
+
+    /** a list of tags */
+    tags: ITagRef[];
 
     /** a long, human-readable description of an archive */
     description: HTML;
@@ -289,7 +320,7 @@ export interface IFileReference {
 /** any object exposed by the API */
 interface IAPIObjectItem {
     /** the kind of object that is returned */
-    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view";
+    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view" | "tag";
 
     /** weather this object is a reference or a full description */
     ref: boolean;

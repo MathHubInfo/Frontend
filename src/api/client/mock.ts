@@ -16,6 +16,8 @@ import {
     IOpaqueElement,
     IOpaqueElementRef,
     IReferencable,
+    ITag,
+    ITagRef,
     ITheory,
     ITheoryRef,
     IView,
@@ -94,6 +96,9 @@ export class LazyMockClient extends Client {
             case "group":
                 co = this.cleanGroup(obj, ds);
                 break;
+            case "tag":
+                co = this.cleanTag(obj, ds);
+                break;
             case "archive":
                 co = this.cleanArchive(obj, ds);
                 break;
@@ -136,6 +141,21 @@ export class LazyMockClient extends Client {
             name: actual.name,
             title: actual.title,
             teaser: actual.teaser,
+        };
+    }
+
+    private cleanTagRef(tag: IMockReference, ds: IMockDataSet): ITagRef {
+        if (!tag.id.startsWith("@")) {
+            this.logMockNotFound(tag.id, "tags");
+        }
+
+        return {
+            kind: "tag",
+            parent: null,
+            ref: true,
+
+            id: tag.id,
+            name: tag.id.substr(1),
         };
     }
 
@@ -247,6 +267,22 @@ export class LazyMockClient extends Client {
         };
     }
 
+    private cleanTag(tag: IMockReference, ds: IMockDataSet): ITag {
+        // tslint:disable-next-line:no-console
+        console.log("trying to clean", tag);
+        const ref = this.cleanTagRef(tag, ds);
+        const archives =  ds.archives
+            .filter((a) => a.tags.indexOf(ref.name) !== -1)
+            .map((a) => this.cleanArchiveRef(a, ds));
+
+        return {
+            ...ref,
+            ref: false,
+
+            archives,
+        };
+    }
+
     private findNarrativeChildren(
         parent: IMockReference,
         moduleChildren: IMockReference[],
@@ -293,10 +329,13 @@ export class LazyMockClient extends Client {
             narrativeRoot = children[0] as IDocument;
         }
 
+        const tags = actual.tags.map((ts) => this.cleanTagRef({id: "@" + ts}, ds));
+
         return {
             ...ref,
             ref: false,
 
+            tags,
             description: actual.description,
             responsible: actual.responsible,
             narrativeRoot,
@@ -438,6 +477,17 @@ export class LazyMockClient extends Client {
         return this.getObjectOfType(
             (ds: IMockDataSet) => ds.groups.find((g) => g.id === id),
             (d: IMockObject) => "group",
+            `Group ${id} does not exist. `,
+        );
+    }
+
+    /** gets a group from the mock dataset */
+    public getTag(id: string): Promise<ITag> {
+        const theMockTag = id.startsWith("@") ?
+            {id, name: id.substring(1)} : undefined;
+        return this.getObjectOfType(
+            (ds: IMockDataSet) => theMockTag,
+            (d: IMockObject) => "tag",
             `Group ${id} does not exist. `,
         );
     }

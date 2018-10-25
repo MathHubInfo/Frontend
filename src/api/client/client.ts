@@ -1,5 +1,5 @@
 import { IArchive, IDocument, IGlossaryEntry, IGroup, IGroupRef, IMMTVersionInfo,
-         IModule, IReferencable, URI } from "../objects";
+         IModule, IReferencable, ITag, URI } from "../objects";
 
 export abstract class Client {
     /** gets the version of MMT */
@@ -17,6 +17,9 @@ export abstract class Client {
 
     /** gets a specific group from MMT */
     public abstract getGroup(id: string): Promise<IGroup>;
+
+    /** gets a specific group from MMT */
+    public abstract getTag(id: string): Promise<ITag>;
 
     /** gets a given archive */
     public abstract getArchive(id: string): Promise<IArchive>;

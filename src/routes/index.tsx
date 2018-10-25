@@ -15,6 +15,9 @@ Library.routeTitle = "Library";
 const Group = () => archivesImport().then((g) => g.Group);
 Group.routeTitle = "Group";
 
+const Tag = () => archivesImport().then((t) => t.Tag);
+Tag.routeTitle = "Tag";
+
 const Archive = () => archivesImport().then((a) => a.Archive);
 Archive.routeTitle = "Archive";
 
@@ -70,6 +73,7 @@ export const routes: IRouteDict = {
     "group": Group,
     "archive": Archive,
     "document": Document,
+    "tag": Tag,
 
     // legal
     "/legal/imprint": Imprint,

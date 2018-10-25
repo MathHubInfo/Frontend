@@ -88,6 +88,7 @@
             },
             "id": "smglom/staging",
             "name": "staging",
+            "tags": ["groups/smglom"],
             "title": "Staging Ground",
             "teaser": "Various mathematical concepts to be sorted into SMGloM repositories",
             "description": "<p>This SMGloM repository is a staging ground for other repositories, it contains glossary modules that either do not fit a repository yet, or are left over from early content development.</p>  ",
@@ -103,6 +104,7 @@
             },
             "id": "MMT/example",
             "name": "example",
+            "tags": ["groups/MMT"],
             "title": "MMT example archive",
             "teaser": "This is an example archive for MMT",
             "description": "<p>Stil an example.</p>  ",
@@ -114,11 +116,12 @@
         },
         {
             "parent": {
-                "id": "stagingRoot"
+                "id": "smglom"
             },
             "id": "smglom/staging/subArchive",
             "name": "subArchive",
             "title": "archive in an archive",
+            "tags": ["groups/smglom", "sub"],
             "teaser": "This is an archive in an archive",
             "description": "<p>This is another archive.</p>  ",
             "responsible": [
@@ -134,6 +137,7 @@
             "id": "ODK/Notebooks",
             "name": "Notebooks",
             "title": "Jupyter Notebooks",
+            "tags": ["groups/odk"],
             "teaser": "Jupyter Notebooks developed by Kai",
             "description": "<p>This archive contains the Jupyter notebook used for Demo purposes</p>  ",
             "responsible": [

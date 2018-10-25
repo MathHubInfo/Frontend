@@ -54,6 +54,8 @@ export interface IMockArchive extends IMockObject {
     title: HTML;
     teaser: HTML;
 
+    tags: string[];
+
     description: HTML;
     responsible: string[];
     statistics: IStatistic[];

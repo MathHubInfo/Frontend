@@ -15,6 +15,7 @@ import {
     IView,
     IViewRef,
 } from "./index";
+import { ITag, ITagRef } from "./objects";
 
 /** turns any object returned from the API into a reference */
 export function AnyToRef(obj: IApiObject): IReference {
@@ -29,6 +30,8 @@ export function AnyToRef(obj: IApiObject): IReference {
 export function ObjectToRef(obj: IReferencable): IReference {
     if (obj.kind === "group") {
         return GroupObjectToRef(obj);
+    } else if (obj.kind === "tag") {
+        return TagObjectToRef(obj);
     } else if (obj.kind === "archive") {
         return ArchiveObjectToRef(obj);
     } else if (obj.kind === "document") {
@@ -57,6 +60,17 @@ export function GroupObjectToRef(group: IGroup): IGroupRef {
 
         title: group.title,
         teaser: group.teaser,
+    };
+}
+
+export function TagObjectToRef(tag: ITag): ITagRef {
+    return {
+        kind: "tag",
+        parent: null,
+        ref: true,
+
+        id: tag.id,
+        name: tag.name,
     };
 }
 

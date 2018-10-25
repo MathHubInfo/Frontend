@@ -3,7 +3,7 @@ import { Client } from "./client";
 import axios from "axios";
 
 import { IArchive, IDocument, IGlossaryEntry, IGroup, IGroupRef, IMMTVersionInfo,
-         IModule, IReferencable, URI } from "../objects";
+         IModule, IReferencable, ITag, URI } from "../objects";
 
 /** A client that talks to MMT via the REST interface */
 export class RestClient extends Client {
@@ -48,6 +48,10 @@ export class RestClient extends Client {
 
     public getGroup(id: string): Promise<IGroup> {
         return this.get("content/group?id=" + this.encodeID(id));
+    }
+
+    public getTag(id: string): Promise<ITag> {
+        return this.get("content/tag?id=" + this.encodeID(id));
     }
 
     public getArchive(id: string): Promise<IArchive> {
