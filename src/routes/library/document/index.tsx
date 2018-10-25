@@ -7,8 +7,7 @@ import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
-import { NarrativeElementSourceList } from "./source";
-import { NarrativeElementViewList } from "./view";
+import NarrativeElementContentList from "./content";
 
 /** a single document */
 class Document extends React.Component<ILibraryRouteProps> {
@@ -26,6 +25,7 @@ class Document extends React.Component<ILibraryRouteProps> {
         return {
             title: document.id,
             crumbs: document,
+            source: document.sourceRef,
             statistics: document.statistics,
         };
     }
@@ -33,12 +33,9 @@ class Document extends React.Component<ILibraryRouteProps> {
         return (
             <Tab
                 panes={[
-                    { menuItem: "View", render: () => <Tab.Pane>
-                        <NarrativeElementViewList elements={document.decls} />
+                    { menuItem: "Content", render: () => <Tab.Pane>
+                        <NarrativeElementContentList elements={document.decls} />
                     </Tab.Pane> },
-                    { menuItem: "source", render: () => <Tab.Pane>
-                        <NarrativeElementSourceList elements={document.decls} />
-                    </Tab.Pane>},
                     {
                         menuItem: "graph", render: () =>
                             <Tab.Pane attached={false}>TGView will be added later</Tab.Pane>,

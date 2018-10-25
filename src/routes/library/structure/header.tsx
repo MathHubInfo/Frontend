@@ -1,12 +1,14 @@
 import * as React from "react";
 
-import { Container, Grid, Header, Label } from "semantic-ui-react";
+import { Container, Header, Label } from "semantic-ui-react";
 import { MathHTML } from "../../../components/common/mathhtml";
 
-import { HTML, IApiObject, IStatistic } from "../../../api";
+import { HTML, IApiObject, IFileReference, IStatistic } from "../../../api";
 
 import { MHRefBreadCrumbs } from "../../../components/breadcrumbs";
 import { StatisticsTableDropdown } from "../structure/statistics";
+
+import SourceButton from "./source";
 
 /** the properites of an item that are rendered */
 export interface IItemProps {
@@ -15,6 +17,9 @@ export interface IItemProps {
 
     /** bread crumbs to show for the item */
     crumbs: IApiObject | undefined;
+
+    /** the source of this document, if any */
+    source?: IFileReference;
 
     /** the statistics of this item, if any */
     statistics?: IStatistic[];
@@ -28,40 +33,18 @@ export interface IItemProps {
 
 /** the header of a library item display */
 export class LibraryItemHeader extends React.Component<{itemProps: IItemProps}> {
-    private renderWithStats() {
-        const { title, statistics } = this.props.itemProps;
-
-        return (
-            <Grid><Grid.Row>
-                <Grid.Column width={11}>
-                    <MathHTML as={Header} extra={{as: "h1"}}>{title}</MathHTML>
-                </Grid.Column>
-                <Grid.Column width={5}>
-                    <StatisticsTableDropdown statistics={statistics!} />
-                </Grid.Column>
-            </Grid.Row></Grid>
-        );
-    }
-
-    private renderNoStats() {
-        const { title} = this.props.itemProps;
-
-        return (
-            <Grid><Grid.Row>
-                <Grid.Column width={16}>
-                    <MathHTML as={Header} extra={{as: "h1"}}>{title}</MathHTML>
-                </Grid.Column>
-            </Grid.Row></Grid>
-        );
-    }
-
     public render() {
-        const { crumbs, statistics, description, responsible } = this.props.itemProps;
+        const { crumbs, title, source, statistics, description, responsible } = this.props.itemProps;
 
         return (
             <>
                 <MHRefBreadCrumbs to={crumbs} />
-                {statistics ? this.renderWithStats() : this.renderNoStats()}
+                <Container>
+                    <MathHTML as={Header} extra={{as: "h1"}}>{title}</MathHTML>
+                    {statistics ? <StatisticsTableDropdown statistics={statistics} /> : null}
+                    {source ? <SourceButton source={source} /> : null}
+                </Container>
+
                 {description ? <MathHTML renderReferences>{description}</MathHTML> : null}
                 {responsible ? <Container>
                     <b>Responsible:</b> {responsible.map((p) => <Label key={p}>{p}</Label>)}

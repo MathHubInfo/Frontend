@@ -21,9 +21,9 @@ Archive.routeTitle = "Archive";
 // #endregion
 
 // #region "Narration"
-const narrativeImport = () => import(/* webpackChunkName: "narrative" */"./library/narrative");
+const narrativeImport = () => import(/* webpackChunkName: "narrative" */"./library/document");
 
-const Document = () => narrativeImport().then((d) => d.Document);
+const Document = () => narrativeImport().then((d) => d.default);
 Document.routeTitle = "Document";
 // #endregion
 

@@ -6,7 +6,7 @@ import { IArchive } from "../../../api";
 import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";
-import { NarrativeElementViewList } from "../narrative/view";
+import NarrativeElementContentList from "../narrative/content";
 
 /** a single archive */
 class Archive extends React.Component<ILibraryRouteProps> {
@@ -30,7 +30,7 @@ class Archive extends React.Component<ILibraryRouteProps> {
         };
     }
     private getArchiveBody(archive: IArchive) {
-        return <NarrativeElementViewList elements={archive.narrativeRoot.decls} />;
+        return <NarrativeElementContentList elements={archive.narrativeRoot.decls} />;
     }
 
     public render() {
