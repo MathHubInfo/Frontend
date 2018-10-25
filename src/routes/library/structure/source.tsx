@@ -14,7 +14,7 @@ class SourceButton extends React.Component<{source: IFileReference, context: IMa
             <>
                 <Button
                     as={Nav}
-                    class="tiny"
+                    size="mini"
                     to={encodeLibraryLink(source.archive)}
                 >
                     {source.archive.id}
