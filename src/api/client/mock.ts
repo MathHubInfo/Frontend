@@ -521,7 +521,6 @@ export class LazyMockClient extends Client {
 
     public getGlossary(): Promise<IGlossaryEntry[]> {
         return this.loadDataSet().then((ds) => ds.glossary.map((g) => this.cleanGlossaryEntry(g, ds)));
-
     }
 
     // #endregion
@@ -531,7 +530,7 @@ export class MockClient extends LazyMockClient {
     constructor() {
         super(async () => {
             const mock = await import("../../../assets/mock.json");
-            return mock.default as any as IMockDataSet; // TODO: Fix the errors here
+            return mock.default as IMockDataSet; // TODO: Fix the errors here
         });
     }
 }

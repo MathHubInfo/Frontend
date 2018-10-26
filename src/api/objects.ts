@@ -311,7 +311,7 @@ export interface IFileReference {
     ref: true;
 
     /** archive the file is located in */
-    archive: IArchiveRef;
+    parent: IArchiveRef;
 
     /** path of the file relative to the root of the archive */
     path: string;

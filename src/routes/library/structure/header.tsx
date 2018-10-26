@@ -8,7 +8,7 @@ import { HTML, IApiObject, IFileReference, IStatistic } from "../../../api";
 import { MHRefBreadCrumbs } from "../../../components/breadcrumbs";
 import { StatisticsTableDropdown } from "../structure/statistics";
 
-import SourceButton from "./source";
+import { JupyterButton, SourceButton } from "./external";
 
 /** the properites of an item that are rendered */
 export interface IItemProps {
@@ -16,10 +16,13 @@ export interface IItemProps {
     title: string;
 
     /** bread crumbs to show for the item */
-    crumbs: IApiObject | undefined;
+    crumbs: IApiObject | IFileReference | undefined;
 
     /** the source of this document, if any */
     source?: IFileReference;
+
+    /** the source to use as a jupyter notebook, if any */
+    jupyter?: IFileReference;
 
     /** the statistics of this item, if any */
     statistics?: IStatistic[];
@@ -34,7 +37,7 @@ export interface IItemProps {
 /** the header of a library item display */
 export class LibraryItemHeader extends React.Component<{itemProps: IItemProps}> {
     public render() {
-        const { crumbs, title, source, statistics, description, responsible } = this.props.itemProps;
+        const { crumbs, title, source, jupyter, statistics, description, responsible } = this.props.itemProps;
 
         return (
             <>
@@ -42,6 +45,7 @@ export class LibraryItemHeader extends React.Component<{itemProps: IItemProps}> 
                 <Container>
                     <MathHTML as={Header} extra={{as: "h1"}}>{title}</MathHTML>
                     {statistics ? <StatisticsTableDropdown statistics={statistics} /> : null}
+                    {jupyter ? <JupyterButton source={jupyter} /> : null}
                     {source ? <SourceButton source={source} /> : null}
                 </Container>
 

@@ -26,6 +26,13 @@ export interface IMathHubURLConfig {
         contactAHuman: string;
     };
 
+    external: {
+        /** url to gitlab sources */
+        gitlab: string;
+        /** url to open jupyter notebooks in */
+        jupyter: string;
+    };
+
     /** url to show to the administration page */
     admin: string;
     /** about url */
@@ -33,11 +40,17 @@ export interface IMathHubURLConfig {
 }
 
 /** the default MathHub Url configuration */
-export const urls = {
+export const urls: IMathHubURLConfig = {
     help: {
         documentation: "https://github.com/MathHubInfo/Documentation/wiki",
         browseSources: "https://gl.mathhub.info/",
         contactAHuman: "http://lists.informatik.uni-erlangen.de/mailman/listinfo/mathhub",
+    },
+    external: {
+        // tslint:disable-next-line:no-invalid-template-strings
+        gitlab: "https://gl.mathhub.info/${archive}/tree/${branch}/${path}",
+        // tslint:disable-next-line:max-line-length no-invalid-template-strings
+        jupyter: "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false",
     },
     admin: "/admin/",
     about: "https://github.com/MathHubInfo/Documentation/wiki/about",

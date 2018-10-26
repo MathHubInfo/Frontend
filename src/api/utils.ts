@@ -10,12 +10,13 @@ import {
     IOpaqueElementRef,
     IReferencable,
     IReference,
+    ITag,
+    ITagRef,
     ITheory,
     ITheoryRef,
     IView,
     IViewRef,
-} from "./index";
-import { ITag, ITagRef } from "./objects";
+} from "./objects";
 
 /** turns any object returned from the API into a reference */
 export function AnyToRef(obj: IApiObject): IReference {

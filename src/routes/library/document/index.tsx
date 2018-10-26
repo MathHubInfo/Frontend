@@ -22,12 +22,10 @@ class Document extends React.Component<ILibraryRouteProps> {
     private getID() { return decodeLibraryLinkID(this.props); }
     private getDocument() { return this.props.context.client.getDocument(this.getID()); }
     private getDocumentProps(document: IDocument) {
-        return {
-            title: document.id,
-            crumbs: document,
-            source: document.sourceRef,
-            statistics: document.statistics,
-        };
+        const {id: title, sourceRef: source, statistics, tags} = document;
+        const crumbs = source || document;
+        const jupyter = (tags && tags.indexOf("ipynb-omdoc") > -1) ? source : undefined;
+        return { title, crumbs, source, jupyter, statistics };
     }
     private getDocumentBody(document: IDocument) {
         return (
@@ -37,7 +35,7 @@ class Document extends React.Component<ILibraryRouteProps> {
                         <NarrativeElementContentList elements={document.decls} />
                     </Tab.Pane> },
                     {
-                        menuItem: "graph", render: () =>
+                        menuItem: "Graph", render: () =>
                             <Tab.Pane attached={false}>TGView will be added later</Tab.Pane>,
                     },
                 ]}

@@ -53,7 +53,9 @@ class Archive extends React.Component<ILibraryRouteProps> {
 
 export default withContext(Archive);
 
-function TagLink(props: {to: ITagRef}) {
-    const {to: tag} = props;
-    return <Button size="mini" as={Nav} to={encodeLibraryLink(tag)}>{tag.name}</Button>;
+class TagLink extends React.Component<{to: ITagRef}> {
+    public render() {
+        const {to: tag} = this.props;
+        return <Button size="mini" as={Nav} to={encodeLibraryLink(tag)}>{tag.name}</Button>;
+    }
 }

@@ -84,7 +84,7 @@ export type IMockModule = IMockTheory | IMockView;
 
 interface IMockTheory extends IMockObject {
     kind: "theory";
-    parent: null;
+    parent?: null;
 
     presentation: HTML;
     source?: string;
@@ -94,7 +94,7 @@ interface IMockTheory extends IMockObject {
 
 interface IMockView extends IMockObject {
     kind: "view";
-    parent: null;
+    parent?: null;
 
     presentation: HTML;
     source?: string;

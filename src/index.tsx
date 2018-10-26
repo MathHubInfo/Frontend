@@ -38,6 +38,7 @@ Promise.all([
         <MathHub
             MOCK_MMT={process.env.MOCK_MMT === "true"}
             MMT_URL={process.env.MMT_URL!}
+
             BROWSER_ROUTER={process.env.BROWSER_ROUTER!}
         />,
         document.getElementById("mathhub"),
