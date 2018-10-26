@@ -29,8 +29,10 @@ export interface IMathHubURLConfig {
     };
 
     external: {
-        /** url to gitlab sources */
-        gitlab: string;
+        /** url to gitlab group urls */
+        gitlabGroup: string;
+        /** url to gitlab archive urls */
+        gitlabArchive: string;
         /** url to open jupyter notebooks in */
         jupyter: string;
     };
@@ -50,7 +52,9 @@ export const urls: IMathHubURLConfig = {
     },
     external: {
         // tslint:disable-next-line:no-invalid-template-strings
-        gitlab: "https://gl.mathhub.info/${archive}/tree/${branch}/${path}",
+        gitlabGroup: "https://gl.mathhub.info/${group}",
+        // tslint:disable-next-line:no-invalid-template-strings
+        gitlabArchive: "https://gl.mathhub.info/${archive}/tree/${branch}/${path}",
         // tslint:disable-next-line:max-line-length no-invalid-template-strings
         jupyter: "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false",
     },

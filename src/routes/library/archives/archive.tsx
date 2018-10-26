@@ -2,7 +2,9 @@ import * as React from "react";
 
 import { decodeLibraryLinkID, encodeLibraryLink, ILibraryRouteProps } from "../structure/links";
 
-import { IArchive, ITagRef } from "../../../api";
+import { IArchive, ISourceReference, ITagRef } from "../../../api";
+import { ArchiveObjectToRef } from "../../../api/utils";
+
 import { withContext } from "../../../context";
 
 import { Button, Container, Divider } from "semantic-ui-react";
@@ -23,13 +25,14 @@ class Archive extends React.Component<ILibraryRouteProps> {
     private getID() { return decodeLibraryLinkID(this.props); }
     private getArchive() { return this.props.context.client.getArchive(this.getID()); }
     private getArchiveProps(archive: IArchive) {
-        return {
-            title: archive.title,
-            crumbs: archive,
-            statistics: archive.statistics,
-            description: archive.description,
-            responsible: archive.responsible,
+        const {title, version, statistics, description, responsible} = archive;
+        const source: ISourceReference = {
+            kind: "source",
+            ref: true,
+            parent: ArchiveObjectToRef(archive),
+            version,
         };
+        return {title, crumbs: archive, source, statistics, description, responsible};
     }
     private getArchiveBody(archive: IArchive) {
         return (

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { IApiObject, IFileReference, IReference } from "../api";
+import { IApiObject, IReference, ISourceReference } from "../api";
 import { AnyToRef } from "../api/utils";
 
 import { Breadcrumb } from "semantic-ui-react";
@@ -8,18 +8,18 @@ import { Nav } from "../components/common/nav";
 import { encodeLibraryLink } from "../routes/library/structure/links";
 
 /** renders a full list of BreadCrumbs by iterating over the reference */
-export function MHRefBreadCrumbs(props: {to?: IApiObject | IFileReference}) {
-    const toRef = props.to && props.to.kind !== "file" ? AnyToRef(props.to) : props.to;
+export function MHRefBreadCrumbs(props: {to?: IApiObject | ISourceReference}) {
+    const toRef = props.to && props.to.kind !== "source" ? AnyToRef(props.to) : props.to;
 
     // create an array of locations
-    const locations: Array<IReference | IFileReference | undefined> = [toRef];
+    const locations: Array<IReference | ISourceReference | undefined> = [toRef];
 
     // and keep adding the parents of each element
     while (locations[0]) {
         locations.unshift(locations[0]!.parent || undefined);
         // if we have an archive, the next lower level is a document which *is* the achives content
         // so if it exists, the next level should be removed
-        if (locations[0] && locations[1] && locations[1]!.kind !== "file" && locations[0]!.kind === "archive") {
+        if (locations[0] && locations[1] && locations[1]!.kind !== "source" && locations[0]!.kind === "archive") {
             locations.splice(1, 1);
         }
     }
@@ -33,11 +33,12 @@ export function MHRefBreadCrumbs(props: {to?: IApiObject | IFileReference}) {
 }
 
 /** a single item of the bread crumbs */
-function MHBreadCrumb(props: {to: IReference | IFileReference | undefined, last?: boolean}) {
+function MHBreadCrumb(props: {to: IReference | ISourceReference | undefined, last?: boolean}) {
 
     // if we have a file reference, we split '/'s into dividers
     // and render each element as a string
-    if (props.to && props.to.kind === "file") {
+    if (props.to && props.to.kind === "source") {
+        if (!props.to.path) { return null; }
         return (
             <>
             {props.to.path.split("/").map((t, i, a) => {

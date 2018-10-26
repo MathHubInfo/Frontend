@@ -3,7 +3,7 @@ import * as React from "react";
 import { Container, Header, Label } from "semantic-ui-react";
 import { MathHTML } from "../../../components/common/mathhtml";
 
-import { HTML, IApiObject, IFileReference, IStatistic } from "../../../api";
+import { HTML, IApiObject, ISourceReference, IStatistic } from "../../../api";
 
 import { MHRefBreadCrumbs } from "../../../components/breadcrumbs";
 import { StatisticsTableDropdown } from "../structure/statistics";
@@ -16,13 +16,13 @@ export interface IItemProps {
     title: string;
 
     /** bread crumbs to show for the item */
-    crumbs: IApiObject | IFileReference | undefined;
+    crumbs: IApiObject | ISourceReference | undefined;
 
     /** the source of this document, if any */
-    source?: IFileReference;
+    source?: ISourceReference;
 
     /** the source to use as a jupyter notebook, if any */
-    jupyter?: IFileReference;
+    jupyter?: ISourceReference;
 
     /** the statistics of this item, if any */
     statistics?: IStatistic[];

@@ -1,25 +1,27 @@
 import * as React from "react";
-import { IFileReference } from "../../../api";
+import { ISourceReference } from "../../../api";
 
 import { Button, Icon } from "semantic-ui-react";
 import { IMathHubContext, withContext } from "../../../context";
 
 /** A button to view the source reference on GitLab */
-export const SourceButton = withContext<{source: IFileReference}>
-    ((props: {source: IFileReference, context: IMathHubContext}) => (
+export const SourceButton = withContext<{source: ISourceReference}>
+    ((props: {source: ISourceReference, context: IMathHubContext}) => (
     <ExternalButton
         source={props.source}
-        template={props.context.config.urls.external.gitlab}
+        groupTemplate={props.context.config.urls.external.gitlabGroup}
+        archiveTemplate={props.context.config.urls.external.gitlabArchive}
     >
         <Icon name="code" />View Source
     </ExternalButton>
 ));
 
-export const JupyterButton = withContext<{source: IFileReference}>
-    ((props: {source: IFileReference, context: IMathHubContext}) => (
+export const JupyterButton = withContext<{source: ISourceReference}>
+    ((props: {source: ISourceReference, context: IMathHubContext}) => (
     <ExternalButton
         source={props.source}
-        template={props.context.config.urls.external.jupyter}
+        groupTemplate=""
+        archiveTemplate={props.context.config.urls.external.jupyter}
     >
         <Icon name="play" />Open on JupyterHub
     </ExternalButton>
@@ -27,19 +29,27 @@ export const JupyterButton = withContext<{source: IFileReference}>
 
 /** A button to an external url */
 function ExternalButton(props: {
-    source: IFileReference,
-    template: string,
+    source: ISourceReference,
+    archiveTemplate: string,
+    groupTemplate: string,
     children: null | string | React.ReactNode | React.ReactNode[],
 }) {
-    const {source, template, children} = props;
+    const {source, archiveTemplate, groupTemplate, children} = props;
 
-    const externalLink = template
+    let link;
+    if (source.parent.kind === "group") {
+        link = groupTemplate
+        // tslint:disable-next-line:no-invalid-template-strings
+        .replace("${group}", source.parent.name);
+    } else {
+        link = archiveTemplate
         // tslint:disable-next-line:no-invalid-template-strings
         .replace("${archive}", source.parent.id)
         // tslint:disable-next-line:no-invalid-template-strings
-        .replace("${branch}", "master") // for now
+        .replace("${branch}", source.version || "master")
         // tslint:disable-next-line:no-invalid-template-strings
-        .replace("${path}", source.path);
+        .replace("${path}", source.path || "");
+    }
 
-    return <Button as={"a"} size="mini" href={externalLink} target="_blank" children={children} />;
+    return <Button as={"a"} size="mini" href={link} target="_blank" children={children} />;
 }

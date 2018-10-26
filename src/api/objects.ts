@@ -12,7 +12,10 @@ export type IApiObject = IReferencable | IReference ;
 export type IReferencable = IGroup | ITag | IArchive | IDocument | IOpaqueElement | IModule;
 
 /** any concrete reference */
-export type IReference = IGroupRef | ITagRef | IArchiveRef | IDocumentRef | IOpaqueElementRef | IModuleRef;
+export type IReference = IHubReference | ITagRef | IDocumentRef | IOpaqueElementRef | IModuleRef;
+
+/** a reference to a group or an archive */
+export type IHubReference = IGroupRef | IArchiveRef;
 
 //
 // GROUP
@@ -113,6 +116,9 @@ export interface IArchiveRef extends IArchiveItem {
 export interface IArchive extends IArchiveItem {
     ref: false;
 
+    /** the version of an archive */
+    version?: string;
+
     /** a list of tags */
     tags: ITagRef[];
 
@@ -166,7 +172,7 @@ export interface IDocument extends IDocumentItem {
     tags?: TDocumentTags[];
 
     /** source reference of this document */
-    sourceRef?: IFileReference;
+    sourceRef?: ISourceReference;
 
     /** a set of declarations */
     decls: INarrativeElement[];
@@ -305,16 +311,19 @@ export interface IMMTVersionInfo {
 // Helper types
 //
 
-/** a reference to a single source file */
-export interface IFileReference {
-    kind: "file";
+/** a reference to a source */
+export interface ISourceReference {
+    kind: "source";
     ref: true;
 
     /** archive the file is located in */
-    parent: IArchiveRef;
+    parent: IHubReference;
 
-    /** path of the file relative to the root of the archive */
-    path: string;
+    /** the version this source is located in (if any) */
+    version?: string;
+
+    /** path of the file relative to the parent */
+    path?: string;
 }
 
 /** any object exposed by the API */

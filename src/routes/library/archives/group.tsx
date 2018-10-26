@@ -2,7 +2,9 @@ import * as React from "react";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 
-import { IGroup } from "../../../api";
+import { IGroup, ISourceReference } from "../../../api";
+import { GroupObjectToRef } from "../../../api/utils";
+
 import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";
@@ -21,13 +23,13 @@ class Group extends React.Component<ILibraryRouteProps> {
     private getID() { return decodeLibraryLinkID(this.props); }
     private getGroup() { return this.props.context.client.getGroup(this.getID()); }
     private getGroupProps(group: IGroup) {
-        return {
-            title: group.title,
-            crumbs: group,
-            statistics: group.statistics,
-            description: group.description,
-            responsible: group.responsible,
+        const {title, statistics, description, responsible} = group;
+        const source: ISourceReference = {
+            kind: "source",
+            ref: true,
+            parent: GroupObjectToRef(group),
         };
+        return { title, crumbs: group, source, statistics, description, responsible};
     }
     private getGroupBody(group: IGroup) {
         return <ContentItemList items={group.archives} />;
