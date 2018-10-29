@@ -13,7 +13,7 @@ export class ContentItemList extends React.Component<{items: ContentRef[]}> {
         const {items} = this.props;
 
         return (
-            <Card.Group itemsPerRow="1">
+            <Card.Group itemsPerRow="2">
                 {items.map((item) => <ContentItemRef key={item.id} item={item} />)}
             </Card.Group>
         );
