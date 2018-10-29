@@ -20,7 +20,8 @@ export function encodeLibraryLink(to?: IApiObject): string {
         return `/library`;
     }
 
-    const target = encodeURIComponent(to.id);
+    // const target = encodeURIComponent(to.id);
+    const target = to.id;
 
     let kind: string = to.kind;
     if (kind === "theory" || kind === "view") {
@@ -32,5 +33,6 @@ export function encodeLibraryLink(to?: IApiObject): string {
 
 /** decodes the link parameter given to a library route */
 export function decodeLibraryLinkID(props: ILibraryRouteProps): string {
-    return decodeURIComponent(props.match.params.id);
+    // return decodeURIComponent(props.match.params.id);
+    return props.match.params.id;
 }

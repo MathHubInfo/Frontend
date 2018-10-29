@@ -116,22 +116,6 @@
         },
         {
             "parent": {
-                "id": "smglom"
-            },
-            "id": "smglom/staging/subArchive",
-            "name": "subArchive",
-            "title": "archive in an archive",
-            "tags": ["groups/smglom", "sub"],
-            "teaser": "This is an archive in an archive",
-            "description": "<p>This is another archive.</p>  ",
-            "responsible": [
-                "johannes-sebastian-see@fau.de"
-            ],
-            "statistics": [],
-            "modules": []
-        },
-        {
-            "parent": {
                 "id": "ODK"
             },
             "id": "ODK/Notebooks",
