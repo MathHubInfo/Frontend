@@ -30,6 +30,16 @@ const Document = () => narrativeImport().then((d) => d.default);
 Document.routeTitle = "Document";
 // #endregion
 
+// #region "Narration"
+const newsImport = () => import(/* webpackChunkName: "news" */"./news");
+
+const NewsList = () => newsImport().then((d) => d.NewsList);
+NewsList.routeTitle = "News";
+
+const NewsPage = () => newsImport().then((d) => d.NewsPage);
+NewsPage.routeTitle = "News";
+// #endregion
+
 // #region "Applications"
 const applicationImport = () => import(/* webpackChunkName: "applications" */"./applications");
 
@@ -74,6 +84,10 @@ export const routes: IRouteDict = {
     "archive": Archive,
     "document": Document,
     "tag": Tag,
+
+    // news routes
+    "/news/": NewsList,
+    "/news/:id": NewsPage,
 
     // legal
     "/legal/imprint": Imprint,

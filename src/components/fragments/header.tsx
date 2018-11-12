@@ -44,6 +44,9 @@ export class Header extends React.Component<{ config: IMathHubConfig }, {}> {
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
+                    <Menu.Item as={Nav} exact to="/news">
+                        News
+                    </Menu.Item>
                     <Menu.Item href={config.urls.admin}>
                         Admin
                     </Menu.Item>

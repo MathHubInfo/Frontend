@@ -45,19 +45,18 @@ export class LazyMockClient extends Client {
     private dataset: IMockDataSet | undefined;
 
     /** loads the dataset */
-    private loadDataSet(): Promise<IMockDataSet> {
+    private async loadDataSet(): Promise<IMockDataSet> {
 
         // if we already fetched the dataset
         // we can return it immediatly
         if (typeof this.dataset !== "undefined") {
-            return Promise.resolve(this.dataset);
+            return this.dataset;
         }
 
         // else we need to fetch it
-        return this.datasetFactory().then((ds) => {
-                this.dataset = ds;
-                return this.dataset!;
-            });
+        const ds = await this.datasetFactory();
+        this.dataset = ds;
+        return this.dataset;
     }
 
     /**
