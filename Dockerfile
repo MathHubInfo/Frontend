@@ -3,7 +3,6 @@ FROM node as builder
 
 # The URL to MMT to use in the build
 ARG MMT_URL="/:mathhub/"
-ARG MOCK_MMT=""
 ARG BROWSER_ROUTER="/"
 ARG NEWS_URL="/news.json"
 
@@ -24,7 +23,7 @@ ADD yarn.lock /app/
 # Install and run build
 WORKDIR  /app/
 RUN yarn \
-    && NEWS_URL=${NEWS_URL} MMT_URL=${MMT_URL} MOCK_MMT=${MOCK_MMT} BROWSER_ROUTER=${BROWSER_ROUTER} yarn webpack --config=webpack.config.prod.js \
+    && NEWS_URL=${NEWS_URL} MMT_URL=${MMT_URL} BROWSER_ROUTER=${BROWSER_ROUTER} yarn webpack --config=webpack.config.prod.js \
     && yarn --ignore-platform licenses generate-disclaimer > dist/NOTICES.txt
 
 # And place onto a static server

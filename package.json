@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devmmt": "MMT_URL=http://localhost:8080/:mathhub/ webpack-dev-server --port 3000",
-    "devmock": "MOCK_MMT=1 webpack-dev-server --port 3000"
+    "devmock": "MMT_URL= webpack-dev-server --port 3000"
   },
   "repository": "https://github.com/KWARC/MathHub-React-Frontend",
   "author": "The KWARC Group <group@kwarc.info>",

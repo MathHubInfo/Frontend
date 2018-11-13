@@ -17,7 +17,7 @@ class Logger extends React.Component<{context: IMathHubContext}, {entries: ILogE
         this.state = {entries: [], filter: ""};
 
         this.changeFilter = debounce(this.changeFilter.bind(this), 500);
-        this.client = this.props.context.config.client.MOCK_MMT ?
+        this.client = this.props.context.config.client.MMT_URL === "" ?
             null : new LoggerClient(this.props.context.config.client.MMT_URL);
     }
 

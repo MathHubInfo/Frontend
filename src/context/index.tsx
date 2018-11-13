@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { ReactComponent } from "../types/types";
 
-import { Client, MockClient, RestClient } from "../api";
+import { Client, createClient } from "../api";
 import { MHTitle } from "../utils/title";
 import { IMathHubConfig } from "./config";
 
@@ -19,7 +19,7 @@ export const Context = React.createContext<IMathHubContext>(null!);
 export function makeContext(config: IMathHubConfig): IMathHubContext {
     const clientConfig = config.client;
     return {
-        client: clientConfig.MOCK_MMT ? new MockClient() : new RestClient(clientConfig.MMT_URL),
+        client: createClient(clientConfig.MMT_URL),
         config,
     };
 }

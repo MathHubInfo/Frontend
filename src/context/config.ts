@@ -9,8 +9,6 @@ export interface IMathHubConfig {
 export interface IMathHubClientConfig {
     /** url of the MMT client, if any */
     MMT_URL: string;
-    /** if set to true, use a mocked MMT client instead of a real one */
-    MOCK_MMT: boolean;
     /** the url to fetch news from */
     NEWS_URL: string;
     /** are we using browser router */

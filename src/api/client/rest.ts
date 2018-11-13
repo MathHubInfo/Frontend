@@ -19,14 +19,13 @@ export class RestClient extends Client {
     /** the mmt url this Client communicates with */
     public readonly MMT_URL: string;
 
-    private get<T>(url: string): Promise<T> {
-        return axios.get<T | string>(this.MMT_URL + url).then((c) => {
-            if (c.status !== 200 || typeof c.data === "string") {
-                return Promise.reject(c.data as string);
-            } else {
-                return Promise.resolve(c.data as T);
-            }
-        });
+    private async get<T>(url: string): Promise<T> {
+        const c = await axios.get<T | string>(this.MMT_URL + url);
+        if (c.status !== 200 || typeof c.data === "string") {
+            throw new Error(c.data as string);
+        } else {
+            return c.data as T;
+        }
     }
 
     public getMMTVersion(): Promise<IMMTVersionInfo> {

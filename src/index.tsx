@@ -36,7 +36,6 @@ Promise.all([
 ]).then(([ React, ReactDOM, MathHub ]) => {
     ReactDOM.render(
         <MathHub
-            MOCK_MMT={process.env.MOCK_MMT === "true"}
             MMT_URL={process.env.MMT_URL!}
             NEWS_URL={process.env.NEWS_URL!}
 
