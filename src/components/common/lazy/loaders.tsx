@@ -9,16 +9,26 @@ import { ErrorText, IErrorData } from "../error";
  * The default LoadingComponent does not display anything until the component is loaded.
  */
 export class LoadingComponent
-    extends React.Component<LoadingComponentProps, IErrorData & {reloading: boolean, loadedPrereqs: boolean}> {
+    extends React.Component<
+    LoadingComponentProps, IErrorData & {reloading: boolean, loadedPrereqs: boolean}> {
 
     constructor(props: LoadingComponentProps) {
         super(props);
         this.state = { reloading: false, hasError: false, loadedPrereqs: false };
     }
 
+    private isComponentMounted: boolean = true;
+
     public async componentDidMount() {
         await this.loadPreReqs();
-        this.setState({ loadedPrereqs: true });
+
+        if (this.isComponentMounted) {
+            this.setState({ loadedPrereqs: true });
+        }
+    }
+
+    public componentWillUnmount() {
+        this.isComponentMounted = false;
     }
 
     /** a method that can be used to asyncronously load some loader display prerequisites */
@@ -26,9 +36,11 @@ export class LoadingComponent
         return;
     }
 
-    /** whenever a fatal error occurs, se the appropriate error state */
+    /** whenever a fatal error occurs, set the appropriate error state */
     public componentDidCatch(error: Error, info: React.ErrorInfo) {
-        this.setState({ hasError: true, error, info});
+        if (this.isComponentMounted) {
+            this.setState({ hasError: true, error, info});
+        }
     }
 
     /** renders a fatal error */
