@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { LoadingComponentProps } from "react-loadable";
-import { ErrorText, IErrorData } from "../error";
+import ErrorText, { IErrorData } from "./error";
 
 /**
  * A LoadingComponent is used to indicate to the user that something is being loaded asyncronously.

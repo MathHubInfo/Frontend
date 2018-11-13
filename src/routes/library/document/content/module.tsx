@@ -4,8 +4,7 @@ import { Button, Card, Icon } from "semantic-ui-react";
 import {
     IModule,
     IModuleRef } from "../../../../api";
-import { LoadWithSpinner } from "../../../../components/common/lazy";
-import { MathHTML } from "../../../../components/common/mathhtml";
+import { LoadWithSpinner, MathHTML } from "../../../../components/common";
 import { IMathHubContext, withContext } from "../../../../context";
 
 export default class ModuleContentInline extends React.Component<{module: IModuleRef}, {expanded: boolean}> {

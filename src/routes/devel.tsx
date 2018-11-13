@@ -1,14 +1,11 @@
 import * as React from "react";
 
-import { CreateSpinningLoader as Loader } from "../components/common/lazy";
-import MonospaceContainer from "../components/common/monospace";
-
 import { Context } from "../context";
 
 import { delay } from "../utils/promises";
 
 import { Icon, Message } from "semantic-ui-react";
-import { MathHTML } from "../components/common/mathhtml";
+import { CreateSpinningLoader as Loader, MathHTML, MonospaceContainer } from "../components/common";
 
 export function Devel(props: {}) {
     return (

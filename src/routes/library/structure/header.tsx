@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Container, Header, Label } from "semantic-ui-react";
-import { MathHTML } from "../../../components/common/mathhtml";
+import { MathHTML } from "../../../components/common";
 
 import { HTML, IApiObject, ISourceReference, IStatistic } from "../../../api";
 

@@ -6,9 +6,12 @@ export interface IErrorData {
     info?: React.ErrorInfo;
 }
 
-export function ErrorText(props: IErrorData & {message?: string | true}) {
+/**
+ * Displays an error to a developer or to a user
+ */
+export default function ErrorText(props: IErrorData & {message?: string | true}) {
     // no error => nothing to return
-    if (!props.hasError) { return <></>; }
+    if (!props.hasError) { return null; }
 
     const error = props.error ? props.error.toString() : "An unknown error occured";
     const info = props.info!;

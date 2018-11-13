@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 
 import { Button, Divider, Grid, Image } from "semantic-ui-react";
 
-import { LoadWithSpinner } from "../components/common/lazy";
-import { MathHTML } from "../components/common/mathhtml";
-// import { Nav } from "../components/common/nav";
+import { LoadWithSpinner, MathHTML } from "../components/common";
+// import { Nav } from "../components/common";
 
 import { MHTitle } from "../utils/title";
 

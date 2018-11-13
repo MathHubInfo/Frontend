@@ -8,7 +8,7 @@ import { RouteComponentProps } from "react-router";
 
 import NewsClient, { INewsItem } from "../../api/news";
 
-import { LoadWithSpinner } from "../../components/common/lazy";
+import { LoadWithSpinner } from "../../components/common";
 import { MHTitle } from "../../utils/title";
 
 class NewsPage extends React.Component<ILibraryRouteProps> {

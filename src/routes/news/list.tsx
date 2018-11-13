@@ -8,8 +8,7 @@ import { ILibraryRouteProps } from "../library/structure/links";
 
 import NewsClient, { INewsItem } from "../../api/news";
 
-import { LoadWithSpinner } from "../../components/common/lazy";
-import { Nav } from "../../components/common/nav";
+import { LoadWithSpinner, Nav } from "../../components/common";
 
 import { Button, Card } from "semantic-ui-react";
 import { MHTitle } from "../../utils/title";

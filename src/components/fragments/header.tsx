@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Container, Dropdown, Image, Input, Menu } from "semantic-ui-react";
-import { Nav } from "../../components/common/nav";
+import { Nav } from "../../components/common";
 import { IMathHubConfig } from "../../context/config";
 
 export class Header extends React.Component<{ config: IMathHubConfig }, {}> {

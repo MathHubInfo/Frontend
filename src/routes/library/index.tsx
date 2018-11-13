@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Container, Divider } from "semantic-ui-react";
-import { LoadWithSpinner } from "../../components/common/lazy";
+import { LoadWithSpinner } from "../../components/common";
 
 import { MHTitle } from "../../utils/title";
 import { IItemProps, LibraryItemHeader } from "./structure/header";

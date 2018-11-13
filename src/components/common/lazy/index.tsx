@@ -4,7 +4,7 @@ import { Module, ReactComponent } from "../../../types/types";
 
 import { default as Loadable } from "react-loadable";
 import { createSpinningLoader, ISpinningLoaderProps, LoadingComponent } from "./loaders";
-import { DataComponent, IDataComponentProps } from "./utils";
+import DataComponent, { IDataComponentProps } from "./utils";
 
 /** the timeout for all loaders */
 const timeout = 10000;

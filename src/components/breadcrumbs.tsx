@@ -4,7 +4,7 @@ import { IApiObject, IReference, ISourceReference } from "../api";
 import { AnyToRef } from "../api/utils";
 
 import { Breadcrumb } from "semantic-ui-react";
-import { Nav } from "../components/common/nav";
+import { Nav } from "../components/common";
 import { encodeLibraryLink } from "../routes/library/structure/links";
 
 /** renders a full list of BreadCrumbs by iterating over the reference */

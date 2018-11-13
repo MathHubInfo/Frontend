@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import MonospaceContainer from "../../components/common/monospace";
+import { MonospaceContainer } from "../../components/common";
 
 import { Container, Header } from "semantic-ui-react";
 import { MHTitle } from "../../utils/title";

@@ -2,8 +2,7 @@ import * as React from "react";
 
 import { Button, Container, Divider, Dropdown, Grid, Header, Input, Popup } from "semantic-ui-react";
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
-import { LoadWithSpinner } from "../../components/common/lazy";
-import { MathHTML } from "../../components/common/mathhtml";
+import { LoadWithSpinner, MathHTML } from "../../components/common";
 import { IMathHubContext, withContext } from "../../context";
 
 export class Dictionary extends React.Component<{}, {}> {

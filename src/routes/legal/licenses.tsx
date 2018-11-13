@@ -1,9 +1,8 @@
 import * as React from "react";
 
-import MonospaceContainer from "../../components/common/monospace";
+import { LoadWithSpinner, MonospaceContainer } from "../../components/common";
 
 import { Container, Header } from "semantic-ui-react";
-import { LoadWithSpinner } from "../../components/common/lazy";
 import { MHTitle } from "../../utils/title";
 
 export class Licenses extends React.Component<{}, {}> {

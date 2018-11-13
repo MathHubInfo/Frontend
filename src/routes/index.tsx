@@ -1,4 +1,4 @@
-import { IRouteDict } from "../components/common/urls";
+import { IRouteDict } from "../components/common";
 
 export {makeLibraryRouteSpec as urlMaker} from "./library/structure/links";
 

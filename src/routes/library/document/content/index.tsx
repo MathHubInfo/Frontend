@@ -5,7 +5,7 @@ import {
     IDocument, IDocumentRef,
     IModuleRef,
     INarrativeElement } from "../../../../api";
-import { Nav } from "../../../../components/common/nav";
+import { Nav } from "../../../../components/common";
 import { encodeLibraryLink } from "../../structure/links";
 
 import ModuleContentInline from "./module";

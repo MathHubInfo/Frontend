@@ -9,7 +9,7 @@ import { withContext } from "../../../context";
 
 import { Button, Container, Divider } from "semantic-ui-react";
 import { LibraryItem } from "..";
-import { Nav } from "../../../components/common/nav";
+import { Nav } from "../../../components/common";
 import NarrativeElementContentList from "../document/content";
 
 /** a single archive */

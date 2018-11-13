@@ -4,7 +4,7 @@ import * as React from "react";
 import { Popup } from "semantic-ui-react";
 import { HTML } from "../../api";
 
-export interface IMathHTMLProps {
+interface IMathHTMLProps {
     /** the html (string) that should be rendered */
     children: HTML;
 
@@ -24,7 +24,7 @@ export interface IMathHTMLProps {
 /**
  * An element representing mathmatically relevant text based on html input
  */
-export class MathHTML extends React.PureComponent<IMathHTMLProps> {
+export default class MathHTML extends React.PureComponent<IMathHTMLProps> {
     constructor(props: IMathHTMLProps) {
         super(props);
 
@@ -81,8 +81,6 @@ export class MathHTML extends React.PureComponent<IMathHTMLProps> {
 }
 
 /** renders a single math element */
-export class RenderedMath extends React.PureComponent<{children: string}> {
-    public render() {
-        return <span dangerouslySetInnerHTML={{__html: this.props.children}} />;
-    }
+function RenderedMath(props: {children: string}) {
+    return <span dangerouslySetInnerHTML={{__html: props.children}} />;
 }

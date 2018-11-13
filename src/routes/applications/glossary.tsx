@@ -3,8 +3,7 @@ import * as React from "react";
 import { Button, Card, Container, Divider, Grid, Header, Label, Tab } from "semantic-ui-react";
 
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
-import { LoadWithSpinner } from "../../components/common/lazy";
-import { MathHTML } from "../../components/common/mathhtml";
+import { LoadWithSpinner, MathHTML } from "../../components/common";
 import { IMathHubContext, withContext } from "../../context";
 
 export class Glossary extends React.Component<{}, {}> {

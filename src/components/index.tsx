@@ -11,8 +11,7 @@ import { Header } from "./fragments/header";
 import { Context, makeContext } from "../context";
 import { IMathHubClientConfig, urls } from "../context/config";
 
-import ScrollToTop from "./common/scroll";
-import DictToSwitch from "./common/urls";
+import { DictToSwitch, ScrollToTop } from "./common";
 
 import { routes, urlMaker } from "../routes";
 
