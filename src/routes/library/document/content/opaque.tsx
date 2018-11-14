@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Card } from "semantic-ui-react";
 
-import { IOpaqueElement } from "../../../../api";
+import { IOpaqueElement } from "../../../../clients";
 import { HTML } from "../../../../components/fragments";
 
 export default class OpaqueContentInline extends React.Component<{element: IOpaqueElement}> {

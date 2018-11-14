@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Tab } from "semantic-ui-react";
 
-import { IDocument } from "../../../api";
+import { IDocument } from "../../../clients";
 import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";

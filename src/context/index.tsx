@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { ReactComponent } from "../types/types";
 
-import { Client, createClient } from "../api";
+import { Client, createClient } from "../clients";
 import { Title } from "../components/fragments";
 import { IMathHubConfig } from "./config";
 

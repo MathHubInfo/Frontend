@@ -4,7 +4,7 @@ import { Card, Label } from "semantic-ui-react";
 import {
     IDocument, IDocumentRef,
     IModuleRef,
-    INarrativeElement } from "../../../../api";
+    INarrativeElement } from "../../../../clients";
 import { Nav } from "../../../../components/common";
 import { encodeLibraryLink } from "../../structure/links";
 

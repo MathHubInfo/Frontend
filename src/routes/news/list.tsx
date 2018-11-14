@@ -6,7 +6,7 @@ import { RouteComponentProps } from "react-router";
 import { withContext } from "../../context";
 import { ILibraryRouteProps } from "../library/structure/links";
 
-import NewsClient, { INewsItem } from "../../api/news";
+import NewsClient, { INewsItem } from "../../clients/news";
 
 import { Nav } from "../../components/common";
 import { Title } from "../../components/fragments";

@@ -4,7 +4,7 @@ import { Button, Card, Icon } from "semantic-ui-react";
 
 import {
     IModule,
-    IModuleRef } from "../../../../api";
+    IModuleRef } from "../../../../clients";
 import { IMathHubContext, withContext } from "../../../../context";
 
 import { HTML } from "../../../../components/fragments";

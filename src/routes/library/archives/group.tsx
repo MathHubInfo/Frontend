@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 
-import { IGroup, ISourceReference } from "../../../api";
-import { GroupObjectToRef } from "../../../api/utils";
+import { IGroup, ISourceReference } from "../../../clients";
+import { GroupObjectToRef } from "../../../clients/utils";
 
 import { withContext } from "../../../context";
 

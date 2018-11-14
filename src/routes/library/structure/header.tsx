@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Container, Header, Label } from "semantic-ui-react";
 
-import { HTML as HTMLt, IApiObject, ISourceReference, IStatistic } from "../../../api";
+import { HTML as HTMLt, IApiObject, ISourceReference, IStatistic } from "../../../clients";
 
 import { StatisticsTableDropdown } from "../structure/statistics";
 

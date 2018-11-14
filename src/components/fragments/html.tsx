@@ -2,7 +2,7 @@ import { default as Parser, TNodeList, TReactElement } from "../../utils/react-h
 
 import * as React from "react";
 import { Popup } from "semantic-ui-react";
-import { HTML as HTMLt } from "../../api";
+import { HTML as HTMLt } from "../../clients";
 
 interface IMathHTMLProps {
     /** the html (string) that should be rendered */

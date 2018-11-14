@@ -1,4 +1,4 @@
-import { IApiObject } from "../../../api";
+import { IApiObject } from "../../../clients";
 
 /** properties for a library route */
 import { RouteComponentProps } from "react-router";

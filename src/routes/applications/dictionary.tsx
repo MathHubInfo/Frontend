@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Button, Container, Divider, Dropdown, Grid, Header, Input, Popup } from "semantic-ui-react";
 
-import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
+import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients";
 import { IMathHubContext, withContext } from "../../context";
 
 import { HTML } from "../../components/fragments";

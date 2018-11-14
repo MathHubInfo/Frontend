@@ -6,7 +6,7 @@ import { ILibraryRouteProps } from "../library/structure/links";
 
 import { RouteComponentProps } from "react-router";
 
-import NewsClient, { INewsItem } from "../../api/news";
+import NewsClient, { INewsItem } from "../../clients/news";
 
 import { Title } from "../../components/fragments";
 import { LoadWithSpinner } from "../../components/loaders";

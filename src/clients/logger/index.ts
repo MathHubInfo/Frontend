@@ -1,5 +1,8 @@
 import Axios from "axios";
 
+/**
+ * A client to retrieve logs from MMT
+ */
 export default class LoggerClient {
     /**
      * Creates a new LoggerClient
@@ -67,10 +70,16 @@ export default class LoggerClient {
 
 /** an interface for a log entry */
 export interface ILogEntry {
+    /** a unique id */
     uuid: string;
+    /** unix epoch time of creation */
     time: number;
+    /** name of the creating function */
     caller: string;
+    /** indentation */
     indent: number;
+    /** log prefix */
     prefix: string;
+    /** newline-seperated content */
     parts: string[];
 }

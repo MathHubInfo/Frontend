@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 
-import { ITag } from "../../../api";
+import { ITag } from "../../../clients";
 import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";

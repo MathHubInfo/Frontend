@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { ILibraryRouteProps } from "../structure/links";
 
-import { IGroupRef } from "../../../api";
+import { IGroupRef } from "../../../clients";
 import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";

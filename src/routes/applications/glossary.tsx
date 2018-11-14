@@ -4,7 +4,7 @@ import { Button, Card, Container, Divider, Grid, Header, Label, Tab } from "sema
 
 import flatten2 from "../../utils/flatten";
 
-import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
+import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients";
 
 import { HTML, Title } from "../../components/fragments";
 import { LoadWithSpinner } from "../../components/loaders";

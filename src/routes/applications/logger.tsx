@@ -4,7 +4,7 @@ import { Input, InputOnChangeData, Table } from "semantic-ui-react";
 
 import { debounce } from "ts-debounce";
 
-import LoggerClient, { ILogEntry } from "../../api/logger";
+import LoggerClient, { ILogEntry } from "../../clients/logger";
 
 import { IMathHubContext, withContext } from "../../context";
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Card } from "semantic-ui-react";
 
-import { IArchiveRef, IGroupRef } from "../../../api";
+import { IArchiveRef, IGroupRef } from "../../../clients";
 
 import { encodeLibraryLink } from "../structure/links";
 

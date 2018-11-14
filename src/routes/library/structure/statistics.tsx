@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import {  Container, Dropdown, Popup, Table } from "semantic-ui-react";
-import { IStatistic } from "../../../api";
+import { IStatistic } from "../../../clients";
 
 import statsKeys from "../../../../assets/keys.json";
 

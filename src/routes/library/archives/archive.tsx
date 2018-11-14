@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { decodeLibraryLinkID, encodeLibraryLink, ILibraryRouteProps } from "../structure/links";
 
-import { IArchive, ISourceReference, ITagRef } from "../../../api";
-import { ArchiveObjectToRef } from "../../../api/utils";
+import { IArchive, ISourceReference, ITagRef } from "../../../clients";
+import { ArchiveObjectToRef } from "../../../clients/utils";
 
 import { withContext } from "../../../context";
 
