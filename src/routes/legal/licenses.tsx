@@ -1,11 +1,11 @@
 import * as React from "react";
 
 import { LoadWithSpinner, MonospaceContainer } from "../../components/common";
+import { Title } from "../../components/fragments";
 
 import { Container, Header } from "semantic-ui-react";
-import { MHTitle } from "../../utils/title";
 
-export class Licenses extends React.Component<{}, {}> {
+export default class Licenses extends React.Component<{}, {}> {
     constructor(props: {}) {
         super(props);
         this.loadContent = this.loadContent.bind(this);
@@ -33,7 +33,7 @@ function LicensesDisplay(props: {license: string, notices: string}) {
     const {license, notices} = props;
 
     return (
-        <MHTitle title="Licenses">
+        <Title title="Licenses">
             <>
                 <Container text>
                     <Header as="h2">MathHub Licenses</Header>
@@ -59,6 +59,6 @@ function LicensesDisplay(props: {license: string, notices: string}) {
                     <MonospaceContainer noTouch>{notices}</MonospaceContainer>
                 </Container>
             </>
-        </MHTitle>
+        </Title>
     );
 }

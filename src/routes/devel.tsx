@@ -1,11 +1,12 @@
 import * as React from "react";
+import { Icon, Message } from "semantic-ui-react";
 
 import { Context } from "../context";
 
 import { delay } from "../utils/promises";
 
-import { Icon, Message } from "semantic-ui-react";
-import { CreateSpinningLoader as Loader, MathHTML, MonospaceContainer } from "../components/common";
+import { CreateSpinningLoader as Loader, MonospaceContainer } from "../components/common";
+import { HTML } from "../components/fragments";
 
 export function Devel(props: {}) {
     return (
@@ -51,7 +52,7 @@ export function Devel(props: {}) {
 function SampleMath() {
     // tslint:disable-next-line:max-line-length
     const theMath = "<math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><msub><mi>a</mi><mrow><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>b</mi><mrow><mn>1</mn></mrow></msub></mrow></math>";
-    return <MathHTML>{theMath}</MathHTML>;
+    return <HTML>{theMath}</HTML>;
 }
 
 const loadTimeDelay = 5000;

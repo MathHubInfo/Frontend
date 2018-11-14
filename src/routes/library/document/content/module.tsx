@@ -1,11 +1,14 @@
 import * as React from "react";
 
 import { Button, Card, Icon } from "semantic-ui-react";
+
 import {
     IModule,
     IModuleRef } from "../../../../api";
-import { LoadWithSpinner, MathHTML } from "../../../../components/common";
 import { IMathHubContext, withContext } from "../../../../context";
+
+import { LoadWithSpinner } from "../../../../components/common";
+import { HTML } from "../../../../components/fragments";
 
 export default class ModuleContentInline extends React.Component<{module: IModuleRef}, {expanded: boolean}> {
     constructor(props: {module: IModuleRef}) {
@@ -70,7 +73,7 @@ const ModuleContentExpanded = withContext<{module: IModuleRef}>(
 function ModuleViewFullExpanded(props: {module: IModule}) {
     return (
         <Card.Content>
-            <MathHTML as="div">{props.module.presentation}</MathHTML>
+            <HTML as="div">{props.module.presentation}</HTML>
         </Card.Content>
     );
 }

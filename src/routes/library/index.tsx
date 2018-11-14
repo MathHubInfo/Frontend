@@ -3,7 +3,7 @@ import * as React from "react";
 import { Container, Divider } from "semantic-ui-react";
 import { LoadWithSpinner } from "../../components/common";
 
-import { MHTitle } from "../../utils/title";
+import { Title } from "../../components/fragments";
 import { IItemProps, LibraryItemHeader } from "./structure/header";
 
 interface ILibraryItemProps<T> {
@@ -25,7 +25,7 @@ export class LibraryItem<T> extends React.Component<ILibraryItemProps<T>> {
     public render() {
         const { children, promise, props, title } = this.props;
         return (
-            <MHTitle title={title}>
+            <Title title={title}>
                 <LoadWithSpinner
                     title={title}
                     promise={promise}
@@ -36,7 +36,7 @@ export class LibraryItem<T> extends React.Component<ILibraryItemProps<T>> {
                     <Container>{children(item)}</Container>
                 </>}
                 </LoadWithSpinner>
-            </MHTitle>
+            </Title>
         );
     }
 }

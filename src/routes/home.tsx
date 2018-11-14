@@ -1,13 +1,10 @@
 import * as React from "react";
-
 import { Link } from "react-router-dom";
 
 import { Button, Divider, Grid, Image } from "semantic-ui-react";
 
-import { LoadWithSpinner, MathHTML } from "../components/common";
-// import { Nav } from "../components/common";
-
-import { MHTitle } from "../utils/title";
+import { LoadWithSpinner } from "../components/common";
+import { HTML, Title } from "../components/fragments";
 
 import { encodeLibraryLink } from "./library/structure/links";
 
@@ -17,12 +14,12 @@ export class Home extends React.Component<{}, {}> {
         this.loadContent = this.loadContent.bind(this);
     }
 
-    private getHomeText() { return import("../../assets/content/HOME.txt").then((m) => m.default); }
+    private async getHomeText() { return (await import("../../assets/content/HOME.txt")).default; }
     private loadContent() { return Promise.all([this.getHomeText()]); }
 
     public render() {
         return (
-            <>
+            <Title title="Home">
                 <LoadWithSpinner promise={this.loadContent} title="HOME">{
                     ([h]) => <HomeDisplay content={h} />}
                 </LoadWithSpinner>
@@ -53,7 +50,7 @@ export class Home extends React.Component<{}, {}> {
                         </a>
                     </Grid.Column>
                 </Grid>
-            </>
+            </Title>
         );
     }
 }
@@ -63,7 +60,7 @@ class HomeDisplay extends React.Component<{content: string}> {
         const {content} = this.props;
 
         return (
-            <MHTitle title="Home"><MathHTML renderReferences>{content}</MathHTML></MHTitle>
+            <Title title="Home"><HTML renderReferences>{content}</HTML></Title>
         );
     }
 }

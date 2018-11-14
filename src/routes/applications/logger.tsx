@@ -1,11 +1,14 @@
 import * as React from "react";
 
-import LoggerClient, { ILogEntry } from "../../api/logger";
-
 import { Input, InputOnChangeData, Table } from "semantic-ui-react";
-import { IMathHubContext, withContext } from "../../context";
 
 import { debounce } from "ts-debounce";
+
+import LoggerClient, { ILogEntry } from "../../api/logger";
+
+import { IMathHubContext, withContext } from "../../context";
+
+import { Title } from "../../components/fragments";
 
 class Logger extends React.Component<{context: IMathHubContext}, {entries: ILogEntry[], filter: string}> {
     /** the client to receive data from */
@@ -39,20 +42,22 @@ class Logger extends React.Component<{context: IMathHubContext}, {entries: ILogE
 
     public render() {
         return (
-            <Table celled>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>Time</Table.HeaderCell>
-                        <Table.HeaderCell>
-                            <Input placeholder="Prefix" onChange={this.changeFilter} />
-                        </Table.HeaderCell>
-                        <Table.HeaderCell>Message</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    <LogListView filter={this.state.filter} entries={this.state.entries} />
-                </Table.Body>
-            </Table>
+            <Title title="Logger">
+                <Table celled>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Time</Table.HeaderCell>
+                            <Table.HeaderCell>
+                                <Input placeholder="Prefix" onChange={this.changeFilter} />
+                            </Table.HeaderCell>
+                            <Table.HeaderCell>Message</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        <LogListView filter={this.state.filter} entries={this.state.entries} />
+                    </Table.Body>
+                </Table>
+            </Title>
         );
     }
 }

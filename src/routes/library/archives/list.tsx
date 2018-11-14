@@ -1,8 +1,12 @@
 import * as React from "react";
 import { Card } from "semantic-ui-react";
+
 import { IArchiveRef, IGroupRef } from "../../../api";
-import { MathHTML, Nav } from "../../../components/common";
+
 import { encodeLibraryLink } from "../structure/links";
+
+import { Nav } from "../../../components/common";
+import { HTML } from "../../../components/fragments";
 
 type ContentRef = IGroupRef | IArchiveRef;
 
@@ -26,8 +30,8 @@ class ContentItemRef extends React.Component<{item: ContentRef}> {
         return (
             <Card>
                 <Card.Content>
-                    <MathHTML as={Card.Header} extra={{as: Nav, to: encodeLibraryLink(item)}}>{item.title}</MathHTML>
-                    <MathHTML as={Card.Description} renderReferences>{item.teaser}</MathHTML>
+                    <HTML as={Card.Header} extra={{as: Nav, to: encodeLibraryLink(item)}}>{item.title}</HTML>
+                    <HTML as={Card.Description} renderReferences>{item.teaser}</HTML>
                 </Card.Content>
             </Card>
         );

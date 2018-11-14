@@ -2,11 +2,11 @@ import { default as Parser, TNodeList, TReactElement } from "../../utils/react-h
 
 import * as React from "react";
 import { Popup } from "semantic-ui-react";
-import { HTML } from "../../api";
+import { HTML as HTMLt } from "../../api";
 
 interface IMathHTMLProps {
     /** the html (string) that should be rendered */
-    children: HTML;
+    children: HTMLt;
 
     /** should we render semantic references, false as default */
     renderReferences?: boolean;
@@ -24,7 +24,7 @@ interface IMathHTMLProps {
 /**
  * An element representing mathmatically relevant text based on html input
  */
-export default class MathHTML extends React.PureComponent<IMathHTMLProps> {
+export default class HTML extends React.PureComponent<IMathHTMLProps> {
     constructor(props: IMathHTMLProps) {
         super(props);
 

@@ -1,2 +1,2 @@
-export {Imprint} from "./imprint";
-export {Licenses} from "./licenses";
+export {default as Imprint} from "./imprint";
+export {default as Licenses} from "./licenses";

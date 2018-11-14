@@ -3,7 +3,7 @@ import * as React from "react";
 import { Card } from "semantic-ui-react";
 
 import { IOpaqueElement } from "../../../../api";
-import { MathHTML } from "../../../../components/common";
+import { HTML } from "../../../../components/fragments";
 
 export default class OpaqueContentInline extends React.Component<{element: IOpaqueElement}> {
     public render() {
@@ -13,7 +13,7 @@ export default class OpaqueContentInline extends React.Component<{element: IOpaq
         return (
             <Card>
                 <Card.Content>
-                    <MathHTML as={Card.Description}>{element.content}</MathHTML>
+                    <HTML as={Card.Description}>{element.content}</HTML>
                 </Card.Content>
             </Card>
         );

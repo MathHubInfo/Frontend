@@ -3,19 +3,19 @@ import * as React from "react";
 import { MonospaceContainer } from "../../components/common";
 
 import { Container, Header } from "semantic-ui-react";
-import { MHTitle } from "../../utils/title";
+import { Title } from "../../components/fragments";
 
 import legalText from "../../../assets/content/imprint.txt";
 
-export function Imprint() {
+export default function Imprint() {
     return (
-        <MHTitle title="Imprint">
+        <Title title="Imprint">
             <>
                 <Container text>
                     <Header as="h2">Imprint</Header>
                     <MonospaceContainer noTouch>{legalText}</MonospaceContainer>
                 </Container>
             </>
-        </MHTitle>
+        </Title>
     );
 }

@@ -1,12 +1,12 @@
 import * as React from "react";
 
 import { Container, Header, Label } from "semantic-ui-react";
-import { MathHTML } from "../../../components/common";
 
-import { HTML, IApiObject, ISourceReference, IStatistic } from "../../../api";
+import { HTML as HTMLt, IApiObject, ISourceReference, IStatistic } from "../../../api";
 
-import { MHRefBreadCrumbs } from "../../../components/fragments";
 import { StatisticsTableDropdown } from "../structure/statistics";
+
+import { HTML, MHRefBreadCrumbs } from "../../../components/fragments";
 
 import { JupyterButton, SourceButton } from "./external";
 
@@ -28,7 +28,7 @@ export interface IItemProps {
     statistics?: IStatistic[];
 
     /** the description of this element (if any) */
-    description?: HTML;
+    description?: HTMLt;
 
     /** the list of responsible people (if any) */
     responsible?: string[];
@@ -43,13 +43,13 @@ export class LibraryItemHeader extends React.Component<{itemProps: IItemProps}> 
             <>
                 <MHRefBreadCrumbs to={crumbs} />
                 <Container>
-                    <MathHTML as={Header} extra={{as: "h1"}}>{title}</MathHTML>
+                    <HTML as={Header} extra={{as: "h1"}}>{title}</HTML>
                     {statistics ? <StatisticsTableDropdown statistics={statistics} /> : null}
                     {jupyter ? <JupyterButton source={jupyter} /> : null}
                     {source ? <SourceButton source={source} /> : null}
                 </Container>
 
-                {description ? <MathHTML renderReferences>{description}</MathHTML> : null}
+                {description ? <HTML renderReferences>{description}</HTML> : null}
                 {responsible ? <Container>
                     <b>Responsible:</b> {responsible.map((p) => <Label key={p}>{p}</Label>)}
                 </Container> : null}

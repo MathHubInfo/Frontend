@@ -2,15 +2,19 @@ import * as React from "react";
 
 import { Button, Card, Container, Divider, Grid, Header, Label, Tab } from "semantic-ui-react";
 
-import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
-import { LoadWithSpinner, MathHTML } from "../../components/common";
-import { IMathHubContext, withContext } from "../../context";
 import flatten2 from "../../utils/flatten";
+
+import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
+
+import { LoadWithSpinner } from "../../components/common";
+import { HTML, Title } from "../../components/fragments";
+
+import { IMathHubContext, withContext } from "../../context";
 
 export class Glossary extends React.Component<{}, {}> {
     public render() {
         return (
-            <>
+            <Title title="Glossary">
                 <Container text>
                     <Header as="h1">
                         <div>Glossary</div>
@@ -18,7 +22,7 @@ export class Glossary extends React.Component<{}, {}> {
                 </Container>
                 <Divider />
                 <GlossaryEntryTabs />
-            </>
+            </Title>
         );
     }
 }
@@ -131,7 +135,7 @@ class GlossaryEntry extends React.Component<{
     private showDefinition(definition?: string) {
         if (this.state.def) {
             return (
-                <MathHTML>{definition === undefined ? "" : definition}</MathHTML>
+                <HTML>{definition === undefined ? "" : definition}</HTML>
             );
         }
         return null;
@@ -143,7 +147,7 @@ class GlossaryEntry extends React.Component<{
         const synonyms = entry.kwd[language]!.filter((k) => k !== name).join(", ");
         if (this.state.syn && synonyms !== undefined) {
             return (
-                <MathHTML >{synonyms.length === 0 ? "" : `synonyms: ${synonyms}`}</MathHTML>
+                <HTML>{synonyms.length === 0 ? "" : `synonyms: ${synonyms}`}</HTML>
             );
         }
         return null;
@@ -160,7 +164,7 @@ class GlossaryEntry extends React.Component<{
                         <Card.Header>
                             <Grid>
                                 <Grid.Column width={11}>
-                                    <MathHTML renderMath>{name}</MathHTML>
+                                    <HTML renderMath>{name}</HTML>
                                 </Grid.Column>
                                 <Grid.Column width={5}>
                                     <Container textAlign={"right"}>
@@ -183,7 +187,7 @@ class GlossaryEntry extends React.Component<{
                     <Card.Header>
                         <Grid>
                             <Grid.Column width={11}>
-                                <MathHTML renderMath>{name}</MathHTML>
+                                <HTML renderMath>{name}</HTML>
                                 <Button size={"small"} style={{ marginLeft: "1.5em" }} onClick={this.handleButtonClick}>
                                     synonyms
                                 </Button>

@@ -4,6 +4,8 @@ import { Button, Table } from "semantic-ui-react";
 
 import statsKeys from "../../../assets/stats.json";
 
+import { Title } from "../../components/fragments";
+
 export class Keys extends React.Component<{}> {
     public state = { more: false };
 
@@ -15,7 +17,7 @@ export class Keys extends React.Component<{}> {
     public render() {
         const text = this.state.more ? "less" : "more";
         return (
-            <>
+            <Title title="Keys">
                 <Button onClick={this.handleClick}>show {text}</Button>
                 <Table>
                     <Table.Row active>
@@ -24,7 +26,7 @@ export class Keys extends React.Component<{}> {
                     </Table.Row>
                         <Content more={this.state.more} />
                 </Table>
-            </>
+            </Title>
         );
     }
 }

@@ -9,9 +9,9 @@ import { ILibraryRouteProps } from "../library/structure/links";
 import NewsClient, { INewsItem } from "../../api/news";
 
 import { LoadWithSpinner, Nav } from "../../components/common";
+import { Title } from "../../components/fragments";
 
 import { Button, Card } from "semantic-ui-react";
-import { MHTitle } from "../../utils/title";
 
 class NewsList extends React.Component<ILibraryRouteProps> {
     /** the client to receive data from */
@@ -29,14 +29,14 @@ class NewsList extends React.Component<ILibraryRouteProps> {
 
     public render() {
         return (
-            <MHTitle title={"News"}>
+            <Title title={"News"}>
                 <LoadWithSpinner
                     title={"News"}
                     promise={this.getNews}
                     errorMessage={true}
                 >{(items: INewsItem[]) => <NewsItemList items={items} />}
                 </LoadWithSpinner>
-            </MHTitle>
+            </Title>
         );
     }
 }

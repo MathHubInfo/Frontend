@@ -1,9 +1,12 @@
 import * as React from "react";
 
 import { Button, Container, Divider, Dropdown, Grid, Header, Input, Popup } from "semantic-ui-react";
+
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
-import { LoadWithSpinner, MathHTML } from "../../components/common";
 import { IMathHubContext, withContext } from "../../context";
+
+import { LoadWithSpinner } from "../../components/common";
+import { HTML } from "../../components/fragments";
 
 export class Dictionary extends React.Component<{}, {}> {
     public render() {
@@ -102,7 +105,7 @@ class MathDictionary extends React.Component<{ glossary: IGlossaryEntry[] }> {
                     <Grid.Column width={8}>
                         <Popup
                             trigger={<div>{this.state.output}</div>}
-                            content={< MathHTML children={this.state.def} renderMath />}
+                            content={<HTML children={this.state.def} renderMath />}
                         />
                     </Grid.Column>
                 </Grid>

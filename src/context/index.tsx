@@ -3,7 +3,7 @@ import * as React from "react";
 import { ReactComponent } from "../types/types";
 
 import { Client, createClient } from "../api";
-import { MHTitle } from "../utils/title";
+import { Title } from "../components/fragments";
 import { IMathHubConfig } from "./config";
 
 /** Represents a global context for MathHub */
@@ -34,9 +34,9 @@ export class TitledWithContext extends React.PureComponent<ITitledWithContextPro
     public render() {
         const { title, children } = this.props;
         return (
-            <MHTitle title={title}>
+            <Title title={title}>
                 <Context.Consumer>{children}</Context.Consumer>
-            </MHTitle>
+            </Title>
         );
     }
 }

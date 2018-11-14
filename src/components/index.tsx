@@ -3,9 +3,7 @@ import * as React from "react";
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Container } from "semantic-ui-react";
 
-import { MHTitle } from "../utils/title";
-
-import { Footer, Header } from "./fragments";
+import { Footer, Header, Title } from "./fragments";
 
 import { Context, makeContext } from "../context";
 import { IMathHubClientConfig, urls } from "../context/config";
@@ -19,7 +17,7 @@ export function MathHub(client: IMathHubClientConfig) {
 
     return (
         <Context.Provider value={makeContext(theConfig)}>
-            <MHTitle>
+            <Title>
                 <MathHubRouter BROWSER_ROUTER={client.BROWSER_ROUTER}>
                     <ScrollToTop>
                         <>
@@ -33,7 +31,7 @@ export function MathHub(client: IMathHubClientConfig) {
                         </>
                     </ScrollToTop>
                 </MathHubRouter>
-            </MHTitle>
+            </Title>
         </Context.Provider>
     );
 }

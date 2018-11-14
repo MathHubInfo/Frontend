@@ -9,7 +9,7 @@ import { RouteComponentProps } from "react-router";
 import NewsClient, { INewsItem } from "../../api/news";
 
 import { LoadWithSpinner } from "../../components/common";
-import { MHTitle } from "../../utils/title";
+import { Title } from "../../components/fragments";
 
 class NewsPage extends React.Component<ILibraryRouteProps> {
     /** the client to receive data from */
@@ -44,5 +44,5 @@ function NewsItemPage(props: {item?: INewsItem}) {
         return null; // Doesn't exist
     }
     const { title, content } = props.item;
-    return <MHTitle title={title + "| News"}><div dangerouslySetInnerHTML={{__html: content}} /></MHTitle>;
+    return <Title title={title + "| News"}><div dangerouslySetInnerHTML={{__html: content}} /></Title>;
 }
