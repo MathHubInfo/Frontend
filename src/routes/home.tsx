@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 import { Button, Divider, Grid, Image } from "semantic-ui-react";
 
-import { LoadWithSpinner } from "../components/common";
 import { HTML, Title } from "../components/fragments";
+import { LoadWithSpinner } from "../components/loaders";
 
 import { encodeLibraryLink } from "./library/structure/links";
 

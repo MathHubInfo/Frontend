@@ -1,9 +1,10 @@
 import * as React from "react";
 
 import { Container, Divider } from "semantic-ui-react";
-import { LoadWithSpinner } from "../../components/common";
 
 import { Title } from "../../components/fragments";
+import { LoadWithSpinner } from "../../components/loaders";
+
 import { IItemProps, LibraryItemHeader } from "./structure/header";
 
 interface ILibraryItemProps<T> {

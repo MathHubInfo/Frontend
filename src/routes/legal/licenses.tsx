@@ -1,7 +1,8 @@
 import * as React from "react";
 
-import { LoadWithSpinner, MonospaceContainer } from "../../components/common";
+import { MonospaceContainer } from "../../components/common";
 import { Title } from "../../components/fragments";
+import { LoadWithSpinner } from "../../components/loaders";
 
 import { Container, Header } from "semantic-ui-react";
 

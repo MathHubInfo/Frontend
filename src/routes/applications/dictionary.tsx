@@ -5,8 +5,8 @@ import { Button, Container, Divider, Dropdown, Grid, Header, Input, Popup } from
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
 import { IMathHubContext, withContext } from "../../context";
 
-import { LoadWithSpinner } from "../../components/common";
 import { HTML } from "../../components/fragments";
+import { LoadWithSpinner } from "../../components/loaders";
 
 export class Dictionary extends React.Component<{}, {}> {
     public render() {

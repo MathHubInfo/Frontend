@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { LoadingComponentProps } from "react-loadable";
+
 import ErrorText, { IErrorData } from "./error";
 
 /**

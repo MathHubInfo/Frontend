@@ -1,8 +1,10 @@
 import * as React from "react";
-import { CreateSpinningLoader } from "./lazy";
 
 import { Route, Switch } from "react-router";
+
 import { Module, ReactComponent } from "../../types/types";
+
+import { CreateSpinningLoader } from "../loaders";
 
 /** A dictionary specifying routes */
 export interface IRouteDict {

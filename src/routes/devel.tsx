@@ -5,7 +5,9 @@ import { Context } from "../context";
 
 import { delay } from "../utils/promises";
 
-import { CreateSpinningLoader as Loader, MonospaceContainer } from "../components/common";
+import { MonospaceContainer } from "../components/common";
+import { CreateSpinningLoader as Loader } from "../components/loaders";
+
 import { HTML } from "../components/fragments";
 
 export function Devel(props: {}) {

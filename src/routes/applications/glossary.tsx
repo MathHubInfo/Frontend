@@ -6,8 +6,8 @@ import flatten2 from "../../utils/flatten";
 
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
 
-import { LoadWithSpinner } from "../../components/common";
 import { HTML, Title } from "../../components/fragments";
+import { LoadWithSpinner } from "../../components/loaders";
 
 import { IMathHubContext, withContext } from "../../context";
 

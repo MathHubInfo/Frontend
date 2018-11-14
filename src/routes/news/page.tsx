@@ -8,8 +8,8 @@ import { RouteComponentProps } from "react-router";
 
 import NewsClient, { INewsItem } from "../../api/news";
 
-import { LoadWithSpinner } from "../../components/common";
 import { Title } from "../../components/fragments";
+import { LoadWithSpinner } from "../../components/loaders";
 
 class NewsPage extends React.Component<ILibraryRouteProps> {
     /** the client to receive data from */

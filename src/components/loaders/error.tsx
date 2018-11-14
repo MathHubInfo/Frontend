@@ -34,11 +34,6 @@ export default function ErrorText(props: IErrorData & {message?: string | true})
         );
     } else {
         const message = props.message === true ? error.toString() : (props.message || "");
-
-        return (
-            <>
-                {message}
-            </>
-        );
+        return <>{message}</>;
     }
 }

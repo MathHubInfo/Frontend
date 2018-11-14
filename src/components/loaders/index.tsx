@@ -1,16 +1,17 @@
 import * as React from "react";
 
-import { Module, ReactComponent } from "../../../types/types";
-
 import { default as Loadable } from "react-loadable";
-import { createSpinningLoader, ISpinningLoaderProps, LoadingComponent } from "./loaders";
+
+import { Module, ReactComponent } from "../../types/types";
+
+import { createSpinningLoader, ISpinningLoaderProps, LoadingComponent } from "./loadingUI";
 import DataComponent, { IDataComponentProps } from "./utils";
 
 /** the timeout for all loaders */
 const timeout = 10000;
 
 /** creates a loader for a given component */
-export function CreateLoader<P>(
+function CreateLoader<P>(
     loader: () => Promise<Module<ReactComponent<P> | React.SFC<P>>>,
     loadingFactory: () => typeof LoadingComponent = () => LoadingComponent,
 ): ReactComponent<P> {

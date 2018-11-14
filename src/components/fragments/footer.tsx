@@ -6,7 +6,8 @@ import { IMathHubContext, withContext } from "../../context";
 
 import { Link } from "react-router-dom";
 
-import { Nav, PromiseLoader } from "../common";
+import { Nav } from "../common";
+import { PromiseLoader } from "../loaders";
 
 import { IMMTVersionInfo } from "../../api";
 

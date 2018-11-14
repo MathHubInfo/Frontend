@@ -7,8 +7,8 @@ import {
     IModuleRef } from "../../../../api";
 import { IMathHubContext, withContext } from "../../../../context";
 
-import { LoadWithSpinner } from "../../../../components/common";
 import { HTML } from "../../../../components/fragments";
+import { LoadWithSpinner } from "../../../../components/loaders";
 
 export default class ModuleContentInline extends React.Component<{module: IModuleRef}, {expanded: boolean}> {
     constructor(props: {module: IModuleRef}) {
