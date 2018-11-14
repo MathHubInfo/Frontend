@@ -5,6 +5,7 @@ import { Button, Card, Container, Divider, Grid, Header, Label, Tab } from "sema
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../api";
 import { LoadWithSpinner, MathHTML } from "../../components/common";
 import { IMathHubContext, withContext } from "../../context";
+import flatten2 from "../../utils/flatten";
 
 export class Glossary extends React.Component<{}, {}> {
     public render() {
@@ -42,11 +43,6 @@ const GlossaryEntryTabs = withContext<{}>(class GlossaryEntryTabsC extends React
     }
 });
 
-interface IEntry {
-    name: string;
-    entry: IGlossaryEntry;
-    i: number;
-}
 class GlossaryTab extends React.Component<{ glossary: IGlossaryEntry[] }> {
 
     public state = { activeIndex: 0 };
@@ -60,13 +56,8 @@ class GlossaryTab extends React.Component<{ glossary: IGlossaryEntry[] }> {
         this.setState({ activeIndex });
     }
 
-    private flatten(array: IEntry[][]) {
-        const result: IEntry[] = [];
-        array.forEach((fst) => fst.forEach((snd) => result.push(snd)));
-        return result;
-    }
     private createEntries(glossary: IGlossaryEntry[], language: TKnownLanguages) {
-        return this.flatten(glossary.map((entry) => entry.kwd[language]!.map((name, i) => {
+        return flatten2(glossary.map((entry) => entry.kwd[language]!.map((name, i) => {
             return { name, entry, i };
         }))).sort((l, r) => (l.name > r.name ? 1 : -1));
     }

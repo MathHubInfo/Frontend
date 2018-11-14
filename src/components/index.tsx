@@ -5,8 +5,7 @@ import { Container } from "semantic-ui-react";
 
 import { MHTitle } from "../utils/title";
 
-import { default as Footer } from "./fragments/footer";
-import { Header } from "./fragments/header";
+import { Footer, Header } from "./fragments";
 
 import { Context, makeContext } from "../context";
 import { IMathHubClientConfig, urls } from "../context/config";

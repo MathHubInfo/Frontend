@@ -5,7 +5,7 @@ import { MathHTML } from "../../../components/common";
 
 import { HTML, IApiObject, ISourceReference, IStatistic } from "../../../api";
 
-import { MHRefBreadCrumbs } from "../../../components/breadcrumbs";
+import { MHRefBreadCrumbs } from "../../../components/fragments";
 import { StatisticsTableDropdown } from "../structure/statistics";
 
 import { JupyterButton, SourceButton } from "./external";
