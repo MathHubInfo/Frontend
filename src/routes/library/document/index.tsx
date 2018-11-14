@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Tab } from "semantic-ui-react";
 
-import { IDocument } from "../../../clients";
+import { IDocument } from "../../../clients/mmt/objects";
 import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";
@@ -20,7 +20,7 @@ class Document extends React.Component<ILibraryRouteProps> {
     }
 
     private getID() { return decodeLibraryLinkID(this.props); }
-    private getDocument() { return this.props.context.client.getDocument(this.getID()); }
+    private getDocument() { return this.props.context.mmtClient.getDocument(this.getID()); }
     private getDocumentProps(document: IDocument) {
         const {id: title, sourceRef: source, statistics, tags} = document;
         const crumbs = source || document;

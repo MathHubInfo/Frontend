@@ -1,4 +1,4 @@
-import { EnumKeys, getEnumKeys } from "../utils/enumkeys";
+import { EnumKeys, getEnumKeys } from "../../../utils/enumkeys";
 
 /** This file contains type definitions for all OMDOC types exposed by the MMT API */
 

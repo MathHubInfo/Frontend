@@ -4,7 +4,7 @@ import { Button, Card, Icon } from "semantic-ui-react";
 
 import {
     IModule,
-    IModuleRef } from "../../../../clients";
+    IModuleRef } from "../../../../clients/mmt/objects";
 import { IMathHubContext, withContext } from "../../../../context";
 
 import { HTML } from "../../../../components/fragments";
@@ -53,7 +53,7 @@ const ModuleContentExpanded = withContext<{module: IModuleRef}>(
         }
 
         private getModule(): Promise<IModule> {
-            return this.props.context.client.getModule(this.props.module.id);
+            return this.props.context.mmtClient.getModule(this.props.module.id);
         }
 
         // TODO: Render the presentation properly

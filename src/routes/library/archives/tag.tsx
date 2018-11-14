@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 
-import { ITag } from "../../../clients";
+import { ITag } from "../../../clients/mmt/objects";
 import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";
@@ -19,7 +19,7 @@ class Tag extends React.Component<ILibraryRouteProps> {
     }
 
     private getID() { return decodeLibraryLinkID(this.props); }
-    private getTag() { return this.props.context.client.getTag(this.getID()); }
+    private getTag() { return this.props.context.mmtClient.getTag(this.getID()); }
     private getTagProps(tag: ITag) {
         return {
             title: tag.name,

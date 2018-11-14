@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { ILibraryRouteProps } from "../structure/links";
 
-import { IGroupRef } from "../../../clients";
+import { IGroupRef } from "../../../clients/mmt/objects";
 import { withContext } from "../../../context";
 
 import { LibraryItem } from "..";
@@ -17,7 +17,7 @@ class Library extends React.Component<ILibraryRouteProps> {
         this.getGroupsBody = this.getGroupsBody.bind(this);
     }
 
-    private getGroups() { return this.props.context.client.getGroups(); }
+    private getGroups() { return this.props.context.mmtClient.getGroups(); }
     private getGroupsProps(groups: IGroupRef[]) {
         return {
             title: "Library",

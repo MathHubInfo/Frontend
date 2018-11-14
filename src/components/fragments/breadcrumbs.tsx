@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { IApiObject, IReference, ISourceReference } from "../../clients";
-import { AnyToRef } from "../../clients/utils";
+import { IApiObject, IReference, ISourceReference } from "../../clients/mmt/objects";
+import { AnyToRef } from "../../clients/mmt/objects/utils";
 
 import { Breadcrumb } from "semantic-ui-react";
 import { encodeLibraryLink } from "../../routes/library/structure/links";

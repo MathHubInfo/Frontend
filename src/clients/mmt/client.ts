@@ -1,7 +1,7 @@
 import { IArchive, IDocument, IGlossaryEntry, IGroup, IGroupRef, IMMTVersionInfo,
-         IModule, IReferencable, ITag, URI } from "../objects";
+         IModule, IReferencable, ITag, URI } from "./objects";
 
-export abstract class Client {
+export default abstract class MMTClient {
     /** gets the version of MMT */
     public abstract getMMTVersion(): Promise<IMMTVersionInfo>;
 

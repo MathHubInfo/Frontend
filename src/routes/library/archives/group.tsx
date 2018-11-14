@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../structure/links";
 
-import { IGroup, ISourceReference } from "../../../clients";
-import { GroupObjectToRef } from "../../../clients/utils";
+import { IGroup, ISourceReference } from "../../../clients/mmt/objects";
+import { GroupObjectToRef } from "../../../clients/mmt/objects/utils";
 
 import { withContext } from "../../../context";
 
@@ -21,7 +21,7 @@ class Group extends React.Component<ILibraryRouteProps> {
     }
 
     private getID() { return decodeLibraryLinkID(this.props); }
-    private getGroup() { return this.props.context.client.getGroup(this.getID()); }
+    private getGroup() { return this.props.context.mmtClient.getGroup(this.getID()); }
     private getGroupProps(group: IGroup) {
         const {title, statistics, description, responsible} = group;
         const source: ISourceReference = {

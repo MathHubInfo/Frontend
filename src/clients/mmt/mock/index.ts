@@ -1,4 +1,4 @@
-import { Client } from "./client";
+import MMTClient from "../client";
 
 import {
     IApiObject,
@@ -25,10 +25,10 @@ import {
     URI,
 } from "../objects";
 
-import { IMockDataSet, IMockModule, IMockObject, IMockReference } from "./mockset";
+import { IMockDataSet, IMockModule, IMockObject, IMockReference } from "./set";
 
 /** An API client to MMT that mocks results by resolving them statically from a given datatset */
-export class LazyMockClient extends Client {
+export class LazyMockClient extends MMTClient {
 
     constructor(datasetFactory: () => Promise<IMockDataSet>) {
         super();
@@ -528,7 +528,7 @@ export class LazyMockClient extends Client {
 export class MockClient extends LazyMockClient {
     constructor() {
         super(async () => {
-            const mock = await import("../../../assets/mock.json");
+            const mock = await import("../../../../assets/mock.json");
             return mock.default as IMockDataSet; // TODO: Fix the errors here
         });
     }

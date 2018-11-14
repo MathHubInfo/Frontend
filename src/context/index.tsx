@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { ReactComponent } from "../types/types";
 
-import { Client, createClient } from "../clients";
+import createMMTClient, { MMTClient } from "../clients/mmt";
 import { Title } from "../components/fragments";
 import { IMathHubConfig } from "./config";
 
 /** Represents a global context for MathHub */
 export interface IMathHubContext {
     config: IMathHubConfig;
-    client: Client;
+    mmtClient: MMTClient;
 }
 
 /** a configuration for MathHub is global */
@@ -19,7 +19,7 @@ export const Context = React.createContext<IMathHubContext>(null!);
 export function makeContext(config: IMathHubConfig): IMathHubContext {
     const clientConfig = config.client;
     return {
-        client: createClient(clientConfig.MMT_URL),
+        mmtClient: createMMTClient(clientConfig.MMT_URL),
         config,
     };
 }

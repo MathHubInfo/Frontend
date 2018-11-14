@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Button, Container, Divider, Dropdown, Grid, Header, Input, Popup } from "semantic-ui-react";
 
-import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients";
+import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients/mmt/objects";
 import { IMathHubContext, withContext } from "../../context";
 
 import { HTML } from "../../components/fragments";
@@ -32,7 +32,7 @@ const Translator = withContext<{}>(class TranslatorC extends React.Component<{co
         this.getGlossary = this.getGlossary.bind(this);
     }
 
-    private getGlossary() { return this.props.context.client.getGlossary(); }
+    private getGlossary() { return this.props.context.mmtClient.getGlossary(); }
 
     public render() {
         return (

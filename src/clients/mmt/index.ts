@@ -1,10 +1,11 @@
-import { Client } from "./client";
+
+import MMTClient from "./client";
+export { default as MMTClient } from "./client";
+
 import { MockClient } from "./mock";
 import { RestClient } from "./rest";
 
-export { Client } from "./client";
-
 /** creates a new client or mock client */
-export function createClient(url: string): Client {
+export default function createMMTClient(url: string): MMTClient {
     return url !== "" ? new RestClient(url) : new MockClient();
 }

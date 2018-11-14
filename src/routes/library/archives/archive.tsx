@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { decodeLibraryLinkID, encodeLibraryLink, ILibraryRouteProps } from "../structure/links";
 
-import { IArchive, ISourceReference, ITagRef } from "../../../clients";
-import { ArchiveObjectToRef } from "../../../clients/utils";
+import { IArchive, ISourceReference, ITagRef } from "../../../clients/mmt/objects";
+import { ArchiveObjectToRef } from "../../../clients/mmt/objects/utils";
 
 import { withContext } from "../../../context";
 
@@ -23,7 +23,7 @@ class Archive extends React.Component<ILibraryRouteProps> {
     }
 
     private getID() { return decodeLibraryLinkID(this.props); }
-    private getArchive() { return this.props.context.client.getArchive(this.getID()); }
+    private getArchive() { return this.props.context.mmtClient.getArchive(this.getID()); }
     private getArchiveProps(archive: IArchive) {
         const {title, version, statistics, description, responsible} = archive;
         const source: ISourceReference = {

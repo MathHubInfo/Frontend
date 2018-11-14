@@ -4,7 +4,7 @@ import { Button, Card, Container, Divider, Grid, Header, Label, Tab } from "sema
 
 import flatten2 from "../../utils/flatten";
 
-import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients";
+import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients/mmt/objects";
 
 import { HTML, Title } from "../../components/fragments";
 import { LoadWithSpinner } from "../../components/loaders";
@@ -34,7 +34,7 @@ const GlossaryEntryTabs = withContext<{}>(class GlossaryEntryTabsC extends React
         this.getGlossary = this.getGlossary.bind(this);
     }
 
-    private getGlossary() { return this.props.context.client.getGlossary(); }
+    private getGlossary() { return this.props.context.mmtClient.getGlossary(); }
 
     public render() {
         return (

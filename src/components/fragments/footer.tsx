@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { Nav } from "../common";
 import { PromiseLoader } from "../loaders";
 
-import { IMMTVersionInfo } from "../../clients";
+import { IMMTVersionInfo } from "../../clients/mmt/objects";
 
 // TODO: Rework this to not use WithContext()
 class Footer extends React.Component<{context: IMathHubContext}> {
@@ -23,7 +23,7 @@ class Footer extends React.Component<{context: IMathHubContext}> {
   }
 
   private getMMTVersion() {
-    return this.props.context.client.getMMTVersion();
+    return this.props.context.mmtClient.getMMTVersion();
   }
 
   private getProdFooter() {

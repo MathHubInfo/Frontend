@@ -16,7 +16,7 @@ import {
     ITheoryRef,
     IView,
     IViewRef,
-} from "./objects";
+} from ".";
 
 /** turns any object returned from the API into a reference */
 export function AnyToRef(obj: IApiObject): IReference {

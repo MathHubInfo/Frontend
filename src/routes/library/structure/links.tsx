@@ -1,4 +1,4 @@
-import { IApiObject } from "../../../clients";
+import { IApiObject } from "../../../clients/mmt/objects";
 
 /** properties for a library route */
 import { RouteComponentProps } from "react-router";

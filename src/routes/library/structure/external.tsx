@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ISourceReference } from "../../../clients";
+import { ISourceReference } from "../../../clients/mmt/objects";
 
 import { Button, Icon } from "semantic-ui-react";
 import { IMathHubContext, withContext } from "../../../context";
