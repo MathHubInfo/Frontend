@@ -1,14 +1,15 @@
 import * as React from "react";
 
 import { Container, Dropdown, Image, Input, Menu } from "semantic-ui-react";
-import { Nav } from "../../components/common";
-import { IMathHubConfig } from "../../context/config";
 
-export default class Header extends React.Component<{ config: IMathHubConfig }, {}> {
+import { Nav } from "../../components/common";
+import { IMathHubContext, withContext } from "../../context";
+
+class Header extends React.Component<{ context: IMathHubContext }, {}> {
     private mathHubImage = require("../../../assets/logos/MathHub.svg");
 
     public render() {
-        const { config } = this.props;
+        const { config } = this.props.context;
         return (
             <Menu fixed="top">
                 <Container>
@@ -63,3 +64,5 @@ export default class Header extends React.Component<{ config: IMathHubConfig }, 
         );
     }
 }
+
+export default withContext<{}>(Header);

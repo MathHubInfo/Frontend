@@ -3,7 +3,10 @@ import * as React from "react";
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Container } from "semantic-ui-react";
 
+import { Provider } from "react-slot-fill";
+
 import { Footer, Header, Title } from "./fragments";
+import { Body } from "./layout";
 
 import { Context, makeContext } from "../context";
 import { IMathHubClientConfig, urls } from "../context/config";
@@ -20,15 +23,14 @@ export function MathHub(client: IMathHubClientConfig) {
             <Title>
                 <MathHubRouter BROWSER_ROUTER={client.BROWSER_ROUTER}>
                     <ScrollToTop>
-                        <>
-                            <Header config={theConfig}/>
-
+                        <Provider>
+                            <Header />
+                            <Body />
                             <Container text style={{ marginTop: "7em" }}>
                                 <DictToSwitch routes={routes} urlMaker={urlMaker} />
                             </Container>
-
                             <Footer />
-                        </>
+                        </Provider>
                     </ScrollToTop>
                 </MathHubRouter>
             </Title>
