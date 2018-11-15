@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { Container, Dropdown, Image, Input, Menu } from "semantic-ui-react";
 
-import { Nav } from "../../components/common";
 import { IMathHubContext, withContext } from "../../context";
+import { Nav } from "../common";
 
 class Header extends React.Component<{ context: IMathHubContext }, {}> {
     private mathHubImage = require("../../../assets/logos/MathHub.svg");

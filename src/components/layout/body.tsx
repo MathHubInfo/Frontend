@@ -1,7 +1,19 @@
 import * as React from "react";
 
-export default class Body extends React.Component<{}> {
-    public render() {
-        return null;
-    }
+import { Container, Divider } from "semantic-ui-react";
+
+import * as Slots from "./slots";
+
+export default function Body(props: {}) {
+    return (
+        <>
+            <Container text style={{ marginTop: "7em" }}>
+                TODO: Header here
+                <Divider />
+            </Container>
+            <Container wide>
+                <Slots.Body.Slot />
+            </Container>
+        </>
+    );
 }

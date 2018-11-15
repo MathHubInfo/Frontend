@@ -5,8 +5,8 @@ import { Container } from "semantic-ui-react";
 
 import { Provider } from "react-slot-fill";
 
-import { Footer, Header, Title } from "./fragments";
-import { Body } from "./layout";
+import { Title } from "./fragments";
+import { Body, Footer, Header } from "./layout";
 
 import { Context, makeContext } from "../context";
 import { IMathHubClientConfig, urls } from "../context/config";
