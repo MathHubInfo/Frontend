@@ -45,7 +45,7 @@ interface IMEProps {
     context: IMathHubContext;
 }
 
-const ModuleContentExpanded = withContext<{module: IModuleRef}>(
+const ModuleContentExpanded = withContext(
     class IME extends React.Component<IMEProps> {
         constructor(props: IMEProps) {
             super(props);

@@ -1,8 +1,6 @@
 
 import * as React from "react";
 
-import { RouteComponentProps } from "react-router";
-
 import { withContext } from "../../context";
 import { ILibraryRouteProps } from "../library/structure/links";
 
@@ -42,7 +40,7 @@ class NewsList extends React.Component<ILibraryRouteProps> {
     }
 }
 
-export default withContext<RouteComponentProps<{id: string}>>(NewsList);
+export default withContext(NewsList);
 
 class NewsItemList extends React.Component<{items: INewsItem[]}> {
     public render() {

@@ -27,7 +27,7 @@ export class Glossary extends React.Component<{}, {}> {
     }
 }
 
-const GlossaryEntryTabs = withContext<{}>(class GlossaryEntryTabsC extends React.Component<{context: IMathHubContext}> {
+const GlossaryEntryTabs = withContext(class GlossaryEntryTabsC extends React.Component<{context: IMathHubContext}> {
 
     constructor(props: {context: IMathHubContext}) {
         super(props);

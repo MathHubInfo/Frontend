@@ -4,8 +4,6 @@ import * as React from "react";
 import { withContext } from "../../context";
 import { ILibraryRouteProps } from "../library/structure/links";
 
-import { RouteComponentProps } from "react-router";
-
 import NewsClient, { INewsItem } from "../../clients/news";
 
 import { Title } from "../../components/fragments";
@@ -37,7 +35,7 @@ class NewsPage extends React.Component<ILibraryRouteProps> {
     }
 }
 
-export default withContext<RouteComponentProps<{id: string}>>(NewsPage);
+export default withContext(NewsPage);
 
 function NewsItemPage(props: {item?: INewsItem}) {
     if (typeof props.item === "undefined") {

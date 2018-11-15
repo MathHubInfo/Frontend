@@ -6,6 +6,8 @@ import createMMTClient, { MMTClient } from "../clients/mmt";
 import { Title } from "../components/fragments";
 import { IMathHubConfig } from "./config";
 
+import { Without } from "../types/omit";
+
 /** Represents a global context for MathHub */
 export interface IMathHubContext {
     config: IMathHubConfig;
@@ -41,17 +43,20 @@ export class TitledWithContext extends React.PureComponent<ITitledWithContextPro
     }
 }
 
-export type TWithContext<P> = P & {context: IMathHubContext};
+export type WithoutContext<P extends {context: IMathHubContext}> = Without<P, "context">;
 
 /**
  * Creates a new component that takes an additional context parameter
  * @param WrappedComponent component to wrap
  */
-export function withContext<P = {}>(WrappedComponent: ReactComponent<TWithContext<P>>): ReactComponent<P> {
-    return class WithContextComponent extends React.Component<P> {
+export function withContext
+    <P extends {context: IMathHubContext}>(WrappedComponent: ReactComponent<P>): ReactComponent<WithoutContext<P>> {
+    return class WithContextComponent extends React.Component<WithoutContext<P>> {
+        public static contextType = Context;
+        public context!: IMathHubContext;
         public render() {
             return (
-                <Context.Consumer>{(ctx) => <WrappedComponent context={ctx} {...this.props} />}</Context.Consumer>
+                <WrappedComponent context={this.context} {...this.props} />
             );
         }
     };

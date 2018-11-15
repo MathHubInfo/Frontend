@@ -26,7 +26,7 @@ export class Dictionary extends React.Component<{}, {}> {
 
 const initialState: TKnownLanguages = "en";
 
-const Translator = withContext<{}>(class TranslatorC extends React.Component<{context: IMathHubContext}> {
+const Translator = withContext(class TranslatorC extends React.Component<{context: IMathHubContext}> {
     constructor(props: {context: IMathHubContext}) {
         super(props);
         this.getGlossary = this.getGlossary.bind(this);

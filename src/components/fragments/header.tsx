@@ -65,4 +65,4 @@ class Header extends React.Component<{ context: IMathHubContext }, {}> {
     }
 }
 
-export default withContext<{}>(Header);
+export default withContext(Header);

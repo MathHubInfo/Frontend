@@ -93,7 +93,7 @@ class Footer extends React.Component<{context: IMathHubContext}> {
     }
 }
 
-export default withContext<{}>(Footer);
+export default withContext(Footer);
 
 function FooterLogos() {
   return (

@@ -5,7 +5,7 @@ import { Button, Icon } from "semantic-ui-react";
 import { IMathHubContext, withContext } from "../../../context";
 
 /** A button to view the source reference on GitLab */
-export const SourceButton = withContext<{source: ISourceReference}>
+export const SourceButton = withContext
     ((props: {source: ISourceReference, context: IMathHubContext}) => (
     <ExternalButton
         source={props.source}
@@ -16,7 +16,7 @@ export const SourceButton = withContext<{source: ISourceReference}>
     </ExternalButton>
 ));
 
-export const JupyterButton = withContext<{source: ISourceReference}>
+export const JupyterButton = withContext
     ((props: {source: ISourceReference, context: IMathHubContext}) => (
     <ExternalButton
         source={props.source}
