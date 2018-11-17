@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router";
 
 import { Module, ReactComponent } from "../../types/types";
 
+import { BodyFill } from "../layout";
 import { CreateSpinningLoader } from "../loaders";
 
 /** A dictionary specifying routes */
@@ -48,8 +49,11 @@ export default function DictToSwitch(params: {routes: IRouteDict, urlMaker: (spe
                 const url = (key.startsWith("/") ? key : urlMaker(key));
 
                 // the route for this url, either the given route or a lazy loader for it
-                const route: ReactComponent<any> = isComponentPromise(value) ?
+                const RouteComponent: ReactComponent<any> = isComponentPromise(value) ?
                     CreateSpinningLoader(value.routeTitle, value) : value;
+
+                // wrap the route inside a BodyFill
+                const route = (props: object) => <BodyFill><RouteComponent {...props} /></BodyFill>;
 
                 // and build the route object
                 return <Route key={key} exact path={url} component={route} />;
