@@ -1,8 +1,6 @@
 import * as React from "react";
 
-import { Container, Divider } from "semantic-ui-react";
-
-import { Title } from "../../components/fragments";
+import { MHTitle } from "../../components/fragments";
 import { LoadWithSpinner } from "../../components/loaders";
 
 import { IItemProps, LibraryItemHeader } from "./structure/header";
@@ -26,18 +24,17 @@ export class LibraryItem<T> extends React.Component<ILibraryItemProps<T>> {
     public render() {
         const { children, promise, props, title } = this.props;
         return (
-            <Title title={title}>
+            <MHTitle title={title}>
                 <LoadWithSpinner
                     title={title}
                     promise={promise}
                     errorMessage={true}
                 >{(item: T) => <>
                     <LibraryItemHeader itemProps={props(item)} />
-                    <Divider />
-                    <Container>{children(item)}</Container>
+                    {children(item)}
                 </>}
                 </LoadWithSpinner>
-            </Title>
+            </MHTitle>
         );
     }
 }

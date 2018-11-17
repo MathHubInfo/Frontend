@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import { Button, Divider, Grid, Image } from "semantic-ui-react";
+import { Button, Grid, Image } from "semantic-ui-react";
 
-import { HTML, Title } from "../components/fragments";
+import { HTML, MHText, MHTitle } from "../components/fragments";
 import { LoadWithSpinner } from "../components/loaders";
 
 import { encodeLibraryLink } from "./library/structure/links";
@@ -19,11 +19,12 @@ export class Home extends React.Component<{}, {}> {
 
     public render() {
         return (
-            <Title title="Home">
-                <LoadWithSpinner promise={this.loadContent} title="HOME">{
-                    ([h]) => <HomeDisplay content={h} />}
-                </LoadWithSpinner>
-                <Divider />
+            <MHTitle title="Home">
+                <MHText>
+                    <LoadWithSpinner promise={this.loadContent} title="HOME">{
+                        ([h]) => <HTML renderReferences children={h} />}
+                    </LoadWithSpinner>
+                </MHText>
                 <Grid>
                     <Grid.Column width={10}>
                         <Link to={encodeLibraryLink()}>
@@ -50,18 +51,9 @@ export class Home extends React.Component<{}, {}> {
                         </a>
                     </Grid.Column>
                 </Grid>
-            </Title>
+            </MHTitle>
         );
     }
 }
 
-class HomeDisplay extends React.Component<{content: string}> {
-    public render() {
-        const {content} = this.props;
-
-        return (
-            <Title title="Home"><HTML renderReferences>{content}</HTML></Title>
-        );
-    }
-}
 // library image source: https://www.pexels.com/photo/library-university-books-students-12064/

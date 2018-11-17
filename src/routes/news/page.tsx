@@ -6,7 +6,7 @@ import { ILibraryRouteProps } from "../library/structure/links";
 
 import NewsClient, { INewsItem } from "../../clients/news";
 
-import { Title } from "../../components/fragments";
+import { MHTitle } from "../../components/fragments";
 import { LoadWithSpinner } from "../../components/loaders";
 
 class NewsPage extends React.Component<ILibraryRouteProps> {
@@ -42,5 +42,5 @@ function NewsItemPage(props: {item?: INewsItem}) {
         return null; // Doesn't exist
     }
     const { title, content } = props.item;
-    return <Title title={title + "| News"}><div dangerouslySetInnerHTML={{__html: content}} /></Title>;
+    return <MHTitle title={title + "| News"}><div dangerouslySetInnerHTML={{__html: content}} /></MHTitle>;
 }

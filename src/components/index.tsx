@@ -1,48 +1,51 @@
 import * as React from "react";
 
 import { BrowserRouter, HashRouter } from "react-router-dom";
-import { Container } from "semantic-ui-react";
-
 import { Provider } from "react-slot-fill";
 
-import { Title } from "./fragments";
-import { Body, Footer, Header } from "./layout";
-
-import { Context, makeContext } from "../context";
-import { IMathHubClientConfig, urls } from "../context/config";
-
 import { DictToSwitch, ScrollToTop } from "./common";
+import MathHubLayout from "./layout";
+
+import { Context, IMathHubContext, makeContext, withContext } from "../context";
+import { IMathHubClientConfig, urls } from "../context/config";
 
 import { routes, urlMaker } from "../routes";
 
+/** the main entry point for the MathHub implementation */
 export function MathHub(client: IMathHubClientConfig) {
     const theConfig = {client, urls};
 
     return (
         <Context.Provider value={makeContext(theConfig)}>
-            <Title>
-                <MathHubRouter BROWSER_ROUTER={client.BROWSER_ROUTER}>
-                    <ScrollToTop>
-                        <Provider>
-                            <Header />
-                            <Body />
-                            <Container text style={{ marginTop: "7em" }}>
-                                <DictToSwitch routes={routes} urlMaker={urlMaker} />
-                            </Container>
-                            <Footer />
-                        </Provider>
-                    </ScrollToTop>
-                </MathHubRouter>
-            </Title>
+            <MathHubRouter>
+                <DictToSwitch routes={routes} urlMaker={urlMaker} />
+            </MathHubRouter>
         </Context.Provider>
     );
 }
 
-function MathHubRouter(props: {children: React.ReactElement<any>, BROWSER_ROUTER: string}) {
-    const {children, BROWSER_ROUTER} = props;
+/** A router component used by MathHub */
+function MathHubRouter(props: {children: React.ReactElement<any>}) {
+    return (
+        <RouterImpl>
+            <ScrollToTop>
+                <Provider>
+                    <MathHubLayout>
+                        {props.children}
+                    </MathHubLayout>
+                </Provider>
+            </ScrollToTop>
+        </RouterImpl>
+    );
+}
+
+/** The router implementation we are using */
+const RouterImpl = withContext((props: {children: React.ReactElement<any>, context: IMathHubContext}) => {
+    const {children, context} = props;
+    const BROWSER_ROUTER = context.config.client.BROWSER_ROUTER;
     if (BROWSER_ROUTER !== "") {
         return <BrowserRouter basename={BROWSER_ROUTER} children={props.children} />;
     } else {
         return <HashRouter children={children} />;
     }
-}
+});

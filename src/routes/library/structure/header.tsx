@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import { Container, Header, Label } from "semantic-ui-react";
+import { Container, Label } from "semantic-ui-react";
 
 import { HTML as HTMLt, IApiObject, ISourceReference, IStatistic } from "../../../clients/mmt/objects";
 
 import { StatisticsTableDropdown } from "../structure/statistics";
 
-import { HTML, MHRefBreadCrumbs } from "../../../components/fragments";
+import { HTML, MHRefBreadCrumbs, MHText } from "../../../components/fragments";
 
 import { JupyterButton, SourceButton } from "./external";
 
@@ -37,22 +37,23 @@ export interface IItemProps {
 /** the header of a library item display */
 export class LibraryItemHeader extends React.Component<{itemProps: IItemProps}> {
     public render() {
-        const { crumbs, title, source, jupyter, statistics, description, responsible } = this.props.itemProps;
+        const { crumbs, source, jupyter, statistics, description, responsible } = this.props.itemProps;
 
         return (
             <>
                 <MHRefBreadCrumbs to={crumbs} />
-                <Container>
-                    <HTML as={Header} extra={{as: "h1"}}>{title}</HTML>
-                    {statistics ? <StatisticsTableDropdown statistics={statistics} /> : null}
-                    {jupyter ? <JupyterButton source={jupyter} /> : null}
-                    {source ? <SourceButton source={source} /> : null}
-                </Container>
+                <MHText>
+                    <Container>
+                        {statistics ? <StatisticsTableDropdown statistics={statistics} /> : null}
+                        {jupyter ? <JupyterButton source={jupyter} /> : null}
+                        {source ? <SourceButton source={source} /> : null}
+                    </Container>
 
-                {description ? <HTML renderReferences>{description}</HTML> : null}
-                {responsible ? <Container>
-                    <b>Responsible:</b> {responsible.map((p) => <Label key={p}>{p}</Label>)}
-                </Container> : null}
+                    {description ? <HTML renderReferences>{description}</HTML> : null}
+                    {responsible ? <Container>
+                        <b>Responsible:</b> {responsible.map((p) => <Label key={p}>{p}</Label>)}
+                    </Container> : null}
+                </MHText>
             </>
         );
     }

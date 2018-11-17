@@ -1,5 +1,20 @@
+import * as React from "react";
+
 // the parts of the page to be rendered
-export { default as Header } from "./header";
-export { default as Body } from "./body";
-export { default as Footer } from "./footer";
-export { BodyFill } from "./slots";
+import Body from "./body";
+import Footer from "./footer";
+import Header from "./header";
+
+export default class MathHubLayout extends React.Component {
+    public render() {
+        return (
+            <>
+                <Header />
+                <Body>{this.props.children}</Body>
+                <Footer />
+            </>
+        );
+    }
+}
+
+export { BreadCrumbsFill, TextFill, TitleFill } from "./slots";

@@ -26,12 +26,20 @@ function makePair(name: string): ISlotFill {
         Slot: class extends React.Component {
             public static displayName = `${name}.Slot`;
             public render() {
-                return <Slot name={slotName}>{this.props.children}</Slot>;
+                return <Slot name={slotName}><>{this.props.children}</></Slot>;
             }
         },
     };
 }
 
-const Body = makePair("Body");
-export const BodySlot = Body.Slot;
-export const BodyFill = Body.Fill;
+const Title = makePair("title");
+export const TitleSlot = Title.Slot;
+export const TitleFill = Title.Fill;
+
+const BreadCrumbs = makePair("breadcrumbs");
+export const BreadCrumbsSlot = BreadCrumbs.Slot;
+export const BreadCrumbsFill = BreadCrumbs.Fill;
+
+const Text = makePair("text");
+export const TextSlot = Text.Slot;
+export const TextFill = Text.Fill;

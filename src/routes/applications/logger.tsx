@@ -8,7 +8,7 @@ import LoggerClient, { ILogEntry } from "../../clients/logger";
 
 import { IMathHubContext, withContext } from "../../context";
 
-import { Title } from "../../components/fragments";
+import { MHText, MHTitle } from "../../components/fragments";
 
 class Logger extends React.Component<{context: IMathHubContext}, {entries: ILogEntry[], filter: string}> {
     /** the client to receive data from */
@@ -42,7 +42,11 @@ class Logger extends React.Component<{context: IMathHubContext}, {entries: ILogE
 
     public render() {
         return (
-            <Title title="Logger">
+            <MHTitle title="Logger">
+                <MHText>
+                    This page shows the MMT Log.
+                    It is intended for debugging purposes only.
+                </MHText>
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
@@ -57,7 +61,7 @@ class Logger extends React.Component<{context: IMathHubContext}, {entries: ILogE
                         <LogListView filter={this.state.filter} entries={this.state.entries} />
                     </Table.Body>
                 </Table>
-            </Title>
+            </MHTitle>
         );
     }
 }

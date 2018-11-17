@@ -8,16 +8,18 @@ import { delay } from "../utils/promises";
 import { MonospaceContainer } from "../components/common";
 import { CreateSpinningLoader as Loader } from "../components/loaders";
 
-import { HTML } from "../components/fragments";
+import { HTML, MHText, MHTitle } from "../components/fragments";
 
 export function Devel(props: {}) {
     return (
-        <>
-            This page is intended for debugging purposes only. <br />
-            If you are seeing it in production, you did something wrong. <br />
+        <MHTitle title="Devel">
+            <MHText>
+                This page is intended for debugging purposes only. <br />
+                If you are seeing it in production, you did something wrong. <br />
 
-            This page might also have a memory leak.
-            You have been warned. <br />
+                This page might also have a memory leak.
+                You have been warned. <br />
+            </MHText>
 
             <h2>Process.Env</h2>
             <MonospaceContainer>{JSON.stringify(process.env, undefined, 4)}</MonospaceContainer>
@@ -47,7 +49,7 @@ export function Devel(props: {}) {
 
             <h2>Math</h2>
             <SampleMath />
-        </>
+        </MHTitle>
     );
 }
 

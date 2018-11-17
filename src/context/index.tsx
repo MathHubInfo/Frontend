@@ -3,7 +3,6 @@ import * as React from "react";
 import { ReactComponent } from "../types/types";
 
 import createMMTClient, { MMTClient } from "../clients/mmt";
-import { Title } from "../components/fragments";
 import { IMathHubConfig } from "./config";
 
 import { Without } from "../types/omit";
@@ -26,23 +25,6 @@ export function makeContext(config: IMathHubConfig): IMathHubContext {
     };
 }
 
-interface ITitledWithContextProps {
-    title?: string;
-    children: (context: IMathHubContext) => React.ReactNode;
-}
-
-/** Combines the MHTitle and Context.Consumer elements */
-export class TitledWithContext extends React.PureComponent<ITitledWithContextProps> {
-    public render() {
-        const { title, children } = this.props;
-        return (
-            <Title title={title}>
-                <Context.Consumer>{children}</Context.Consumer>
-            </Title>
-        );
-    }
-}
-
 export type WithoutContext<P extends {context: IMathHubContext}> = Without<P, "context">;
 
 /**
@@ -52,6 +34,7 @@ export type WithoutContext<P extends {context: IMathHubContext}> = Without<P, "c
 export function withContext
     <P extends {context: IMathHubContext}>(WrappedComponent: ReactComponent<P>): ReactComponent<WithoutContext<P>> {
     return class WithContextComponent extends React.Component<WithoutContext<P>> {
+        public static displayName = `withContext(${WrappedComponent.displayName})`;
         public static contextType = Context;
         public context!: IMathHubContext;
         public render() {

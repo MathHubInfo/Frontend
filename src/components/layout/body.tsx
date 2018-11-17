@@ -1,19 +1,24 @@
 import * as React from "react";
 
 import { Container, Divider } from "semantic-ui-react";
+import { BreadCrumbsSlot, TextSlot, TitleSlot } from "./slots";
 
-import { BodySlot } from "./slots";
-
-export default function Body(props: {}) {
-    return (
-        <>
-            <Container text style={{ marginTop: "7em" }}>
-                TODO: Header here
+export default class Body extends React.Component {
+    public render() {
+        return (
+            <>
+                <Container text style={{ marginTop: "7em" }}>
+                    <BreadCrumbsSlot />
+                    <TitleSlot />
+                    <Container>
+                        <TextSlot />
+                    </Container>
+                </Container>
                 <Divider />
-            </Container>
-            <Container>
-                <BodySlot />
-            </Container>
-        </>
-    );
+                <Container>
+                    {this.props.children}
+                </Container>
+            </>
+        );
+    }
 }

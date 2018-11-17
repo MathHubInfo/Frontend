@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import { Button, Card, Container, Divider, Grid, Header, Label, Tab } from "semantic-ui-react";
+import { Button, Card, Container, Grid, Label, Tab } from "semantic-ui-react";
 
 import flatten2 from "../../utils/flatten";
 
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients/mmt/objects";
 
-import { HTML, Title } from "../../components/fragments";
+import { HTML, MHTitle } from "../../components/fragments";
 import { LoadWithSpinner } from "../../components/loaders";
 
 import { IMathHubContext, withContext } from "../../context";
@@ -14,15 +14,9 @@ import { IMathHubContext, withContext } from "../../context";
 export class Glossary extends React.Component<{}, {}> {
     public render() {
         return (
-            <Title title="Glossary">
-                <Container text>
-                    <Header as="h1">
-                        <div>Glossary</div>
-                    </Header>
-                </Container>
-                <Divider />
+            <MHTitle title="Glossary">
                 <GlossaryEntryTabs />
-            </Title>
+            </MHTitle>
         );
     }
 }
