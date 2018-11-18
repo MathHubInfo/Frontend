@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Breadcrumb } from "semantic-ui-react";
 
 /** a component of the bread crumb */
-export interface IBreadCrumbPart {
+interface IBreadCrumbPart {
     /** text */
     text: string;
     /** url this component links to (if any) */
@@ -13,7 +13,7 @@ export interface IBreadCrumbPart {
     external?: boolean;
 }
 
-export interface IBreadcrumbsProps {
+interface IBreadcrumbsProps {
     crumbs: IBreadCrumbPart[];
 }
 

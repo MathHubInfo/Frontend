@@ -1,4 +1,6 @@
-import { IRouteDict } from "../components/common";
+import { DictToSwitch } from "../components/common";
+import { PropsOfComponent } from "../types/react";
+type IRouteDict = PropsOfComponent<DictToSwitch>["routes"];
 
 export {makeLibraryRouteSpec as urlMaker} from "./library/structure/links";
 

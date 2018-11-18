@@ -4,7 +4,11 @@ import { Container, Divider, Header } from "semantic-ui-react";
 
 import { BreadCrumbsAsSlot, TextSlot, TitleAsSlot } from "./slots";
 
-import { Breadcrumbs, IBreadCrumbPart } from "../common";
+import { PropsOfComponent } from "../../types/react";
+import { MemberType } from "../../types/utils";
+import { Breadcrumbs } from "../common";
+type IBreadCrumbPart = MemberType<PropsOfComponent<Breadcrumbs>["crumbs"]>;
+
 import { HTML } from "../fragments";
 
 export default class Body extends React.Component {

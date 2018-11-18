@@ -2,12 +2,12 @@ import * as React from "react";
 
 import { Route, Switch } from "react-router";
 
-import { Module, ReactComponent } from "../../types/types";
+import { Module, ReactComponent } from "../../types/react";
 
 import { CreateSpinningLoader } from "../loaders";
 
 /** A dictionary specifying routes */
-export interface IRouteDict {
+interface IRouteDict {
     [url: string]: TReactRoute;
 }
 
@@ -32,28 +32,29 @@ function isComponentPromise(route: TReactRoute): route is ITitledReactPromise {
 }
 
 /** turns a routing dictonary into a <switch> element */
-export default function DictToSwitch(params: {routes: IRouteDict, urlMaker: (spec: string) => string}) {
-    const {routes, urlMaker} = params;
+export default class DictToSwitch extends React.Component<{routes: IRouteDict, urlMaker: (spec: string) => string}> {
+    public render() {
+        const { routes, urlMaker } = this.props;
+        return (
+            <Switch>{
+                Object.keys(routes).map((key: string) => {
+                    // if the route is devel only, but we are not in devel, then return
+                    const value = routes[key];
+                    if (value.devel && process.env.NODE_ENV === "production") {
+                        return null;
+                    }
 
-    return (
-        <Switch>{
-            Object.keys(routes).map((key: string) => {
-                // if the route is devel only, but we are not in devel, then return
-                const value = routes[key];
-                if (value.devel && process.env.NODE_ENV === "production") {
-                    return null;
-                }
+                    // the url for the route, make it a library route unless we already have it
+                    const url = (key.startsWith("/") ? key : urlMaker(key));
 
-                // the url for the route, make it a library route unless we already have it
-                const url = (key.startsWith("/") ? key : urlMaker(key));
+                    // the route for this url, either the given route or a lazy loader for it
+                    const RouteComponent: ReactComponent<any> = isComponentPromise(value) ?
+                        CreateSpinningLoader(value.routeTitle, value) : value;
 
-                // the route for this url, either the given route or a lazy loader for it
-                const RouteComponent: ReactComponent<any> = isComponentPromise(value) ?
-                    CreateSpinningLoader(value.routeTitle, value) : value;
-
-                // and build the route object
-                return <Route key={key} exact path={url} component={RouteComponent} />;
-            })
-        }</Switch>
-    );
+                    // and build the route object
+                    return <Route key={key} exact path={url} component={RouteComponent} />;
+                })
+            }</Switch>
+        );
+    }
 }

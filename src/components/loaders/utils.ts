@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ReactComponent } from "../../types/types";
+import { ReactComponent } from "../../types/react";
 
 export interface IDataComponentProps<T> {
     children: ((data: T) => React.ReactNode);

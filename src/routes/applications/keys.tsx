@@ -2,7 +2,9 @@ import * as React from "react";
 
 import { Button, Table } from "semantic-ui-react";
 
-import statsKeys from "../../../assets/stats.json";
+// FIXME: JSON import not currently enabled
+import _statsKeys from "../../../assets/stats.json";
+const statsKeys: string[][] = _statsKeys;
 
 import { MHTitle } from "../../components/fragments";
 

@@ -9,3 +9,8 @@ declare module "*.txt" {
 }
 
 declare module "*.css";
+
+declare module "*.json" {
+    const thejson: any;
+    export default thejson;
+}

@@ -5,7 +5,10 @@ import DocumentTitle from "react-document-title";
 import { TitleFill } from "../layout";
 import MHBreadCrumbs from "./crumbs";
 
-import { IBreadCrumbPart } from "../common";
+import { PropsOfComponent } from "../../types/react";
+import { MemberType } from "../../types/utils";
+import { Breadcrumbs } from "../common";
+type IBreadCrumbPart = MemberType<PropsOfComponent<Breadcrumbs>["crumbs"]>;
 
 interface ITitleProps {
     title?: string;

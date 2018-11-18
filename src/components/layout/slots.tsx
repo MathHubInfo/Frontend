@@ -2,10 +2,11 @@ import * as React from "react";
 
 import { Fill as FillImpl, Slot as SlotImpl } from "react-slot-fill";
 
-import { ReactComponent } from "../../types/types";
+import { PropsOfComponent, ReactComponent } from "../../types/react";
 
-import { Without } from "../../types/omit";
-import { IBreadCrumbPart } from "../common";
+import { MemberType, Without } from "../../types/utils";
+import { Breadcrumbs } from "../common";
+type IBreadCrumbPart = MemberType<PropsOfComponent<Breadcrumbs>["crumbs"]>;
 
 // #region "Simple Pair"
 

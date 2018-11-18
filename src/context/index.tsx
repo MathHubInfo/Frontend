@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ReactComponent } from "../types/types";
+import { ReactComponent } from "../types/react";
 
 import GlossaryClient from "../clients/glossary";
 import createMMTClient, { MMTClient } from "../clients/mmt";
@@ -8,7 +8,7 @@ import NewsClient from "../clients/news";
 
 import { IMathHubConfig } from "./config";
 
-import { Without } from "../types/omit";
+import { Without } from "../types/utils";
 
 /** Represents a global context for MathHub */
 export interface IMathHubContext {

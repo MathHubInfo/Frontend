@@ -7,8 +7,14 @@ import { encodeLibraryLink } from "../../routes/library/structure/links";
 
 import flatten2 from "../../utils/flatten";
 
-import { IBreadCrumbPart, IBreadcrumbsProps } from "../common";
+import { Breadcrumbs } from "../common";
 import { BreadCrumbsFill } from "../layout";
+
+import { PropsOfComponent } from "../../types/react";
+import { MemberType } from "../../types/utils";
+
+type IBreadcrumbsProps = PropsOfComponent<Breadcrumbs>;
+type IBreadCrumbPart = MemberType<IBreadcrumbsProps["crumbs"]>;
 
 /** Any kind of bread crumbs */
 export default function MHBreadCrumbs(props: IBreadcrumbsProps) {

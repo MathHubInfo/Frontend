@@ -7,7 +7,7 @@
         "removeComments": false, 
         
         "moduleResolution": "node", 
-        "resolveJsonModule": true,
+        "resolveJsonModule": false,
         "module": "esnext",
         "target": "es6",
         "jsx": "react", 
@@ -18,7 +18,7 @@
         "allowJs": true, 
 
         "esModuleInterop": true, 
-        "isolatedModules": false,
+        "isolatedModules": true,
         "allowSyntheticDefaultImports": true
     },
 

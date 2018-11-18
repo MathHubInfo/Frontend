@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { default as Loadable } from "react-loadable";
 
-import { Module, ReactComponent } from "../../types/types";
+import { Module, ReactComponent } from "../../types/react";
 
 import { createSpinningLoader, ISpinningLoaderProps, LoadingComponent } from "./loadingUI";
 import DataComponent, { IDataComponentProps } from "./utils";
