@@ -28,9 +28,13 @@ export default class Body extends React.Component {
 }
 
 /** the page title */
-const TitleSlot = TitleAsSlot((props: {fills: string[]}) => {
-    const fills = props.fills;
-    return <HTML as={Header} extra={{as: "h1", style: {marginTop: 0}}}>{fills.join(" | ")}</HTML>;
+const TitleSlot = TitleAsSlot(class extends React.Component<{fills: string[]}> {
+    public static displayName = "TitleSlot";
+    public render() {
+        const { fills } = this.props;
+        return <HTML as={Header} extra={{as: "h1", style: {marginTop: 0}}}>{fills.join(" | ")}</HTML>;
+
+    }
 });
 
 /** the bread crumbs */

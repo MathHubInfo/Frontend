@@ -3,6 +3,8 @@ import * as React from "react";
 import { ReactComponent } from "../types/types";
 
 import createMMTClient, { MMTClient } from "../clients/mmt";
+import NewsClient from "../clients/news";
+
 import { IMathHubConfig } from "./config";
 
 import { Without } from "../types/omit";
@@ -11,6 +13,7 @@ import { Without } from "../types/omit";
 export interface IMathHubContext {
     config: IMathHubConfig;
     mmtClient: MMTClient;
+    newsClient: NewsClient;
 }
 
 /** a configuration for MathHub is global */
@@ -21,6 +24,7 @@ export function makeContext(config: IMathHubConfig): IMathHubContext {
     const clientConfig = config.client;
     return {
         mmtClient: createMMTClient(clientConfig.MMT_URL),
+        newsClient: new NewsClient(clientConfig.NEWS_URL),
         config,
     };
 }
