@@ -2,7 +2,6 @@ import {
     HTML,
     IMMTVersionInfo,
     IStatistic,
-    TKnownLanguages,
 } from "../objects";
 
 /**
@@ -23,8 +22,6 @@ export interface IMockDataSet {
     opaques: IMockOpaqueElement[];
 
     modules: IMockModule[];
-
-    glossary: IMockGlossaryEntry[];
 }
 
 /** a shallow mock reference */
@@ -101,9 +98,4 @@ interface IMockView extends IMockObject {
 
     domain: IMockReference;
     codomain: IMockReference;
-}
-
-interface IMockGlossaryEntry extends IMockObject {
-    kwd: {[k in TKnownLanguages]?: string[]};
-    def: {[k in TKnownLanguages]?: string};
 }

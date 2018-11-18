@@ -7,7 +7,6 @@ import {
     IDocument,
     IDocumentParentRef,
     IDocumentRef,
-    IGlossaryEntry,
     IGroup,
     IGroupRef,
     IMMTVersionInfo,
@@ -112,9 +111,6 @@ export class LazyMockClient extends MMTClient {
                 break;
             case "view":
                 co = this.cleanView(obj, ds);
-                break;
-            case "entry":
-                co = this.cleanGlossaryEntry(obj, ds);
                 break;
             default:
                 // tslint:disable-next-line:no-console
@@ -407,18 +403,6 @@ export class LazyMockClient extends MMTClient {
         };
     }
 
-    private cleanGlossaryEntry(entry: IMockReference, ds: IMockDataSet): IGlossaryEntry {
-        const actual = ds.glossary.find((g) => g.id === entry.id)!;
-        if (!actual) { this.logMockNotFound(entry.id, "glossary"); }
-
-        return {
-            kind: "entry",
-            id: actual.id,
-            kwd: actual.kwd,
-            def: actual.def,
-        };
-    }
-
     // #endregion
 
     // #region "Getters"
@@ -516,10 +500,6 @@ export class LazyMockClient extends MMTClient {
             (d: IMockObject) => (d as IMockModule).kind,
             `Module ${id} does not exist. `,
         );
-    }
-
-    public getGlossary(): Promise<IGlossaryEntry[]> {
-        return this.loadDataSet().then((ds) => ds.glossary.map((g) => this.cleanGlossaryEntry(g, ds)));
     }
 
     // #endregion

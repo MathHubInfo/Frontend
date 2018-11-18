@@ -286,18 +286,6 @@ export interface IStatistic {
     value: number;
 }
 
-// known languages
-enum Languages { en, de, fr, tr, ro, zhs, zht }
-export type TKnownLanguages = EnumKeys<typeof Languages>;
-export const knownLanguages = getEnumKeys<typeof Languages>(Languages);
-
-export interface IGlossaryEntry {
-    kind: "entry";
-    id: string;
-    kwd: {[k in TKnownLanguages]?: string[]};
-    def: {[k in TKnownLanguages]?: string};
-}
-
 /** version information exposed by MMT */
 export interface IMMTVersionInfo {
     /** the version number (i.e. release number) of MMT */

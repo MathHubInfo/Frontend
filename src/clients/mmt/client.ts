@@ -1,4 +1,4 @@
-import { IArchive, IDocument, IGlossaryEntry, IGroup, IGroupRef, IMMTVersionInfo,
+import { IArchive, IDocument, IGroup, IGroupRef, IMMTVersionInfo,
          IModule, IReferencable, ITag, URI } from "./objects";
 
 export default abstract class MMTClient {
@@ -29,7 +29,4 @@ export default abstract class MMTClient {
 
     /** gets a specific module */
     public abstract getModule(id: string): Promise<IModule>;
-
-    /** gets a set of glossary entries */
-    public abstract getGlossary(): Promise<IGlossaryEntry[]>;
 }

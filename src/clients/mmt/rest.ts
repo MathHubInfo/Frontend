@@ -2,7 +2,7 @@ import MMTClient from "./client";
 
 import axios from "axios";
 
-import { IArchive, IDocument, IGlossaryEntry, IGroup, IGroupRef, IMMTVersionInfo,
+import { IArchive, IDocument, IGroup, IGroupRef, IMMTVersionInfo,
          IModule, IReferencable, ITag, URI } from "./objects";
 
 /** A client that talks to MMT via the REST interface */
@@ -63,9 +63,5 @@ export class RestClient extends MMTClient {
 
     public getModule(id: string): Promise<IModule> {
         return this.get("content/module?id=" + this.encodeID(id));
-    }
-
-    public getGlossary(): Promise<IGlossaryEntry[]> {
-        return this.get("content/glossary");
     }
 }

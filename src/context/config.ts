@@ -11,6 +11,8 @@ export interface IMathHubClientConfig {
     MMT_URL: string;
     /** the url to fetch news from */
     NEWS_URL: string;
+    /** the url to fetch the glossary from */
+    GLOSSARY_URL: string;
     /** are we using browser router */
     BROWSER_ROUTER: string;
 }

@@ -21,6 +21,7 @@ module.exports = (function(user){
     {
         'MMT_URL': (url) => url || "", 
         'NEWS_URL': (url) => url || "",
+        'GLOSSARY_URL': (url) => url || "",
         'BROWSER_ROUTER': (br) => br || "",
     }
 );

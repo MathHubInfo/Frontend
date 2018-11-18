@@ -38,6 +38,7 @@ Promise.all([
         <MathHub
             MMT_URL={process.env.MMT_URL!}
             NEWS_URL={process.env.NEWS_URL!}
+            GLOSSARY_URL={process.env.GLOSSARY_URL!}
 
             BROWSER_ROUTER={process.env.BROWSER_ROUTER!}
         />,

@@ -4,7 +4,7 @@ import { Button, Card, Container, Grid, Label, Tab } from "semantic-ui-react";
 
 import flatten2 from "../../utils/flatten";
 
-import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients/mmt/objects";
+import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients/glossary";
 
 import { HTML, MHTitle } from "../../components/fragments";
 import { LoadWithSpinner } from "../../components/loaders";
@@ -28,7 +28,7 @@ const GlossaryEntryTabs = withContext(class GlossaryEntryTabsC extends React.Com
         this.getGlossary = this.getGlossary.bind(this);
     }
 
-    private getGlossary() { return this.props.context.mmtClient.getGlossary(); }
+    private getGlossary() { return this.props.context.glossaryClient.loadAll(); }
 
     public render() {
         return (
@@ -67,7 +67,7 @@ class GlossaryTab extends React.Component<{ glossary: IGlossaryEntry[] }> {
                         <Card.Group itemsPerRow="1" style={{ marginTop: "1em" }}>
                             {
                                 this.createEntries(
-                                    glossary.filter((en) => en.kind === "entry" && en.kwd[l] !== undefined), l,
+                                    glossary.filter((en) => en.kwd[l] !== undefined), l,
                                 )
                                 .map((e) => (
                                     <GlossaryEntry

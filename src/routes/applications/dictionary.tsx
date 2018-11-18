@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Button, Dropdown, Grid, Input, Popup } from "semantic-ui-react";
 
-import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients/mmt/objects";
+import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients/glossary";
 import { IMathHubContext, withContext } from "../../context";
 
 import { HTML, MHTitle } from "../../components/fragments";
@@ -26,7 +26,7 @@ const Translator = withContext(class TranslatorC extends React.Component<{contex
         this.getGlossary = this.getGlossary.bind(this);
     }
 
-    private getGlossary() { return this.props.context.mmtClient.getGlossary(); }
+    private getGlossary() { return this.props.context.glossaryClient.loadAll(); }
 
     public render() {
         return (
@@ -58,7 +58,6 @@ class MathDictionary extends React.Component<{ glossary: IGlossaryEntry[] }> {
     private handleClick = () => {
         const { glossary } = this.props;
         const entry = glossary
-            .filter((g) => g.kind === "entry")
             .find((e) =>
                 e.kwd[this.state.from]!.find((s) => s === this.state.input) !== undefined);
         const result = entry === undefined ? `${this.state.input} not found` : entry.kwd[this.state.to];
