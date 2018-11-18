@@ -4,7 +4,7 @@ import FatClient from "../fat";
 
 export default class GlossaryClient extends FatClient<IGlossaryEntry> {
     protected async mock(): Promise<IGlossaryEntry[]> {
-        const glossary = await import("../../../assets/glossary.json");
+        const glossary = await import("../../../assets/mock/glossary.json");
         return glossary.default;
     }
 }

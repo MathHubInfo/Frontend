@@ -2,7 +2,7 @@ import FatClient from "../fat";
 
 export default class NewsClient extends FatClient<INewsItem> {
     protected async mock(): Promise<INewsItem[]> {
-        const news = await import("../../../assets/news.json");
+        const news = await import("../../../assets/mock/news.json");
         return news.default;
     }
 

@@ -508,8 +508,8 @@ export class LazyMockClient extends MMTClient {
 export class MockClient extends LazyMockClient {
     constructor() {
         super(async () => {
-            const mock = await import("../../../../assets/mock.json");
-            return mock.default as IMockDataSet; // TODO: Fix the errors here
+            const mock = await import("../../../../assets/mock/mmt.json");
+            return mock.default as IMockDataSet; // TODO: Why does this fail?
         });
     }
 }

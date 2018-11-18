@@ -5,7 +5,7 @@ import {
 } from "../objects";
 
 /**
- * The Mock Data Set contained in mock.json
+ * The Mock Data Set contained in mmt.json
  *
  * The type here is only for tsc, the actual type can limit all
  * IReferences to be shallow in the sense of only having the 'id' property.
