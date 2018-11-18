@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import { ReactComponent } from "../../types/types";
+
 export interface IDataComponentProps<T> {
     children: ((data: T) => React.ReactNode);
 }
@@ -7,7 +9,7 @@ export interface IDataComponentProps<T> {
 // TODO: Check if this is needed
 
 /** generates a Component that renders given some children */
-export default function DataComponent<T>(data: T): React.ComponentClass<IDataComponentProps<T>> {
+export default function DataComponent<T>(data: T): ReactComponent<IDataComponentProps<T>> {
     return class extends React.Component<IDataComponentProps<T>> {
         public render() {
             return this.props.children(data);

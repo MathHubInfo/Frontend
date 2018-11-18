@@ -12,7 +12,7 @@ const timeout = 10000;
 
 /** creates a loader for a given component */
 function CreateLoader<P>(
-    loader: () => Promise<Module<ReactComponent<P> | React.SFC<P>>>,
+    loader: () => Promise<Module<ReactComponent<P>>>,
     loadingFactory: () => typeof LoadingComponent = () => LoadingComponent,
 ): ReactComponent<P> {
     const loading = loadingFactory();
@@ -22,7 +22,7 @@ function CreateLoader<P>(
 /** creates a spinning loader for a given component */
 export function CreateSpinningLoader<P>(
     props: string | (Partial<ISpinningLoaderProps> & {title?: string}),
-    loader: () => Promise<Module<ReactComponent<P> | React.SFC<P>>>,
+    loader: () => Promise<Module<ReactComponent<P>>>,
 ): ReactComponent<P> {
     // if the properties given are a string
     // we need to update it

@@ -7,12 +7,14 @@ import { encodeLibraryLink } from "../../routes/library/structure/links";
 
 import flatten2 from "../../utils/flatten";
 
-import { Breadcrumbs, IBreadCrumbPart, IBreadcrumbsProps } from "../common";
+import { IBreadCrumbPart, IBreadcrumbsProps } from "../common";
 import { BreadCrumbsFill } from "../layout";
 
 /** Any kind of bread crumbs */
 export default function MHBreadCrumbs(props: IBreadcrumbsProps) {
-    return <BreadCrumbsFill><Breadcrumbs {...props} /></BreadCrumbsFill>;
+    const crumbs = [{ text: "Home", url: "" }, ...props.crumbs]; // prepend a link to home
+    crumbs[crumbs.length - 1].url = undefined; // the last item is currently active
+    return <BreadCrumbsFill children={crumbs} />;
 }
 
 /** renders a full list of BreadCrumbs by iterating over the reference */
@@ -48,7 +50,7 @@ function refToCrumbs(to?: IApiObject | ISourceReference): IBreadCrumbPart[] {
         }
 
         return [{
-            text: loc && loc.name || "library",
+            text: loc && loc.name || "Library",
             external: false,
             url: encodeLibraryLink(loc),
         }];

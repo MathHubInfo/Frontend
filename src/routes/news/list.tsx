@@ -28,7 +28,7 @@ class NewsList extends React.Component<ILibraryRouteProps> {
 
     public render() {
         return (
-            <MHTitle title={"News"}>
+            <MHTitle title={"News"} autoCrumbs>
                 <LoadWithSpinner
                     title={"News"}
                     promise={this.getNews}

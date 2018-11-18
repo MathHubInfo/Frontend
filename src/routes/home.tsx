@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Button, Grid, Image } from "semantic-ui-react";
 
-import { HTML, MHText, MHTitle } from "../components/fragments";
+import { HTML, MHBreadCrumbs, MHText, MHTitle } from "../components/fragments";
 import { LoadWithSpinner } from "../components/loaders";
 
 import { encodeLibraryLink } from "./library/structure/links";
@@ -18,8 +18,11 @@ export class Home extends React.Component<{}, {}> {
     private loadContent() { return Promise.all([this.getHomeText()]); }
 
     public render() {
+        // MHTitle can not use autocrumbs here
+        // because Home is prepended to every one of them
         return (
             <MHTitle title="Home">
+                <MHBreadCrumbs crumbs={[]} />
                 <MHText>
                     <LoadWithSpinner promise={this.loadContent} title="HOME">{
                         ([h]) => <HTML renderReferences children={h} />}

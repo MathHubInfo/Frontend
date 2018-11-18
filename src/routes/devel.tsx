@@ -12,7 +12,7 @@ import { HTML, MHText, MHTitle } from "../components/fragments";
 
 export function Devel(props: {}) {
     return (
-        <MHTitle title="Devel">
+        <MHTitle title="Devel" autoCrumbs>
             <MHText>
                 This page is intended for debugging purposes only. <br />
                 If you are seeing it in production, you did something wrong. <br />

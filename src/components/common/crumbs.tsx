@@ -1,8 +1,7 @@
 import * as React from "react";
 
+import { Link } from "react-router-dom";
 import { Breadcrumb } from "semantic-ui-react";
-
-import Nav from "./nav";
 
 /** a component of the bread crumb */
 export interface IBreadCrumbPart {
@@ -37,12 +36,12 @@ function BreadcrumbsPart(props: {part: IBreadCrumbPart, last?: boolean}) {
     const { url, text, external } = props.part;
 
     let theSection;
-    if (url) {
+    if (typeof url === "string") {
         // tslint:disable-next-line:prefer-conditional-expression
         if (external) {
             theSection = <Breadcrumb.Section as={"a"} href={url}>{text}</Breadcrumb.Section>;
         } else {
-            theSection = <Breadcrumb.Section as={Nav} to={url}>{text}</Breadcrumb.Section>;
+            theSection = <Breadcrumb.Section as={Link} to={url}>{text}</Breadcrumb.Section>;
         }
     } else {
         theSection = <Breadcrumb.Section>{text}</Breadcrumb.Section>;

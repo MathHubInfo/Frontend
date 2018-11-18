@@ -14,7 +14,7 @@ import { IMathHubContext, withContext } from "../../context";
 export class Glossary extends React.Component<{}, {}> {
     public render() {
         return (
-            <MHTitle title="Glossary">
+            <MHTitle title="Glossary" autoCrumbs>
                 <GlossaryEntryTabs />
             </MHTitle>
         );

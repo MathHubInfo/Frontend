@@ -1,25 +1,19 @@
 import * as React from "react";
 
-import { Button, Container, Divider, Dropdown, Grid, Header, Input, Popup } from "semantic-ui-react";
+import { Button, Dropdown, Grid, Input, Popup } from "semantic-ui-react";
 
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../clients/mmt/objects";
 import { IMathHubContext, withContext } from "../../context";
 
-import { HTML } from "../../components/fragments";
+import { HTML, MHTitle } from "../../components/fragments";
 import { LoadWithSpinner } from "../../components/loaders";
 
 export class Dictionary extends React.Component<{}, {}> {
     public render() {
         return (
-            <>
-                <Container text>
-                    <Header as="h1">
-                        <div>Math Dictionary</div>
-                    </Header>
-                </Container>
-                <Divider />
+            <MHTitle title={"Math Dictionary"} autoCrumbs>
                 <Translator />
-            </>
+            </MHTitle>
         );
     }
 }

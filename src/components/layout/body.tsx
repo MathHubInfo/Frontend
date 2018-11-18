@@ -1,7 +1,11 @@
 import * as React from "react";
 
-import { Container, Divider } from "semantic-ui-react";
-import { BreadCrumbsSlot, TextSlot, TitleSlot } from "./slots";
+import { Container, Divider, Header } from "semantic-ui-react";
+
+import { BreadCrumbsAsSlot, TextSlot, TitleAsSlot } from "./slots";
+
+import { Breadcrumbs, IBreadCrumbPart } from "../common";
+import { HTML } from "../fragments";
 
 export default class Body extends React.Component {
     public render() {
@@ -22,3 +26,24 @@ export default class Body extends React.Component {
         );
     }
 }
+
+/** the page title */
+const TitleSlot = TitleAsSlot((props: {fills: string[]}) => {
+    const fills = props.fills;
+    return <HTML as={Header} extra={{as: "h1", style: {marginTop: 0}}}>{fills.join(" | ")}</HTML>;
+});
+
+/** the bread crumbs */
+const BreadCrumbsSlot = BreadCrumbsAsSlot(class extends React.Component<{fills: IBreadCrumbPart[][]}> {
+    public static displayName = "BreadCrumbsSlot";
+    public render() {
+        const { fills } = this.props;
+        if (fills.length === 0) {
+            return <Breadcrumbs crumbs={[{text: "Home", url: ""}, {text: "[Loading]"}]} />;
+        } else if (fills.length === 1) {
+            return <Breadcrumbs crumbs={fills[0]} />;
+        } else {
+            return <Breadcrumbs crumbs={[{text: "Home", url: ""}, {text: "[Multiple]"}]} />;
+        }
+    }
+});

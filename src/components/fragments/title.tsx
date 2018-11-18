@@ -1,34 +1,39 @@
 import * as React from "react";
 
 import DocumentTitle from "react-document-title";
-import { Header } from "semantic-ui-react";
-
-import HTML from "./html";
 
 import { TitleFill } from "../layout";
+import MHBreadCrumbs from "./crumbs";
+
+import { IBreadCrumbPart } from "../common";
 
 interface ITitleProps {
     title?: string;
+    autoCrumbs?: boolean | IBreadCrumbPart[];
     children?: React.ReactChild | React.ReactChild[];
 }
 
-/** Renders a set of children with a given title */
-function Title(props: ITitleProps) {
-    const {title, children} = props;
-    const child = Array.isArray(children) ? <>{children}</> : children;
-    return <DocumentTitle title={title ? `${title} | MathHub` : "MathHub"} children={child} />;
-}
-
 export default function MHTitle(props: ITitleProps) {
+    const { title, autoCrumbs, children } = props;
+
+    const theTitle = title || "";
+    const theCrumbs = autoCrumbs ?
+        [...(typeof autoCrumbs === "boolean" ? [] : autoCrumbs), {text: props.title || ""}] : null;
+
     return (
-        <Title title={props.title}>
+        <Title title={theTitle}>
             <>
-                <TitleFill>
-                    {props.title ? <HTML as={Header} extra={{as: "h1", style: {marginTop: 0}}}>
-                        {props.title}</HTML> : null}
-                </TitleFill>
-                {props.children}
+                {theCrumbs ? <MHBreadCrumbs crumbs={theCrumbs} /> : null}
+                <TitleFill>{theTitle}</TitleFill>
+                {children}
             </>
         </Title>
     );
+}
+
+/** Renders a set of children with a given title */
+function Title(props: {title: string; children: React.ReactChild}) {
+    const {title, children} = props;
+    const child = <>{children}</>;
+    return <DocumentTitle title={title ? `${title} | MathHub` : "MathHub"} children={child} />;
 }

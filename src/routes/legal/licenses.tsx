@@ -34,7 +34,7 @@ function LicensesDisplay(props: {license: string, notices: string}) {
     const {license, notices} = props;
 
     return (
-        <MHTitle title="MathHub Licenses">
+        <MHTitle title="MathHub Licenses" autoCrumbs>
             <MHText>
                 <div>
                     <p>

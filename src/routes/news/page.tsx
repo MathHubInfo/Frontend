@@ -42,5 +42,9 @@ function NewsItemPage(props: {item?: INewsItem}) {
         return null; // Doesn't exist
     }
     const { title, content } = props.item;
-    return <MHTitle title={title + "| News"}><div dangerouslySetInnerHTML={{__html: content}} /></MHTitle>;
+    return (
+        <MHTitle title={title} autoCrumbs={[{text: "News", url: "/news"}]}>
+            <div dangerouslySetInnerHTML={{__html: content}} />
+        </MHTitle>
+    );
 }
