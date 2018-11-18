@@ -30,11 +30,5 @@
         "jsx-boolean-value": [ false ],
         "jsx-no-multiline-js": [ false ]
     },
-    "rulesDirectory": [],
-    "linterOptions": {
-        "exclude": [
-            "node_modules",
-            "build"
-        ]
-    }
+    "rulesDirectory": []
 }

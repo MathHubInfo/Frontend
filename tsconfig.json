@@ -23,6 +23,10 @@
     },
 
     "awesomeTypescriptLoaderOptions": {
+        "reportFiles": [
+            "src/**/*.{ts,tsx,json}",
+            "assets/**/*.{json,txt}"
+        ],
         "useCache": true, 
         "useBabel": true, 
         "babelCore": "@babel/core"
