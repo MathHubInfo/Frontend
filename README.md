@@ -5,6 +5,15 @@
 
 A new MathHub Frontend written in React. 
 
+## MathHub Versions and Releases
+
+As MMT is used as the Backend for MathHub, MathHub releases are tied to MMT releases. 
+
+In a nutshell, the major version number is that of the MMT release, the minor number is used for MathHub-internal purposes.
+
+This also means that http://mathhub.info will get a new release (and functionality update) about every six weeks following the MMT release schedule.
+
+
 ## Development Usage
 We use [yarn](https://yarnpkg.com/en/), which we assume in the following is installed. 
 
