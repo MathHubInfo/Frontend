@@ -1,6 +1,6 @@
 import { RouteComponentProps } from "react-router";
 
-import { IApiObject } from "../../../Clients/MMTClient/objects";
+import { IApiObject } from "../../../Clients/LibraryClient/objects";
 import { IMathHubContext } from "../../../Context";
 export type ILibraryRouteProps = RouteComponentProps<{id: string}> & {context: IMathHubContext};
 export type IGlossaryProps = RouteComponentProps<{language: string}>;

@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { IApiObject, IReference, ISourceReference } from "../../Clients/MMTClient/objects";
-import { AnyToRef } from "../../Clients/MMTClient/objects/utils";
+import { IApiObject, IReference, ISourceReference } from "../../Clients/LibraryClient/objects";
+import { AnyToRef } from "../../Clients/LibraryClient/objects/utils";
 
 import { encodeLibraryLink } from "../../Routes/Library/Structure/Links";
 

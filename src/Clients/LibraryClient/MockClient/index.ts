@@ -1,4 +1,4 @@
-import MMTClient from "../MMTClient";
+import LibraryClient from "../LibraryClient";
 
 import {
     IApiObject,
@@ -32,7 +32,7 @@ import {
 import { IMockComponent, IMockDataSet, IMockDeclaration, IMockModule, IMockObject, IMockReference } from "./set";
 
 // An API client to MMT that mocks results by resolving them statically from a given datatset
-class LazyMockClient extends MMTClient {
+class LazyMockClient extends LibraryClient {
     constructor(datasetFactory: () => Promise<IMockDataSet>) {
         super();
         this.datasetFactory = datasetFactory;
@@ -611,7 +611,7 @@ class LazyMockClient extends MMTClient {
 export default class MockClient extends LazyMockClient {
     constructor() {
         super(async () => {
-            const mock = await import("../../../../assets/mock/mmt.json");
+            const mock = await import("../../../../assets/mock/library.json");
 
             return mock.default as IMockDataSet;
         });

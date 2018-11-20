@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, Icon } from "semantic-ui-react";
 
-import { ISourceReference } from "../../../Clients/MMTClient/objects";
+import { ISourceReference } from "../../../Clients/LibraryClient/objects";
 import { IMathHubContext, withContext } from "../../../Context";
 
 export const SourceButton = withContext(class extends React.Component

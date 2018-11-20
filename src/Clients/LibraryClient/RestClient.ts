@@ -1,11 +1,11 @@
 import Axios from "axios";
 
-import MMTClient from "./MMTClient";
+import LibraryClient from "./LibraryClient";
 import { IArchive, IComponent, IDeclaration, IDocument, IGroup,
          IGroupRef, IMMTVersionInfo, IModule, IReferencable, ITag, URI } from "./objects";
 
 // A client that talks to MMT via the REST interface
-export default class RestClient extends MMTClient {
+export default class RestClient extends LibraryClient {
     /**
      * Creates a new RestClient
      * @param MMT_URL The URL this client talks to

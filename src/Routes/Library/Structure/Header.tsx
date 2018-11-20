@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container, Label } from "semantic-ui-react";
 
-import { HTML as HTMLt, IApiObject, ISourceReference, IStatistic } from "../../../Clients/MMTClient/objects";
+import { HTML as HTMLt, IApiObject, ISourceReference, IStatistic } from "../../../Clients/LibraryClient/objects";
 import { HTML, MHRefBreadCrumbs, MHText } from "../../../Components/Fragments";
 
 import { JupyterButton, SourceButton } from "./External";

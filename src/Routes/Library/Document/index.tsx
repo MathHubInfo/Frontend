@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Tab } from "semantic-ui-react";
 
-import { IDocument } from "../../../Clients/MMTClient/objects";
+import { IDocument } from "../../../Clients/LibraryClient/objects";
 import { withContext } from "../../../Context";
 import Item from "../Item";
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../Structure/Links";
@@ -20,7 +20,7 @@ class Document extends React.Component<ILibraryRouteProps> {
     }
 
     private readonly getID = () => decodeLibraryLinkID(this.props);
-    private readonly getDocument = async () => this.props.context.mmtClient.getDocument(this.getID());
+    private readonly getDocument = async () => this.props.context.libraryClient.getDocument(this.getID());
 
     private static readonly getDocumentProps = (document: IDocument) => {
         const {id: title, sourceRef: source, statistics, tags} = document;

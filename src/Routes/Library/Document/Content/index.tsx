@@ -4,7 +4,7 @@ import { Card, Label } from "semantic-ui-react";
 import {
     IDocument, IDocumentRef,
     IModuleRef,
-    INarrativeElement } from "../../../../Clients/MMTClient/objects";
+    INarrativeElement } from "../../../../Clients/LibraryClient/objects";
 import { Nav } from "../../../../Components/Common";
 import { encodeLibraryLink } from "../../Structure/Links";
 

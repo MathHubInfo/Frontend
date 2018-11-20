@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { IGroup, ISourceReference } from "../../../Clients/MMTClient/objects";
-import { GroupObjectToRef } from "../../../Clients/MMTClient/objects/utils";
+import { IGroup, ISourceReference } from "../../../Clients/LibraryClient/objects";
+import { GroupObjectToRef } from "../../../Clients/LibraryClient/objects/utils";
 import { withContext } from "../../../Context";
 import Item from "../Item";
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../Structure/Links";
@@ -17,7 +17,7 @@ class Group extends React.Component<ILibraryRouteProps> {
     }
 
     private readonly getID = () => decodeLibraryLinkID(this.props);
-    private readonly getGroup = async () => this.props.context.mmtClient.getGroup(this.getID());
+    private readonly getGroup = async () => this.props.context.libraryClient.getGroup(this.getID());
     private static readonly getGroupProps = (group: IGroup) => {
         const {title, statistics, description, responsible} = group;
         const source: ISourceReference = {

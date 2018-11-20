@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import GlossaryClient from "../Clients/GlossaryClient";
-import { default as createMMTClient, MMTClient } from "../Clients/MMTClient";
+import { default as createLibraryClient, LibraryClient } from "../Clients/LibraryClient";
 import NewsClient from "../Clients/NewsClient";
 import { Without } from "../Types/utils";
 
@@ -10,7 +10,7 @@ import { IMathHubConfig } from "./config";
 // Represents a global context for MathHub
 export interface IMathHubContext {
     config: IMathHubConfig;
-    mmtClient: MMTClient;
+    libraryClient: LibraryClient;
     newsClient: NewsClient;
     glossaryClient: GlossaryClient;
 }
@@ -24,7 +24,7 @@ export function makeContext(config: IMathHubConfig): IMathHubContext {
     const clientConfig = config.client;
 
     return {
-        mmtClient: createMMTClient(clientConfig.MMT_URL),
+        libraryClient: createLibraryClient(clientConfig.MMT_URL),
         newsClient: new NewsClient(clientConfig.NEWS_URL),
         glossaryClient: new GlossaryClient(clientConfig.GLOSSARY_URL),
         config,

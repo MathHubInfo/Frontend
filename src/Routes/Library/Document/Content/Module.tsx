@@ -4,7 +4,7 @@ import { Button, Card, Icon } from "semantic-ui-react";
 
 import {
     IModule,
-    IModuleRef } from "../../../../Clients/MMTClient/objects";
+    IModuleRef } from "../../../../Clients/LibraryClient/objects";
 import { IMathHubContext, withContext } from "../../../../Context";
 
 import { HTML } from "../../../../Components/Fragments";
@@ -51,7 +51,7 @@ const ModuleContentExpanded = withContext(
         }
 
         private readonly getModule =
-            async (): Promise<IModule> => this.props.context.mmtClient.getModule(this.props.mod.id)
+            async (): Promise<IModule> => this.props.context.libraryClient.getModule(this.props.mod.id)
     },
 );
 
