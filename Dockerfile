@@ -5,7 +5,7 @@ FROM node as builder
 ARG MMT_URL="/:mathhub/"
 ARG BROWSER_ROUTER="/"
 ARG NEWS_URL="/news.json"
-ARG GLOSSARY_URL="/glossary.json"
+ARG GLOSSARY_URL=""
 
 # Add all of the app into /app/
 ADD assets/ /app/assets/
