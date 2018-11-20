@@ -1,4 +1,5 @@
 import * as React from "react";
+import { RouteComponentProps } from "react-router";
 import { Input, InputOnChangeData, Table } from "semantic-ui-react";
 import { debounce } from "ts-debounce";
 
@@ -6,18 +7,21 @@ import LoggerClient, { ILogEntry } from "../../Clients/LoggerClient";
 import { MHText, MHTitle } from "../../Components/Fragments";
 import { IMathHubContext, withContext } from "../../Context";
 
-class Logger extends React.Component<{context: IMathHubContext}, {entries: ILogEntry[]; filter: string}> {
-    constructor(props: {context: IMathHubContext}) {
-        super(props);
-
-        this.changeFilter = debounce(this.changeFilter, 500);
-        this.client = this.props.context.config.client.MMT_URL === "" ?
-            null : new LoggerClient(this.props.context.config.client.MMT_URL);
-    }
+class Logger extends React.Component
+    <{context: IMathHubContext} & RouteComponentProps, {entries: ILogEntry[]; filter: string}> {
     state = {entries: [], filter: ""};
 
     // the client to receive data from
-    private readonly client: LoggerClient | null;
+    private readonly client: LoggerClient | null =
+        this.props.context.config.client.MMT_URL !== "" ?
+        new LoggerClient(this.props.context.config.client.MMT_URL) : null;
+
+    private readonly changeFilter = debounce(
+        (event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
+        this.setState({filter: data.value});
+        },
+        500,
+    );
 
     componentWillMount() {
         if (this.client)
@@ -56,10 +60,6 @@ class Logger extends React.Component<{context: IMathHubContext}, {entries: ILogE
                 </Table>
             </MHTitle>
         );
-    }
-
-    private readonly changeFilter = (event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
-        this.setState({filter: data.value});
     }
 }
 

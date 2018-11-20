@@ -6,19 +6,19 @@ import { CreateSpinningLoader } from "../Loaders";
 
 // A dictionary specifying routes
 interface IRouteDict {
-    [url: string]: TReactRoute;
+    [url: string]: TReactRoute<{}> | TReactRoute<{id: string}>;
 }
 
 
 // a single react route
-type TReactRoute = (TRouteClass | ITitledReactPromise) & Partial<IRouteProps>;
-interface ITitledReactPromise {
-    (): Promise<Module<TRouteClass>>;
+type TReactRoute<T> = (TRouteClass<T> | ITitledReactPromise<T>) & Partial<IRouteProps>;
+interface ITitledReactPromise<T> {
+    (): Promise<Module<TRouteClass<T>>>;
 
     // title of the route while loading
     routeTitle: string;
 }
-type TRouteClass = React.ComponentClass | React.ComponentClass<RouteComponentProps<{id: string}>>;
+type TRouteClass<T> = React.ComponentClass<RouteComponentProps<T>>;
 
 // properties of a route
 interface IRouteProps {
@@ -27,7 +27,8 @@ interface IRouteProps {
 }
 
 // checks if a route is a promise route
-function isComponentPromise(route: TReactRoute): route is ITitledReactPromise {
+function isComponentPromise<S, T>(route: TReactRoute<S> | TReactRoute<T>):
+    route is (ITitledReactPromise<S> | ITitledReactPromise<T>) {
     return typeof route === "function" && route.hasOwnProperty("routeTitle");
 }
 
@@ -48,7 +49,7 @@ export default class DictToSwitch extends React.Component<{routes: IRouteDict; u
                     const url = (key.startsWith("/") ? key : urlMaker(key));
 
                     // the route for this url, either the given route or a lazy loader for it
-                    const RouteComponent: TRouteClass = isComponentPromise(value) ?
+                    const RouteComponent = isComponentPromise<{}, {id: string}>(value) ?
                         // tslint:disable-next-line:no-any
                         CreateSpinningLoader<any>(value.routeTitle, value) : value;
 

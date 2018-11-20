@@ -1,4 +1,5 @@
 import * as React from "react";
+import { RouteComponentProps } from "react-router";
 import { Button, Card, Container, Grid, Label, Tab, TabProps } from "semantic-ui-react";
 
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../Clients/GlossaryClient";
@@ -7,7 +8,7 @@ import { LoadWithSpinner } from "../../Components/Loaders";
 import { IMathHubContext, withContext } from "../../Context";
 import flatten from "../../Utils/flatten";
 
-export default class Glossary extends React.Component {
+export default class Glossary extends React.Component<RouteComponentProps> {
     render() {
         return (
             <MHTitle title="Glossary" autoCrumbs>

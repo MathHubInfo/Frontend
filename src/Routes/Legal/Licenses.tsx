@@ -1,11 +1,12 @@
 import * as React from "react";
+import { RouteComponentProps } from "react-router";
 import { Container, Header } from "semantic-ui-react";
 
 import { Monospace } from "../../Components/Common";
 import { MHText, MHTitle } from "../../Components/Fragments";
 import { LoadWithSpinner } from "../../Components/Loaders";
 
-export default class Licenses extends React.Component {
+export default class Licenses extends React.Component<RouteComponentProps> {
     render() {
         return (
             <LoadWithSpinner promise={Licenses.loadContent} title="LICENSE">{

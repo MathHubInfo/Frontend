@@ -1,16 +1,14 @@
 import * as React from "react";
+import { RouteComponentProps } from "react-router";
 import { Icon, Message } from "semantic-ui-react";
 
+import { Monospace } from "../Components/Common";
+import { HTML, MHText, MHTitle } from "../Components/Fragments";
+import { CreateSpinningLoader as Loader } from "../Components/Loaders";
 import { Context } from "../Context";
-
 import { delay } from "../Utils/promises";
 
-import { Monospace } from "../Components/Common";
-import { CreateSpinningLoader as Loader } from "../Components/Loaders";
-
-import { HTML, MHText, MHTitle } from "../Components/Fragments";
-
-export default class Devel extends React.Component {
+export default class Devel extends React.Component<RouteComponentProps> {
     render() {
         return (
             <MHTitle title="Devel" autoCrumbs>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { RouteComponentProps } from "react-router";
 import { Button, Dropdown, DropdownProps, Grid, Input, InputOnChangeData, Popup } from "semantic-ui-react";
 
 import { IGlossaryEntry, knownLanguages, TKnownLanguages } from "../../Clients/GlossaryClient";
@@ -6,7 +7,7 @@ import { HTML, MHTitle } from "../../Components/Fragments";
 import { LoadWithSpinner } from "../../Components/Loaders";
 import { IMathHubContext, withContext } from "../../Context";
 
-export default class Dictionary extends React.Component {
+export default class Dictionary extends React.Component<RouteComponentProps> {
     render() {
         return (
             <MHTitle title={"Math Dictionary"} autoCrumbs>
