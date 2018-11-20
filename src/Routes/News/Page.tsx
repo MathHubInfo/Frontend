@@ -33,10 +33,13 @@ function NewsItemPage(props: {item?: INewsItem}) {
     if (props.item === undefined)
         return null; // Doesn't exist
 
-    const { title, content } = props.item;
+    const { title, content, date } = props.item;
+    const theDate = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    theDate.setUTCSeconds(date);
 
     return (
         <MHTitle title={title} autoCrumbs={[{text: "News", url: "/news"}]}>
+            <div style={{color: "grey"}}>{theDate.toDateString()}</div>
             <HTML>{content}</HTML>
         </MHTitle>
     );
