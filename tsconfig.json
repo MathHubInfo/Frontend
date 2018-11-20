@@ -7,7 +7,7 @@
         "removeComments": false, 
         
         "moduleResolution": "node", 
-        "resolveJsonModule": true,
+        "resolveJsonModule": false,
         "module": "esnext",
         "target": "es6",
         "jsx": "react", 
@@ -18,11 +18,15 @@
         "allowJs": true, 
 
         "esModuleInterop": true, 
-        "isolatedModules": false,
+        "isolatedModules": true,
         "allowSyntheticDefaultImports": true
     },
 
     "awesomeTypescriptLoaderOptions": {
+        "reportFiles": [
+            "src/**/*.{ts,tsx,json}",
+            "assets/**/*.{json,txt}"
+        ],
         "useCache": true, 
         "useBabel": true, 
         "babelCore": "@babel/core"
@@ -32,6 +36,7 @@
         "./src/**/*"
     ], 
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "build"
     ]
 }

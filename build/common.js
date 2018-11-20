@@ -1,38 +1,23 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
-import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
+/**
+ * Webpack Configuration shared by development and production targets
+ */
 
-import { resolve } from 'path'
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const ExtractCssChunks = require("extract-css-chunks-webpack-plugin");
 
-export const root = resolve(__dirname, '..')
-export const dist = resolve(root, 'dist')
+const resolve = require("path").resolve;
 
+const env = require("./env");
 
-// environment variables
-export const env = (function(user){
-    const _env = {
-        'MATHHUB_VERSION': JSON.stringify(require("../package.json").version),
-        'MATHHUB_BUILD_TIME': JSON.stringify((new Date()).getTime()),
-    }
-    
-    for (var key in user){
-        if (user.hasOwnProperty(key)) {
-            _env[key] = JSON.stringify(
-                user[key](process.env[key]).toString()
-            );
-        }
-    }
-
-    return _env;
-})(require("./env"));
-
-export const common = {
+module.exports = {
     // input / output
     entry: ['babel-polyfill', './src/index.tsx'],
     output: {
         filename: '[name].js',
         chunkFilename: '[name]-[hash].chunk.js',
-        path: dist
+        path: resolve(__dirname, "..", "dist"),
+        publicPath: env.BROWSER_ROUTER !== '""' ? JSON.parse(env.BROWSER_ROUTER) : undefined,
     },
     
 
@@ -56,6 +41,14 @@ export const common = {
                 test: /\.(html)$/,
                 use: [ 'html-loader' ],
             }, 
+
+            {
+                test: /\.css$/,
+                use: [
+                    ExtractCssChunks.loader,
+                    'css-loader'
+                ]
+            },
 
             {
                 test: /\.(txt)$/,
@@ -85,26 +78,13 @@ export const common = {
     plugins: [
         // generate index.html
         new HtmlWebpackPlugin({
-            template: 'src/index.html'
+            template: 'src/index.html',
         }),
-        
-        /*
-        new HardSourceWebpackPlugin({
-            configHash: function(webpackConfig) {
-                let hash = [
-                    webpackConfig, 
-                    require('../tsconfig.json'),
-                    JSON.parse(require('fs').readFileSync(resolve(root, '.babelrc'))),
-                    require('../tslint.json'),
-                    require('../package.json').browserslist
-                ].map(o => require('node-object-hash')({sort: false}).hash(o)).join('-');
-                
-                // and then also all our user-environment
-                for(var key in require('./env')){
-                    hash += '-' + (process.env[key] || '');
-                }
-                return require('crypto').createHash('md5').update(hash).digest('hex');
-            }
-        })*/
+
+        // CSS Extraction Plugin
+        new ExtractCssChunks({
+            filename: '[name].[hash].css',
+            chunkFilename: '[id].[hash].css',
+        }),
     ]
 };

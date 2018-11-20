@@ -9,4 +9,5 @@ env:
   - WEBPACK_CONFIG="webpack.config.js"
   - WEBPACK_CONFIG="webpack.config.prod.js"
 script:
+  - yarn lint
   - yarn webpack --config=$WEBPACK_CONFIG

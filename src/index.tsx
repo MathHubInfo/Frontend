@@ -9,10 +9,10 @@
  * @license GPL-3.0
  */
 
-import notice from "./notice.txt";
+import { default as noticeTxt } from "./notice.txt";
 
 // tslint:disable-next-line:no-console
-console.log(notice);
+console.log(noticeTxt);
 
 // to comply with the kwarc privacy policy
 // we load the banner script
@@ -22,23 +22,36 @@ policyScript.setAttribute("type", "text/javascript");
 document.body.appendChild(policyScript);
 
 // load the polyfill for older browsers
+// tslint:disable-next-line:no-import-side-effect ordered-imports
 import "babel-polyfill";
 
+// tslint:disable-next-line:
 Promise.all([
     // we import the modules that we directly need
     import(/* webpackChunkName: "react" */"react"),
     import(/* webpackChunkName: "react" */"react-dom"),
-    import(/* webpackChunkName: "app" */"./components").then((mh) => mh.MathHub),
+    import(/* webpackChunkName: "app" */"./Components")
+        .then(mh => mh.MathHub),
 
     // next we load the css, to style the page dynamically
     // tslint:disable-next-line:no-submodule-imports
     import(/* webpackChunkName: "semantic_ui_css" */"semantic-ui-css/semantic.min.css"),
-]).then(([ React, ReactDOM, MathHub ]) => {
+])
+.then(([ React, ReactDOM, MathHub ]) => {
+    const {MMT_URL, NEWS_URL, GLOSSARY_URL, BROWSER_ROUTER} = process.env;
+
     ReactDOM.render(
         <MathHub
-            MOCK_MMT={process.env.MOCK_MMT === "true"}
-            MMT_URL={process.env.MMT_URL!}
+            MMT_URL={MMT_URL || ""}
+            NEWS_URL={NEWS_URL || ""}
+            GLOSSARY_URL={GLOSSARY_URL || ""}
+
+            BROWSER_ROUTER={BROWSER_ROUTER || ""}
         />,
         document.getElementById("mathhub"),
     );
+}).catch(e => {
+    if (process.env.NODE_ENV !== "production")
+        // tslint:disable-next-line:no-console
+        console.error(e);
 });

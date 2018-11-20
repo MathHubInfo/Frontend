@@ -5,6 +5,15 @@
 
 A new MathHub Frontend written in React. 
 
+## MathHub Versions and Releases
+
+As MMT is used as the Backend for MathHub, MathHub releases are tied to MMT releases. 
+
+In a nutshell, the major version number is that of the MMT release, the minor number is used for MathHub-internal purposes.
+
+This also means that http://mathhub.info will get a new release (and functionality update) about every six weeks following the MMT release schedule.
+
+
 ## Development Usage
 We use [yarn](https://yarnpkg.com/en/), which we assume in the following is installed. 
 
@@ -40,7 +49,7 @@ MMT_URL=https://mmt.mathhub.info/:mathhub/ yarn webpack-dev-server
 
 # Furthermore, in case no MMT is running, a Mock Client exists during development. 
 # This can be enabled like so:
-MOCK_MMT=1 yarn webpack-dev-server
+MMT_URL= yarn webpack-dev-server
 ```
 
 As an IDE, it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) (>= May 2018 (version 1.24)) along with the [TSLint Extension](https://marketplace.visualstudio.com/items?itemName=eg2.tslint). 
@@ -79,9 +88,11 @@ To override them, use the `VARIABLE=VALUE yarn webpack` or `VARIABLE=VALUE yarn 
 
 The supported variables are:
 
-* `MMT_URL` -- The URL to the MathHub MMT Extension, defaults to `http://localhost:9000/:mathhub/`
-* `MOCK_MMT` -- If set to `1`, use a mocked dataset instead of communicating with an actual MMT
+* `MMT_URL` -- The URL to the MathHub MMT Extension. If omitted, defaults to mocking the MMT server. 
+* `NEWS_URL` -- The URL to retrieve news items from. If omitted, defaults to the news.json file under assets. 
+* `GLOSSARY_URL` -- The URL to retrieve glossary items from. If omitted, defaults to the glossary.json file under mocks.
 * `ADMIN_URL` -- URL to the admin interface, defaults to `/admin/`
+* `BROWSER_ROUTER` -- If set to a non-empty string, use real webserver urls instead of fragments with the given base path. For this to work, the webserver should fallback to `index.html` on 404s. 
 
 ## Deployment via Docker
 
