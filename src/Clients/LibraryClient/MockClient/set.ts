@@ -80,24 +80,21 @@ export interface IMockOpaqueElement extends IMockObject {
 }
 
 // a mocked module
-export type IMockModule = IMockTheory | IMockView;
+export interface IMockModule extends IMockObject {
+    parent?: null;
+    mod: IMockTheory | IMockView;
+}
 
-interface IMockTheory extends IMockObject {
+export interface IMockTheory extends IMockObject {
     kind: "theory";
     parent?: null;
-
-    presentation: HTML;
-    source?: string;
 
     meta?: IMockReference;
 }
 
-interface IMockView extends IMockObject {
+export interface IMockView extends IMockObject {
     kind: "view";
     parent?: null;
-
-    presentation: HTML;
-    source?: string;
 
     domain: IMockReference;
     codomain: IMockReference;
@@ -106,15 +103,19 @@ interface IMockView extends IMockObject {
 
 // a mocked declaration
 export interface IMockDeclaration extends IMockObject {
-    kind: "declaration";
     parent: IMockReference;
+
+    declaration: {
+        kind: string;
+    };
 }
 
 // a mocked component
 export interface IMockComponent extends IMockObject {
-    kind: "component";
     parent: IMockReference;
 
-    componentType: string;
+    component: {
+        kind: string;
+    };
     term: string;
 }

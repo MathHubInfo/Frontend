@@ -214,10 +214,10 @@ export interface IOpaqueElement extends IOpaqueElementItem {
 }
 
 //
-// CONTENT
+// MODULES
 //
 interface IModuleItem extends IAPIObjectItem {
-    kind: "theory" | "view";
+    kind: "module";
     parent: null;
 
     // name of the module
@@ -227,47 +227,31 @@ interface IModuleItem extends IAPIObjectItem {
     id: URI;
 }
 
-// a reference to a module
-export type IModuleRef = ITheoryRef | IViewRef;
-
-interface IModuleCommonRef extends IModuleItem {
+export interface IModuleRef extends IModuleItem {
     ref: true;
     statistics?: undefined;
+
+    // the kind of module we have
+    mod: IModule["mod"]["kind"];
 }
 
-// a reference to a theory
-export interface ITheoryRef extends IModuleCommonRef {
-    kind: "theory";
-}
-
-// a reference to a view
-export interface IViewRef extends IModuleCommonRef {
-    kind: "view";
-}
-
-// an actual module, i.e. a theory or a view
-export type IModule = ITheory | IView;
-
-interface IModuleCommon extends IModuleItem {
+export interface IModule extends IModuleItem {
     ref: false;
+    mod: IView | ITheory;
 
-    // presentation of this module as HTML
-    presentation: HTML;
-
-    // source code of this module, if available
-    source?: string;
+    declarations: IDeclarationRef[];
 }
 
-// a description of a theory
-export interface ITheory extends IModuleCommon {
+type ITheoryRef = IModuleRef & {mod: "theory"};
+interface ITheory {
     kind: "theory";
 
     // the meta theory of this reference
     meta?: ITheoryRef;
 }
 
-// a description of a view
-export interface IView extends IModuleCommon {
+// type ITheoryRef = IModuleRef & {mod: "view"} // unused
+interface IView {
     kind: "view";
 
     // the domain of this view
@@ -294,11 +278,22 @@ interface IDeclarationItem extends IAPIObjectItem {
 export interface IDeclarationRef extends IDeclarationItem {
     ref: true;
     statistics?: undefined;
+
+    // the type of declaration we have
+    declaration: IDeclaration["declaration"]["kind"];
 }
 
 // a declaration
 export interface IDeclaration extends IDeclarationItem {
     ref: false;
+
+    declaration: {
+        // the type of this declaration
+        kind: string;
+
+        // TODO: Add declaration-kind-specific information here
+        // like for Constant, RuleConstant, Structure, ...
+    };
 
     // the components of this declaration
     components: IComponentRef[];
@@ -323,14 +318,20 @@ interface IComponentItem extends IAPIObjectItem {
 export interface IComponentRef extends IComponentItem {
     ref: true;
     statistics?: undefined;
+
+    // the type of this component
+    component: IComponent["component"]["kind"];
 }
 
 // a declaration component
 export interface IComponent extends IComponentItem {
     ref: false;
 
-    // the type of this declarationComponent
-    componentType: string;
+    // the component-specific information
+    component: {
+        // the specific type of this component
+        kind: string;
+    };
 
     // the term inside of this component -- presented as html
     term: HTML;
@@ -377,7 +378,7 @@ export interface ISourceReference {
 // any object exposed by the API
 interface IAPIObjectItem {
     // the kind of object that is returned
-    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view" | "declaration" | "component" | "tag";
+    kind: "group" | "archive" | "document" | "opaque" | "module" | "declaration" | "component" | "tag";
 
     // weather this object is a reference or a full description
     ref: boolean;

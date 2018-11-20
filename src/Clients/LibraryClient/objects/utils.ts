@@ -10,16 +10,14 @@ import {
     IDocumentRef,
     IGroup,
     IGroupRef,
+    IModule,
+    IModuleRef,
     IOpaqueElement,
     IOpaqueElementRef,
     IReferencable,
     IReference,
     ITag,
     ITagRef,
-    ITheory,
-    ITheoryRef,
-    IView,
-    IViewRef,
 } from ".";
 
 // turns any object returned from the API into a reference
@@ -43,10 +41,8 @@ export function ObjectToRef(obj: IReferencable): IReference {
             return DocumentObjectToRef(obj);
         case "opaque":
             return OpaqueElementObjectToRef(obj);
-        case "view":
-            return ViewObjectToRef(obj);
-        case "theory":
-            return TheoryObjectToRef(obj);
+        case "module":
+            return ModuleObjectToRef(obj);
         case "declaration":
             return DeclarationObjectToRef(obj);
         case "component":
@@ -122,26 +118,16 @@ export function OpaqueElementObjectToRef(opaque: IOpaqueElement): IOpaqueElement
 }
 
 // turns a view into a reference
-export function ViewObjectToRef(view: IView): IViewRef {
+export function ModuleObjectToRef(mod: IModule): IModuleRef {
     return {
-        kind: "view",
-        parent: view.parent,
+        kind: "module",
+        parent: mod.parent,
         ref: true,
 
-        id: view.id,
-        name: view.name,
-    };
-}
+        mod: mod.mod.kind,
 
-// turns a theory into a reference
-export function TheoryObjectToRef(theory: ITheory): ITheoryRef {
-    return {
-        kind: "theory",
-        parent: theory.parent,
-        ref: true,
-
-        id: theory.id,
-        name: theory.name,
+        id: mod.id,
+        name: mod.name,
     };
 }
 
@@ -150,6 +136,8 @@ export function DeclarationObjectToRef(declaration: IDeclaration): IDeclarationR
         kind: "declaration",
         parent: declaration.parent,
         ref: true,
+
+        declaration: declaration.declaration.kind,
 
         id: declaration.id,
         name: declaration.name,
@@ -161,6 +149,8 @@ export function ComponentObjectToRef(component: IComponent): IComponentRef {
         kind: "component",
         parent: component.parent,
         ref: true,
+
+        component: component.component.kind,
 
         id: component.id,
         name: component.name,

@@ -24,7 +24,7 @@ export default function Content(props: {elements: INarrativeElement[]}) {
 
 function NarrativeElementViewItem(props: {element: INarrativeElement}) {
     const { element } = props;
-    if (element.ref && (element.kind === "theory" || element.kind === "view"))
+    if (element.ref && element.kind === "module")
         return <Module mod={element} />;
     else if (element.kind === "opaque")
         return <Opaque element={element} />;

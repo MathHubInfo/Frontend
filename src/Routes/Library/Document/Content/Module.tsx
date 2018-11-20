@@ -19,7 +19,7 @@ export default class Module extends React.Component<{mod: IModuleRef}, {expanded
             <Card>
                 <Card.Content>
                     <Button icon size="mini" onClick={this.toggleExpansion} >
-                        {this.props.mod.kind} reference
+                        {this.props.mod.mod} reference
                         {this.state.expanded ? <Icon name="chevron down" /> : <Icon name="chevron right" />}
                     </Button>
                     {this.props.mod.id}
@@ -58,7 +58,7 @@ const ModuleContentExpanded = withContext(
 function ModuleViewFullExpanded(props: {mod: IModule}) {
     return (
         <Card.Content>
-            <HTML as="div">{props.mod.presentation}</HTML>
+            <HTML as="div">Declarations not rendered yet</HTML>
         </Card.Content>
     );
 }
