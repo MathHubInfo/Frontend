@@ -33,7 +33,7 @@ module.exports = merge(common, {
         historyApiFallback: env.BROWSER_ROUTER !== '""',
 
         watchOptions: {
-            aggregateTimeout: 1000,
+            aggregateTimeout: 3000,
             ignored: /node_modules/,
         },
 
