@@ -1,8 +1,8 @@
 import Axios from "axios";
 
 import MMTClient from "./MMTClient";
-import { IArchive, IDocument, IGroup, IGroupRef, IMMTVersionInfo,
-         IModule, IReferencable, ITag, URI } from "./objects";
+import { IArchive, IComponent, IDeclaration, IDocument, IGroup,
+         IGroupRef, IMMTVersionInfo, IModule, IReferencable, ITag, URI } from "./objects";
 
 // A client that talks to MMT via the REST interface
 export default class RestClient extends MMTClient {
@@ -53,6 +53,14 @@ export default class RestClient extends MMTClient {
 
     async getModule(id: string): Promise<IModule> {
         return this.getURL<IModule>(`content/module?id=${this.encodeID(id)}`);
+    }
+
+    async getDeclaration(id: string): Promise<IDeclaration> {
+        return this.getURL<IDeclaration>(`content/declaration?id=${this.encodeID(id)}`);
+    }
+
+    async getComponent(id: string): Promise<IComponent> {
+        return this.getURL<IComponent>(`content/component?id=${this.encodeID(id)}`);
     }
 
     private async getURL<T>(url: string): Promise<T> {

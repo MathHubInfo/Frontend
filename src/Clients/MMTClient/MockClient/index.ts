@@ -4,6 +4,10 @@ import {
     IApiObject,
     IArchive,
     IArchiveRef,
+    IComponent,
+    IComponentRef,
+    IDeclaration,
+    IDeclarationRef,
     IDocument,
     IDocumentParentRef,
     IDocumentRef,
@@ -11,6 +15,7 @@ import {
     IGroupRef,
     IMMTVersionInfo,
     IModule,
+    IModuleRef,
     INarrativeElement,
     IOpaqueElement,
     IOpaqueElementRef,
@@ -24,7 +29,7 @@ import {
     URI,
 } from "../objects";
 
-import { IMockDataSet, IMockModule, IMockObject, IMockReference } from "./set";
+import { IMockComponent, IMockDataSet, IMockDeclaration, IMockModule, IMockObject, IMockReference } from "./set";
 
 // An API client to MMT that mocks results by resolving them statically from a given datatset
 class LazyMockClient extends MMTClient {
@@ -146,6 +151,24 @@ class LazyMockClient extends MMTClient {
         );
     }
 
+    // gets a declaration from the mock dataset
+    async getDeclaration(id: string): Promise<IDeclaration> {
+        return this.getObjectOfType<IDeclaration>(
+            (ds: IMockDataSet) => ds.declarations.find(d => d.id === id),
+            (d: IMockObject) => (d as IMockDeclaration).kind,
+            `Declaration ${id} does not exist. `,
+        );
+    }
+
+    // gets a component from the mock dataset
+    async getComponent(id: string): Promise<IComponent> {
+        return this.getObjectOfType<IComponent>(
+            (ds: IMockDataSet) => ds.components.find(c => c.id === id),
+            (c: IMockObject) => (c as IMockComponent).kind,
+            `Component ${id} does not exist. `,
+        );
+    }
+
     // #endregion
 
     // #region "Dataset"
@@ -213,6 +236,12 @@ class LazyMockClient extends MMTClient {
                 break;
             case "view":
                 co = this.cleanView(obj, ds);
+                break;
+            case "declaration":
+                co = this.cleanDeclaration(obj, ds);
+                break;
+            case "component":
+                co = this.cleanComponent(obj, ds);
                 break;
             default:
                 // tslint:disable-next-line:no-console
@@ -312,6 +341,15 @@ class LazyMockClient extends MMTClient {
         };
     }
 
+    private static cleanModuleRef(mod: IMockReference, ds: IMockDataSet): IModuleRef {
+        const actual = ds.modules.find(m => m.id === mod.id);
+        if (!actual) throw LazyMockClient.MockNotFoundError(mod.id, "modules (as theory)");
+        if (actual.kind === "theory")
+            return this.cleanTheoryRef(mod, ds);
+        else
+            return this.cleanViewRef(mod, ds);
+    }
+
     private static cleanTheoryRef(theory: IMockReference, ds: IMockDataSet): ITheoryRef {
         const actual = ds.modules.find(t => t.id === theory.id && t.kind === "theory") as ITheory;
         if (!actual) throw LazyMockClient.MockNotFoundError(theory.id, "modules (as theory)");
@@ -333,6 +371,36 @@ class LazyMockClient extends MMTClient {
         return {
             kind: "view",
             parent: null,
+            ref: true,
+
+            name: actual.name,
+            id: actual.id,
+        };
+    }
+
+    private static cleanDeclarationRef(declaration: IMockReference, ds: IMockDataSet): IDeclarationRef {
+        const actual = ds.declarations.find(d => d.id === declaration.id);
+        if (!actual) throw LazyMockClient.MockNotFoundError(declaration.id, "declarations");
+        const parent = this.cleanModuleRef(actual.parent, ds);
+
+        return {
+            kind: "declaration",
+            parent,
+            ref: true,
+
+            name: actual.name,
+            id: actual.id,
+        };
+    }
+
+    private static cleanComponentRef(component: IMockReference, ds: IMockDataSet): IComponentRef {
+        const actual = ds.components.find(c => c.id === component.id);
+        if (!actual) throw LazyMockClient.MockNotFoundError(component.id, "components");
+        const parent = this.cleanDeclarationRef(actual.parent, ds);
+
+        return {
+            kind: "component",
+            parent,
             ref: true,
 
             name: actual.name,
@@ -502,6 +570,37 @@ class LazyMockClient extends MMTClient {
 
             domain,
             codomain,
+        };
+    }
+
+    private static cleanDeclaration(declaration: IMockReference, ds: IMockDataSet): IDeclaration {
+        const ref = this.cleanDeclarationRef(declaration, ds);
+        const actual = ds.declarations.find(d => d.id === declaration.id);
+        if (!actual) throw LazyMockClient.MockNotFoundError(declaration.id, "declarations");
+
+        const components = ds.components
+            .filter(c => c.parent.id === actual.id)
+            .map(d => this.cleanComponentRef(d, ds));
+
+        return {
+            ...ref,
+            ref: false,
+
+            components,
+        };
+    }
+
+    private static cleanComponent(component: IMockReference, ds: IMockDataSet): IComponent {
+        const ref = this.cleanComponentRef(component, ds);
+        const actual = ds.components.find(c => c.id === component.id);
+        if (!actual) throw LazyMockClient.MockNotFoundError(component.id, "components");
+
+        return {
+            ...ref,
+            ref: false,
+
+            componentType: actual.componentType,
+            term: actual.term,
         };
     }
 

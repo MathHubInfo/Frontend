@@ -1,5 +1,5 @@
-import { IArchive, IDocument, IGroup, IGroupRef, IMMTVersionInfo,
-         IModule, IReferencable, ITag, URI } from "./objects";
+import { IArchive, IComponent, IDeclaration, IDocument, IGroup,
+         IGroupRef, IMMTVersionInfo, IModule, IReferencable, ITag, URI } from "./objects";
 
 export default abstract class MMTClient {
     // gets the version of MMT */
@@ -29,4 +29,10 @@ export default abstract class MMTClient {
 
     // gets a specific module
     abstract getModule(id: string): Promise<IModule>;
+
+    // gets a specific declaration
+    abstract getDeclaration(id: string): Promise<IDeclaration>;
+
+    // gets a specific component
+    abstract getComponent(id: string): Promise<IComponent>;
 }

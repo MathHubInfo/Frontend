@@ -9,10 +9,11 @@ export type IResponse = IApiObject | IMMTVersionInfo | IStatistic;
 export type IApiObject = IReferencable | IReference ;
 
 // any object that is referencable
-export type IReferencable = IGroup | ITag | IArchive | IDocument | IOpaqueElement | IModule;
+export type IReferencable = IGroup | ITag | IArchive | IDocument | IOpaqueElement | IModule | IDeclaration | IComponent;
 
 // any concrete reference
-export type IReference = IHubReference | ITagRef | IDocumentRef | IOpaqueElementRef | IModuleRef;
+export type IReference =
+    IHubReference | ITagRef | IDocumentRef | IOpaqueElementRef | IModuleRef | IDeclarationRef | IComponentRef;
 
 // a reference to a group or an archive
 export type IHubReference = IGroupRef | IArchiveRef;
@@ -255,7 +256,6 @@ interface IModuleCommon extends IModuleItem {
 
     // source code of this module, if available
     source?: string;
-
 }
 
 // a description of a theory
@@ -274,6 +274,66 @@ export interface IView extends IModuleCommon {
     domain: ITheoryRef;
     // the co-domain of this view
     codomain: ITheoryRef;
+}
+
+//
+// Declarations
+//
+
+interface IDeclarationItem extends IAPIObjectItem {
+    kind: "declaration";
+    parent: IModuleRef;
+
+    // the id of the declaration
+    id: string;
+    // the name of the declaration
+    name: string;
+}
+
+// a reference to a declaration
+export interface IDeclarationRef extends IDeclarationItem {
+    ref: true;
+    statistics?: undefined;
+}
+
+// a declaration
+export interface IDeclaration extends IDeclarationItem {
+    ref: false;
+
+    // the components of this declaration
+    components: IComponentRef[];
+}
+
+//
+// Declaration Components
+//
+
+interface IComponentItem extends IAPIObjectItem {
+    kind: "component";
+    parent: IDeclarationRef;
+
+    // the id of the declaration
+    id: string;
+
+    // the name of the declaration component
+    name: string;
+}
+
+// a reference to a declaration component
+export interface IComponentRef extends IComponentItem {
+    ref: true;
+    statistics?: undefined;
+}
+
+// a declaration component
+export interface IComponent extends IComponentItem {
+    ref: false;
+
+    // the type of this declarationComponent
+    componentType: string;
+
+    // the term inside of this component -- presented as html
+    term: HTML;
 }
 
 //
@@ -317,7 +377,7 @@ export interface ISourceReference {
 // any object exposed by the API
 interface IAPIObjectItem {
     // the kind of object that is returned
-    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view" | "tag";
+    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view" | "declaration" | "component" | "tag";
 
     // weather this object is a reference or a full description
     ref: boolean;

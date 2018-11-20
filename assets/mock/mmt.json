@@ -256,5 +256,7 @@
             "presentation": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>",
             "source": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>"
         }
-    ]
+    ],
+    "declarations": [],
+    "components": []
 }

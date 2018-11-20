@@ -22,6 +22,9 @@ export interface IMockDataSet {
     opaques: IMockOpaqueElement[];
 
     modules: IMockModule[];
+
+    declarations: IMockDeclaration[];
+    components: IMockComponent[];
 }
 
 // a shallow mock reference
@@ -98,4 +101,20 @@ interface IMockView extends IMockObject {
 
     domain: IMockReference;
     codomain: IMockReference;
+}
+
+
+// a mocked declaration
+export interface IMockDeclaration extends IMockObject {
+    kind: "declaration";
+    parent: IMockReference;
+}
+
+// a mocked component
+export interface IMockComponent extends IMockObject {
+    kind: "component";
+    parent: IMockReference;
+
+    componentType: string;
+    term: string;
 }

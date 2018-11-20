@@ -2,6 +2,10 @@ import {
     IApiObject,
     IArchive,
     IArchiveRef,
+    IComponent,
+    IComponentRef,
+    IDeclaration,
+    IDeclarationRef,
     IDocument,
     IDocumentRef,
     IGroup,
@@ -43,6 +47,10 @@ export function ObjectToRef(obj: IReferencable): IReference {
             return ViewObjectToRef(obj);
         case "theory":
             return TheoryObjectToRef(obj);
+        case "declaration":
+            return DeclarationObjectToRef(obj);
+        case "component":
+            return ComponentObjectToRef(obj);
         default:
             throw new Error("Invalid IReferencable passed. ");
     }
@@ -134,5 +142,27 @@ export function TheoryObjectToRef(theory: ITheory): ITheoryRef {
 
         id: theory.id,
         name: theory.name,
+    };
+}
+
+export function DeclarationObjectToRef(declaration: IDeclaration): IDeclarationRef {
+    return {
+        kind: "declaration",
+        parent: declaration.parent,
+        ref: true,
+
+        id: declaration.id,
+        name: declaration.name,
+    };
+}
+
+export function ComponentObjectToRef(component: IComponent): IComponentRef {
+    return {
+        kind: "component",
+        parent: component.parent,
+        ref: true,
+
+        id: component.id,
+        name: component.name,
     };
 }
