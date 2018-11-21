@@ -287,16 +287,46 @@ export interface IDeclarationRef extends IDeclarationItem {
 export interface IDeclaration extends IDeclarationItem {
     ref: false;
 
-    declaration: {
-        // the type of this declaration
-        kind: string;
+    // information about this declaration
+    declaration: IStructure | IConstant | IRule | INestedModule;
 
-        // TODO: Add declaration-kind-specific information here
-        // like for Constant, RuleConstant, Structure, ...
-    };
+    // the list of declarations within this declaration
+    declarations: IDeclarationRef[];
 
     // the components of this declaration
     components: IComponentRef[];
+}
+
+// an MMT stucture (which may or may not be declared)
+interface IStructure {
+    kind: "structure";
+
+    // is this structure implicit?
+    implicit: boolean;
+    // is this structure an include?
+    include: boolean;
+}
+
+// an MMT constant
+interface IConstant {
+    kind: "constant";
+
+    // the role of this constant (optional)
+    role?: string;
+
+    // aliases of this constant
+    alias: string[];
+}
+
+// an MMT RuleConstant
+interface IRule {
+    kind: "rule";
+}
+
+// a nested module
+interface INestedModule {
+    kind: "nested";
+    mod: IModuleRef;
 }
 
 //

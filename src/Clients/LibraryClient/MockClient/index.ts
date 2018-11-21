@@ -562,15 +562,32 @@ class LazyMockClient extends LibraryClient {
 
         const components = ds.components
             .filter(c => c.parent.id === actual.id)
-            .map(d => this.cleanComponentRef(d, ds));
+            .map(c => this.cleanComponentRef(c, ds));
+
+        const declarations = ds.declarations
+            .filter(d => d.parent.id === actual.id)
+            .map(d => this.cleanDeclarationRef(d, ds));
+
+        let inner: IDeclaration["declaration"];
+        if (actual.declaration.kind === "nested") {
+            const modT = this.cleanModuleRef(actual.declaration.mod, ds);
+            if (!modT) throw LazyMockClient.MockNotFoundError(actual.declaration.id, "modules");
+
+            inner = {
+                kind: "nested",
+                mod: modT,
+            };
+        } else
+            inner = actual.declaration;
 
         return {
             ...ref,
             ref: false,
 
-            declaration: actual.declaration,
+            declaration: inner,
 
             components,
+            declarations,
         };
     }
 

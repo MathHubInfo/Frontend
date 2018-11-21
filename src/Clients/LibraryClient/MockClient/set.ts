@@ -1,6 +1,7 @@
 import {
     HTML,
     IMMTVersionInfo,
+    IModuleRef,
     IStatistic,
 } from "../objects";
 
@@ -105,9 +106,33 @@ export interface IMockView extends IMockObject {
 export interface IMockDeclaration extends IMockObject {
     parent: IMockReference;
 
-    declaration: {
-        kind: string;
-    };
+    declaration: IMockStructure | IMockConstant | IMockRule | IMockNestedModule;
+}
+
+export interface IMockStructure extends IMockObject {
+    kind: "structure";
+    parent?: null;
+
+    implicit: boolean;
+    include: boolean;
+}
+
+export interface IMockConstant extends IMockObject {
+    kind: "constant";
+    parent?: null;
+
+    role?: string;
+    alias: string[];
+}
+
+export interface IMockRule extends IMockObject {
+    kind: "rule";
+}
+
+export interface IMockNestedModule extends IMockObject {
+    kind: "nested";
+
+    mod: IModuleRef;
 }
 
 // a mocked component
