@@ -1,82 +1,75 @@
 import * as React from "react";
-import { Button, Card, Icon, Label } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 
 import {
     IComponent,
     IDeclaration,
     IDeclarationRef } from "../../../../Clients/LibraryClient/objects";
 import { HTML } from "../../../../Components/Fragments";
-import { LoadWithSpinner } from "../../../../Components/Loaders";
+
 import { IMathHubContext, withContext } from "../../../../Context";
 
-export default class Declaration extends React.Component<{declaration: IDeclarationRef}, {expanded: boolean}> {
-    state = {expanded: false};
-    render() {
-        const {declaration, name} = this.props.declaration;
+export class Declaration extends React.Component<{ context: IMathHubContext; declaration: IDeclarationRef }> {
+    state: {
+        declaration?: IDeclaration;
+    } = {};
+    private isComponentMounted = false;
+    async componentDidMount() {
+        this.isComponentMounted = true;
 
-        return (
-            <Card>
-                <Card.Content>
-                    <Button icon size="mini" onClick={this.toggleExpansion} >
-                        {DECLARATION_NAMES[declaration]}
-                        {this.state.expanded ? <Icon name="chevron down" /> : <Icon name="chevron right" />}
-                    </Button>
-                    {name}
-                </Card.Content>
-                {this.state.expanded ? <DeclarationModuleExpanded declaration={this.props.declaration} /> : null}
-            </Card>
-        );
+        const declaration = await this.getDeclaration();
+        if (this.isComponentMounted)
+            this.setState({ declaration });
     }
 
-    private readonly toggleExpansion = () => this.setState({expanded: !this.state.expanded});
+    componentWillUnmount() {
+        this.isComponentMounted = false;
+    }
+
+    render() {
+        const declaration = this.state.declaration || this.props.declaration;
+
+        return <ExpandedDeclaration declaration={declaration} />;
+    }
+
+    private async getDeclaration(): Promise<IDeclaration> {
+        return this.props.context.libraryClient.getDeclaration(this.props.declaration.id);
+    }
 }
 
+// tslint:disable-next-line:export-name
+export default withContext(Declaration);
+
 const DECLARATION_NAMES = {
-    constant: "Constant",
     structure: "Structure",
-    rule: "Rule",
+    rule: "Rule Constant",
+    constant: "Constant",
     nested: "Nested Module",
 };
 
-const DeclarationModuleExpanded = withContext(
-    class DME extends React.Component<{
-        declaration: IDeclarationRef;
-        context: IMathHubContext;
-    }> {
-        render() {
-            return (
-                <LoadWithSpinner
-                    title={this.props.declaration.name}
-                    promise={this.getDeclaration}
-                    errorMessage
-                >{fullDeclaration => <DeclarationViewFullExpanded declaration={fullDeclaration} />}
-                </LoadWithSpinner>
-            );
-        }
+function ExpandedDeclaration({ declaration }: {declaration: IDeclaration | IDeclarationRef }) {
+    const kind = declaration.ref ? declaration.declaration : declaration.declaration.kind;
+    const components = declaration.ref ? [] : declaration.components;
 
-        private readonly getDeclaration =
-            async (): Promise<IDeclaration> =>
-                this.props.context.libraryClient.getDeclaration(this.props.declaration.id)
-    },
-);
-
-function DeclarationViewFullExpanded(props: {declaration: IDeclaration}) {
     return (
-        <Card.Content>
-            {props.declaration.components.map(c => <DeclarationComponent key={c.name} component={c} />)}
-        </Card.Content>
+        <Card>
+            <Card.Content>
+                <Card.Header>{declaration.name}</Card.Header>
+                <Card.Description>{DECLARATION_NAMES[kind]}</Card.Description>
+            </Card.Content>
+            { components.map(c => <DeclarationComponent key={c.name} component={c} />)}
+        </Card>
     );
 }
 
-function DeclarationComponent(props: {component: IComponent}) {
+function DeclarationComponent(props: {component: IComponent }) {
     const {name, component} = props.component;
 
     return (
-        <>
-            <Label>{name}</Label>
-            { component.kind  === "notation" ?
-                component.notation : <HTML>{component.object}</HTML>}
-            <br />
-        </>
+        <Card.Content extra>
+                <b>{name}</b>{" "}
+                { component.kind  === "notation" ?
+                    component.notation : <HTML>{component.object}</HTML>}
+        </Card.Content>
     );
 }
