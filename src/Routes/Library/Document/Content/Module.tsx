@@ -1,14 +1,13 @@
 import * as React from "react";
-
 import { Button, Card, Icon } from "semantic-ui-react";
 
 import {
     IModule,
     IModuleRef } from "../../../../Clients/LibraryClient/objects";
+import { LoadWithSpinner } from "../../../../Components/Loaders";
 import { IMathHubContext, withContext } from "../../../../Context";
 
-import { HTML } from "../../../../Components/Fragments";
-import { LoadWithSpinner } from "../../../../Components/Loaders";
+import Declaration from "./Declaration";
 
 export default class Module extends React.Component<{mod: IModuleRef}, {expanded: boolean}> {
     state = {expanded: false};
@@ -58,7 +57,9 @@ const ModuleContentExpanded = withContext(
 function ModuleViewFullExpanded(props: {mod: IModule}) {
     return (
         <Card.Content>
-            <HTML as="div">Declarations not rendered yet</HTML>
+            <Card.Group itemsPerRow={1}>
+                {props.mod.declarations.map(d => <Declaration key={d.id} declaration={d} />)}
+            </Card.Group>
         </Card.Content>
     );
 }
