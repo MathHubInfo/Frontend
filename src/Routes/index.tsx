@@ -1,5 +1,6 @@
 import { DictToSwitch } from "../Components/Common";
 import { PropsOfComponent } from "../Types/react";
+
 type IRouteDict = PropsOfComponent<DictToSwitch>["routes"];
 
 export {makeLibraryRouteSpec as urlMaker} from "./Library/Structure/Links";
@@ -7,6 +8,10 @@ export {makeLibraryRouteSpec as urlMaker} from "./Library/Structure/Links";
 // the home route
 const Home = async () => import(/* webpackChunkName: "home"*/"./Home").then(h => h.Home);
 Home.routeTitle = "Home";
+
+// the error route
+const Error = async () => import(/* webpackChunkName: "defaultpage"*/"./DefaultPage").then(e => e.DefaultPage);
+Error.routeTitle = "Error 404";
 
 // #region "Archive Structure"
 const archivesImport = async () => import(/* webpackChunkName: "archives" */"./Library/Archives");
@@ -81,7 +86,7 @@ const routes: IRouteDict = {
     "/": Home,
 
     // library Routes
-    "": Library,
+    "library": Library,
     "group": Group,
     "archive": Archive,
     "document": Document,
@@ -102,6 +107,9 @@ const routes: IRouteDict = {
     "/applications/logger": Logger,
 
     "/devel/": Devel,
+
+    // the error route
+    "": Error,
 };
 
 export default routes;

@@ -4,7 +4,7 @@ import { Card, Icon } from "semantic-ui-react";
 
 import { INewsItem } from "../../Clients/NewsClient";
 import { Nav } from "../../Components/Common";
-import { MHTitle, HTML } from "../../Components/Fragments";
+import { HTML, MHTitle } from "../../Components/Fragments";
 import { LoadWithSpinner } from "../../Components/Loaders";
 import { withContext } from "../../Context";
 import { ILibraryRouteProps } from "../Library/Structure/Links";

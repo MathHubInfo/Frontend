@@ -8,6 +8,8 @@ export type IGlossaryProps = RouteComponentProps<{language: string}>;
 // generates a route for a library page
 export function makeLibraryRouteSpec(kind?: string) {
     if (!kind)
+        return "";
+    if (kind === "library")
         return "/library";
 
     return `/library/${kind}/:id(.*)`;
