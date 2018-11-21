@@ -23,16 +23,22 @@ We use [yarn](https://yarnpkg.com/en/), which we assume in the following is inst
 # are added
 yarn
 
-# to build the distribution in production mode into the dist/
+# To build a complete distribution for production use the following
+# command. This will internally split into the two commands below.
+yarn dist
+
+# typescript, compile and compress the source into the dist/
 # folder. This includes an index.html file and can afterwards
-# be served by a static webserver under any URL
-yarn webpack --config=webpack.config.prod.js
+# be served by a static webserver under any URL. 
+yarn build
 
 # When generating a distribution, it is additionally required
 # to run the following to generate NOTICES.txt file for license 
 # information of *external* dependencies
-yarn --ignore-platform licenses generate-disclaimer > dist/NOTICES.txt
+yarn mklegal
 
+# To run code for local development several commands exist
+# skip to the end to see the import bits
 
 # run a local webserver for development on localhost:8080
 # this takes a couple seconds to start up and will afterwards
@@ -50,6 +56,15 @@ MMT_URL=https://mmt.mathhub.info/:mathhub/ yarn webpack-dev-server
 # Furthermore, in case no MMT is running, a Mock Client exists during development. 
 # This can be enabled like so:
 MMT_URL= yarn webpack-dev-server
+
+# For convenience two shortcuts exist:
+yarn devmock
+yarn devmmt
+
+# both start webpack-dev-server on port 3000. 
+# the first command uses a mocked mmt instance, the second one
+# uses a real mmt expected to be at localhost:8080
+
 ```
 
 As an IDE, it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) (>= May 2018 (version 1.24)) along with the [TSLint Extension](https://marketplace.visualstudio.com/items?itemName=eg2.tslint). 

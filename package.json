@@ -5,9 +5,15 @@
   "main": "src/index.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "tslint -c tslint.json -p tsconfig.json",
+    
+    "dist": "yarn build && yarn mklegal",
+    "build": "webpack --config webpack.config.prod.js",
+    "mklegal": "yarn --ignore-platform licenses generate-disclaimer > dist/NOTICES.txt",
+    
     "devmmt": "MMT_URL=http://localhost:8080/:mathhub/ webpack-dev-server --port 3000",
-    "devmock": "MMT_URL= webpack-dev-server --port 3000"
+    "devmock": "MMT_URL= webpack-dev-server --port 3000",
+  
+    "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "repository": "https://github.com/KWARC/MathHub-React-Frontend",
   "author": "The KWARC Group <group@kwarc.info>",
