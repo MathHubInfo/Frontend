@@ -2,8 +2,6 @@ import {
     IApiObject,
     IArchive,
     IArchiveRef,
-    IComponent,
-    IComponentRef,
     IDeclaration,
     IDeclarationRef,
     IDocument,
@@ -45,8 +43,6 @@ export function ObjectToRef(obj: IReferencable): IReference {
             return ModuleObjectToRef(obj);
         case "declaration":
             return DeclarationObjectToRef(obj);
-        case "component":
-            return ComponentObjectToRef(obj);
         default:
             throw new Error("Invalid IReferencable passed. ");
     }
@@ -141,18 +137,5 @@ export function DeclarationObjectToRef(declaration: IDeclaration): IDeclarationR
 
         id: declaration.id,
         name: declaration.name,
-    };
-}
-
-export function ComponentObjectToRef(component: IComponent): IComponentRef {
-    return {
-        kind: "component",
-        parent: component.parent,
-        ref: true,
-
-        component: component.component.kind,
-
-        id: component.id,
-        name: component.name,
     };
 }

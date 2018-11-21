@@ -1,5 +1,6 @@
 import {
     HTML,
+    IComponent,
     IMMTVersionInfo,
     IModuleRef,
     IStatistic,
@@ -25,7 +26,6 @@ export interface IMockDataSet {
     modules: IMockModule[];
 
     declarations: IMockDeclaration[];
-    components: IMockComponent[];
 }
 
 // a shallow mock reference
@@ -107,6 +107,7 @@ export interface IMockDeclaration extends IMockObject {
     parent: IMockReference;
 
     declaration: IMockStructure | IMockConstant | IMockRule | IMockNestedModule;
+    components: IComponent[];
 }
 
 export interface IMockStructure extends IMockObject {
@@ -135,12 +136,3 @@ export interface IMockNestedModule extends IMockObject {
     mod: IModuleRef;
 }
 
-// a mocked component
-export interface IMockComponent extends IMockObject {
-    parent: IMockReference;
-
-    component: {
-        kind: string;
-    };
-    term: string;
-}

@@ -1,4 +1,4 @@
-import { IArchive, IComponent, IDeclaration, IDocument, IGroup,
+import { IArchive, IDeclaration, IDocument, IGroup,
          IGroupRef, IMMTVersionInfo, IModule, IReferencable, ITag, URI } from "./objects";
 
 export default abstract class LibraryClient {
@@ -32,7 +32,4 @@ export default abstract class LibraryClient {
 
     // gets a specific declaration
     abstract getDeclaration(id: string): Promise<IDeclaration>;
-
-    // gets a specific component
-    abstract getComponent(id: string): Promise<IComponent>;
 }

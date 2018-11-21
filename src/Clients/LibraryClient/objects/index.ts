@@ -9,11 +9,11 @@ export type IResponse = IApiObject | IMMTVersionInfo | IStatistic;
 export type IApiObject = IReferencable | IReference ;
 
 // any object that is referencable
-export type IReferencable = IGroup | ITag | IArchive | IDocument | IOpaqueElement | IModule | IDeclaration | IComponent;
+export type IReferencable = IGroup | ITag | IArchive | IDocument | IOpaqueElement | IModule | IDeclaration;
 
 // any concrete reference
 export type IReference =
-    IHubReference | ITagRef | IDocumentRef | IOpaqueElementRef | IModuleRef | IDeclarationRef | IComponentRef;
+    IHubReference | ITagRef | IDocumentRef | IOpaqueElementRef | IModuleRef | IDeclarationRef;
 
 // a reference to a group or an archive
 export type IHubReference = IGroupRef | IArchiveRef;
@@ -290,11 +290,11 @@ export interface IDeclaration extends IDeclarationItem {
     // information about this declaration
     declaration: IStructure | IConstant | IRule | INestedModule;
 
+    // the components of this declaration
+    components: IComponent[];
+
     // the list of declarations within this declaration
     declarations: IDeclarationRef[];
-
-    // the components of this declaration
-    components: IComponentRef[];
 }
 
 // an MMT stucture (which may or may not be declared)
@@ -333,38 +333,26 @@ interface INestedModule {
 // Declaration Components
 //
 
-interface IComponentItem extends IAPIObjectItem {
+export interface IComponent {
     kind: "component";
-    parent: IDeclarationRef;
-
-    // the id of the declaration
-    id: string;
 
     // the name of the declaration component
     name: string;
-}
-
-// a reference to a declaration component
-export interface IComponentRef extends IComponentItem {
-    ref: true;
-    statistics?: undefined;
-
-    // the type of this component
-    component: IComponent["component"]["kind"];
-}
-
-// a declaration component
-export interface IComponent extends IComponentItem {
-    ref: false;
 
     // the component-specific information
-    component: {
-        // the specific type of this component
-        kind: string;
-    };
+    component: IOmdocObject | INotation;
+}
 
-    // the term inside of this component -- presented as html
-    term: HTML;
+// a defined object
+export interface IOmdocObject {
+    kind: "object";
+    object: HTML;
+}
+
+// a defined notation
+export interface INotation {
+    kind: "notation";
+    notation: string;
 }
 
 //

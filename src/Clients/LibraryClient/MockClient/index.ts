@@ -4,8 +4,6 @@ import {
     IApiObject,
     IArchive,
     IArchiveRef,
-    IComponent,
-    IComponentRef,
     IDeclaration,
     IDeclarationRef,
     IDocument,
@@ -156,15 +154,6 @@ class LazyMockClient extends LibraryClient {
         );
     }
 
-    // gets a component from the mock dataset
-    async getComponent(id: string): Promise<IComponent> {
-        return this.getObjectOfType<IComponent>(
-            (ds: IMockDataSet) => ds.components.find(c => c.id === id),
-            "component",
-            `Component ${id} does not exist. `,
-        );
-    }
-
     // #endregion
 
     // #region "Dataset"
@@ -232,9 +221,6 @@ class LazyMockClient extends LibraryClient {
                 break;
             case "declaration":
                 co = this.cleanDeclaration(obj, ds);
-                break;
-            case "component":
-                co = this.cleanComponent(obj, ds);
                 break;
             default:
                 // tslint:disable-next-line:no-console
@@ -361,23 +347,6 @@ class LazyMockClient extends LibraryClient {
             ref: true,
 
             declaration: actual.declaration.kind,
-
-            name: actual.name,
-            id: actual.id,
-        };
-    }
-
-    private static cleanComponentRef(component: IMockReference, ds: IMockDataSet): IComponentRef {
-        const actual = ds.components.find(c => c.id === component.id);
-        if (!actual) throw LazyMockClient.MockNotFoundError(component.id, "components");
-        const parent = this.cleanDeclarationRef(actual.parent, ds);
-
-        return {
-            kind: "component",
-            parent,
-            ref: true,
-
-            component: actual.component.kind,
 
             name: actual.name,
             id: actual.id,
@@ -560,10 +529,6 @@ class LazyMockClient extends LibraryClient {
         const actual = ds.declarations.find(d => d.id === declaration.id);
         if (!actual) throw LazyMockClient.MockNotFoundError(declaration.id, "declarations");
 
-        const components = ds.components
-            .filter(c => c.parent.id === actual.id)
-            .map(c => this.cleanComponentRef(c, ds));
-
         const declarations = ds.declarations
             .filter(d => d.parent.id === actual.id)
             .map(d => this.cleanDeclarationRef(d, ds));
@@ -586,22 +551,8 @@ class LazyMockClient extends LibraryClient {
 
             declaration: inner,
 
-            components,
+            components: actual.components,
             declarations,
-        };
-    }
-
-    private static cleanComponent(component: IMockReference, ds: IMockDataSet): IComponent {
-        const ref = this.cleanComponentRef(component, ds);
-        const actual = ds.components.find(c => c.id === component.id);
-        if (!actual) throw LazyMockClient.MockNotFoundError(component.id, "components");
-
-        return {
-            ...ref,
-            ref: false,
-
-            component: actual.component,
-            term: actual.term,
         };
     }
 
