@@ -9,7 +9,7 @@
         "moduleResolution": "node", 
         "resolveJsonModule": false,
         "module": "esnext",
-        "target": "es6",
+        "target": "esnext",
         "jsx": "react", 
 
         "strict": true, 

@@ -135,8 +135,9 @@ These check that the project *compiles* in both production and non-production co
 ## Supported browsers
 
 We support the following browsers:
-    * the last two major versions of all browsers excluding Internet Explorer, unless they have <0.5% share
-    * Firefox ESR
+    * the last major version of Firefox + Firefox Android, and Firefox ESR
+    * the last major version of Chrome + Chrome Android
+    * the last major version of Safari + Safari IOS
 
 To view a concrete list of supported browsers, run:
 

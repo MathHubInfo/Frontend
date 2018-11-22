@@ -5,14 +5,11 @@
   "main": "src/index.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    
     "dist": "yarn build && yarn mklegal",
     "build": "webpack --config webpack.config.prod.js",
     "mklegal": "yarn --ignore-platform licenses generate-disclaimer > dist/NOTICES.txt",
-    
     "devmmt": "MMT_URL=http://localhost:8080/:mathhub/ webpack-dev-server --port 3000",
     "devmock": "MMT_URL= webpack-dev-server --port 3000",
-  
     "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "repository": "https://github.com/KWARC/MathHub-React-Frontend",
@@ -44,12 +41,12 @@
     "raw-loader": "^0.5.1",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.0",
+    "terser-webpack-plugin": "^1.1.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^5.11.0",
     "tslint-microsoft-contrib": "^5.2.1",
     "tslint-react": "^3.6.0",
     "typescript": "^3.1.6",
-    "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.1",
     "webpack": "^4.25.1",
     "webpack-bundle-analyzer": "^3.0.2",
@@ -74,5 +71,9 @@
     "semantic-ui-react": "^0.83.0",
     "ts-debounce": "^0.3.5"
   },
-  "browserslist": "last 2 versions, not dead, not IE > 0, Firefox ESR"
+  "browserslist": [
+    "last 1 Firefox version", "Firefox ESR", "last 1 FirefoxAndroid version", 
+    "last 1 Chrome version", "last 1 ChromeAndroid version", 
+    "last 1 Safari version", "last 1 iOS version"
+  ]
 }
