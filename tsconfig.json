@@ -19,7 +19,9 @@
 
         "esModuleInterop": true, 
         "isolatedModules": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+
+        "importHelpers": true
     },
 
     "awesomeTypescriptLoaderOptions": {

@@ -69,7 +69,8 @@
     "react-slot-fill": "^2.0.1",
     "semantic-ui-css": "^2.4.0",
     "semantic-ui-react": "^0.83.0",
-    "ts-debounce": "^1.0.0"
+    "ts-debounce": "^1.0.0",
+    "tslib": "^1.9.3"
   },
   "browserslist": [
     "last 1 Firefox version",
