@@ -28,14 +28,14 @@ import "babel-polyfill";
 // tslint:disable-next-line:
 Promise.all([
     // we import the modules that we directly need
-    import(/* webpackChunkName: "react" */"react"),
-    import(/* webpackChunkName: "react" */"react-dom"),
-    import(/* webpackChunkName: "app" */"./Components")
+    import("react"),
+    import("react-dom"),
+    import("./Components")
         .then(mh => mh.MathHub),
 
     // next we load the css, to style the page dynamically
     // tslint:disable-next-line:no-submodule-imports
-    import(/* webpackChunkName: "semantic_ui_css" */"semantic-ui-css/semantic.min.css"),
+    import("semantic-ui-css/semantic.min.css"),
 ])
 .then(([ React, ReactDOM, MathHub ]) => {
     const {MMT_URL, NEWS_URL, GLOSSARY_URL, BROWSER_ROUTER} = process.env;
