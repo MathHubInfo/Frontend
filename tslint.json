@@ -258,7 +258,9 @@
 
         // do not allow empty statements
         // except during debugging
-        "no-empty": true,
+        "no-empty": {
+            "options": "allow-empty-catch"
+        },
 
         // eval is evil()
         "no-eval": {
