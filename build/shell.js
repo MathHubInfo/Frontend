@@ -41,12 +41,14 @@ const defaultOptions = {
 
 function WebpackShellPlugin(options) {
     this.options = this.validateInput(this.mergeOptions(options, defaultOptions));
+    this.shouldExit = true;
 }
 
 WebpackShellPlugin.prototype.puts = function (error, stdout, stderr) {
-    if (error) {
+    if (error && this.shouldExit) {
         throw error;
     }
+    this.shouldExit = false;
 };
 
 WebpackShellPlugin.prototype.spreadStdoutAndStdErr = function (proc) {
