@@ -7,7 +7,7 @@ import { IMathHubClientConfig, urls } from "../Context/config";
 import { default as routes, urlMaker } from "../Routes";
 
 import { DictToSwitch, ScrollToTop } from "./Common";
-import MathHubLayout from "./MathHubLayout";
+import MathHubLayout, { Ribbon } from "./MathHubLayout";
 
 // the main entry point for MathHub
 // tslint:disable-next-line:export-name
@@ -16,9 +16,12 @@ export function MathHub(client: IMathHubClientConfig) {
 
     return (
         <Context.Provider value={makeContext(theConfig)}>
-            <MathHubRouter>
-                <DictToSwitch routes={routes} urlMaker={urlMaker} />
-            </MathHubRouter>
+            <>
+                <Ribbon />
+                <MathHubRouter>
+                    <DictToSwitch routes={routes} urlMaker={urlMaker} />
+                </MathHubRouter>
+            </>
         </Context.Provider>
     );
 }

@@ -46,8 +46,8 @@ interface IColorMapping {
 }
 
 interface IRibbonProps {
-    href: string;
-    target: string;
+    href?: string;
+    target?: string;
     color?: keyof IColorMapping;
     className?: string;
     position?: keyof IPositionMapping;

@@ -24,5 +24,6 @@ module.exports = (function(user){
         'NEWS_URL': (url) => url || "",
         'GLOSSARY_URL': (url) => url || "",
         'BROWSER_ROUTER': (br) => br || "",
+        'SHOW_RIBBON': (r) => r || "",
     }
 );
