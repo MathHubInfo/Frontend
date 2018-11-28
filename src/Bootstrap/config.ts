@@ -11,10 +11,10 @@ const defaultConfig: IMathHubClientConfig = {
 
 export default async function (configURL?: string): Promise<IMathHubClientConfig> {
     // load runtime configuration from the given url
-    let runtime: Partial<IMathHubClientConfig> = {};
+    let runtime: {[key: string]: string} = {};
     try {
         if (configURL)
-            runtime = (await Axios.get<Partial<IMathHubClientConfig>>(configURL)).data;
+            runtime = (await Axios.get<{[key: string]: string}>(configURL)).data;
     } catch (e) {}
 
     // make the actual configuration
