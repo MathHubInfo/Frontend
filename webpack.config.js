@@ -49,7 +49,7 @@ module.exports = merge(common, {
 
     plugins: [
         new WebpackShellPlugin({
-            onBuildStart: ["node_modules/.bin/tslint -c tslint.json -p tsconfig.json"]
+            onBuildStart: [`yarn run --silent lint`]
         }),
 
         new webpack.DefinePlugin({

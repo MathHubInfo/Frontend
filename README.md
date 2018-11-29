@@ -51,11 +51,11 @@ yarn webpack-dev-server
 # By default the webpack-dev-server expects a corresponding API
 # to run on http://localhost:9000/:mathhub/. 
 # This URL can be changed using the MMT_URL variable, e.g. like so:
-MMT_URL=https://mmt.mathhub.info/:mathhub/ yarn webpack-dev-server
+yarn cross-env MMT_URL=https://mmt.mathhub.info/:mathhub/ webpack-dev-server
 
 # Furthermore, in case no MMT is running, a Mock Client exists during development. 
 # This can be enabled like so:
-MMT_URL= yarn webpack-dev-server
+yarn cross-env MMT_URL= webpack-dev-server
 
 # For convenience two shortcuts exist:
 yarn devmock
