@@ -329,8 +329,6 @@ class LazyMockClient extends LibraryClient {
             parent: null,
             ref: true,
 
-            mod: actual.mod.kind,
-
             name: actual.name,
             id: actual.id,
         };
@@ -488,7 +486,6 @@ class LazyMockClient extends LibraryClient {
         if (actual.mod.kind === "theory")
             if (actual.mod.meta) {
                 const thyT = this.cleanModuleRef(actual.mod.meta, ds);
-                if (thyT.mod !== "theory") throw LazyMockClient.MockNotFoundError(thyT.id, "module (as theory)");
 
                 inner = {
                     kind: "theory",
@@ -500,10 +497,7 @@ class LazyMockClient extends LibraryClient {
                 };
         else {
             const domainT = this.cleanModuleRef(actual.mod.domain, ds);
-            if (domainT.mod !== "theory") throw LazyMockClient.MockNotFoundError(domainT.id, "module (as theory)");
-
             const codomainT = this.cleanModuleRef(actual.mod.codomain, ds);
-            if (codomainT.mod !== "theory") throw LazyMockClient.MockNotFoundError(codomainT.id, "module (as theory)");
 
             inner = {
                 kind: "view",

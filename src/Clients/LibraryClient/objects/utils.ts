@@ -120,8 +120,6 @@ export function ModuleObjectToRef(mod: IModule): IModuleRef {
         parent: mod.parent,
         ref: true,
 
-        mod: mod.mod.kind,
-
         id: mod.id,
         name: mod.name,
     };

@@ -230,9 +230,6 @@ interface IModuleItem extends IAPIObjectItem {
 export interface IModuleRef extends IModuleItem {
     ref: true;
     statistics?: undefined;
-
-    // the kind of module we have
-    mod: IModule["mod"]["kind"];
 }
 
 export interface IModule extends IModuleItem {

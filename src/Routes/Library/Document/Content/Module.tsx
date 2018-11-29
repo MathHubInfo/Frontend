@@ -14,11 +14,12 @@ export default class Module extends React.Component<{mod: IModuleRef}, {expanded
     render() {
         const {mod} = this.props;
 
+        // Pre-load reference types here
         return (
             <Card>
                 <Card.Content>
                     <Button icon size="mini" onClick={this.toggleExpansion} >
-                        {this.props.mod.mod} reference
+                         reference
                         {this.state.expanded ? <Icon name="chevron down" /> : <Icon name="chevron right" />}
                     </Button>
                     {this.props.mod.id}
