@@ -1,5 +1,7 @@
 import Axios from "axios";
 
+import Parallel from "../../Utils/Parallel";
+
 import LibraryClient from "./LibraryClient";
 import { IArchive, IDeclaration, IDocument, IGroup,
          IGroupRef, IMMTVersionInfo, IModule, IReferencable, ITag, URI } from "./objects";
@@ -10,10 +12,13 @@ export default class RestClient extends LibraryClient {
      * Creates a new RestClient
      * @param MMT_URL The URL this client talks to
      */
-    constructor(MMT_URL: string) {
+    constructor(MMT_URL: string, maxParallelRequests = 1) {
         super();
         this.MMT_URL = MMT_URL;
+        this.parallel = new Parallel(maxParallelRequests);
     }
+
+    private readonly parallel: Parallel;
 
     // the mmt url this Client communicates with
     private readonly MMT_URL: string;
@@ -60,7 +65,7 @@ export default class RestClient extends LibraryClient {
     }
 
     private async getURL<T>(url: string): Promise<T> {
-        const c = await Axios.get<T | string>(this.MMT_URL + url);
+        const c = await this.parallel.run(() => Axios.get<T | string>(this.MMT_URL + url));
         if (c.status !== 200 || typeof c.data === "string")
             throw new Error(c.data as string);
         else
