@@ -1,4 +1,5 @@
 import * as React from "react";
+import { default as ReactWaypoint } from "react-waypoint";
 import { Card } from "semantic-ui-react";
 
 import {
@@ -6,30 +7,47 @@ import {
     IDeclaration,
     IDeclarationRef } from "../../../../Clients/LibraryClient/objects";
 import { HTML } from "../../../../Components/Fragments";
-
 import { IMathHubContext, withContext } from "../../../../Context";
 
 export class Declaration extends React.Component<{ context: IMathHubContext; declaration: IDeclarationRef }> {
     state: {
         declaration?: IDeclaration;
     } = {};
-    private isComponentMounted = false;
-    async componentDidMount() {
-        this.isComponentMounted = true;
 
-        const declaration = await this.getDeclaration();
-        if (this.isComponentMounted)
-            this.setState({ declaration });
+    private isComponentMounted = false;
+    private didRunEnter = false;
+
+    componentDidMount() {
+        this.isComponentMounted = true;
     }
 
     componentWillUnmount() {
         this.isComponentMounted = false;
     }
 
+    componentWillReceiveProps() {
+        this.didRunEnter = false;
+    }
+
     render() {
         const declaration = this.state.declaration || this.props.declaration;
 
-        return <ExpandedDeclaration declaration={declaration} />;
+        return (
+            <>
+                <ReactWaypoint onEnter={this.onEnter} />
+                <ExpandedDeclaration declaration={declaration} />
+            </>
+        );
+    }
+    private readonly onEnter = async () => {
+        // make sure the function is only run once
+        if (this.didRunEnter) return;
+        this.didRunEnter = true;
+
+        // load the declaration
+        const declaration = await this.getDeclaration();
+        if (this.isComponentMounted)
+            this.setState({ declaration });
     }
 
     private async getDeclaration(): Promise<IDeclaration> {
