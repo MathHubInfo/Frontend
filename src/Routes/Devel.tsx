@@ -68,7 +68,7 @@ const Fatal = Loader("Fatal", async () => {
     throw new Error("Inended Failure");
 });
 
-const Rejection = Loader(
+const Rejection = Loader<{}>(
     {
         title: "Rejection",
         errorTitle: "Loading has been rejected as intended",
