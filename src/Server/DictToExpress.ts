@@ -52,8 +52,9 @@ function make404ableRoute(route: string, handler: IRouteHandler, context: IMathH
         try {
             if (handler.is404)
                 req.mathHub404 = await handler.is404(params, context);
+        // errors are just 404s
         } catch (e) {
-            return next(e);
+            req.mathHub404 = true;
         }
 
         next();
