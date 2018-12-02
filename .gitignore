@@ -3,6 +3,7 @@
 
 # Distribution files
 dist/
+lib/
 
 # Dependencies -- Yarn && NPM
 node_modules/

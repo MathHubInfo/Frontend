@@ -50,7 +50,7 @@ export class Declaration extends React.Component<{ context: IMathHubContext; dec
             this.setState({ declaration });
     }
 
-    private async getDeclaration(): Promise<IDeclaration> {
+    private async getDeclaration(): Promise<IDeclaration | undefined> {
         return this.props.context.libraryClient.getDeclaration(this.props.declaration.id);
     }
 }

@@ -1,9 +1,10 @@
 import { DictToSwitch } from "../Components/Common";
+import { IMathHubContext } from "../Context";
 import { PropsOfComponent } from "../Types/react";
 
 type IRouteDict = PropsOfComponent<DictToSwitch>["routes"];
 
-export {makeLibraryRouteSpec as urlMaker} from "./Library/Structure/Links";
+export {makeReactLibraryRoute as urlMaker} from "./Library/Structure/Links";
 
 // the home route
 const Home = async () => import("./Home").then(h => h.Home);
@@ -12,6 +13,7 @@ Home.routeTitle = "Home";
 // the error route
 const Error = async () => import("./DefaultPage").then(e => e.DefaultPage);
 Error.routeTitle = "Error 404";
+Error.isClientOnly = true;
 
 // #region "Archive Structure"
 const archivesImport = async () => import("./Library/Archives");
@@ -21,12 +23,18 @@ Library.routeTitle = "Library";
 
 const Group = async () => archivesImport().then(g => g.Group);
 Group.routeTitle = "Group";
+Group.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getGroup(params.id) === undefined;
 
 const Tag = async () => archivesImport().then(t => t.Tag);
 Tag.routeTitle = "Tag";
+Tag.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getTag(params.id) === undefined;
 
 const Archive = async () => archivesImport().then(a => a.Archive);
 Archive.routeTitle = "Archive";
+Archive.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getArchive(params.id) === undefined;
 
 // #endregion
 
@@ -35,6 +43,8 @@ const narrativeImport = async () => import("./Library/Document");
 
 const Document = async () => narrativeImport().then(d => d.default);
 Document.routeTitle = "Document";
+Document.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getDocument(params.id) === undefined;
 // #endregion
 
 // #region "Narration"
@@ -45,6 +55,8 @@ NewsList.routeTitle = "News";
 
 const NewsPage = async () => newsImport().then(d => d.NewsPage);
 NewsPage.routeTitle = "News";
+NewsPage.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.newsClient.load(params.id) === undefined;
 // #endregion
 
 // #region "Applications"
@@ -75,6 +87,7 @@ Imprint.routeTitle = "Imprint";
 
 const Devel = async () => import("./Devel");
 Devel.routeTitle = "Devel";
+Devel.isDevelOnly = true;
 
 // #endregion
 

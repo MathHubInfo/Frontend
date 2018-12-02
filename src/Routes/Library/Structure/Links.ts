@@ -5,14 +5,23 @@ import { IMathHubContext } from "../../../Context";
 export type ILibraryRouteProps = RouteComponentProps<{id: string}> & {context: IMathHubContext};
 export type IGlossaryProps = RouteComponentProps<{language: string}>;
 
-// generates a route for a library page
-export function makeLibraryRouteSpec(kind?: string) {
+
+export function makeReactLibraryRoute(kind?: string) {
+    return makeLibraryRoute(kind, ".*");
+}
+
+export function makeExpressLibraryRoute(kind?: string) {
+    return makeLibraryRoute(kind, "*");
+}
+
+// generates a route for the library page
+function makeLibraryRoute(kind: string | undefined, pattern: string) {
     if (!kind)
         return "";
     if (kind === "library")
         return "/library";
 
-    return `/library/${kind}/:id(.*)`;
+    return `/library/${kind}/:id(${pattern})`;
 }
 
 // encodes a link to an API Object

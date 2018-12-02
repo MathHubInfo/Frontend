@@ -109,17 +109,25 @@ The supported variables are:
 * `ADMIN_URL` -- URL to the admin interface, defaults to `/admin/`
 * `BROWSER_ROUTER` -- If set to a non-empty string, use real webserver urls instead of fragments with the given base path. For this to work, the webserver should fallback to `index.html` on 404s. 
 * `SHOW_RIBBON` -- If set to `beta` show a ribbon indiciating the site is in beta
+* `UPSTREAM_BASE_URL` -- Server Side only (see below). Prefix for all requests sent to the upstream server. 
 * `RUNTIME_CONFIG_URL` -- If set to a non-empty string, load all other configuration variables at runtime from the given url. This may not behave well with `BROWSER_ROUTER`. 
+
+## Running on the server
+
+This project has (very experimental) support for server-side rendering. 
+For server-side rendering, when a request is made to the server the following happens:
+- The server checks if the resource is a static asset. If yes, returns the static asset. 
+- The server checks if the given path is a valid path within react-router. If yes, return an HTTP 200. 
+- The server still returns the react app, but with status code 404. 
 
 ## Deployment via Docker
 
 To easily deploy an instance of the frontend, a [Dockerfile](Dockerfile) is available. 
-It serves a static build of the react app on port 8043. 
-It takes a build argument `MMT_URL`, which can be used to customize the user-facing URL of the corresponding MMT Backend. 
+It serves a server instance of this app. 
+This takes all the variables above as build arguments. 
+In particular, the `UPSTREAM_BASE_URL` should be set accordingly. 
 
 The Docker Image is available on DockerHub as [mathhub/frontend](https://hub.docker.com/r/mathhub/frontend/). 
-It assumes that the user-facing MMT Backend is served under `/:mathhub/`, meaning it is mixed into the static server using some form of proxy. 
-It furthermore assume that the admin-backend is also mixed into the server and served under `/admin`. 
 The image is built using automated builds, and automatically updates afer every commit. 
 
 To run it, use something like:
