@@ -41,4 +41,4 @@ RUN yarn && yarn dist && yarn sdist
 
 # and set up the server
 EXPOSE 8043
-ENTRYPOINT [ "yarn", "--silent", "server", "dist/", "8043", "0.0.0.0" ]
+CMD [ "yarn", "--silent", "server", "dist/", "8043", "0.0.0.0" ]

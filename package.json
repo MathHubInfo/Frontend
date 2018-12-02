@@ -12,7 +12,7 @@
     "devmock": "cross-env MMT_URL= webpack-dev-server --port 3000",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "sdist": "yarn tsc --project tsconfig.server.json",
-    "server": "node lib/Server"
+    "server": "node lib/src/Server"
   },
   "repository": "https://github.com/KWARC/MathHub-React-Frontend",
   "author": "The KWARC Group <group@kwarc.info>",
