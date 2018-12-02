@@ -1,6 +1,8 @@
+import { withTimeout } from "./promises";
+
 // Something which runs at most maxRequests promises at parallel
 export default class Parallel {
-    constructor(public maxRequests: number) {}
+    constructor(public maxRequests: number, public timeout = 60000) {}
 
     private readonly q: Array<() => Promise<void>> = [];
     private currentRequests = 0;
@@ -29,7 +31,7 @@ export default class Parallel {
                 // if we do not have too many things running
                 // run the current task
                 this.currentRequests += 1;
-                await task();
+                await withTimeout(task, this.timeout);
                 this.currentRequests -= 1;
             } finally {
                 // and run another one (if we need to)
