@@ -1,13 +1,10 @@
-import Axios from "axios";
+import HTTPClient from "../Utils/HTTPClient";
 
 /**
  * A client that loads an entire dataset using a single GET request
  */
 export default abstract class FatClient<T> {
-    constructor(CLIENT_URL: string) {
-        this.CLIENT_URL = CLIENT_URL;
-    }
-    private readonly CLIENT_URL: string;
+    constructor(private readonly CLIENT_URL: string, private readonly client: HTTPClient) {}
 
     private cache: T[] | undefined;
 
@@ -31,8 +28,6 @@ export default abstract class FatClient<T> {
 
     // load via rest
     private async rest(): Promise<T[]> {
-        const res = await Axios.get<T[]>(this.CLIENT_URL);
-
-        return res.data;
+        return this.client.getOrError<T[]>(this.CLIENT_URL);
     }
 }
