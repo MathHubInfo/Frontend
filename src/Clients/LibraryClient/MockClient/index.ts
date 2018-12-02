@@ -50,7 +50,7 @@ class LazyMockClient extends LibraryClient {
     }
 
     // given a URI, returns an object
-    async getURI(uri: URI): Promise<IReferencable> {
+    async getURI(uri: URI): Promise<IReferencable | undefined> {
         let kind = "";
 
         return this.getObjectOfType<IReferencable>(
@@ -98,7 +98,7 @@ class LazyMockClient extends LibraryClient {
     }
 
     // gets a group from the mock dataset
-    async getGroup(id: string): Promise<IGroup> {
+    async getGroup(id: string): Promise<IGroup | undefined> {
         return this.getObjectOfType<IGroup>(
             (ds: IMockDataSet) => ds.groups.find(g => g.id === id),
             "group",
@@ -107,7 +107,7 @@ class LazyMockClient extends LibraryClient {
     }
 
     // gets a group from the mock dataset
-    async getTag(id: string): Promise<ITag> {
+    async getTag(id: string): Promise<ITag | undefined> {
         const theMockTag = id.startsWith("@") ?
             {id, name: id.substring(1)} : undefined;
 
@@ -119,7 +119,7 @@ class LazyMockClient extends LibraryClient {
     }
 
     // gets an archive from the mock dataset
-    async getArchive(id: string): Promise<IArchive> {
+    async getArchive(id: string): Promise<IArchive | undefined> {
         return this.getObjectOfType<IArchive>(
             (ds: IMockDataSet) => ds.archives.find(a => a.id === id),
             "archive",
@@ -128,7 +128,7 @@ class LazyMockClient extends LibraryClient {
     }
 
     // gets a document from the mock dataset
-    async getDocument(id: string): Promise<IDocument> {
+    async getDocument(id: string): Promise<IDocument | undefined> {
         return this.getObjectOfType<IDocument>(
             (ds: IMockDataSet) => ds.documents.find(d => d.id === id),
             "document",
@@ -137,7 +137,7 @@ class LazyMockClient extends LibraryClient {
     }
 
     // gets a module from the mock dataset
-    async getModule(id: string): Promise<IModule> {
+    async getModule(id: string): Promise<IModule | undefined> {
         return this.getObjectOfType<IModule>(
             (ds: IMockDataSet) => ds.modules.find(m => m.id === id),
             "module",
@@ -146,7 +146,7 @@ class LazyMockClient extends LibraryClient {
     }
 
     // gets a declaration from the mock dataset
-    async getDeclaration(id: string): Promise<IDeclaration> {
+    async getDeclaration(id: string): Promise<IDeclaration | undefined> {
         return this.getObjectOfType<IDeclaration>(
             (ds: IMockDataSet) => ds.declarations.find(d => d.id === id),
             "declaration",
@@ -181,13 +181,13 @@ class LazyMockClient extends LibraryClient {
         getter: (data: IMockDataSet) => IMockObject | undefined,
         kind: string,
         errorMessage: string,
-    ): Promise<T>  {
+    ): Promise<T | undefined>  {
         const ds = await this.loadDataSet();
         const obj = getter(ds);
-        if (obj === undefined)
-            return Promise.reject(errorMessage);
+        if (obj !== undefined)
+            return LazyMockClient.cleanAny<T>(kind, obj, ds);
         else
-            return Promise.resolve(LazyMockClient.cleanAny<T>(kind, obj, ds));
+            return undefined;
     }
 
     // #endregion

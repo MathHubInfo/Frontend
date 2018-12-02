@@ -45,13 +45,13 @@ const ModuleContentExpanded = withContext(
                     title={this.props.mod.name}
                     promise={this.getModule}
                     errorMessage
-                >{fullModule => <ModuleViewFullExpanded mod={fullModule} />}
+                >{fullModule => fullModule && <ModuleViewFullExpanded mod={fullModule} />}
                 </LoadWithSpinner>
             );
         }
 
         private readonly getModule =
-            async (): Promise<IModule> => this.props.context.libraryClient.getModule(this.props.mod.id)
+            async (): Promise<IModule | undefined> => this.props.context.libraryClient.getModule(this.props.mod.id)
     },
 );
 

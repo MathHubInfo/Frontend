@@ -24,7 +24,10 @@ export default class RestClient extends LibraryClient {
     private readonly MMT_URL: string;
 
     async getMMTVersion(): Promise<IMMTVersionInfo> {
-        return this.getURL<IMMTVersionInfo>("version");
+        const version = await this.getURL<IMMTVersionInfo>("version");
+        if (version === undefined) throw new Error("Version Information not available");
+
+        return version;
     }
 
     // encodes an ID for use with the API
@@ -32,43 +35,45 @@ export default class RestClient extends LibraryClient {
         return encodeURIComponent(id);
     }
 
-    async getURI(uri: URI): Promise<IReferencable> {
+    async getURI(uri: URI): Promise<IReferencable | undefined> {
         return this.getURL<IReferencable>(`content/uri?uri=${this.encodeID(uri)}`);
     }
 
     async getGroups(): Promise<IGroupRef[]> {
-        return this.getURL<IGroupRef[]>("content/groups");
+        const groups = await this.getURL<IGroupRef[]>("content/groups");
+        if (groups === undefined) throw new Error("Groups Listing not available");
+
+        return groups;
     }
 
-    async getGroup(id: string): Promise<IGroup> {
+    async getGroup(id: string): Promise<IGroup | undefined> {
         return this.getURL<IGroup>(`content/group?id=${this.encodeID(id)}`);
     }
 
-    async getTag(id: string): Promise<ITag> {
+    async getTag(id: string): Promise<ITag | undefined> {
         return this.getURL<ITag>(`content/tag?id=${this.encodeID(id)}`);
     }
 
-    async getArchive(id: string): Promise<IArchive> {
+    async getArchive(id: string): Promise<IArchive | undefined> {
         return this.getURL<IArchive>(`content/archive?id=${this.encodeID(id)}`);
     }
 
-    async getDocument(id: string): Promise<IDocument> {
+    async getDocument(id: string): Promise<IDocument | undefined> {
         return this.getURL<IDocument>(`content/document?id=${this.encodeID(id)}`);
     }
 
-    async getModule(id: string): Promise<IModule> {
+    async getModule(id: string): Promise<IModule | undefined> {
         return this.getURL<IModule>(`content/module?id=${this.encodeID(id)}`);
     }
 
-    async getDeclaration(id: string): Promise<IDeclaration> {
+    async getDeclaration(id: string): Promise<IDeclaration | undefined> {
         return this.getURL<IDeclaration>(`content/declaration?id=${this.encodeID(id)}`);
     }
 
-    private async getURL<T>(url: string): Promise<T> {
+    private async getURL<T>(url: string): Promise<T | undefined> {
         const c = await this.parallel.run(() => Axios.get<T | string>(this.MMT_URL + url));
-        if (c.status !== 200 || typeof c.data === "string")
-            throw new Error(c.data as string);
-        else
-            return c.data;
+        if (c.status === 404) return undefined;
+        if (c.status !== 200 || typeof c.data === "string") throw new Error(c.data as string);
+        else return c.data;
     }
 }
