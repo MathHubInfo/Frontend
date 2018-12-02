@@ -1137,5 +1137,8 @@
 
 
     "jsRules": {},
-    "rulesDirectory": []
+    "rulesDirectory": [],
+
+    // exclude all the json files
+    "linterOptions": { "exclude": [ "**/*.json" ] }
 }

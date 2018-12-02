@@ -7,7 +7,7 @@
         "removeComments": false, 
         
         "moduleResolution": "node", 
-        "resolveJsonModule": false,
+        "resolveJsonModule": true,
         "module": "esnext",
         "target": "esnext",
         "jsx": "react", 

@@ -86,14 +86,14 @@ export interface IMockModule extends IMockObject {
     mod: IMockTheory | IMockView;
 }
 
-export interface IMockTheory extends IMockObject {
+export interface IMockTheory {
     kind: "theory";
     parent?: null;
 
     meta?: IMockReference;
 }
 
-export interface IMockView extends IMockObject {
+export interface IMockView {
     kind: "view";
     parent?: null;
 

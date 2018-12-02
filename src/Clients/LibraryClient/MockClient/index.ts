@@ -556,10 +556,10 @@ class LazyMockClient extends LibraryClient {
 // tslint:disable-next-line:export-name
 export default class MockClient extends LazyMockClient {
     constructor() {
-        super(async () => {
+        super(async (): Promise<IMockDataSet> => {
             const mock = await import("../../../../assets/mock/library.json");
 
-            return mock.default as IMockDataSet;
+            return mock.default;
         });
     }
 }
