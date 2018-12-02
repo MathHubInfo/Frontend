@@ -31,6 +31,7 @@ async function main(args: string[]) {
     // create an express app
     const app = express();
 
+    app.get("/index.html", (req: express.Request, res: express.Response) => res.redirect(302, "/"));
     app.use(DictToExpress(routes, context, makeExpressLibraryRoute));
     app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
         if (req.mathHub404 !== undefined) {
