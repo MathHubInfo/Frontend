@@ -52,7 +52,7 @@ export default class RestClient extends LibraryClient {
 
     // builds a URL
     private buildURL(url: string, id?: string) {
-        return resolve(this.MMT_URL, id ? `${url}` : `${url}?id=${RestClient.encodeID(id as string)}`);
+        return resolve(this.MMT_URL, id ? `${url}?id=${RestClient.encodeID(id)}` : url);
     }
 
     // encodes an ID for use with the API
