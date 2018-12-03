@@ -1,22 +1,19 @@
 import * as React from "react";
 
 import { ITag } from "../../../Clients/LibraryClient/objects";
-import { withContext } from "../../../Context";
+import { IRouteComponentProps } from "../../../Routing/makeRouteComponent";
 import Item from "../Item";
-import { decodeLibraryLinkID, ILibraryRouteProps } from "../Structure/Links";
 
 import { List } from "./List";
 
-class Tag extends React.Component<ILibraryRouteProps> {
+export default class Tag extends React.Component<IRouteComponentProps<ITag, {id: string}>> {
     render() {
+        const title = this.props.serverInfo ? this.props.serverInfo.title : this.props.params.id;
+
         return (
-            <Item title={this.getID()} promise={this.getTag} props={Tag.getTagProps} {...this.props}>{
-                Tag.getTagBody}</Item>
+            <Item title={title} props={Tag.getTagProps} {...this.props}>{Tag.getTagBody}</Item>
         );
     }
-
-    private readonly getID = () => decodeLibraryLinkID(this.props);
-    private readonly getTag = async () => this.props.context.libraryClient.getTag(this.getID());
 
     private static readonly getTagProps = (tag: ITag) => {
         return {
@@ -29,6 +26,3 @@ class Tag extends React.Component<ILibraryRouteProps> {
         return <List items={tag.archives} />;
     }
 }
-
-// tslint:disable-next-line:export-name
-export default withContext(Tag);

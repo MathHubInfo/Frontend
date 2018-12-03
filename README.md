@@ -108,6 +108,7 @@ The supported variables are:
 * `GLOSSARY_URL` -- The URL to retrieve glossary items from. If omitted, defaults to the glossary.json file under mocks.
 * `ADMIN_URL` -- URL to the admin interface, defaults to `/admin/`
 * `BROWSER_ROUTER` -- If set to a non-empty string, use real webserver urls instead of fragments with the given base path. For this to work, the webserver should fallback to `index.html` on 404s. 
+* `SERVER_ROUTER` -- used server-side to hold the current url. Should not be set manually. 
 * `SHOW_RIBBON` -- If set to `beta` show a ribbon indiciating the site is in beta
 * `UPSTREAM_BASE_URL` -- Server Side only (see below). Prefix for all requests sent to the upstream server. 
 * `RUNTIME_CONFIG_URL` -- If set to a non-empty string, load all other configuration variables at runtime from the given url. This may not behave well with `BROWSER_ROUTER`. 

@@ -13,7 +13,7 @@ type IBreadCrumbPart = MemberType<PropsOfComponent<Breadcrumbs>["crumbs"]>;
 interface ITitleProps {
     title?: string;
     autoCrumbs?: boolean | IBreadCrumbPart[];
-    children?: React.ReactChild | React.ReactChild[];
+    children?: React.ReactChild | React.ReactChild[] | null;
 }
 
 export default function MHTitle(props: ITitleProps) {

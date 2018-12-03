@@ -7,6 +7,7 @@ const defaultConfig: IMathHubClientConfig = {
     NEWS_URL: process.env.NEWS_URL || "",
     GLOSSARY_URL: process.env.GLOSSARY_URL || "",
     BROWSER_ROUTER: process.env.BROWSER_ROUTER || "",
+    SERVER_ROUTER: process.env.SERVER_ROUTER || "",
     SHOW_RIBBON: process.env.SHOW_RIBBON === "beta" ? "beta" : undefined,
 };
 

@@ -1,29 +1,16 @@
 import * as React from "react";
-import { RouteComponentProps } from "react-router";
 import { Container, Header } from "semantic-ui-react";
 
 import { Monospace } from "../../Components/Common";
 import { MHText, MHTitle } from "../../Components/Fragments";
-import { LoadWithSpinner } from "../../Components/Loaders";
+import { IRouteComponentProps } from "../../Routing/makeRouteComponent";
 
-export default class Licenses extends React.Component<RouteComponentProps> {
+export default class Licenses extends React.Component<IRouteComponentProps<[string, string]>> {
     render() {
-        return (
-            <LoadWithSpinner promise={Licenses.loadContent} title="LICENSE">{
-                ([l, n]) => <LicensesDisplay license={l} notices={n} />}
-            </LoadWithSpinner>
-        );
-    }
+        if (!this.props.data) return null; // TODO: Add a loader
+        const [l, n] = this.props.data;
 
-    private static readonly loadContent = async () => {
-        return Promise.all([Licenses.getLicenseText(), Licenses.getNoticesText()]);
-    }
-    private static async getLicenseText() { return import("../../../LICENSE.txt").then(m => m.default); }
-    private static async getNoticesText() {
-        return import("axios")
-            .then(a => a.default)
-            .then(a => a.get<string>("NOTICES.txt", {responseType: "text"}))
-            .then(r => r.data, e => "Unable to load NOTICES.txt, please navigate manually. ");
+        return <LicensesDisplay license={l} notices={n} />;
     }
 }
 

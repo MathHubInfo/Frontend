@@ -1,10 +1,11 @@
 import * as React from "react";
-import { BrowserRouter, HashRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter, StaticRouter } from "react-router-dom";
 import { Provider } from "react-slot-fill";
 
 import { Context, IMathHubContext, makeContext, withContext } from "../Context";
 import { IMathHubClientConfig, urls } from "../Context/config";
-import { default as routes, urlMaker } from "../Routes";
+import { default as routes } from "../Routes";
+import { makeReactLibraryRoute } from "../Routes/Library/Structure/Links";
 
 import { DictToSwitch, ScrollToTop } from "./Common";
 import MathHubLayout, { Ribbon } from "./MathHubLayout";
@@ -19,7 +20,7 @@ export function MathHub(client: IMathHubClientConfig) {
             <>
                 <Ribbon />
                 <MathHubRouter>
-                    <DictToSwitch routes={routes} urlMaker={urlMaker} />
+                    <DictToSwitch routes={routes} urlMaker={makeReactLibraryRoute} />
                 </MathHubRouter>
             </>
         </Context.Provider>
@@ -45,9 +46,11 @@ function MathHubRouter(props: {children: React.ReactChild}) {
 const RouterImpl = withContext(class extends React.Component<{context: IMathHubContext}> {
     render() {
         const {children, context} = this.props;
-        const BROWSER_ROUTER = context.config.client.BROWSER_ROUTER;
+        const {BROWSER_ROUTER, SERVER_ROUTER} = context.config.client;
         if (BROWSER_ROUTER !== "")
             return <BrowserRouter basename={BROWSER_ROUTER} children={children} />;
+        else if (SERVER_ROUTER !== "")
+            return <StaticRouter location={SERVER_ROUTER} context={{}} children={children} />;
         else
             return <HashRouter children={children} />;
     }

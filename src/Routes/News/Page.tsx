@@ -1,44 +1,30 @@
 
 import * as React from "react";
 
-import { withContext } from "../../Context";
-import { ILibraryRouteProps } from "../Library/Structure/Links";
-
 import { INewsItem } from "../../Clients/NewsClient";
 
 import { HTML, MHTitle } from "../../Components/Fragments";
-import { LoadWithSpinner } from "../../Components/Loaders";
+import { IRouteComponentProps } from "../../Routing/makeRouteComponent";
 
-class Page extends React.Component<ILibraryRouteProps> {
+export default class Page extends React.Component<IRouteComponentProps<INewsItem, {id: string}>> {
     render() {
-        return (
-            <LoadWithSpinner
-                title={"News"}
-                promise={this.getNews}
-                errorMessage
-            >{(item: INewsItem | undefined) => <NewsItemPage item={item} />}
-            </LoadWithSpinner>
-        );
-    }
+        const title = this.props.serverInfo ? this.props.serverInfo.title : this.props.params.id;
 
-    private readonly getNews = async () => {
-        return this.props.context.newsClient.load(this.props.match.params.id);
+        if (this.props.data) return <NewsItemPage title={title} item={this.props.data} />;
+        else return <MHTitle title={title} />; // TODO: Make a loading component
     }
 }
 
-// tslint:disable-next-line:export-name
-export default withContext(Page);
-
-function NewsItemPage(props: {item?: INewsItem}) {
+function NewsItemPage(props: {title: string; item?: INewsItem}) {
     if (props.item === undefined)
         return null; // Doesn't exist
 
-    const { title, content, date } = props.item;
+    const { content, date } = props.item;
     const theDate = new Date(0); // The 0 there is the key, which sets the date to the epoch
     theDate.setUTCSeconds(date);
 
     return (
-        <MHTitle title={title} autoCrumbs={[{text: "News", url: "/news"}]}>
+        <MHTitle title={props.title} autoCrumbs={[{text: "News", url: "/news"}]}>
             <div style={{color: "grey"}}>{theDate.toDateString()}</div>
             <HTML>{content}</HTML>
         </MHTitle>

@@ -4,21 +4,17 @@ import { Button, Container, Divider } from "semantic-ui-react";
 import { IArchive, ISourceReference, ITagRef } from "../../../Clients/LibraryClient/objects";
 import { ArchiveObjectToRef } from "../../../Clients/LibraryClient/objects/utils";
 import { Nav } from "../../../Components/Common";
-import { withContext } from "../../../Context";
+import { IRouteComponentProps } from "../../../Routing/makeRouteComponent";
 import Content from "../Document/Content";
 import Item from "../Item";
-import { decodeLibraryLinkID, encodeLibraryLink, ILibraryRouteProps } from "../Structure/Links";
+import { encodeLibraryLink } from "../Structure/Links";
 
-class Archive extends React.Component<ILibraryRouteProps> {
+export default class Archive extends React.Component<IRouteComponentProps<IArchive, {id: string}>> {
     render() {
-        return (
-            <Item title={this.getID()} promise={this.getArchive} props={Archive.getArchiveProps} {...this.props}>{
-                Archive.getArchiveBody}</Item>
-        );
-    }
+        const title = this.props.serverInfo ? this.props.serverInfo.title : this.props.params.id;
 
-    private readonly getID = () => decodeLibraryLinkID(this.props);
-    private readonly getArchive = async () => this.props.context.libraryClient.getArchive(this.getID());
+        return <Item title={title} props={Archive.getArchiveProps} {...this.props}>{Archive.getArchiveBody}</Item>;
+    }
     private static readonly getArchiveProps = (archive: IArchive) => {
         const {title, version, statistics, description, responsible} = archive;
         const source: ISourceReference = {
@@ -42,9 +38,6 @@ class Archive extends React.Component<ILibraryRouteProps> {
         );
     }
 }
-
-// tslint:disable-next-line:export-name
-export default withContext(Archive);
 
 class TagLink extends React.Component<{to: ITagRef}> {
     render() {

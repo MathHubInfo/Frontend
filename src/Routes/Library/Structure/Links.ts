@@ -38,9 +38,3 @@ export function encodeLibraryLink(to?: IApiObject): string {
 
     return `/library/${kind}/${target}`;
 }
-
-// decodes the link parameter given to a library route
-export function decodeLibraryLinkID(props: ILibraryRouteProps): string {
-    // return decodeURIComponent(props.match.params.id);
-    return props.match.params.id;
-}

@@ -1,5 +1,8 @@
-declare namespace Express {
-    export interface Request {
-       mathHub404?: boolean;
+import { IServerRouteInfo } from "../Routing/makeRouteInfo";
+declare global {
+    namespace Express {
+        export interface Request {
+            mathHubInfo?: IServerRouteInfo;
+        }
     }
 }

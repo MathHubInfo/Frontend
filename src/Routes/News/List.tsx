@@ -5,31 +5,17 @@ import { Card, Icon } from "semantic-ui-react";
 import { INewsItem } from "../../Clients/NewsClient";
 import { Nav } from "../../Components/Common";
 import { HTML, MHTitle } from "../../Components/Fragments";
-import { LoadWithSpinner } from "../../Components/Loaders";
-import { withContext } from "../../Context";
-import { ILibraryRouteProps } from "../Library/Structure/Links";
+import { IRouteComponentProps } from "../../Routing/makeRouteComponent";
 
-class List extends React.Component<ILibraryRouteProps> {
+export default class List extends React.Component<IRouteComponentProps<INewsItem[]>> {
     render() {
         return (
             <MHTitle title={"News"} autoCrumbs>
-                <LoadWithSpinner
-                    title={"News"}
-                    promise={this.getNews}
-                    errorMessage
-                >{(items: INewsItem[]) => <NewsItemList items={items} />}
-                </LoadWithSpinner>
+                <>{this.props.data && <NewsItemList items={this.props.data} />}</>
             </MHTitle>
         );
     }
-
-    private readonly getNews = async () => {
-        return this.props.context.newsClient.loadAll();
-    }
 }
-
-// tslint:disable-next-line:export-name
-export default withContext(List);
 
 class NewsItemList extends React.Component<{ items: INewsItem[] }> {
     render() {

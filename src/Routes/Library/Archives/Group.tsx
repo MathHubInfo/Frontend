@@ -2,22 +2,18 @@ import * as React from "react";
 
 import { IGroup, ISourceReference } from "../../../Clients/LibraryClient/objects";
 import { GroupObjectToRef } from "../../../Clients/LibraryClient/objects/utils";
-import { withContext } from "../../../Context";
+import { IRouteComponentProps } from "../../../Routing/makeRouteComponent";
 import Item from "../Item";
-import { decodeLibraryLinkID, ILibraryRouteProps } from "../Structure/Links";
 
 import { List } from "./List";
 
-class Group extends React.Component<ILibraryRouteProps> {
+export default class Group extends React.Component<IRouteComponentProps<IGroup, {id: string}>> {
     render() {
-        return (
-            <Item title={this.getID()} promise={this.getGroup} props={Group.getGroupProps} {...this.props}>{
-                Group.getGroupBody}</Item>
-        );
+        const title = this.props.serverInfo ? this.props.serverInfo.title : this.props.params.id;
+
+        return <Item title={title} props={Group.getGroupProps}>{Group.getGroupBody}</Item>;
     }
 
-    private readonly getID = () => decodeLibraryLinkID(this.props);
-    private readonly getGroup = async () => this.props.context.libraryClient.getGroup(this.getID());
     private static readonly getGroupProps = (group: IGroup) => {
         const {title, statistics, description, responsible} = group;
         const source: ISourceReference = {
@@ -32,6 +28,3 @@ class Group extends React.Component<ILibraryRouteProps> {
         return <List items={group.archives} />;
     }
 }
-
-// tslint:disable-next-line:export-name
-export default withContext(Group);

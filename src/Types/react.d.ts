@@ -10,7 +10,8 @@ export type ReactComponent<P = {}, S = any> = React.ComponentClass<P, S> | React
 /**
  * Represents an ESNext Module of a given type
  */
-export type Module<P> = {default: P} | P;
+export type Module<P> = DefaultedModule<P> | P;
+export type DefaultedModule<P> = {default: P};
 
 /**
  * The type of the props of a given component
