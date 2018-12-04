@@ -1,16 +1,29 @@
 import * as React from "react";
+import { RouteComponentProps } from "react-router";
 import { Container, Header } from "semantic-ui-react";
 
 import { Monospace } from "../../Components/Common";
 import { MHText, MHTitle } from "../../Components/Fragments";
-import { IRouteComponentProps } from "../../Routing/makeRouteComponent";
+import { LoadWithSpinner } from "../../Components/Loaders";
 
-export default class Licenses extends React.Component<IRouteComponentProps<[string, string]>> {
+export default class Licenses extends React.Component<RouteComponentProps> {
     render() {
-        if (!this.props.data) return null; // TODO: Add a loader
-        const [l, n] = this.props.data;
+        return (
+            <LoadWithSpinner promise={Licenses.loadContent} title="LICENSE">{
+                ([l, n]) => <LicensesDisplay license={l} notices={n} />}
+            </LoadWithSpinner>
+        );
+    }
 
-        return <LicensesDisplay license={l} notices={n} />;
+    private static readonly loadContent = async () => {
+        return Promise.all([Licenses.getLicenseText(), Licenses.getNoticesText()]);
+    }
+    private static async getLicenseText() { return import("../../../LICENSE.txt").then(m => m.default); }
+    private static async getNoticesText() {
+        return import("axios")
+            .then(a => a.default)
+            .then(a => a.get<string>("NOTICES.txt", {responseType: "text"}))
+            .then(r => r.data, e => "Unable to load NOTICES.txt, please navigate manually. ");
     }
 }
 

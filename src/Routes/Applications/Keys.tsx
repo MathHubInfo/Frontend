@@ -1,12 +1,12 @@
 import * as React from "react";
+import { RouteComponentProps } from "react-router";
 import { Button, Table } from "semantic-ui-react";
 
 import { default as statsJson } from "../../../assets/stats.json";
 import { MHTitle } from "../../Components/Fragments";
-import { IRouteComponentProps } from "../../Routing/makeRouteComponent.js";
 
 const statsKeys: string[][] = statsJson;
-export default class Keys extends React.Component<IRouteComponentProps> {
+export default class Keys extends React.Component<RouteComponentProps> {
     state = { more: false };
     render() {
         const text = this.state.more ? "less" : "more";

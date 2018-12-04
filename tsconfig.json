@@ -21,9 +21,7 @@
         "isolatedModules": true,
         "allowSyntheticDefaultImports": true,
 
-        "importHelpers": true,
-
-        "typeRoots": ["src/Types/"]
+        "importHelpers": true
     },
 
     "awesomeTypescriptLoaderOptions": {

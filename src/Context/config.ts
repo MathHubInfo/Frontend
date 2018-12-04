@@ -13,8 +13,6 @@ export interface IMathHubClientConfig {
     GLOSSARY_URL: string;
     // are we using browser router
     BROWSER_ROUTER: string;
-    // for server-side rendering only
-    SERVER_ROUTER: string;
     // the name of the ribbon to show
     SHOW_RIBBON?: "beta";
 }

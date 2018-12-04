@@ -1,116 +1,128 @@
-import { IArchive, IDocument, IGroup, ITag } from "../Clients/LibraryClient/objects";
-import { INewsItem } from "../Clients/NewsClient";
+import { DictToSwitch } from "../Components/Common";
 import { IMathHubContext } from "../Context";
-import Routing from "../Routing";
+import { PropsOfComponent } from "../Types/react";
 
-const routes = new Routing();
-// tslint:disable-next-line:export-name
-export default routes;
+type IRouteDict = PropsOfComponent<DictToSwitch>["routes"];
 
-routes.addPlainRoute(
-    "Home", "/",
-    async () => import("./Home"),
-);
+export {makeReactLibraryRoute as urlMaker} from "./Library/Structure/Links";
 
-routes.addPlainRoute(
-    "Error 404", "",
-    async () => import("./DefaultPage"),
-    {clientOnly: true},
-);
+// the home route
+const Home = async () => import("./Home").then(h => h.Home);
+Home.routeTitle = "Home";
 
-// #region "Library Routes"
-routes.addItemRoute(
-    "Library", "",
-    () => import("./Library/Archives/Library"),
-    (context: IMathHubContext) => context.libraryClient.getGroups(),
-);
+// the error route
+const Error = async () => import("./DefaultPage").then(e => e.DefaultPage);
+Error.routeTitle = "Error 404";
+Error.isClientOnly = true;
 
-routes.addItemRoute(
-    "Group", "group",
-    () => import("./Library/Archives/Group"),
-    (context: IMathHubContext, {id}: {id: string}) => context.libraryClient.getGroup(id),
-    { serverHeader: (data: IGroup) => ({title: data.name}) },
-);
+// #region "Archive Structure"
+const archivesImport = async () => import("./Library/Archives");
 
-routes.addItemRoute(
-    "Tag", "tag",
-    () => import("./Library/Archives/Tag"),
-    (context: IMathHubContext, {id}: {id: string}) => context.libraryClient.getTag(id),
-    { serverHeader: (data: ITag) => ({title: data.name}) },
-);
+const Library = async () => archivesImport().then(l => l.Library);
+Library.routeTitle = "Library";
 
-routes.addItemRoute(
-    "Archive", "archive",
-    () => import("./Library/Archives/Archive"),
-    (context: IMathHubContext, {id}: {id: string}) => context.libraryClient.getArchive(id),
-    { serverHeader: (data: IArchive) => ({title: data.name}) },
-);
+const Group = async () => archivesImport().then(g => g.Group);
+Group.routeTitle = "Group";
+Group.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getGroup(params.id) === undefined;
 
-routes.addItemRoute(
-    "Document", "document",
-    () => import("./Library/Document"),
-    (context: IMathHubContext, {id}: {id: string}) => context.libraryClient.getDocument(id),
-    { serverHeader: (data: IDocument) => ({title: data.name}) },
-);
+const Tag = async () => archivesImport().then(t => t.Tag);
+Tag.routeTitle = "Tag";
+Tag.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getTag(params.id) === undefined;
+
+const Archive = async () => archivesImport().then(a => a.Archive);
+Archive.routeTitle = "Archive";
+Archive.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getArchive(params.id) === undefined;
 
 // #endregion
 
-// #region "News"
-routes.addDataRoute(
-    "News", "/news/",
-    () => import("./News/List"),
-    (context: IMathHubContext) => context.newsClient.loadAll(),
-);
+// #region "Narration"
+const narrativeImport = async () => import("./Library/Document");
 
-routes.addItemRoute(
-    "News", "/news/:id",
-    () => import("./News/Page"),
-    (context: IMathHubContext, {id}: {id: string}) => context.newsClient.load(id),
-    { serverHeader: (data: INewsItem) => ({title: data.title}) },
-);
+const Document = async () => narrativeImport().then(d => d.default);
+Document.routeTitle = "Document";
+Document.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getDocument(params.id) === undefined;
+// #endregion
+
+// #region "Narration"
+const newsImport = async () => import("./News");
+
+const NewsList = async () => newsImport().then(d => d.NewsList);
+NewsList.routeTitle = "News";
+
+const NewsPage = async () => newsImport().then(d => d.NewsPage);
+NewsPage.routeTitle = "News";
+NewsPage.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.newsClient.load(params.id) === undefined;
 // #endregion
 
 // #region "Applications"
-routes.addPlainRoute(
-    "Glossary", "/applications/glossary",
-    () => import("./Applications/Glossary"),
-);
+const applicationImport = async () => import("./Applications");
 
-routes.addPlainRoute(
-    "Keys", "/applications/keys",
-    () => import("./Applications/Keys"),
-);
+const Glossary = async () => applicationImport().then(g => g.Glossary);
+Glossary.routeTitle = "Glossary";
 
-routes.addPlainRoute(
-    "Dictionary", "/applications/dictionary",
-    () => import("./Applications/Dictionary"),
-);
+const Dictionary = async () => applicationImport().then(d => d.Dictionary);
+Dictionary.routeTitle = "Glossary";
 
-routes.addPlainRoute(
-    "Logger", "/applications/logger",
-    () => import("./Applications/Logger"),
-);
+const Keys = async () => applicationImport().then(k => k.Keys);
+Keys.routeTitle = "Keys";
 
+const Logger = async () => applicationImport().then(l => l.Logger);
+Logger.routeTitle = "Logger";
 // #endregion
 
 // # region "Legal"
-routes.addDataRoute(
-    "Licenses", "/legal/licenses",
-    () => import("./Legal/Licenses"),
-    (context: IMathHubContext) => Promise.all([
-        import("../../../LICENSE.txt").then(d => d.default),
-        context.httpClient.getOrError<string>("NOTICES.txt", () => true),
-    ]),
-);
+const legalImport = async () => import("./Legal");
 
-routes.addPlainRoute(
-    "Imprint", "/legal/imprint",
-    () => import("./Applications/Dictionary"),
-);
+const Licenses = async () => legalImport().then(l => l.Licenses);
+Licenses.routeTitle = "Legal";
+
+const Imprint = async () => legalImport().then(i => i.Imprint);
+Imprint.routeTitle = "Imprint";
 // # endregion
 
-routes.addPlainRoute(
-    "Devel", "/devel/",
-    () => import("./Devel"),
-    { develOnly: true },
-);
+const Devel = async () => import("./Devel");
+Devel.routeTitle = "Devel";
+Devel.isDevelOnly = true;
+
+// #endregion
+
+/**
+ * All our routes
+ */
+const routes: IRouteDict = {
+    // the home route
+    "/": Home,
+
+    // library Routes
+    "library": Library,
+    "group": Group,
+    "archive": Archive,
+    "document": Document,
+    "tag": Tag,
+
+    // news routes
+    "/news/": NewsList,
+    "/news/:id": NewsPage,
+
+    // legal
+    "/legal/imprint": Imprint,
+    "/legal/licenses": Licenses,
+
+    // applications
+    "/applications/glossary": Glossary,
+    "/applications/dictionary": Dictionary,
+    "/applications/keys": Keys,
+    "/applications/logger": Logger,
+
+    "/devel/": Devel,
+
+    // the error route
+    "": Error,
+};
+
+export default routes;

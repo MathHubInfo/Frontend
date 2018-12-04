@@ -34,16 +34,13 @@ async function main(args: string[]) {
     app.get("/index.html", (req: express.Request, res: express.Response) => res.redirect(302, "/"));
     app.use(DictToExpress(routes, context, makeExpressLibraryRoute));
     app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        if (req.mathHubInfo !== undefined) {
-            res.status(req.mathHubInfo ? 404 : 200); // set status based on if we are 404 or not
+        if (req.mathHub404 !== undefined) {
+            res.status(req.mathHub404 ? 404 : 200); // set status based on if we are 404 or not
             res.sendFile(indexHTMLPath); // and return the file
         } else
             next();
     });
     app.use(expressStatic(args[1]));
-    app.use((error: {}, req: express.Request, res: express.Response, next: express.NextFunction) => {
-        res.render("error", { error });
-    });
 
     // tslint:disable-next-line:no-console
     app.listen(port, host, () => console.log(`MathHub Listening on ${listenAddress}!`));

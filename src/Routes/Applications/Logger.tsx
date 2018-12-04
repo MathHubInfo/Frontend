@@ -1,14 +1,14 @@
 import * as React from "react";
+import { RouteComponentProps } from "react-router";
 import { Input, InputOnChangeData, Table } from "semantic-ui-react";
 import { debounce } from "ts-debounce";
 
 import LoggerClient, { ILogEntry } from "../../Clients/LoggerClient";
 import { MHText, MHTitle } from "../../Components/Fragments";
 import { IMathHubContext, withContext } from "../../Context";
-import { IRouteComponentProps } from "../../Routing/makeRouteComponent";
 
 class Logger extends React.Component
-    <{context: IMathHubContext} & IRouteComponentProps, {entries: ILogEntry[]; filter: string}> {
+    <{context: IMathHubContext} & RouteComponentProps, {entries: ILogEntry[]; filter: string}> {
     state = {entries: [], filter: ""};
 
     // the client to receive data from

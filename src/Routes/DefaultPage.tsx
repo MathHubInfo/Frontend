@@ -1,9 +1,9 @@
 import * as React from "react";
+import { RouteComponentProps } from "react-router-dom";
 
 import { MHTitle } from "../Components/Fragments";
-import { IRouteComponentProps } from "../Routing/makeRouteComponent";
 
-export default class DefaultPage extends React.Component<IRouteComponentProps> {
+export class DefaultPage extends React.Component<RouteComponentProps> {
     render() {
         return (
             <MHTitle title="Page 404" autoCrumbs>

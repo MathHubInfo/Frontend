@@ -2,19 +2,25 @@ import * as React from "react";
 import { Tab } from "semantic-ui-react";
 
 import { IDocument } from "../../../Clients/LibraryClient/objects";
-import { IRouteComponentProps } from "../../../Routing/makeRouteComponent";
+import { withContext } from "../../../Context";
 import Item from "../Item";
+import { decodeLibraryLinkID, ILibraryRouteProps } from "../Structure/Links";
 
 import Content from "./Content";
 
 // a single Document
-// tslint:disable-next-line:export-name
-export default class Document extends React.Component<IRouteComponentProps<IDocument, {id: string}>> {
+class Document extends React.Component<ILibraryRouteProps> {
     render() {
-        const title = this.props.serverInfo ? this.props.serverInfo.title : this.props.params.id;
+        const title = this.getID();
 
-        return <Item title={title} props={Document.getDocumentProps} {...this.props}>{Document.getDocumentBody}</Item>;
+        return (
+            <Item title={title} promise={this.getDocument} props={Document.getDocumentProps} {...this.props}>{
+                Document.getDocumentBody}</Item>
+        );
     }
+
+    private readonly getID = () => decodeLibraryLinkID(this.props);
+    private readonly getDocument = async () => this.props.context.libraryClient.getDocument(this.getID());
 
     private static readonly getDocumentProps = (document: IDocument) => {
         const {id: title, sourceRef: source, statistics, tags} = document;
@@ -39,3 +45,6 @@ export default class Document extends React.Component<IRouteComponentProps<IDocu
         );
     }
 }
+
+// tslint:disable-next-line:export-name
+export default withContext(Document);

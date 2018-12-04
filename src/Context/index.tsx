@@ -5,9 +5,9 @@ import { default as createLibraryClient, LibraryClient } from "../Clients/Librar
 import NewsClient from "../Clients/NewsClient";
 import { Without } from "../Types/utils";
 import HTTPClient from "../Utils/HTTPClient";
-import Parallel from "../Utils/Parallel";
 
 import { IMathHubConfig } from "./config";
+import Parallel from "../Utils/Parallel";
 
 // Represents a global context for MathHub
 export interface IMathHubContext {

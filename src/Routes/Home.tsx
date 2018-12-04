@@ -1,16 +1,16 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
+
 import { Button, Grid, Image } from "semantic-ui-react";
 
 import { HTML, MHBreadCrumbs, MHText, MHTitle } from "../Components/Fragments";
 import { LoadWithSpinner } from "../Components/Loaders";
-import { IRouteComponentProps } from "../Routing/makeRouteComponent";
 
 import { encodeLibraryLink } from "./Library/Structure/Links";
 
 // library image source: https://www.pexels.com/photo/library-university-books-students-12064/
 
-export default class Home extends React.Component<IRouteComponentProps> {
+export class Home extends React.Component<RouteComponentProps> {
     render() {
         // MHTitle can not use autocrumbs here
         // because Home is prepended to every one of them
