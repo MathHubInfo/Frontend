@@ -3,7 +3,10 @@
 
 # Distribution files
 dist/
-lib/
+out/
+
+# Generated static assets
+src/assets/generated
 
 # Dependencies -- Yarn && NPM
 node_modules/
@@ -11,7 +14,7 @@ node_modules/
 .npm
 
 # Build Cache
-.awcache
+.next
 
 # Lots of log files
 logs

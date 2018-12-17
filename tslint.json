@@ -340,7 +340,9 @@
 
         // you shouldn't import submodules
         // TODO: Which exceptions do we want here
-        "no-submodule-imports": true,
+        "no-submodule-imports": {
+            "options": ["next", "next-server"]
+        },
 
         // if you really need to fall-through
         // add a copmment /* falls through */
@@ -1135,10 +1137,21 @@
         "valid-typeof": false
     },
 
+    // also check definition files
+    "ignoreDefinitionFiles": false,
 
+    // enable linting of JavaScript files
+    // that we use under config/
+    "jsEnable": true,
+
+    // there are no specific rules for them at the moment, 
+    // although this might change in the future
     "jsRules": {},
+
+    // we do not have any custom rules
     "rulesDirectory": [],
 
-    // exclude all the json files
-    "linterOptions": { "exclude": [ "**/*.json" ] }
+    // a lot of files would be type-checked by default, but should be excluded. 
+    // These are the distribution files (.next, out/, node_modules/) and any json files
+    "linterOptions": { "exclude": [ "**/*.json" , ".next/**/*", "out/**/*", "node_modules/**/*"] }
 }
