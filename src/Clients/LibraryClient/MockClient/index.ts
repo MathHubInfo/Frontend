@@ -381,7 +381,7 @@ class LazyMockClient extends LibraryClient {
             ...ref,
             ref: false,
 
-            archives,
+            components: archives,
         };
     }
 

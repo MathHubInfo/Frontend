@@ -85,7 +85,7 @@ export interface ITagRef extends ITagItem {
 export interface ITag extends ITagItem {
     ref: false;
     // a list of archives contained in this tag
-    archives: IArchiveRef[];
+    components: IArchiveRef[];
 }
 
 //
