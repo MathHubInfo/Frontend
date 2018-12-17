@@ -144,7 +144,9 @@ export type INarrativeElement =
     IOpaqueElement |
     IDocument |
     IDocumentRef |
-    IModuleRef;
+    IModuleRef |
+    IDeclaration |
+    IDeclarationRef;
 
 // parent of a document
 export type IDocumentParentRef = IArchiveRef | IDocumentRef;

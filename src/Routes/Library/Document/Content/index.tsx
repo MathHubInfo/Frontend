@@ -26,6 +26,8 @@ function NarrativeElementViewItem(props: {element: INarrativeElement}) {
     const { element } = props;
     if (element.ref && element.kind === "module")
         return <Module mod={element} />;
+    else if (element.kind === "declaration")
+        return null; // unsupported in this version
     else if (element.kind === "opaque")
         return <Opaque element={element} />;
     else
