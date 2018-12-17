@@ -53,7 +53,7 @@ export interface IGroup extends IGroupItem {
     // a list of emails of people responsible for this group
     responsible: string[];
     // a list of archives contained in this group
-    archives: IArchiveRef[];
+    components: IArchiveRef[];
 
     // statistics of this group
     statistics: IStatistic[];

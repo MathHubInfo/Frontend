@@ -366,7 +366,7 @@ class LazyMockClient extends LibraryClient {
 
             description: actual.description,
             responsible: actual.responsible,
-            archives,
+            components: archives,
             statistics: actual.statistics,
         };
     }
