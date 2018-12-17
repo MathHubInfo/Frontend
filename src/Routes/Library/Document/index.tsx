@@ -34,7 +34,7 @@ class Document extends React.Component<ILibraryRouteProps> {
             <Tab
                 panes={[
                     { menuItem: "Content", render: () => <Tab.Pane>
-                        <Content elements={document.decls} />
+                        <Content elements={document.declarations} />
                     </Tab.Pane> },
                     {
                         menuItem: "Graph", render: () =>

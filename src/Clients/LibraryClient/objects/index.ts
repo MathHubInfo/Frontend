@@ -53,7 +53,7 @@ export interface IGroup extends IGroupItem {
     // a list of emails of people responsible for this group
     responsible: string[];
     // a list of archives contained in this group
-    components: IArchiveRef[];
+    declarations: IArchiveRef[];
 
     // statistics of this group
     statistics: IStatistic[];
@@ -85,7 +85,7 @@ export interface ITagRef extends ITagItem {
 export interface ITag extends ITagItem {
     ref: false;
     // a list of archives contained in this tag
-    components: IArchiveRef[];
+    declarations: IArchiveRef[];
 }
 
 //
@@ -176,7 +176,7 @@ export interface IDocument extends IDocumentItem {
     sourceRef?: ISourceReference;
 
     // a set of declarations
-    decls: INarrativeElement[];
+    declarations: INarrativeElement[];
 
     // statistics of this document
     statistics: IStatistic[];

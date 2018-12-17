@@ -366,7 +366,7 @@ class LazyMockClient extends LibraryClient {
 
             description: actual.description,
             responsible: actual.responsible,
-            components: archives,
+            declarations: archives,
             statistics: actual.statistics,
         };
     }
@@ -381,7 +381,7 @@ class LazyMockClient extends LibraryClient {
             ...ref,
             ref: false,
 
-            components: archives,
+            declarations: archives,
         };
     }
 
@@ -457,7 +457,7 @@ class LazyMockClient extends LibraryClient {
             ...ref,
             ref: false,
 
-            decls,
+            declarations: decls,
             statistics: actual.statistics,
         };
     }

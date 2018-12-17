@@ -26,7 +26,7 @@ class Tag extends React.Component<ILibraryRouteProps> {
         };
     }
     private static readonly getTagBody = (tag: ITag) => {
-        return <List items={tag.components} />;
+        return <List items={tag.declarations} />;
     }
 }
 

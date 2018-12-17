@@ -37,7 +37,7 @@ class Archive extends React.Component<ILibraryRouteProps> {
                     Tags: {archive.tags.map(t => <TagLink key={t.id} to={t} />)}
                 </Container>
                 <Divider />
-                <Content elements={archive.narrativeRoot.decls} />
+                <Content elements={archive.narrativeRoot.declarations} />
             </>
         );
     }

@@ -29,7 +29,7 @@ class Group extends React.Component<ILibraryRouteProps> {
         return { title, crumbs: group, source, statistics, description, responsible};
     }
     private static readonly getGroupBody = (group: IGroup) => {
-        return <List items={group.components} />;
+        return <List items={group.declarations} />;
     }
 }
 
