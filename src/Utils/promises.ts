@@ -2,6 +2,22 @@
  * @file Implements utility functions used for Promises
  */
 
+
+/**
+ * Runs a promise with a timeout
+ * @param promise Promise to run
+ * @param timeout timout to generate
+ */
+export async function withTimeout<T>(promise: () => Promise<T>, timeout: number) {
+    if (timeout < 0) throw new Error("negative timeout not allowed");
+    if (timeout === 0) return promise();
+
+    return Promise.race<T>([
+        new Promise<never>((rs, rj) => setTimeout(() => rj(new Error("Timeout")), timeout)),
+        promise(),
+    ]);
+}
+
 /**
  * Delays a promise by a given amount of seconds
  * @param promise Promise to delay
@@ -10,10 +26,10 @@
 export async function delay<T>(promise: Promise<T>, timeout: number): Promise<T> {
     return promise.then(
         async (r: T) => new Promise<T>((resolve, reject) => (
-            window.setTimeout(() => resolve(r), timeout)
+            setTimeout(() => resolve(r), timeout)
         )),
         async (r: {}) => new Promise<T>((resolve, reject) => (
-            window.setTimeout(() => reject(r), timeout)
+            setTimeout(() => reject(r), timeout)
         )),
     );
 }
@@ -28,7 +44,7 @@ export async function rejectAfter<T, S>(promise: Promise<T>, timeout: number, re
     await promise;
 
     return new Promise<T>((resolve, reject) => (
-        window.setTimeout(() => reject(reason), timeout)
+        setTimeout(() => reject(reason), timeout)
     ));
 }
 

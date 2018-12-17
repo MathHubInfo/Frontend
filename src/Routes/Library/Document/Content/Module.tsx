@@ -1,25 +1,25 @@
 import * as React from "react";
-
 import { Button, Card, Icon } from "semantic-ui-react";
 
 import {
     IModule,
-    IModuleRef } from "../../../../Clients/MMTClient/objects";
+    IModuleRef } from "../../../../Clients/LibraryClient/objects";
+import { LoadWithSpinner } from "../../../../Components/Loaders";
 import { IMathHubContext, withContext } from "../../../../Context";
 
-import { HTML } from "../../../../Components/Fragments";
-import { LoadWithSpinner } from "../../../../Components/Loaders";
+import Declaration from "./Declaration";
 
 export default class Module extends React.Component<{mod: IModuleRef}, {expanded: boolean}> {
     state = {expanded: false};
     render() {
         const {mod} = this.props;
 
+        // Pre-load reference types here
         return (
             <Card>
                 <Card.Content>
                     <Button icon size="mini" onClick={this.toggleExpansion} >
-                        {this.props.mod.kind} reference
+                         reference
                         {this.state.expanded ? <Icon name="chevron down" /> : <Icon name="chevron right" />}
                     </Button>
                     {this.props.mod.id}
@@ -45,20 +45,22 @@ const ModuleContentExpanded = withContext(
                     title={this.props.mod.name}
                     promise={this.getModule}
                     errorMessage
-                >{fullModule => <ModuleViewFullExpanded mod={fullModule} />}
+                >{fullModule => fullModule && <ModuleViewFullExpanded mod={fullModule} />}
                 </LoadWithSpinner>
             );
         }
 
         private readonly getModule =
-            async (): Promise<IModule> => this.props.context.mmtClient.getModule(this.props.mod.id)
+            async (): Promise<IModule | undefined> => this.props.context.libraryClient.getModule(this.props.mod.id)
     },
 );
 
 function ModuleViewFullExpanded(props: {mod: IModule}) {
     return (
         <Card.Content>
-            <HTML as="div">{props.mod.presentation}</HTML>
+            <Card.Group itemsPerRow={1}>
+                {props.mod.declarations.map(d => <Declaration key={d.id} declaration={d} />)}
+            </Card.Group>
         </Card.Content>
     );
 }

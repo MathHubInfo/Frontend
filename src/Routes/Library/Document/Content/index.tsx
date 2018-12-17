@@ -4,7 +4,7 @@ import { Card, Label } from "semantic-ui-react";
 import {
     IDocument, IDocumentRef,
     IModuleRef,
-    INarrativeElement } from "../../../../Clients/MMTClient/objects";
+    INarrativeElement } from "../../../../Clients/LibraryClient/objects";
 import { Nav } from "../../../../Components/Common";
 import { encodeLibraryLink } from "../../Structure/Links";
 
@@ -24,8 +24,10 @@ export default function Content(props: {elements: INarrativeElement[]}) {
 
 function NarrativeElementViewItem(props: {element: INarrativeElement}) {
     const { element } = props;
-    if (element.ref && (element.kind === "theory" || element.kind === "view"))
+    if (element.ref && element.kind === "module")
         return <Module mod={element} />;
+    else if (element.kind === "declaration")
+        return null; // unsupported in this version
     else if (element.kind === "opaque")
         return <Opaque element={element} />;
     else

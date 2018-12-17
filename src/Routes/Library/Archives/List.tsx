@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Card } from "semantic-ui-react";
 
-import { IArchiveRef, IGroupRef } from "../../../Clients/MMTClient/objects";
+import { IArchiveRef, IGroupRef } from "../../../Clients/LibraryClient/objects";
 
 import { encodeLibraryLink } from "../Structure/Links";
 

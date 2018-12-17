@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const merge = require("webpack-merge");
 
 const WebpackShellPlugin = require('./build/shell');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const common = require("./build/common");
 const env = require("./build/env");
@@ -48,7 +49,7 @@ module.exports = merge(common, {
 
     plugins: [
         new WebpackShellPlugin({
-            onBuildStart: ["node_modules/.bin/tslint -c tslint.json -p tsconfig.json"]
+            onBuildStart: [`yarn run --silent lint`]
         }),
 
         new webpack.DefinePlugin({
@@ -57,6 +58,9 @@ module.exports = merge(common, {
         
         // for development and hot reloading
         new webpack.HotModuleReplacementPlugin(), 
-        new webpack.NamedModulesPlugin()
+        new webpack.NamedModulesPlugin(),
+
+        // Bundle Analyzer: for testing
+        // new BundleAnalyzerPlugin()
     ]
 });

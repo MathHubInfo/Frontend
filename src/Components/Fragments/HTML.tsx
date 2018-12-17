@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Popup } from "semantic-ui-react";
 
-import { HTML as HTMLt } from "../../Clients/MMTClient/objects";
+import { HTML as HTMLt } from "../../Clients/LibraryClient/objects";
 import { default as Parser, TNodeList, TReactElement } from "../../Utils/react-html-parser";
 
 interface IMathHTMLProps<T> {

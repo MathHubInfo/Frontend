@@ -13,6 +13,8 @@ export interface IMathHubClientConfig {
     GLOSSARY_URL: string;
     // are we using browser router
     BROWSER_ROUTER: string;
+    // the name of the ribbon to show
+    SHOW_RIBBON?: "beta";
 }
 
 // configuration for external urls used by mathHub
@@ -24,6 +26,8 @@ export interface IMathHubURLConfig {
         browseSources: string;
         // url to contact humans under
         contactAHuman: string;
+        // information about the beta version of mathhub
+        beta: string;
     };
 
     external: {
@@ -49,6 +53,7 @@ export const urls: IMathHubURLConfig = {
         // Uni Erlangen: FIX THIS PLEASE
         // tslint:disable-next-line:no-http-string
         contactAHuman: "http://lists.informatik.uni-erlangen.de/mailman/listinfo/mathhub",
+        beta: "https://github.com/MathHubInfo/Documentation/wiki/beta.mathhub.info",
     },
     external: {
         // tslint:disable-next-line:no-invalid-template-strings

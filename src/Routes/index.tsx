@@ -1,49 +1,66 @@
 import { DictToSwitch } from "../Components/Common";
+import { IMathHubContext } from "../Context";
 import { PropsOfComponent } from "../Types/react";
+
 type IRouteDict = PropsOfComponent<DictToSwitch>["routes"];
 
-export {makeLibraryRouteSpec as urlMaker} from "./Library/Structure/Links";
+export {makeReactLibraryRoute as urlMaker} from "./Library/Structure/Links";
 
 // the home route
-const Home = async () => import(/* webpackChunkName: "home"*/"./Home").then(h => h.Home);
+const Home = async () => import("./Home").then(h => h.Home);
 Home.routeTitle = "Home";
 
+// the error route
+const Error = async () => import("./DefaultPage").then(e => e.DefaultPage);
+Error.routeTitle = "Error 404";
+Error.isClientOnly = true;
+
 // #region "Archive Structure"
-const archivesImport = async () => import(/* webpackChunkName: "archives" */"./Library/Archives");
+const archivesImport = async () => import("./Library/Archives");
 
 const Library = async () => archivesImport().then(l => l.Library);
 Library.routeTitle = "Library";
 
 const Group = async () => archivesImport().then(g => g.Group);
 Group.routeTitle = "Group";
+Group.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getGroup(params.id) === undefined;
 
 const Tag = async () => archivesImport().then(t => t.Tag);
 Tag.routeTitle = "Tag";
+Tag.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getTag(params.id) === undefined;
 
 const Archive = async () => archivesImport().then(a => a.Archive);
 Archive.routeTitle = "Archive";
+Archive.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getArchive(params.id) === undefined;
 
 // #endregion
 
 // #region "Narration"
-const narrativeImport = async () => import(/* webpackChunkName: "narrative" */"./Library/Document");
+const narrativeImport = async () => import("./Library/Document");
 
 const Document = async () => narrativeImport().then(d => d.default);
 Document.routeTitle = "Document";
+Document.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.libraryClient.getDocument(params.id) === undefined;
 // #endregion
 
 // #region "Narration"
-const newsImport = async () => import(/* webpackChunkName: "news" */"./News");
+const newsImport = async () => import("./News");
 
 const NewsList = async () => newsImport().then(d => d.NewsList);
 NewsList.routeTitle = "News";
 
 const NewsPage = async () => newsImport().then(d => d.NewsPage);
 NewsPage.routeTitle = "News";
+NewsPage.is404 = async (params: {id: string}, context: IMathHubContext) =>
+    await context.newsClient.load(params.id) === undefined;
 // #endregion
 
 // #region "Applications"
-const applicationImport = async () => import(/* webpackChunkName: "applications" */"./Applications");
+const applicationImport = async () => import("./Applications");
 
 const Glossary = async () => applicationImport().then(g => g.Glossary);
 Glossary.routeTitle = "Glossary";
@@ -59,7 +76,7 @@ Logger.routeTitle = "Logger";
 // #endregion
 
 // # region "Legal"
-const legalImport = async () => import(/* webpackChunkName: "legal"*/"./Legal");
+const legalImport = async () => import("./Legal");
 
 const Licenses = async () => legalImport().then(l => l.Licenses);
 Licenses.routeTitle = "Legal";
@@ -68,8 +85,9 @@ const Imprint = async () => legalImport().then(i => i.Imprint);
 Imprint.routeTitle = "Imprint";
 // # endregion
 
-const Devel = async () => import(/* webpackChunkName: "devel"*/"./Devel");
+const Devel = async () => import("./Devel");
 Devel.routeTitle = "Devel";
+Devel.isDevelOnly = true;
 
 // #endregion
 
@@ -81,7 +99,7 @@ const routes: IRouteDict = {
     "/": Home,
 
     // library Routes
-    "": Library,
+    "library": Library,
     "group": Group,
     "archive": Archive,
     "document": Document,
@@ -102,6 +120,9 @@ const routes: IRouteDict = {
     "/applications/logger": Logger,
 
     "/devel/": Devel,
+
+    // the error route
+    "": Error,
 };
 
 export default routes;

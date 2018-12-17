@@ -1,11 +1,12 @@
 import * as React from "react";
 import { Route, RouteComponentProps, Switch } from "react-router";
 
+import { IMathHubContext } from "../../Context";
 import { Module } from "../../Types/react";
 import { CreateSpinningLoader } from "../Loaders";
 
 // A dictionary specifying routes
-interface IRouteDict {
+export interface IRouteDict {
     [url: string]: TReactRoute<{}> | TReactRoute<{id: string}>;
 }
 
@@ -23,7 +24,13 @@ type TRouteClass<T> = React.ComponentClass<RouteComponentProps<T>>;
 // properties of a route
 interface IRouteProps {
     // is the route devel only?
-    devel: boolean;
+    isDevelOnly: boolean;
+
+    // is the route only on the client side?
+    isClientOnly?: boolean;
+
+    // if defined, is called by the server to check if a router is 404
+    is404?(params: {id: string}, context: IMathHubContext): Promise<boolean>;
 }
 
 // checks if a route is a promise route
@@ -42,7 +49,7 @@ export default class DictToSwitch extends React.Component<{routes: IRouteDict; u
                 Object.keys(routes).map((key: string) => {
                     // if the route is devel only, but we are not in devel, then return
                     const value = routes[key];
-                    if (value.devel && process.env.NODE_ENV === "production")
+                    if (value.isDevelOnly && process.env.NODE_ENV === "production")
                         return null;
 
                     // the url for the route, make it a library route unless we already have it

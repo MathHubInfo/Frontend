@@ -1,16 +1,19 @@
 import * as React from "react";
 
 import GlossaryClient from "../Clients/GlossaryClient";
-import { default as createMMTClient, MMTClient } from "../Clients/MMTClient";
+import { default as createLibraryClient, LibraryClient } from "../Clients/LibraryClient";
 import NewsClient from "../Clients/NewsClient";
 import { Without } from "../Types/utils";
+import HTTPClient from "../Utils/HTTPClient";
 
 import { IMathHubConfig } from "./config";
+import Parallel from "../Utils/Parallel";
 
 // Represents a global context for MathHub
 export interface IMathHubContext {
     config: IMathHubConfig;
-    mmtClient: MMTClient;
+    httpClient: HTTPClient;
+    libraryClient: LibraryClient;
     newsClient: NewsClient;
     glossaryClient: GlossaryClient;
 }
@@ -22,11 +25,13 @@ export const Context = React.createContext<IMathHubContext>(null!);
 // Creates a new config from a configuration
 export function makeContext(config: IMathHubConfig): IMathHubContext {
     const clientConfig = config.client;
+    const httpClient = new HTTPClient(new Parallel(1));
 
     return {
-        mmtClient: createMMTClient(clientConfig.MMT_URL),
-        newsClient: new NewsClient(clientConfig.NEWS_URL),
-        glossaryClient: new GlossaryClient(clientConfig.GLOSSARY_URL),
+        httpClient,
+        libraryClient: createLibraryClient(clientConfig.MMT_URL, httpClient),
+        newsClient: new NewsClient(clientConfig.NEWS_URL, httpClient),
+        glossaryClient: new GlossaryClient(clientConfig.GLOSSARY_URL, httpClient),
         config,
     };
 }

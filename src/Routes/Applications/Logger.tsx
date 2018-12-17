@@ -14,7 +14,7 @@ class Logger extends React.Component
     // the client to receive data from
     private readonly client: LoggerClient | null =
         this.props.context.config.client.MMT_URL !== "" ?
-        new LoggerClient(this.props.context.config.client.MMT_URL) : null;
+        new LoggerClient(this.props.context.config.client.MMT_URL, this.props.context.httpClient) : null;
 
     private readonly changeFilter = debounce(
         (event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {

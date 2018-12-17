@@ -4,7 +4,7 @@ const merge = require("webpack-merge");
 const resolve = require("path").resolve;
 
 const LicenseInfoWebpackPlugin = require("license-info-webpack-plugin").default;
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const ImageminPlugin = require("imagemin-webpack-plugin").default;
 const CleanWebpackPlugin = require("clean-webpack-plugin");
@@ -18,12 +18,10 @@ module.exports = merge(common, {
     optimization: {
         minimizer: [
             // keep license info in output
-            new UglifyJsPlugin({
+            new TerserPlugin({
                 sourceMap: false, 
-                uglifyOptions: {
-                    output: {
-                        comments: /^\**!|@preserve|@license|@cc_on/
-                    }
+                terserOptions: {
+                    extractComments: /^\**!|@preserve|@license|@cc_on/
                 }
             }), 
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ITag } from "../../../Clients/MMTClient/objects";
+import { ITag } from "../../../Clients/LibraryClient/objects";
 import { withContext } from "../../../Context";
 import Item from "../Item";
 import { decodeLibraryLinkID, ILibraryRouteProps } from "../Structure/Links";
@@ -16,7 +16,7 @@ class Tag extends React.Component<ILibraryRouteProps> {
     }
 
     private readonly getID = () => decodeLibraryLinkID(this.props);
-    private readonly getTag = async () => this.props.context.mmtClient.getTag(this.getID());
+    private readonly getTag = async () => this.props.context.libraryClient.getTag(this.getID());
 
     private static readonly getTagProps = (tag: ITag) => {
         return {
@@ -26,7 +26,7 @@ class Tag extends React.Component<ILibraryRouteProps> {
         };
     }
     private static readonly getTagBody = (tag: ITag) => {
-        return <List items={tag.archives} />;
+        return <List items={tag.declarations} />;
     }
 }
 

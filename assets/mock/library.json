@@ -249,12 +249,15 @@
     ],
     "modules": [
         {
-            "kind": "theory",
             "parent": null,
+            
             "id": "https://mathhub.info/mmt/example/fake/theory",
             "name": "fakeTheory",
-            "presentation": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>",
-            "source": "<h2>Fake Theory</h2><p>an actual thoery will be seen HERE</p>"
+
+            "mod": {
+                "kind": "theory"
+            }
         }
-    ]
+    ],
+    "declarations": []
 }

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Container, Dropdown, Popup, Table } from "semantic-ui-react";
 
 import { default as keysJson } from "../../../../assets/keys.json";
-import { IStatistic } from "../../../Clients/MMTClient/objects";
+import { IStatistic } from "../../../Clients/LibraryClient/objects";
 
 interface IStatisticsTableProps {
     statistics: IStatistic[];

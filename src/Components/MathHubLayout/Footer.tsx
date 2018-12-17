@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { Container, Divider, Grid, Header, Image, List, Segment } from "semantic-ui-react";
 
-import { IMMTVersionInfo } from "../../Clients/MMTClient/objects";
+import { IMMTVersionInfo } from "../../Clients/LibraryClient/objects";
 import { IMathHubContext, withContext } from "../../Context";
 import { Nav } from "../Common";
 import { PromiseLoader } from "../Loaders";
@@ -49,7 +49,7 @@ class Footer extends React.Component<{context: IMathHubContext}> {
       );
     }
 
-  private readonly getMMTVersion = async () => this.props.context.mmtClient.getMMTVersion();
+  private readonly getMMTVersion = async () => this.props.context.libraryClient.getMMTVersion();
 
   private static getFooter() {
     return (process.env.NODE_ENV === "production") ? Footer.getProdFooter() : Footer.getDevelFooter();

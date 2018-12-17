@@ -10,7 +10,7 @@ interface ILibraryItemProps<T> {
     title: string;
 
     // the promise fetching this item
-    promise(): Promise<T>;
+    promise(): Promise<T | undefined>;
 
     // the properties of this item
     props(item: T): IItemProps;
@@ -30,9 +30,9 @@ export default class Item<T> extends React.Component<ILibraryItemProps<T>> {
                     title={title}
                     promise={promise}
                     errorMessage
-                >{(item: T) => <>
-                    <Header itemProps={props(item)} />
-                    {children(item)}
+                >{(item: T | undefined) => <>
+                    {item && <Header itemProps={props(item)} />}
+                    {item && children(item)}
                 </>}
                 </LoadWithSpinner>
             </MHTitle>

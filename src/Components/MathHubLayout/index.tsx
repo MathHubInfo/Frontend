@@ -5,6 +5,7 @@ import Body from "./Body";
 import Footer from "./Footer";
 import Header from "./Header";
 
+// tslint:disable-next-line:export-name
 export default class MathHubLayout extends React.Component {
     render() {
         return (
@@ -18,3 +19,5 @@ export default class MathHubLayout extends React.Component {
 }
 
 export { BreadCrumbsFill, TextFill, TitleFill } from "./Slots";
+
+export { default as Ribbon } from "./Ribbon";

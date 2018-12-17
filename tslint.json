@@ -258,7 +258,9 @@
 
         // do not allow empty statements
         // except during debugging
-        "no-empty": true,
+        "no-empty": {
+            "options": "allow-empty-catch"
+        },
 
         // eval is evil()
         "no-eval": {
@@ -868,11 +870,12 @@
         "function-name": false,
 
         // imports should match the thing being imported
-        "import-name": {
+        // TODO: Import this once the bug is fixed
+        "import-name": false, /*{
             "options": {
                 "axios": "Axios"
             }
-        },
+        },*/
 
         // do not put useless comments
         // TODO: Once implemented use this
@@ -1134,5 +1137,8 @@
 
 
     "jsRules": {},
-    "rulesDirectory": []
+    "rulesDirectory": [],
+
+    // exclude all the json files
+    "linterOptions": { "exclude": [ "**/*.json" ] }
 }

@@ -7,9 +7,9 @@
         "removeComments": false, 
         
         "moduleResolution": "node", 
-        "resolveJsonModule": false,
+        "resolveJsonModule": true,
         "module": "esnext",
-        "target": "es6",
+        "target": "esnext",
         "jsx": "react", 
 
         "strict": true, 
@@ -19,7 +19,9 @@
 
         "esModuleInterop": true, 
         "isolatedModules": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+
+        "importHelpers": true
     },
 
     "awesomeTypescriptLoaderOptions": {
@@ -33,7 +35,8 @@
     }, 
     
     "include": [
-        "./src/**/*"
+        "./src/**/*",
+        "./assets/**/*"
     ], 
     "exclude": [
         "node_modules",

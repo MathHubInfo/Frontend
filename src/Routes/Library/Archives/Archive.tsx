@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Button, Container, Divider } from "semantic-ui-react";
 
-import { IArchive, ISourceReference, ITagRef } from "../../../Clients/MMTClient/objects";
-import { ArchiveObjectToRef } from "../../../Clients/MMTClient/objects/utils";
+import { IArchive, ISourceReference, ITagRef } from "../../../Clients/LibraryClient/objects";
+import { ArchiveObjectToRef } from "../../../Clients/LibraryClient/objects/utils";
 import { Nav } from "../../../Components/Common";
 import { withContext } from "../../../Context";
 import Content from "../Document/Content";
@@ -18,7 +18,7 @@ class Archive extends React.Component<ILibraryRouteProps> {
     }
 
     private readonly getID = () => decodeLibraryLinkID(this.props);
-    private readonly getArchive = async () => this.props.context.mmtClient.getArchive(this.getID());
+    private readonly getArchive = async () => this.props.context.libraryClient.getArchive(this.getID());
     private static readonly getArchiveProps = (archive: IArchive) => {
         const {title, version, statistics, description, responsible} = archive;
         const source: ISourceReference = {
@@ -37,7 +37,7 @@ class Archive extends React.Component<ILibraryRouteProps> {
                     Tags: {archive.tags.map(t => <TagLink key={t.id} to={t} />)}
                 </Container>
                 <Divider />
-                <Content elements={archive.narrativeRoot.decls} />
+                <Content elements={archive.narrativeRoot.declarations} />
             </>
         );
     }

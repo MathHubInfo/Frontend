@@ -1,9 +1,11 @@
-import MMTClient from "../MMTClient";
+import LibraryClient from "../LibraryClient";
 
 import {
     IApiObject,
     IArchive,
     IArchiveRef,
+    IDeclaration,
+    IDeclarationRef,
     IDocument,
     IDocumentParentRef,
     IDocumentRef,
@@ -11,23 +13,20 @@ import {
     IGroupRef,
     IMMTVersionInfo,
     IModule,
+    IModuleRef,
     INarrativeElement,
     IOpaqueElement,
     IOpaqueElementRef,
     IReferencable,
     ITag,
     ITagRef,
-    ITheory,
-    ITheoryRef,
-    IView,
-    IViewRef,
     URI,
 } from "../objects";
 
 import { IMockDataSet, IMockModule, IMockObject, IMockReference } from "./set";
 
 // An API client to MMT that mocks results by resolving them statically from a given datatset
-class LazyMockClient extends MMTClient {
+class LazyMockClient extends LibraryClient {
     constructor(datasetFactory: () => Promise<IMockDataSet>) {
         super();
         this.datasetFactory = datasetFactory;
@@ -51,7 +50,7 @@ class LazyMockClient extends MMTClient {
     }
 
     // given a URI, returns an object
-    async getURI(uri: URI): Promise<IReferencable> {
+    async getURI(uri: URI): Promise<IReferencable | undefined> {
         let kind = "";
 
         return this.getObjectOfType<IReferencable>(
@@ -93,56 +92,65 @@ class LazyMockClient extends MMTClient {
 
                 return undefined;
             },
-            (d: IMockObject) => kind,
+            kind,
             `No Document or Module with ${uri} exists. `,
         );
     }
 
     // gets a group from the mock dataset
-    async getGroup(id: string): Promise<IGroup> {
+    async getGroup(id: string): Promise<IGroup | undefined> {
         return this.getObjectOfType<IGroup>(
             (ds: IMockDataSet) => ds.groups.find(g => g.id === id),
-            (d: IMockObject) => "group",
+            "group",
             `Group ${id} does not exist. `,
         );
     }
 
     // gets a group from the mock dataset
-    async getTag(id: string): Promise<ITag> {
+    async getTag(id: string): Promise<ITag | undefined> {
         const theMockTag = id.startsWith("@") ?
             {id, name: id.substring(1)} : undefined;
 
         return this.getObjectOfType<ITag>(
             (ds: IMockDataSet) => theMockTag,
-            (d: IMockObject) => "tag",
+            "tag",
             `Group ${id} does not exist. `,
         );
     }
 
     // gets an archive from the mock dataset
-    async getArchive(id: string): Promise<IArchive> {
+    async getArchive(id: string): Promise<IArchive | undefined> {
         return this.getObjectOfType<IArchive>(
             (ds: IMockDataSet) => ds.archives.find(a => a.id === id),
-            (d: IMockObject) => "archive",
+            "archive",
             `Archive ${id} does not exist. `,
         );
     }
 
     // gets a document from the mock dataset
-    async getDocument(id: string): Promise<IDocument> {
+    async getDocument(id: string): Promise<IDocument | undefined> {
         return this.getObjectOfType<IDocument>(
             (ds: IMockDataSet) => ds.documents.find(d => d.id === id),
-            (d: IMockObject) => "document",
+            "document",
             `Document ${id} does not exist. `,
         );
     }
 
     // gets a module from the mock dataset
-    async getModule(id: string): Promise<IModule> {
+    async getModule(id: string): Promise<IModule | undefined> {
         return this.getObjectOfType<IModule>(
             (ds: IMockDataSet) => ds.modules.find(m => m.id === id),
-            (d: IMockObject) => (d as IMockModule).kind,
+            "module",
             `Module ${id} does not exist. `,
+        );
+    }
+
+    // gets a declaration from the mock dataset
+    async getDeclaration(id: string): Promise<IDeclaration | undefined> {
+        return this.getObjectOfType<IDeclaration>(
+            (ds: IMockDataSet) => ds.declarations.find(d => d.id === id),
+            "declaration",
+            `Declaration ${id} does not exist. `,
         );
     }
 
@@ -171,15 +179,15 @@ class LazyMockClient extends MMTClient {
      */
     private async getObjectOfType<T extends IApiObject>(
         getter: (data: IMockDataSet) => IMockObject | undefined,
-        kind: (result: IMockObject) => string,
+        kind: string,
         errorMessage: string,
-    ): Promise<T>  {
+    ): Promise<T | undefined>  {
         const ds = await this.loadDataSet();
         const obj = getter(ds);
-        if (obj === undefined)
-            return Promise.reject(errorMessage);
+        if (obj !== undefined)
+            return LazyMockClient.cleanAny<T>(kind, obj, ds);
         else
-            return Promise.resolve(LazyMockClient.cleanAny<T>(kind(obj), obj, ds));
+            return undefined;
     }
 
     // #endregion
@@ -208,11 +216,11 @@ class LazyMockClient extends MMTClient {
             case "opaque":
                 co = this.cleanOpaqueElement(obj, ds);
                 break;
-            case "theory":
-                co = this.cleanTheory(obj, ds);
+            case "module":
+                co = this.cleanModule(obj, ds);
                 break;
-            case "view":
-                co = this.cleanView(obj, ds);
+            case "declaration":
+                co = this.cleanDeclaration(obj, ds);
                 break;
             default:
                 // tslint:disable-next-line:no-console
@@ -312,12 +320,12 @@ class LazyMockClient extends MMTClient {
         };
     }
 
-    private static cleanTheoryRef(theory: IMockReference, ds: IMockDataSet): ITheoryRef {
-        const actual = ds.modules.find(t => t.id === theory.id && t.kind === "theory") as ITheory;
-        if (!actual) throw LazyMockClient.MockNotFoundError(theory.id, "modules (as theory)");
+    private static cleanModuleRef(mod: IMockReference, ds: IMockDataSet): IModuleRef {
+        const actual = ds.modules.find(m => m.id === mod.id);
+        if (!actual) throw LazyMockClient.MockNotFoundError(mod.id, "modules");
 
         return {
-            kind: "theory",
+            kind: "module",
             parent: null,
             ref: true,
 
@@ -326,14 +334,17 @@ class LazyMockClient extends MMTClient {
         };
     }
 
-    private static cleanViewRef(view: IMockReference, ds: IMockDataSet): IViewRef {
-        const actual = ds.modules.find(v => v.id === view.id && v.kind === "view") as IView;
-        if (!actual) throw LazyMockClient.MockNotFoundError(view.id, "modules (as view)");
+    private static cleanDeclarationRef(declaration: IMockReference, ds: IMockDataSet): IDeclarationRef {
+        const actual = ds.declarations.find(d => d.id === declaration.id);
+        if (!actual) throw LazyMockClient.MockNotFoundError(declaration.id, "declarations");
+        const parent = this.cleanModuleRef(actual.parent, ds);
 
         return {
-            kind: "view",
-            parent: null,
+            kind: "declaration",
+            parent,
             ref: true,
+
+            declaration: actual.declaration.kind,
 
             name: actual.name,
             id: actual.id,
@@ -355,7 +366,7 @@ class LazyMockClient extends MMTClient {
 
             description: actual.description,
             responsible: actual.responsible,
-            archives,
+            declarations: archives,
             statistics: actual.statistics,
         };
     }
@@ -370,7 +381,7 @@ class LazyMockClient extends MMTClient {
             ...ref,
             ref: false,
 
-            archives,
+            declarations: archives,
         };
     }
 
@@ -393,9 +404,8 @@ class LazyMockClient extends MMTClient {
 
         const modules = moduleChildren
             .map(m => ds.modules.find(dm => dm.id === m.id))
-            .filter(m => m !== undefined)
-            // tslint:disable-next-line:no-non-null-assertion
-            .map(m => m!.kind === "theory" ? this.cleanTheoryRef(m!, ds) : this.cleanViewRef(m!, ds));
+            .filter((m): m is IMockModule => m !== undefined)
+            .map(m => this.cleanModuleRef(m, ds));
 
         return ([] as INarrativeElement[])
             .concat(opaques, documents, modules);
@@ -447,7 +457,7 @@ class LazyMockClient extends MMTClient {
             ...ref,
             ref: false,
 
-            decls,
+            declarations: decls,
             statistics: actual.statistics,
         };
     }
@@ -467,41 +477,76 @@ class LazyMockClient extends MMTClient {
         };
     }
 
-    private static cleanTheory(theory: IMockReference, ds: IMockDataSet): ITheory {
-        const ref = this.cleanTheoryRef(theory, ds);
-        const actual = ds.modules.find(t => t.id === theory.id && t.kind === "theory") as ITheory;
-        if (!actual) throw LazyMockClient.MockNotFoundError(theory.id, "modules (as theory)");
+    private static cleanModule(mod: IMockReference, ds: IMockDataSet): IModule {
+        const ref = this.cleanModuleRef(mod, ds);
+        const actual = ds.modules.find(m => m.id === mod.id);
+        if (!actual) throw LazyMockClient.MockNotFoundError(mod.id, "modules");
 
-        const meta = actual.meta ? this.cleanTheoryRef(actual.meta, ds) : undefined;
+        let inner: IModule["mod"];
+        if (actual.mod.kind === "theory")
+            if (actual.mod.meta) {
+                const thyT = this.cleanModuleRef(actual.mod.meta, ds);
+
+                inner = {
+                    kind: "theory",
+                    meta: thyT as (IModuleRef & {mod: "theory"}),
+                };
+            } else
+                inner = {
+                    kind: "theory",
+                };
+        else {
+            const domainT = this.cleanModuleRef(actual.mod.domain, ds);
+            const codomainT = this.cleanModuleRef(actual.mod.codomain, ds);
+
+            inner = {
+                kind: "view",
+                domain: domainT as IModuleRef & {mod: "theory"},
+                codomain: codomainT as IModuleRef & {mod: "theory"},
+            };
+        }
+
+        const declarations = ds.declarations.filter(d => d.parent.id === actual.id)
+            .map(d => LazyMockClient.cleanDeclarationRef(d, ds));
 
         return {
             ...ref,
             ref: false,
 
-            presentation: actual.presentation,
-            source: actual.source,
-
-            meta,
+            mod: inner,
+            declarations,
         };
     }
 
-    private static cleanView(view: IMockReference, ds: IMockDataSet): IView {
-        const ref = this.cleanViewRef(view, ds);
-        const actual = ds.modules.find(v => v.id === view.id && v.kind === "view") as IView;
-        if (!actual) throw LazyMockClient.MockNotFoundError(view.id, "modules (as view)");
+    private static cleanDeclaration(declaration: IMockReference, ds: IMockDataSet): IDeclaration {
+        const ref = this.cleanDeclarationRef(declaration, ds);
+        const actual = ds.declarations.find(d => d.id === declaration.id);
+        if (!actual) throw LazyMockClient.MockNotFoundError(declaration.id, "declarations");
 
-        const domain = this.cleanTheoryRef(actual.domain, ds);
-        const codomain = this.cleanTheoryRef(actual.codomain, ds);
+        const declarations = ds.declarations
+            .filter(d => d.parent.id === actual.id)
+            .map(d => this.cleanDeclarationRef(d, ds));
+
+        let inner: IDeclaration["declaration"];
+        if (actual.declaration.kind === "nested") {
+            const modT = this.cleanModuleRef(actual.declaration.mod, ds);
+            if (!modT) throw LazyMockClient.MockNotFoundError(actual.declaration.id, "modules");
+
+            inner = {
+                kind: "nested",
+                mod: modT,
+            };
+        } else
+            inner = actual.declaration;
 
         return {
             ...ref,
             ref: false,
 
-            presentation: actual.presentation,
-            source: actual.source,
+            declaration: inner,
 
-            domain,
-            codomain,
+            components: actual.components,
+            declarations,
         };
     }
 
@@ -511,10 +556,10 @@ class LazyMockClient extends MMTClient {
 // tslint:disable-next-line:export-name
 export default class MockClient extends LazyMockClient {
     constructor() {
-        super(async () => {
-            const mock = await import("../../../../assets/mock/mmt.json");
+        super(async (): Promise<IMockDataSet> => {
+            const mock = await import("../../../../assets/mock/library.json");
 
-            return mock.default as IMockDataSet;
+            return mock.default;
         });
     }
 }

@@ -106,7 +106,7 @@ export function createSpinningLoader(
         private semanticUI?: typeof import ("semantic-ui-react");
 
         protected async loadPreReqs() {
-            this.semanticUI = await import(/* webpackChunkName: "semantic_ui_react" */"semantic-ui-react");
+            this.semanticUI = await import("semantic-ui-react");
         }
 
         // renders an uncaught error in the child component

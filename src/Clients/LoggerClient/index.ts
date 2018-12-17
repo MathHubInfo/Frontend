@@ -1,4 +1,6 @@
-import Axios from "axios";
+import { resolve } from "url";
+
+import HTTPClient from "../../Utils/HTTPClient";
 
 /**
  * A client to retrieve logs from MMT
@@ -8,12 +10,7 @@ export default class LoggerClient {
      * Creates a new LoggerClient
      * @param MMT_URL The URL this client talks to
      */
-    constructor(MMT_URL: string) {
-        this.MMT_URL = MMT_URL;
-    }
-
-    // the mmt url this Client communicates with
-    private readonly MMT_URL: string;
+    constructor(private readonly MMT_URL: string, private readonly client: HTTPClient) {}
 
     // the current list of entries
     private readonly entries: ILogEntry[] = [];
@@ -48,8 +45,9 @@ export default class LoggerClient {
     // polls some data from the server
     private async doPoll(): Promise<ILogEntry[]> {
         // load entries from the server
-        const newEntries = await this.getURL<ILogEntry[]>(
-            this.lastUUID ? (`log/after?uuid=${this.lastUUID}`) : "log/all");
+        const newEntries = await this.client.getOrError<ILogEntry[]>(
+            resolve(this.MMT_URL, this.lastUUID ? (`log/after?uuid=${this.lastUUID}`) : "log/all"),
+        );
 
         // add the new entries and update the last uuid
         this.entries.push.apply(this.entries, newEntries);
@@ -62,14 +60,6 @@ export default class LoggerClient {
     private updateUUID() {
         if (this.entries.length > 0)
             this.lastUUID = this.entries[this.entries.length - 1].uuid;
-    }
-
-    private async getURL<T>(url: string): Promise<T> {
-        const c = await Axios.get<T | string>(this.MMT_URL + url);
-        if (c.status !== 200 || typeof c.data === "string")
-            return Promise.reject(c.data);
-        else
-            return Promise.resolve(c.data);
     }
 }
 

@@ -23,16 +23,22 @@ We use [yarn](https://yarnpkg.com/en/), which we assume in the following is inst
 # are added
 yarn
 
-# to build the distribution in production mode into the dist/
+# To build a complete distribution for production use the following
+# command. This will internally split into the two commands below.
+yarn dist
+
+# typescript, compile and compress the source into the dist/
 # folder. This includes an index.html file and can afterwards
-# be served by a static webserver under any URL
-yarn webpack --config=webpack.config.prod.js
+# be served by a static webserver under any URL. 
+yarn build
 
 # When generating a distribution, it is additionally required
 # to run the following to generate NOTICES.txt file for license 
 # information of *external* dependencies
-yarn --ignore-platform licenses generate-disclaimer > dist/NOTICES.txt
+yarn mklegal
 
+# To run code for local development several commands exist
+# skip to the end to see the import bits
 
 # run a local webserver for development on localhost:8080
 # this takes a couple seconds to start up and will afterwards
@@ -45,11 +51,20 @@ yarn webpack-dev-server
 # By default the webpack-dev-server expects a corresponding API
 # to run on http://localhost:9000/:mathhub/. 
 # This URL can be changed using the MMT_URL variable, e.g. like so:
-MMT_URL=https://mmt.mathhub.info/:mathhub/ yarn webpack-dev-server
+yarn cross-env MMT_URL=https://mmt.mathhub.info/:mathhub/ webpack-dev-server
 
 # Furthermore, in case no MMT is running, a Mock Client exists during development. 
 # This can be enabled like so:
-MMT_URL= yarn webpack-dev-server
+yarn cross-env MMT_URL= webpack-dev-server
+
+# For convenience two shortcuts exist:
+yarn devmock
+yarn devmmt
+
+# both start webpack-dev-server on port 3000. 
+# the first command uses a mocked mmt instance, the second one
+# uses a real mmt expected to be at localhost:8080
+
 ```
 
 As an IDE, it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) (>= May 2018 (version 1.24)) along with the [TSLint Extension](https://marketplace.visualstudio.com/items?itemName=eg2.tslint). 
@@ -93,16 +108,26 @@ The supported variables are:
 * `GLOSSARY_URL` -- The URL to retrieve glossary items from. If omitted, defaults to the glossary.json file under mocks.
 * `ADMIN_URL` -- URL to the admin interface, defaults to `/admin/`
 * `BROWSER_ROUTER` -- If set to a non-empty string, use real webserver urls instead of fragments with the given base path. For this to work, the webserver should fallback to `index.html` on 404s. 
+* `SHOW_RIBBON` -- If set to `beta` show a ribbon indiciating the site is in beta
+* `UPSTREAM_BASE_URL` -- Server Side only (see below). Prefix for all requests sent to the upstream server. 
+* `RUNTIME_CONFIG_URL` -- If set to a non-empty string, load all other configuration variables at runtime from the given url. This may not behave well with `BROWSER_ROUTER`. 
+
+## Running on the server
+
+This project has (very experimental) support for server-side rendering. 
+For server-side rendering, when a request is made to the server the following happens:
+- The server checks if the resource is a static asset. If yes, returns the static asset. 
+- The server checks if the given path is a valid path within react-router. If yes, return an HTTP 200. 
+- The server still returns the react app, but with status code 404. 
 
 ## Deployment via Docker
 
 To easily deploy an instance of the frontend, a [Dockerfile](Dockerfile) is available. 
-It serves a static build of the react app on port 8043. 
-It takes a build argument `MMT_URL`, which can be used to customize the user-facing URL of the corresponding MMT Backend. 
+It serves a server instance of this app. 
+This takes all the variables above as build arguments. 
+In particular, the `UPSTREAM_BASE_URL` should be set accordingly. 
 
 The Docker Image is available on DockerHub as [mathhub/frontend](https://hub.docker.com/r/mathhub/frontend/). 
-It assumes that the user-facing MMT Backend is served under `/:mathhub/`, meaning it is mixed into the static server using some form of proxy. 
-It furthermore assume that the admin-backend is also mixed into the server and served under `/admin`. 
 The image is built using automated builds, and automatically updates afer every commit. 
 
 To run it, use something like:
@@ -120,8 +145,9 @@ These check that the project *compiles* in both production and non-production co
 ## Supported browsers
 
 We support the following browsers:
-    * the last two major versions of all browsers excluding Internet Explorer, unless they have <0.5% share
-    * Firefox ESR
+    * the last major version of Firefox + Firefox Android, and Firefox ESR
+    * the last major version of Chrome + Chrome Android
+    * the last major version of Safari + Safari IOS
 
 To view a concrete list of supported browsers, run:
 

@@ -1,11 +1,13 @@
 import {
     HTML,
+    IComponent,
     IMMTVersionInfo,
+    IModuleRef,
     IStatistic,
 } from "../objects";
 
 /**
- * The Mock Data Set contained in mmt.json
+ * The Mock Data Set contained in library.json
  *
  * The type here is only for tsc, the actual type can limit all
  * IReferences to be shallow in the sense of only having the 'id' property.
@@ -22,6 +24,8 @@ export interface IMockDataSet {
     opaques: IMockOpaqueElement[];
 
     modules: IMockModule[];
+
+    declarations: IMockDeclaration[];
 }
 
 // a shallow mock reference
@@ -77,25 +81,58 @@ export interface IMockOpaqueElement extends IMockObject {
 }
 
 // a mocked module
-export type IMockModule = IMockTheory | IMockView;
+export interface IMockModule extends IMockObject {
+    parent?: null;
+    mod: IMockTheory | IMockView;
+}
 
-interface IMockTheory extends IMockObject {
+export interface IMockTheory {
     kind: "theory";
     parent?: null;
-
-    presentation: HTML;
-    source?: string;
 
     meta?: IMockReference;
 }
 
-interface IMockView extends IMockObject {
+export interface IMockView {
     kind: "view";
     parent?: null;
-
-    presentation: HTML;
-    source?: string;
 
     domain: IMockReference;
     codomain: IMockReference;
 }
+
+
+// a mocked declaration
+export interface IMockDeclaration extends IMockObject {
+    parent: IMockReference;
+
+    declaration: IMockStructure | IMockConstant | IMockRule | IMockNestedModule;
+    components: IComponent[];
+}
+
+export interface IMockStructure extends IMockObject {
+    kind: "structure";
+    parent?: null;
+
+    implicit: boolean;
+    include: boolean;
+}
+
+export interface IMockConstant extends IMockObject {
+    kind: "constant";
+    parent?: null;
+
+    role?: string;
+    alias: string[];
+}
+
+export interface IMockRule extends IMockObject {
+    kind: "rule";
+}
+
+export interface IMockNestedModule extends IMockObject {
+    kind: "nested";
+
+    mod: IModuleRef;
+}
+

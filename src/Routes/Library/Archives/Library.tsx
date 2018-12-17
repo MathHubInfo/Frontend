@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { IGroupRef } from "../../../Clients/MMTClient/objects";
+import { IGroupRef } from "../../../Clients/LibraryClient/objects";
 import { withContext } from "../../../Context";
 import Item from "../Item";
 import { ILibraryRouteProps } from "../Structure/Links";
@@ -16,7 +16,7 @@ class Library extends React.Component<ILibraryRouteProps> {
         );
     }
 
-    private readonly getGroups = async () => this.props.context.mmtClient.getGroups();
+    private readonly getGroups = async () => this.props.context.libraryClient.getGroups();
     private static readonly getGroupsProps = (groups: IGroupRef[]) => {
         return {
             title: "Library",

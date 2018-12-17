@@ -9,10 +9,11 @@ export type IResponse = IApiObject | IMMTVersionInfo | IStatistic;
 export type IApiObject = IReferencable | IReference ;
 
 // any object that is referencable
-export type IReferencable = IGroup | ITag | IArchive | IDocument | IOpaqueElement | IModule;
+export type IReferencable = IGroup | ITag | IArchive | IDocument | IOpaqueElement | IModule | IDeclaration;
 
 // any concrete reference
-export type IReference = IHubReference | ITagRef | IDocumentRef | IOpaqueElementRef | IModuleRef;
+export type IReference =
+    IHubReference | ITagRef | IDocumentRef | IOpaqueElementRef | IModuleRef | IDeclarationRef;
 
 // a reference to a group or an archive
 export type IHubReference = IGroupRef | IArchiveRef;
@@ -52,7 +53,7 @@ export interface IGroup extends IGroupItem {
     // a list of emails of people responsible for this group
     responsible: string[];
     // a list of archives contained in this group
-    archives: IArchiveRef[];
+    declarations: IArchiveRef[];
 
     // statistics of this group
     statistics: IStatistic[];
@@ -84,7 +85,7 @@ export interface ITagRef extends ITagItem {
 export interface ITag extends ITagItem {
     ref: false;
     // a list of archives contained in this tag
-    archives: IArchiveRef[];
+    declarations: IArchiveRef[];
 }
 
 //
@@ -143,7 +144,9 @@ export type INarrativeElement =
     IOpaqueElement |
     IDocument |
     IDocumentRef |
-    IModuleRef;
+    IModuleRef |
+    IDeclaration |
+    IDeclarationRef;
 
 // parent of a document
 export type IDocumentParentRef = IArchiveRef | IDocumentRef;
@@ -175,7 +178,7 @@ export interface IDocument extends IDocumentItem {
     sourceRef?: ISourceReference;
 
     // a set of declarations
-    decls: INarrativeElement[];
+    declarations: INarrativeElement[];
 
     // statistics of this document
     statistics: IStatistic[];
@@ -213,10 +216,10 @@ export interface IOpaqueElement extends IOpaqueElementItem {
 }
 
 //
-// CONTENT
+// MODULES
 //
 interface IModuleItem extends IAPIObjectItem {
-    kind: "theory" | "view";
+    kind: "module";
     parent: null;
 
     // name of the module
@@ -226,54 +229,129 @@ interface IModuleItem extends IAPIObjectItem {
     id: URI;
 }
 
-// a reference to a module
-export type IModuleRef = ITheoryRef | IViewRef;
-
-interface IModuleCommonRef extends IModuleItem {
+export interface IModuleRef extends IModuleItem {
     ref: true;
     statistics?: undefined;
 }
 
-// a reference to a theory
-export interface ITheoryRef extends IModuleCommonRef {
-    kind: "theory";
-}
-
-// a reference to a view
-export interface IViewRef extends IModuleCommonRef {
-    kind: "view";
-}
-
-// an actual module, i.e. a theory or a view
-export type IModule = ITheory | IView;
-
-interface IModuleCommon extends IModuleItem {
+export interface IModule extends IModuleItem {
     ref: false;
+    mod: IView | ITheory;
 
-    // presentation of this module as HTML
-    presentation: HTML;
-
-    // source code of this module, if available
-    source?: string;
-
+    declarations: IDeclarationRef[];
 }
 
-// a description of a theory
-export interface ITheory extends IModuleCommon {
+type ITheoryRef = IModuleRef & {mod: "theory"};
+interface ITheory {
     kind: "theory";
 
     // the meta theory of this reference
     meta?: ITheoryRef;
 }
 
-// a description of a view
-export interface IView extends IModuleCommon {
+// type ITheoryRef = IModuleRef & {mod: "view"} // unused
+interface IView {
     kind: "view";
 
     // the domain of this view
     domain: ITheoryRef;
     // the co-domain of this view
     codomain: ITheoryRef;
+}
+
+//
+// Declarations
+//
+
+interface IDeclarationItem extends IAPIObjectItem {
+    kind: "declaration";
+    parent: IModuleRef;
+
+    // the id of the declaration
+    id: string;
+    // the name of the declaration
+    name: string;
+}
+
+// a reference to a declaration
+export interface IDeclarationRef extends IDeclarationItem {
+    ref: true;
+    statistics?: undefined;
+
+    // the type of declaration we have
+    declaration: IDeclaration["declaration"]["kind"];
+}
+
+// a declaration
+export interface IDeclaration extends IDeclarationItem {
+    ref: false;
+
+    // information about this declaration
+    declaration: IStructure | IConstant | IRule | INestedModule;
+
+    // the components of this declaration
+    components: IComponent[];
+
+    // the list of declarations within this declaration
+    declarations: IDeclarationRef[];
+}
+
+// an MMT stucture (which may or may not be declared)
+interface IStructure {
+    kind: "structure";
+
+    // is this structure implicit?
+    implicit: boolean;
+    // is this structure an include?
+    include: boolean;
+}
+
+// an MMT constant
+interface IConstant {
+    kind: "constant";
+
+    // the role of this constant (optional)
+    role?: string;
+
+    // aliases of this constant
+    alias: string[];
+}
+
+// an MMT RuleConstant
+interface IRule {
+    kind: "rule";
+}
+
+// a nested module
+interface INestedModule {
+    kind: "nested";
+    mod: IModuleRef;
+}
+
+//
+// Declaration Components
+//
+
+export interface IComponent {
+    kind: "component";
+
+    // the name of the declaration component
+    name: string;
+
+    // the component-specific information
+    component: IOmdocObject | INotation;
+}
+
+// a defined object
+export interface IOmdocObject {
+    kind: "object";
+    object: HTML;
+}
+
+// a defined notation
+export interface INotation {
+    kind: "notation";
+    notation: string;
 }
 
 //
@@ -317,7 +395,7 @@ export interface ISourceReference {
 // any object exposed by the API
 interface IAPIObjectItem {
     // the kind of object that is returned
-    kind: "group" | "archive" | "document" | "opaque" | "theory" | "view" | "tag";
+    kind: "group" | "archive" | "document" | "opaque" | "module" | "declaration" | "component" | "tag";
 
     // weather this object is a reference or a full description
     ref: boolean;
