@@ -25,6 +25,7 @@ module.exports = function(phase, env) {
             libraryURL: env.MMT_URL || undefined,
             newsURL: env.NEWS_URL || undefined,
             glossaryURL: env.GLOSSARY_URL || undefined,
+            translationURL: env.TRANSLATION_URL || undefined,
             theme: env.MATHHUB_THEME || "plain",
             configURL: env.RUNTIME_CONFIG_URL || undefined,
         },

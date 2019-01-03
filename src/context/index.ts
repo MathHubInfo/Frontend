@@ -11,6 +11,7 @@ import { LibraryClient } from "./LibraryClient";
 import MockClient from "./LibraryClient/MockClient";
 import RestClient from "./LibraryClient/RestClient";
 import NewsClient from "./NewsClient";
+import TranslationClient from "./TranslationClient";
 
 
 /**
@@ -31,6 +32,9 @@ export interface IContext {
 
     // client to fetch data from
     glossaryClient: GlossaryClient;
+
+    // client to translate text with
+    translationClient: TranslationClient;
 }
 
 const iResolve = process.browser ?
@@ -64,6 +68,9 @@ const getContext = Lazy(() => {
     // a client to receive the glossary
     const glossaryClient = new GlossaryClient(resolve(config.glossaryURL), httpClient);
 
+    // a client to translate text
+    const translationClient = new TranslationClient(resolve(config.translationURL), httpClient);
+
     // and all of the config
     return {
         config,
@@ -71,6 +78,7 @@ const getContext = Lazy(() => {
         libraryClient,
         newsClient,
         glossaryClient,
+        translationClient,
     };
 });
 

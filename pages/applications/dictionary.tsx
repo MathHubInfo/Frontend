@@ -4,11 +4,12 @@ import * as React from "react";
 
 import { isKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
-import Sleep from "../../src/utils/Sleep";
 
 import LayoutBody from "../../src/theming/Layout/LayoutBody";
 import { IDictionaryImplicits, IDictionaryState } from "../../src/theming/Pages/Applications/IDictionaryProps";
 import PageApplicationsDictionary from "../../src/theming/Pages/Applications/PageApplicationsDictionary";
+
+import getContext from "../../src/context";
 
 interface IDictionaryProps {
     initial: Partial<IDictionaryImplicits>;
@@ -39,6 +40,8 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
 
         ...this.props.initial,
     };
+
+    private readonly translationClient = getContext().translationClient;
 
     async componentDidUpdate(_: IDictionaryProps, prevState: IDictionaryState) {
         return Dictionary.implicits.updateImplicits(this.state, prevState);
@@ -100,15 +103,17 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
     private readonly doStartTranslation = async () => {
         const {fromLanguage, text, toLanguage} = this.state;
 
+        // indicate that translation is currently running
+        this.setState({translating: true, translationValid: false});
+
         let translation: string;
         try {
-            await Sleep(1000);
-            // TODO: Implement actual translation backend
-            throw new Error("Unimplemented");
+            translation = await this.translationClient.translate(text, fromLanguage, toLanguage);
         } catch (e) {
-            translation = `${text} can not be translated from ${fromLanguage} to ${toLanguage}: Unimplemented`;
+            translation = e.message;
         }
 
+        // indicate that translation is finished (which might mean an error)
         this.setState({translating: false, translation, translationValid: true });
     }
 }

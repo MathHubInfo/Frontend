@@ -19,6 +19,9 @@ export interface IMathHubPublicConfig {
     // the url for the glossary client
     glossaryURL?: string;
 
+    // the url for the translation client
+    translationURL?: string;
+
     // the name of the theme to use
     theme?: string;
 

@@ -163,6 +163,7 @@ The supported variables are:
 * `MMT_URL` -- The URL to the MathHub MMT Extension. If omitted, defaults to mocking the MMT server. 
 * `NEWS_URL` -- The URL to retrieve news items from. If omitted, defaults to the news.json file under assets. 
 * `GLOSSARY_URL` -- The URL to retrieve glossary items from. If omitted, defaults to the glossary.json file under mocks.
+* `TRANSLATION_URL` -- The URL to translate text with. If omitted, translation is disabled.
 * `UPSTREAM_BASE_URL` -- Server Side only (see below). Prefix for all requests sent to the upstream server. 
 * `RUNTIME_CONFIG_URL` -- If set to a non-empty string, load runtime configuration variables from the given url. 
 
