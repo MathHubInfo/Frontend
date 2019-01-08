@@ -1,5 +1,5 @@
 // tslint:disable:export-name
-import { DOMParser } from "xmldom";
+import { DOMParser, XMLSerializer } from "xmldom";
 
 import Lazy from "./Lazy";
 
@@ -9,16 +9,25 @@ import Lazy from "./Lazy";
 export const getParser = Lazy(() => new DOMParser());
 
 /**
+ * Gets an XML Serializer instance
+ */
+export const getSerializer = Lazy(() => new XMLSerializer());
+
+/**
  * Parses a string containing html into a list of nodes
  * @param code String containing html
  */
 export function parseHTMLString(code: string): NodeListOf<Node> {
-    const dummyNode = getParser().parseFromString("<div />").childNodes[0] as Element;
+    // parse a new html document from a string
+    const newDocument = getParser().parseFromString(`<div>${code}</div>`, "text/html") as HTMLDocument;
 
-    // tslint:disable-next-line: no-inner-html
-    dummyNode.innerHTML = code;
+    // we check if thhe document was parsed correctly by checking that the first child is a <div>
+    // if this is not the case we did not have valid {code} and instead return an empty nodelist
+    if (newDocument.childNodes.length !== 1 || newDocument.childNodes[0].nodeName.toLowerCase() !== "div")
+        return getParser().parseFromString("<div />", "text/html").childNodes[0].childNodes;
 
-    return dummyNode.childNodes;
+    // if valid, return the document as is
+    return newDocument.childNodes[0].childNodes;
 }
 
 /**
@@ -26,10 +35,7 @@ export function parseHTMLString(code: string): NodeListOf<Node> {
  * @param node Node to get outer html from
  */
 export function outerHTML(node: Node): string {
-    const dummyNode = getParser().parseFromString("<div />").childNodes[0] as Element;
-    dummyNode.appendChild(node);
-
-    return dummyNode.innerHTML;
+    return getSerializer().serializeToString(node);
 }
 
 /**
