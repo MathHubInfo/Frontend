@@ -17,7 +17,7 @@ const gitRevSync = require("git-rev-sync");
  * @param {NodeJS.ProcessEnv} env The environment variables of the process
  * @returns {[IMathHubPublicConfig, IMathHubServerConfig]}
  */
-module.exports = function(phase, env) {    
+module.exports = function(phase, env) {
     return [
         {
             version: getVersionInfo(),

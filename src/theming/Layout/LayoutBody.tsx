@@ -18,7 +18,7 @@ switch (theme) {
         LayoutBody = dynamic(import("../../themes/classic/Layout/LayoutBody"));
         break;
     default:
-        LayoutBody = dynamic(import("../../themes/classic/Layout/LayoutBody"));
+        LayoutBody = dynamic(import("../../themes/plain/Layout/LayoutBody"));
 }
 
 export default WithExtraContext<IMHAppContext, IBodyDerivedProps, ILayoutBodyProps>(
