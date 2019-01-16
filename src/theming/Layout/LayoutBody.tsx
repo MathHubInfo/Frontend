@@ -14,8 +14,11 @@ let LayoutBody: React.ComponentClass<ILayoutBodyProps>;
 
 const {publicRuntimeConfig: {theme, version} } = getConfig();
 switch (theme) {
+    case "classic":
+        LayoutBody = dynamic(import("../../themes/classic/Layout/LayoutBody"));
+        break;
     default:
-        LayoutBody = dynamic(import("../../themes/plain/Layout/LayoutBody"));
+        LayoutBody = dynamic(import("../../themes/classic/Layout/LayoutBody"));
 }
 
 export default WithExtraContext<IMHAppContext, IBodyDerivedProps, ILayoutBodyProps>(
