@@ -161,6 +161,7 @@ They are configured inside of `config/env.ts`.
 The supported variables are:
 
 * `MMT_URL` -- The URL to the MathHub MMT Extension. If omitted, defaults to mocking the MMT server. 
+* `MATHHUB_THEME` -- Theme to use for MathHub UI. Defaults to "plain". 
 * `NEWS_URL` -- The URL to retrieve news items from. If omitted, defaults to the news.json file under assets. 
 * `GLOSSARY_URL` -- The URL to retrieve glossary items from. If omitted, defaults to the glossary.json file under mocks.
 * `TRANSLATION_URL` -- The URL to translate text with. If omitted, translation is disabled.
