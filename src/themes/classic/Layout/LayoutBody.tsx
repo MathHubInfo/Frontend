@@ -1,6 +1,9 @@
 import Head from "next/head";
 import * as React from "react";
 
+// tslint:disable-next-line: no-submodule-imports
+import "semantic-ui-css/semantic.min.css";
+
 import MHLink from "../../../lib/components/MHLink";
 import { ILayoutBodyProps } from "../../../theming/Layout/ILayoutBodyProps";
 import { IMathHubVersion } from "../../../types/config";
