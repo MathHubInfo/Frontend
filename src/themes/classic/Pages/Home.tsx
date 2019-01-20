@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Grid } from "semantic-ui-react";
+import { Button, Container, Grid, Image } from "semantic-ui-react";
 
 import MHLink from "../../../lib/components/MHLink";
 
@@ -10,13 +10,21 @@ import MHHTML from "../../../lib/components/MHHTML";
 export default class Home extends React.Component<IHomeProps> {
     render() {
         return (
-            <>
-                <MHHTML as="div">{this.props.children}</MHHTML>
-                <div>
-                    <h2>Content</h2>
-                    <Grid>
-                        <Grid.Column width={5}>
-                            <div>Place Image here</div>
+            <Container>
+                <Grid>
+                    <Grid.Row>
+                        <Grid.Column width={8}>
+                            <MHHTML as="div">{this.props.children}</MHHTML>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column width={8}>
+                            <MHLink href="/library">
+                                <Image
+                                    src="/static/library.jpg"
+                                    title="Mathhub libraries"
+                                />
+                            </MHLink>
                         </Grid.Column>
                         <Grid.Column width={6}>
                             <MHLink href="/library">
@@ -24,43 +32,18 @@ export default class Home extends React.Component<IHomeProps> {
                                     MathHub Libraries
                                 </Button>
                             </MHLink>
-                            <br />
                             <a href={"https://github.com/MathHubInfo/Documentation/wiki/libraries"}>
                                 <Button size={"small"} fluid style={{ marginBottom: "0.8em" }}>
                                     provide groups of
                             </Button>
                             </a>
-                            <br />
                             <a href={"https://github.com/MathHubInfo/Documentation/wiki/math-archives"}>
                                 <Button size={"small"} fluid style={{ marginBottom: "0.8em" }}>archives</Button>
                             </a>
-                            <br />
-                            <MHLink href="/news">
-                                <Button size={"small"} fluid>
-                                    News
-                        </Button>
-                            </MHLink>
                         </Grid.Column>
-                    </Grid>
-                </div>
-                <div>
-                    <h2>Applications</h2>
-                    <ul>
-                        <li>
-                            <MHLink href="/applications/dictionary"><a>Dictionary</a></MHLink>
-                        </li>
-                        <li>
-                            <MHLink href="/applications/glossary"><a>Glossary</a></MHLink>
-                        </li>
-                        <li>
-                            <MHLink href="/applications/keys"><a>Keys</a></MHLink>
-                        </li>
-                        <li>
-                            <MHLink href="/applications/logger"><a>Logger</a></MHLink>
-                        </li>
-                    </ul>
-                </div>
-            </>
+                    </Grid.Row>
+                </Grid>
+            </Container>
         );
     }
 }
