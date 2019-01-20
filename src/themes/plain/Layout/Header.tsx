@@ -3,7 +3,7 @@ import * as React from "react";
 import MHLink from "../../../lib/components/MHLink";
 import { IBreadcrumb, IHeaderProps } from "../../../theming/Layout/IHeaderProps";
 
-export default class Header extends React.Component<IHeaderProps> {
+export class Header extends React.Component<IHeaderProps> {
     render() {
         const { title, crumbs } = this.props;
 
