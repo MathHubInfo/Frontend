@@ -11,11 +11,14 @@ import { IItemHeaderDerived, ILibraryItemHeaderProps } from "./ILibraryItemHeade
 let LibraryItemHeader: React.ComponentClass<ILibraryItemHeaderProps>;
 
 switch (getConfig().publicRuntimeConfig.theme) {
+    case "classic":
+        LibraryItemHeader = dynamic(import("../../themes/classic/Layout/LibraryItemHeader"));
+        break;
     default:
         LibraryItemHeader = dynamic(import("../../themes/plain/Layout/LibraryItemHeader"));
 }
 
-export default WithExtraProps<IItemHeaderDerived, ILibraryItemHeaderProps>(LibraryItemHeader, ({source, jupyter}) =>
+export default WithExtraProps<IItemHeaderDerived, ILibraryItemHeaderProps>(LibraryItemHeader, ({ source, jupyter }) =>
     ({
         sourceURL: source && sourceURL(source),
         jupyterURL: jupyter && jupyterURL(jupyter),
