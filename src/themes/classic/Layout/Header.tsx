@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Container, Dropdown, Image, Menu } from "semantic-ui-react";
 
+import { urls } from "../../../assets/urls";
 import MHLink from "../../../lib/components/MHLink";
 import { IBreadcrumb, IHeaderProps } from "../../../theming/Layout/IHeaderProps";
 
@@ -29,23 +30,27 @@ export class Header extends React.Component<IHeaderProps> {
                                     <Dropdown.Item>glossary</Dropdown.Item>
                                 </MHLink>
                                 <MHLink href="/applications/dictionary">
-                                    <Dropdown.Item>
-                                        math dictionary
-                            </Dropdown.Item>
+                                    <Dropdown.Item>math dictionary</Dropdown.Item>
                                 </MHLink>
                             </Dropdown.Menu>
                         </Dropdown>
                         <Dropdown text="Help" className="link item">
                             <Dropdown.Menu>
                                 <Dropdown.Item>
-                                    Documentation
-                            </Dropdown.Item>
+                                    <a href={urls.help.documentation} style={{ color: "black" }}>
+                                        Documentation
+                                    </a>
+                                </Dropdown.Item>
                                 <Dropdown.Item>
-                                    Browse Sources
-                            </Dropdown.Item>
+                                    <a href={urls.help.browseSources} style={{ color: "black" }}>
+                                        Browse Sources
+                                    </a>
+                                </Dropdown.Item>
                                 <Dropdown.Item>
-                                    Contact a Human
-                            </Dropdown.Item>
+                                    <a href={urls.help.contactAHuman} style={{ color: "black" }}>
+                                        Contact a Human
+                                    </a>
+                                </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                         <MHLink href="/news">
@@ -54,11 +59,15 @@ export class Header extends React.Component<IHeaderProps> {
                     </Menu.Item>
                         </MHLink>
                         <Menu.Item>
-                            Admin
-                    </Menu.Item>
+                            <a href={urls.admin} style={{ color: "black" }}>
+                                Admin
+                            </a>
+                        </Menu.Item>
                         <Menu.Item>
-                            About
-                    </Menu.Item>
+                            <a href={urls.about} style={{ color: "black" }}>
+                                About
+                            </a>
+                        </Menu.Item>
                     </Container>
                 </Menu>
                 <Container>
