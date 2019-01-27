@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button, Card, Container, Grid, Tab, TabProps } from "semantic-ui-react";
 
 import { IGlossaryEntry, TKnownLanguages } from "../../../../context/GlossaryClient";
 
@@ -6,31 +7,36 @@ import MHHTML from "../../../../lib/components/MHHTML";
 import { IGlossaryProps } from "../../../../theming/Pages/Applications/IGlossaryProps";
 
 export default class Glossary extends React.Component<IGlossaryProps> {
+    languageTabs() {
+        const { knownLanguages } = this.props;
+
+        return knownLanguages.map(l => ({ menuItem: l }));
+    }
+    changeTab = ({ }, { activeIndex }: TabProps) => {
+        const { changeLanguage, knownLanguages } = this.props;
+        const active = activeIndex as number;
+        changeLanguage(knownLanguages[active]);
+    }
     render() {
-        const { language: selectedLanguage, changeLanguage, entries } = this.props;
+        const { knownLanguages, language: selectedLanguage, changeLanguage, entries } = this.props;
 
         return (
-            <div>
-                <table style={{width: "100%"}}>
-                    <thead>
-                        <tr>
-                            <th style={{width: "10%"}}>Name</th>
-                            <th style={{width: "10%"}}>Languages</th>
-                            <th style={{width: "40%"}}>Definition</th>
-                            <th style={{width: "40%"}}>Synonyms</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {entries.map(e =>
-                            <GlossaryEntry
-                                key={e.id}
-                                selectedLanguage={selectedLanguage}
-                                entry={e}
-                                changeLanguage={changeLanguage}
-                            />)}
-                    </tbody>
-                </table>
-            </div>
+            <Container>
+                <Tab
+                    panes={this.languageTabs()}
+                    activeIndex={knownLanguages.indexOf(selectedLanguage)}
+                    onTabChange={this.changeTab}
+                />
+                <Container>
+                    {entries.map(e =>
+                        <GlossaryEntry
+                            key={e.id}
+                            selectedLanguage={selectedLanguage}
+                            entry={e}
+                            changeLanguage={changeLanguage}
+                        />)}
+                </Container>
+            </Container>
         );
     }
 }
@@ -42,6 +48,25 @@ interface IGlossaryEntryProps {
 }
 
 class GlossaryEntry extends React.Component<IGlossaryEntryProps> {
+    state = { open: false };
+    showSynonyms(kwd: string[]) {
+        if (kwd.length === 1 || !this.state.open)
+            return null;
+
+        return (
+            <div>
+                <b>Synonyms: </b>
+                {kwd.slice(1).join(", ")}
+            </div>
+        );
+    }
+    showDefinition(def: string) {
+        if (this.state.open)
+            return (<MHHTML>{def}</MHHTML>);
+
+        return null;
+    }
+
     render() {
         const { entry, selectedLanguage, changeLanguage } = this.props;
 
@@ -54,23 +79,41 @@ class GlossaryEntry extends React.Component<IGlossaryEntryProps> {
         if (!kwd) return null;
 
         // known languages
-        const available = Object.keys({...entry.kwd, ...entry.def}).sort() as TKnownLanguages[];
+        const available = Object.keys({ ...entry.kwd, ...entry.def }).sort() as TKnownLanguages[];
 
         return (
-            <tr>
-                <td>{kwd[0]}</td>
-                <td>{available.map(l =>
-                    <LanguageLink
-                        key={l}
-                        language={l}
-                        selectedLanguage={selectedLanguage}
-                        changeLanguage={changeLanguage}
-                    />)}</td>
-                <td><MHHTML>{def}</MHHTML></td>
-                <td>{kwd.slice(1).join(", ")}</td>
-            </tr>
+            <Card fluid style={{ marginTop: "1em" }} onClick={this.handleClick}>
+                <Card.Content>
+                    <Card.Header>
+                        <Grid>
+                            <Grid.Column width={8}>
+                                <MHHTML>{kwd[0]}</MHHTML>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Container textAlign="right">
+                                    {available.map(l =>
+                                        <LanguageLink
+                                            key={l}
+                                            language={l}
+                                            selectedLanguage={selectedLanguage}
+                                            changeLanguage={changeLanguage}
+                                        />)}
+                                </Container>
+                            </Grid.Column>
+                        </Grid>
+                    </Card.Header>
+                    <Card.Description>
+                        {this.showDefinition(def)}
+                        {this.showSynonyms(kwd)}
+                    </Card.Description>
+                </Card.Content>
+            </Card>
         );
     }
+    private readonly handleClick = () =>
+    this.setState({
+        open: !this.state.open,
+    })
 }
 
 interface ILanguageLinkProps {
@@ -81,13 +124,16 @@ interface ILanguageLinkProps {
 
 class LanguageLink extends React.Component<ILanguageLinkProps> {
     render() {
-        const {language, selectedLanguage} = this.props;
+        const { language, selectedLanguage } = this.props;
 
         if (language === selectedLanguage)
-            return <><b>{language}</b>&nbsp;</>;
+            return null;
         else
-            return <><button onClick={this.changeLanguage}>{language}</button>&nbsp;</>;
+            return <Button onClick={this.changeLanguage} size={"tiny"}>{language}</Button>;
     }
 
-    private readonly changeLanguage = () => this.props.changeLanguage(this.props.language);
+    private readonly changeLanguage = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+        this.props.changeLanguage(this.props.language);
+    }
 }
