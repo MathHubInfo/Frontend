@@ -22,6 +22,7 @@ export default class Glossary extends React.Component<IGlossaryProps> {
 
         return (
             <Container>
+                <h1>Glossary</h1>
                 <Tab
                     panes={this.languageTabs()}
                     activeIndex={knownLanguages.indexOf(selectedLanguage)}

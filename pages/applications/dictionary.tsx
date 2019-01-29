@@ -53,7 +53,7 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
 
     render() {
         return (
-            <LayoutBody crumbs={[{href: "/", title: "Home"}]} title={["Glossary"]}>
+            <LayoutBody crumbs={[{href: "/", title: "Home"}]} title={["Dictionary"]}>
                 <PageApplicationsDictionary
                     {...this.state}
 

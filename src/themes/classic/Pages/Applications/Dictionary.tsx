@@ -1,39 +1,44 @@
 import * as React from "react";
+import { Button, Container, Divider, Dropdown, DropdownProps, Input } from "semantic-ui-react";
 
 import { TKnownLanguages } from "../../../../context/GlossaryClient";
-import { createRecord } from "../../../../utils/createRecord";
 
 import { IDictionaryProps } from "../../../../theming/Pages/Applications/IDictionaryProps";
 
 export default class Dictionary extends React.Component<IDictionaryProps> {
     render() {
-        const {knownLanguages, fromLanguage, toLanguage, translating, translationValid, text, translation} = this.props;
-        const languageDict = createRecord(knownLanguages, k => k);
+        const { knownLanguages, fromLanguage, toLanguage } = this.props;
+        const { translating, translationValid, translation } = this.props;
 
         let statusText = "";
         if (!translationValid)
             statusText = translating ? "Translating ..." : "Press Translate to translate";
 
         return (
-            <>
-                <p>
+            <Container>
+                <h1>Math Dictionary</h1>
                     From:&nbsp;
-                    <Dropdown value={fromLanguage} options={languageDict} onChange={this.changeFromLanguage} />
+                    <LanguageDropdown
+                        value={fromLanguage}
+                        options={knownLanguages}
+                        onChange={this.changeFromLanguage}
+                    />
                     &nbsp;
                     To:&nbsp;
-                    <Dropdown value={toLanguage} options={languageDict} onChange={this.changeToLanguage} />
-                </p>
-                <hr />
+                    <LanguageDropdown value={toLanguage} options={knownLanguages} onChange={this.changeToLanguage} />
+                <Divider />
                 <div>
-                    <textarea rows={20} style={{width: "100%"}} onChange={this.changeText} value={text} />
+                    <Input style={{width: "70%"}} onChange={this.changeText} />
                     <br />
-                    <button disabled={translating} onClick={this.startTranslation}>Translate</button>
+                    <Button disabled={translating} onClick={this.startTranslation} style={{marginTop: "1em"}}>
+                        Translate
+                    </Button>
                 </div>
-                <hr />
-                <div style={{color: translationValid ? undefined : "grey"}}>
+                <Divider />
+                <div style={{ color: translationValid ? undefined : "grey" }}>
                     {translationValid ? translation : statusText}
                 </div>
-            </>
+            </Container>
         );
     }
 
@@ -45,7 +50,7 @@ export default class Dictionary extends React.Component<IDictionaryProps> {
         this.props.changeToLanguage(toLanguage);
     }
 
-    private readonly changeText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    private readonly changeText = (event: React.ChangeEvent<HTMLInputElement>, {}) => {
         this.props.changeText(event.target.value);
     }
 
@@ -56,24 +61,26 @@ export default class Dictionary extends React.Component<IDictionaryProps> {
 
 interface IDropdownProps<K extends string> {
     value: K;
-    options: Record<K, string>;
+    options: string[];
     onChange?(k: K): void;
 }
 
-class Dropdown<K extends string> extends React.Component<IDropdownProps<K>> {
+class LanguageDropdown<K extends string> extends React.Component<IDropdownProps<K>> {
     render() {
-        const {options, value} = this.props;
+        const { options, value } = this.props;
 
         return (
-            <select onChange={this.onChange} value={value}>{
-                (Object.keys(options) as K[])
-                    .map(o => <option value={o} key={o}>{options[o] || ""}</option>)
-            }</select>
+            <Dropdown
+                text={value}
+                selection
+                options={options.map(o => ({ text: o, value: o }))}
+                onChange={this.onChange}
+            />
         );
     }
 
-    private readonly onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    private readonly onChange = ({}, data: DropdownProps) => {
         if (this.props.onChange)
-            this.props.onChange(event.target.value as K);
+            this.props.onChange(data.value as K);
     }
 }

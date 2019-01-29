@@ -9,17 +9,26 @@ import { StatisticsTable } from "./Statistics";
 
 
 export default class LibraryItemHeader extends React.Component<ILibraryItemHeaderProps> {
+    sourceButton() {
+        const { sourceURL } = this.props;
+        if (sourceURL === undefined)
+            return null;
+
+        return (
+            <Button icon>
+                <Icon name={"hand point right outline"} />
+                {sourceURL && <a href={sourceURL} style={{ color: "black" }}>View Source</a>}
+            </Button>
+        );
+    }
     render() {
-        const { statistics, sourceURL, jupyterURL, description, responsible } = this.props;
+        const { statistics, jupyterURL, description, responsible } = this.props;
 
         return (
             <>
                 <Grid>
                     <Grid.Column width={10}>
-                        <Button icon>
-                            <Icon name={"hand point right outline"} />
-                            {sourceURL && <a href={sourceURL} style={{ color: "black" }}>View Source</a>}
-                        </Button>
+                        {this.sourceButton()}
                     </Grid.Column>
                     <Grid.Column width={6}>
                         <Container textAlign={"right"}>
