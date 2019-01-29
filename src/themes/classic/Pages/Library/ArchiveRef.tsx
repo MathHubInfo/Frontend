@@ -12,7 +12,9 @@ export default class ArchiveRef extends React.Component<IArchiveRefProps> {
             <MHLink {...this.props.link}>
                 <Card fluid>
                     <Card.Content>
-                        <Card.Header>{this.props.item.name}</Card.Header>
+                        <Card.Header>
+                            <MHHTML>{this.props.item.name}</MHHTML>
+                        </Card.Header>
                         <Card.Description>
                             <MHHTML as="div">{this.props.item.teaser}</MHHTML>
                         </Card.Description>

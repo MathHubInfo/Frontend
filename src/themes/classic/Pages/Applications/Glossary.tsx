@@ -57,7 +57,7 @@ class GlossaryEntry extends React.Component<IGlossaryEntryProps> {
         return (
             <div>
                 <b>Synonyms: </b>
-                {kwd.slice(1).join(", ")}
+                <MHHTML>{kwd.slice(1).join(", ")}</MHHTML>
             </div>
         );
     }

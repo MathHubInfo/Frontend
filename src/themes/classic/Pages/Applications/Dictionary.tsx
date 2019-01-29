@@ -3,6 +3,7 @@ import { Button, Container, Divider, Dropdown, DropdownProps, Input } from "sema
 
 import { TKnownLanguages } from "../../../../context/GlossaryClient";
 
+import MHHTML from "../../../../lib/components/MHHTML";
 import { IDictionaryProps } from "../../../../theming/Pages/Applications/IDictionaryProps";
 
 export default class Dictionary extends React.Component<IDictionaryProps> {
@@ -36,7 +37,7 @@ export default class Dictionary extends React.Component<IDictionaryProps> {
                 </div>
                 <Divider />
                 <div style={{ color: translationValid ? undefined : "grey" }}>
-                    {translationValid ? translation : statusText}
+                    {translation && <MHHTML>{translationValid ? translation : statusText}</MHHTML>}
                 </div>
             </Container>
         );

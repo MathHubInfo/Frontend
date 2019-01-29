@@ -17,7 +17,7 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
         return (
             <Button icon>
                 <Icon name={"hand point right outline"} />
-                {sourceURL && <a href={sourceURL} style={{ color: "black" }}>View Source</a>}
+                <a href={sourceURL} style={{ color: "black" }}>View Source</a>
             </Button>
         );
     }
