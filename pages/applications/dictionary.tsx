@@ -2,7 +2,7 @@
 import { NextContext } from "next";
 import * as React from "react";
 
-import { isKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
+import { IGlossaryEntry, isKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
 import LayoutBody from "../../src/theming/Layout/LayoutBody";
@@ -53,7 +53,7 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
 
     render() {
         return (
-            <LayoutBody crumbs={[{href: "/", title: "Home"}]} title={["Dictionary"]}>
+            <LayoutBody crumbs={[{ href: "/", title: "Home" }]} title={["Dictionary"]}>
                 <PageApplicationsDictionary
                     {...this.state}
 
@@ -93,7 +93,7 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
             setImmediate(this.doStartTranslation);
 
             // and return the update
-            return {...ps, translating: true};
+            return { ...ps, translating: true };
         });
     }
 
@@ -101,19 +101,42 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
      * Runs the translation
      */
     private readonly doStartTranslation = async () => {
-        const {fromLanguage, text, toLanguage} = this.state;
+        const { fromLanguage, text, toLanguage } = this.state;
 
         // indicate that translation is currently running
-        this.setState({translating: true, translationValid: false});
+        this.setState({ translating: true, translationValid: false });
 
-        let translation: string;
+        let translation: IGlossaryEntry;
         try {
             translation = await this.translationClient.translate(text, fromLanguage, toLanguage);
         } catch (e) {
-            translation = e.message;
+            // not-implemented-hack fot now
+            const keyword = "not implemented yet";
+            const definition = `${text} can not be translated from ${fromLanguage} to ${toLanguage}: Unimplemented`;
+            translation = {
+                id: "error?error",
+                kwd: {
+                    en: [keyword],
+                    de: [keyword],
+                    zhs: [keyword],
+                    fr: [keyword],
+                    ro: [keyword],
+                    zht: [keyword],
+                    tr: [keyword],
+                },
+                def: {
+                    en: definition,
+                    de: definition,
+                    zhs: definition,
+                    fr: definition,
+                    ro: definition,
+                    zht: definition,
+                    tr: definition,
+                },
+            };
         }
 
         // indicate that translation is finished (which might mean an error)
-        this.setState({translating: false, translation, translationValid: true });
-    }
-}
+        this.setState({ translating: false, translation, translationValid: true });
+            }
+        }

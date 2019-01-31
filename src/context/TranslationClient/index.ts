@@ -1,7 +1,7 @@
 // tslint:disable: export-name
 import HTTPClient from "../HTTPClient";
 
-import { TKnownLanguages } from "../GlossaryClient";
+import { IGlossaryEntry , TKnownLanguages } from "../GlossaryClient";
 
 export default class TranslationClient {
     constructor(readonly CLIENT_URL: string | undefined, readonly client: HTTPClient) {}
@@ -12,7 +12,7 @@ export default class TranslationClient {
      * @param frm Language to translate from
      * @param to Language to translate to
      */
-    async translate(text: string, frm: TKnownLanguages, to: TKnownLanguages): Promise<string> {
+    async translate(text: string, frm: TKnownLanguages, to: TKnownLanguages): Promise<IGlossaryEntry> {
         try {
             throw new Error("Unimplemented");
         } catch (e) {

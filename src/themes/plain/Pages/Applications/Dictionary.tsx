@@ -25,13 +25,14 @@ export default class Dictionary extends React.Component<IDictionaryProps> {
                 </p>
                 <hr />
                 <div>
-                    <textarea rows={20} style={{width: "100%"}} onChange={this.changeText} value={text} />
+                    <textarea rows={20} style={{ width: "100%" }} onChange={this.changeText} value={text} />
                     <br />
                     <button disabled={translating} onClick={this.startTranslation}>Translate</button>
                 </div>
                 <hr />
-                <div style={{color: translationValid ? undefined : "grey"}}>
-                    {translationValid ? translation : statusText}
+                <div style={{ color: translationValid ? undefined : "grey" }}>
+                    {(translationValid && translation) ?
+                        <div>{translation.def[toLanguage]} {translation.kwd[toLanguage]}</div> : statusText}
                 </div>
             </>
         );
@@ -62,7 +63,7 @@ interface IDropdownProps<K extends string> {
 
 class Dropdown<K extends string> extends React.Component<IDropdownProps<K>> {
     render() {
-        const {options, value} = this.props;
+        const { options, value } = this.props;
 
         return (
             <select onChange={this.onChange} value={value}>{

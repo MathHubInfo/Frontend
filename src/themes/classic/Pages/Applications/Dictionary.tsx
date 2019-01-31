@@ -9,7 +9,7 @@ import { IDictionaryProps } from "../../../../theming/Pages/Applications/IDictio
 export default class Dictionary extends React.Component<IDictionaryProps> {
     render() {
         const { knownLanguages, fromLanguage, toLanguage } = this.props;
-        const { translating, translationValid, translation } = this.props;
+        const { translating, translationValid } = this.props;
 
         let statusText = "";
         if (!translationValid)
@@ -18,31 +18,46 @@ export default class Dictionary extends React.Component<IDictionaryProps> {
         return (
             <Container>
                 <h1>Math Dictionary</h1>
-                    From:&nbsp;
-                    <LanguageDropdown
-                        value={fromLanguage}
-                        options={knownLanguages}
-                        onChange={this.changeFromLanguage}
-                    />
-                    &nbsp;
-                    To:&nbsp;
+                From:&nbsp;
+                <LanguageDropdown
+                    value={fromLanguage}
+                    options={knownLanguages}
+                    onChange={this.changeFromLanguage}
+                />
+                &nbsp;
+                To:&nbsp;
                     <LanguageDropdown value={toLanguage} options={knownLanguages} onChange={this.changeToLanguage} />
                 <Divider />
                 <div>
-                    <Input style={{width: "70%"}} onChange={this.changeText} />
+                    <Input style={{ width: "70%" }} onChange={this.changeText} />
                     <br />
-                    <Button disabled={translating} onClick={this.startTranslation} style={{marginTop: "1em"}}>
+                    <Button disabled={translating} onClick={this.startTranslation} style={{ marginTop: "1em" }}>
                         Translate
                     </Button>
                 </div>
                 <Divider />
-                <div style={{ color: translationValid ? undefined : "grey" }}>
-                    {translation && <MHHTML>{translationValid ? translation : statusText}</MHHTML>}
-                </div>
+                {this.showTranslation(statusText)}
             </Container>
         );
     }
 
+    private showTranslation(statusText: string) {
+        const { toLanguage, translationValid, translation } = this.props;
+
+        if (translation && translationValid) {
+            const kwd = translation.kwd[toLanguage];
+            const def = translation.def[toLanguage];
+
+            return (
+                <>
+                    {kwd && <b><MHHTML>{kwd.join(", ")}</MHHTML></b>}
+                    <div>{def && <MHHTML>{def}</MHHTML>}</div>
+                </>
+            );
+        }
+
+        return <div style={{ color: "grey" }}>{statusText}</div>;
+    }
     private readonly changeFromLanguage = (fromLanguage: TKnownLanguages) => {
         this.props.changeFromLanguage(fromLanguage);
     }
@@ -51,7 +66,7 @@ export default class Dictionary extends React.Component<IDictionaryProps> {
         this.props.changeToLanguage(toLanguage);
     }
 
-    private readonly changeText = (event: React.ChangeEvent<HTMLInputElement>, {}) => {
+    private readonly changeText = (event: React.ChangeEvent<HTMLInputElement>, { }) => {
         this.props.changeText(event.target.value);
     }
 
@@ -80,7 +95,7 @@ class LanguageDropdown<K extends string> extends React.Component<IDropdownProps<
         );
     }
 
-    private readonly onChange = ({}, data: DropdownProps) => {
+    private readonly onChange = ({ }, data: DropdownProps) => {
         if (this.props.onChange)
             this.props.onChange(data.value as K);
     }

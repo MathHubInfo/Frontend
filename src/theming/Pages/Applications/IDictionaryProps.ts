@@ -1,4 +1,4 @@
-import { TKnownLanguages } from "../../../context/GlossaryClient";
+import { IGlossaryEntry, TKnownLanguages } from "../../../context/GlossaryClient";
 
 export interface IDictionaryProps extends IDictionaryState {
     /**
@@ -31,7 +31,7 @@ export interface IDictionaryState extends IDictionaryImplicits {
     /**
      * the string representing the currently translated object
      */
-    translation: string | undefined;
+    translation: IGlossaryEntry | undefined;
 
     /**
      * An boolean indicating if we are currently translating
