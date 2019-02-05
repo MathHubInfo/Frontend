@@ -34,7 +34,7 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
                         <Container textAlign={"right"}>
                             <Dropdown text={"statistics"} button icon={null} pointing={"right"}>
                                 <Dropdown.Menu>
-                                    {statistics && <StatisticsTable statistics={statistics} />}
+                                    <StatisticsTable statistics={statistics} />
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Container>
@@ -43,7 +43,7 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
                 <div>
                     {description && <MHHTML renderReferences>{description}</MHHTML>}
                     {responsible &&
-                        <p><b>Responsible:</b> {responsible.map(p => <Label key={p}>{p}</Label>)}</p>}
+                        <div><b>Responsible:</b> {responsible.map(p => <Label key={p}>{p}</Label>)}</div>}
                 </div>
                 <div>
                     {jupyterURL && <a href={jupyterURL}>Test on Jupyter</a>}

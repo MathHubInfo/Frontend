@@ -9,7 +9,9 @@ export default class News extends React.Component<INewsProps> {
             <Container>
                 <h1>News</h1>
                 <Divider />
-                {this.props.children.map(c => <List key={c.props.item.id}>{c}</List>)}
+                <List relaxed>
+                    {this.props.children.map(c => <List.Item key={c.props.item.id}>{c}</List.Item>)}
+                </List>
             </Container>
         );
     }

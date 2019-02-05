@@ -5,7 +5,7 @@ import { default as keysJson } from "../../../assets/applications/keys.json";
 import { IStatistic } from "../../../context/LibraryClient/objects";
 
 interface IStatisticsTableProps {
-    statistics: IStatistic[];
+    statistics?: IStatistic[];
 }
 
 // Renders a table showing statistics

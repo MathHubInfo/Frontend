@@ -10,7 +10,9 @@ export default class Group extends React.Component<IGroupProps> {
             <Container>
                 <h1><MHHTML>{this.props.item.name}</MHHTML></h1>
                 {this.props.header}
-                {this.props.children.map(c => <List key={c.props.item.id}>{c}</List>)}
+                <List relaxed>
+                    {this.props.children.map(c => <List.Item key={c.props.item.id}>{c}</List.Item>)}
+                </List>
             </Container>
         );
     }

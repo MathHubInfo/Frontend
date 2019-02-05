@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Icon, Label } from "semantic-ui-react";
 
 import MHLink from "../../../../lib/components/MHLink";
 
@@ -7,9 +8,9 @@ import { IDocumentRefProps } from "../../../../theming/Pages/Library/IDocumentRe
 export default class DocumentRef extends React.Component<IDocumentRefProps> {
     render() {
         return (
-            <div>
-                Document <MHLink {...this.props.link}><a>{this.props.item.name}</a></MHLink>
-            </div>
+            <MHLink {...this.props.link}>
+                <Label as="a" size="large"><Icon name="file outline" />{this.props.item.name}</Label>
+            </MHLink>
         );
     }
 }
