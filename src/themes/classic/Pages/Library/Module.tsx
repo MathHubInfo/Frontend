@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button, Card, Icon, List, Loader } from "semantic-ui-react";
 
 import { IModuleProps } from "../../../../theming/Pages/Library/IModuleProps";
 
@@ -7,18 +8,27 @@ export default class Module extends React.Component<IModuleProps> {
         const { expanded, item, children } = this.props;
 
         return (
-            <div>
-                <p>
-                    {item.ref ? "Module" : item.mod.kind === "theory" ? "Theory" : "View"}
-                    &nbsp;
-                    {item.name}
-                    <button onClick={this.toggleExpansion}>{expanded ? "<<" : ">>"}</button>
-                </p>
-                {expanded && (children !== undefined ?
-                        <ul>{children.map(c => <li key={c.props.children.id}>{c}</li>)}</ul> :
-                        "Loading ...")
-                }
-            </div>
+            <Card fluid>
+                <Card.Content>
+                    <Card.Header>
+                        {item.name}
+                        <Button onClick={this.toggleExpansion} icon floated={"right"}>
+                            {expanded ? <Icon name="angle double up" /> : <Icon name="angle double down" />}
+                        </Button>
+                    </Card.Header>
+                    <Card.Meta>
+                        {item.ref ? "Module" : item.mod.kind === "theory" ? "Theory" : "View"}
+                    </Card.Meta>
+                    <Card.Description>
+                        {expanded && (children !== undefined ?
+                            <List bulleted>
+                                {children.map(c => <List.Item key={c.props.children.id}>{c}</List.Item>)}
+                            </List> :
+                            <Loader />)
+                        }
+                    </Card.Description>
+                </Card.Content>
+            </Card>
         );
     }
     private readonly toggleExpansion = () => this.props.toggleExpansion();
