@@ -24,7 +24,7 @@ export default class Module extends React.Component<IModuleProps> {
                             <List bulleted>
                                 {children.map(c => <List.Item key={c.props.children.id}>{c}</List.Item>)}
                             </List> :
-                            <Loader />)
+                            <Loader active>loading</Loader>)
                         }
                     </Card.Description>
                 </Card.Content>

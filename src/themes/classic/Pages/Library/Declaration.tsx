@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button, Icon, List, Loader } from "semantic-ui-react";
 
 import { IDeclarationProps } from "../../../../theming/Pages/Library/IDeclarationProps";
 
@@ -16,18 +17,26 @@ export default class Declaration extends React.Component<IDeclarationProps> {
         return (
             <div>
                 <p>
-                    {item.ref ? "Declaration" : Declaration.names[item.declaration.kind]}
+                    {item.ref ?
+                        <><Loader active inline size={"mini"} />Declaration</>
+                        : Declaration.names[item.declaration.kind]}
                     &nbsp;
-                    {item.name}
-                    <button onClick={this.toggleExpansion}>{expanded ? "<<" : ">>"}</button>
+                    <b>{item.name}</b>
+                    <Button onClick={this.toggleExpansion} icon compact size={"mini"}>
+                        {expanded ? <Icon name="angle double up" /> : <Icon name="angle double down" />}
+                    </Button>
                 </p>
                 {expanded && (children !== undefined ?
-                        <ul>{children.map(c => <li key={c.props.children.id}>{c}</li>)}</ul> :
-                        "Loading Children ...")
+                    <List bulleted>
+                        {children.map(c => <List.Item key={c.props.children.id}>{c}</List.Item>)}
+                    </List> :
+                    <Loader active inline size={"mini"}>Loading Children</Loader>)
                 }
                 {expanded && (components !== undefined ?
-                        <ul>{components.map(c => <li key={c.props.children.name}>{c}</li>)}</ul> :
-                        "Loading Components ...")
+                    <List bulleted>
+                        {components.map(c => <List.Item key={c.props.children.name}>{c}</List.Item>)}
+                    </List> :
+                    <Loader active inline size={"mini"}>Loading Components</Loader>)
                 }
             </div>
         );
