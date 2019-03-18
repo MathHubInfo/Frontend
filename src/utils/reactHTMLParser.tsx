@@ -287,7 +287,7 @@ function handleAttributes(element: Element): { [name: string]: {} } {
     const theAttributes: {[name: string]: string | {}} = {};
 
     // tslint:disable-next-line:prefer-for-of no-increment-decrement
-    for (let i = 0; i < attribs.length; i++) {
+    for (let i = 0; i < attribs.length; i += 1) {
         // get the name of the attribute if we know it
         attribName = attribs[i].name.toLowerCase();
         attribName = REACT_KNOWN_ATTRIBUTES[attribName] || attribName;
@@ -348,8 +348,8 @@ function handleText(text: Text, key: string, _: IHTMLReactParserOptions): TReact
 function nodeList2Array(nodeList: TNodeList): Node[] {
     const nodes: Node[] = new Array();
 
-    // tslint:disable-next-line:prefer-for-of no-increment-decrement
-    for (let i = 0; i < nodeList.length; i++)
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < nodeList.length; i += 1)
         nodes.push(nodeList[i]);
 
     return nodes;

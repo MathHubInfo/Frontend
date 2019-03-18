@@ -5,21 +5,20 @@ import { default as Parser, TNodeList, TReactElement } from "../../utils/reactHT
 import { getDocumentConstants, outerHTML } from "../../utils/dom";
 
 interface IMathHTMLProps<T> {
-    // the html (string) that should be rendered */
+    // the html (string) that should be rendered
     children: string;
 
-    // should we render semantic references, false as default */
+    // should we render semantic references, false as default
     renderReferences?: boolean;
 
-    // should we render math, defaults to true */
+    // should we render math, defaults to true
     renderMath?: boolean;
 
-    // override the default type this element should appear as */
-    // tslint:disable-next-line:no-reserved-keywords
+    // override the default type this element should appear as
     as?: T;
 
-    // extra properties to give to the element being created */
-    // tslint:disable-next-line:no-reserved-keywords no-any
+    // extra properties to give to the element being created
+    // tslint:disable-next-line:no-any
     extra?: { [key: string]: any };
 }
 

@@ -1,4 +1,4 @@
-import {default as runtimeConfig } from "next/config";
+import { default as runtimeConfig } from "next/config";
 import { resolve as resolveURL } from "url";
 
 import { IMathHubPublicConfig, IMathHubServerConfig } from "../types/config";

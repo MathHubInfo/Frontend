@@ -12,4 +12,4 @@ export default function createLibraryClient(url: string, client: HTTPClient): Li
     return url !== "" ? new RestClient(url, client) : new MockClient();
 }
 
-export {default as LibraryClient} from "./LibraryClient";
+export { default as LibraryClient } from "./LibraryClient";

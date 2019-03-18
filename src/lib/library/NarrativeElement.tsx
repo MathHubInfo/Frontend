@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { default as ReactWaypoint } from "react-waypoint";
+import { Waypoint as ReactWaypoint } from "react-waypoint";
 
 import PageDocumentRef from "../../theming/Pages/Library/PageDocumentRef";
 
@@ -103,9 +103,12 @@ class DeclarationElement extends React.Component<IDeclarationElementProps> {
         return (
             <>
                 <ReactWaypoint onEnter={this.onEnter} />
-                <PageDeclaration item={theDeclaration} expanded={expanded} toggleExpansion={this.toggleExpansion}>
-                {[modChildren, modComponents]}
-                </PageDeclaration>
+                <PageDeclaration
+                    item={theDeclaration}
+                    expanded={expanded}
+                    toggleExpansion={this.toggleExpansion}
+                    children={[modChildren, modComponents]}
+                />
             </>
         );
     }

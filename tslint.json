@@ -14,6 +14,13 @@
     // we explicitly configure each setting
     // so that we complete control over what is enabled and what isn't
     "rules": {
+        // deprecated rules are off
+        "no-function-constructor-with-string-args": false,
+        "no-reserved-keywords": false,
+        "no-increment-decrement": false,
+        "no-unnecessary-bind": false,
+        // /end deprecations
+
         // we require overloaded signatures (if any) to be consecutive
         "adjacent-overload-signatures": {
             "severity": "error"
@@ -701,13 +708,7 @@
         // imports should be ordered
         // but this needs to just be a warning
         // to not break because of autocompletion
-        "ordered-imports": {
-            "options": {
-                "grouped-imports": true,
-                "import-sources-order": "case-insensitive",
-                "module-source-path": "full"
-            }
-        },
+        "ordered-imports": false,
 
         // methods that do not use this should be static
         // except for methods that are protected
@@ -786,7 +787,10 @@
 
         // there is no convention for variable names
         // and you may call them whatever you like
-        "variable-name": false,
+        "variable-name": {
+            "options": "ban-keywords",
+            "severity": "error"
+        },
 
         // there should be whitespace around everything
         "whitespace": {
@@ -960,7 +964,7 @@
         },
         
         // do not define functions with a string body
-        "no-function-constructor-with-string-args": {
+        "function-constructor": {
             "severity": "error"
         },
 
@@ -971,7 +975,7 @@
         "no-http-string": true,
 
         // avoid using increment and decrement operators
-        "no-increment-decrement": true,
+        "increment-decrement": true,
 
         // do not use .innerHTML
         "no-inner-html": {
@@ -1008,11 +1012,6 @@
         // you may have relative imports
         "no-relative-imports": false,
 
-        // do not use certain keywords as idenitifiers
-        "no-reserved-keywords": {
-            "severity": "error"
-        },
-
         // if comments are a single line, they should not be blocks
         "no-single-line-block-comment": true,
 
@@ -1044,7 +1043,7 @@
         "no-unexternalized-strings": false,
 
         // do not do .bind(this), instead use arrow functions
-        "no-unnecessary-bind": true,
+        "unnecessary-bind": true,
 
         // do not initialize fields
         "no-unnecessary-field-initialization": true,
