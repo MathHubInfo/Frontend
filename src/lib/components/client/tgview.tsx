@@ -1,6 +1,8 @@
 // tslint:disable: no-implicit-dependencies no-submodule-imports
 import * as React from "react";
 
+import getConfig from "next/config";
+
 import { default as TGViewImpl } from "tgview";
 import { ITGViewOptions as ImplOptions } from "tgview/lib/Configuration";
 import { uuid } from "../../../utils/uuid";
@@ -11,7 +13,10 @@ import "vis/dist/vis.min.css";
 import "jqueryui/jquery-ui.min.css";
 import "jstree/dist/themes/default/style.css";
 
-export interface ITGViewOptions extends Omit<Partial<ImplOptions>, "mainContainer" | "prefix"> {
+export interface ITGViewOptions extends Omit<
+    Partial<ImplOptions>,
+    "mainContainer" | "prefix" | "serverBaseURL" | "serverUrl"
+> {
     // a mandatory key for this instance of tgview
     // if it changes, the tgview instance is re-created
     instanceKey: string;
@@ -25,7 +30,7 @@ export default class TGView extends React.Component<ITGViewOptions> {
     private tgview: TGViewImpl | undefined;
 
     // internal prefix used by tgview, randomly generated
-    private readonly internalId: string = uuid();
+    private readonly instanceId: string = uuid();
     private readonly divRef = React.createRef<HTMLDivElement>();
 
     componentDidMount() {
@@ -59,9 +64,11 @@ export default class TGView extends React.Component<ITGViewOptions> {
         const mainContainer = this.divRef.current;
         if (!mainContainer) return;
 
+        // fetch the server url, same as library
+        const serverBaseURL = getConfig().publicRuntimeConfig.libraryURL;
+        if (!serverBaseURL) return;
+
         this.tgview = new TGViewImpl({
-            serverBaseURL: this.props.serverBaseURL,
-            serverUrl: this.props.serverUrl,
             isMathhub: this.props.isMathhub,
             viewOnlyMode: this.props.viewOnlyMode,
             source: this.props.source,
@@ -72,7 +79,8 @@ export default class TGView extends React.Component<ITGViewOptions> {
 
             // set the prefix and main container
             mainContainer,
-            prefix: this.internalId,
+            serverBaseURL,
+            prefix: this.instanceId,
         });
     }
 }

@@ -8,7 +8,7 @@ export default class TGView extends React.Component {
     render() {
         return (
             <LayoutBody crumbs={TGView.crumbs} title={["TGView (Dummy)"]}>
-                <TGViewComponent instanceKey="never-recreate" serverBaseURL="https://mmt.mathhub.info/" />
+                <TGViewComponent instanceKey="never-recreate" />
             </LayoutBody>
         );
     }
