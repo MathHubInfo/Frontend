@@ -4,6 +4,7 @@
 const readdirSync = require("fs").readdirSync;
 const resolve = require("path").resolve;
 
+const ProvidePlugin = require("webpack").ProvidePlugin;
 const IgnorePlugin = require("webpack").IgnorePlugin;
 const WebpackShellPlugin = require("./shell");
 
@@ -37,9 +38,8 @@ module.exports = function(_) {
       },
     });
 
-    // add rules for css
     config.module.rules.push({
-      test: /\.(png|svg|eot|otf|ttf|woff|woff2)$/i,
+      test: /\.(gif|png|svg|eot|otf|ttf|woff|woff2)$/i,
       use: {
         loader: "url-loader",
         options: {
@@ -79,6 +79,11 @@ module.exports = function(_) {
     const regex = filesRegex !== ""
       ? `\\/assets\\/generated\\/((?!${filesRegex}))[^\/]+$` : "\\/assets\\/generated\\/[^\/]+$";
     config.plugins.push(new IgnorePlugin(new RegExp(regex)));
+
+    // when we are not on the server, we need to provide jquery
+    if (!options.isServer) {
+      config.plugins.push(new ProvidePlugin({"$": "jQuery", "jQuery": "jquery"}));
+    }
 
     return config;
   };
