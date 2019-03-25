@@ -1,0 +1,34 @@
+## Please think carefully before adding a new item to Dockerignore
+## and sync this with .gitignore
+
+# Distribution files
+dist/
+out/
+
+# Generated static assets
+src/assets/generated
+
+# Dependencies -- Yarn && NPM
+node_modules/
+.yarn-integrity
+.npm
+
+# Build Cache
+.next
+
+# Lots of log files
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime Data Files
+pids
+*.pid
+*.seed
+*.pid.lock
+.eslintcache
+
+# And in case somewant wants to debug by hand
+.node_repl_history

@@ -1,0 +1,53 @@
+import * as React from "react";
+import { Container, Input, Table } from "semantic-ui-react";
+
+import { ILogEntry } from "../../../../context/LoggerClient";
+
+import { ILoggerProps } from "../../../../theming/Pages/Applications/ILoggerProps";
+
+export default class Logger extends React.Component<ILoggerProps> {
+    render() {
+        const { filter: selectedFilter, entries } = this.props;
+
+        return (
+            <Container>
+                <Table celled>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell style={{ width: "20%" }}>Date</Table.HeaderCell>
+                            <Table.HeaderCell style={{ width: "20%" }}>
+                                <Input
+                                    type="text"
+                                    value={selectedFilter}
+                                    onChange={this.onChange}
+                                    placeholder="Filter"
+                                />
+                            </Table.HeaderCell>
+                            <Table.HeaderCell style={{ width: "60%" }}>Content</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {entries.map(e => <LoggerTableRow entry={e} key={e.uuid} />)}
+                    </Table.Body>
+                </Table>
+            </Container>
+        );
+    }
+    private readonly onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.props.changeFilter(event.target.value);
+    }
+}
+
+class LoggerTableRow extends React.Component<{ entry: ILogEntry }> {
+    render() {
+        const { entry } = this.props;
+
+        return (
+            <Table.Row>
+                <Table.Cell>{new Date(entry.time).toTimeString()}</Table.Cell>
+                <Table.Cell>{entry.prefix}</Table.Cell>
+                <Table.Cell>{entry.parts.join("\n")}</Table.Cell>
+            </Table.Row>
+        );
+    }
+}

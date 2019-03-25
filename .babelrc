@@ -1,12 +1,6 @@
 {
-    "presets": ["@babel/preset-env"], 
-    "plugins": [
-        "syntax-dynamic-import", 
-        "@babel/plugin-proposal-object-rest-spread"
-    ], 
-    "env": {
-        "production": {
-            "presets": ["minify"]
-        }
-    }
+    "presets": [
+      "next/babel",
+      "@zeit/next-typescript/babel"
+    ]
 }
