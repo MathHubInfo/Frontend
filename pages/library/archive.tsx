@@ -36,7 +36,7 @@ interface IArchiveState {
 
 export default class Archive extends React.Component<IArchiveProps, IArchiveState> {
     static implicits = new ImplicitParameters<IArchiveState>(
-        { expandedModules: "modules", expandedDeclarations: "dedclarations" },
+        { expandedModules: "modules", expandedDeclarations: "declarations" },
         {
             expandedModules: ImplicitParameters.first<string[]>(x => x.split(","), []),
             expandedDeclarations: ImplicitParameters.first<string[]>(x => x.split(","), []),

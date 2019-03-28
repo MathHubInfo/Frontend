@@ -35,7 +35,7 @@ interface IDocumentState {
 
 export default class Document extends React.Component<IDocumentProps, IDocumentState> {
     static implicits = new ImplicitParameters<IDocumentState>(
-        { expandedModules: "modules", expandedDeclarations: "dedclarations" },
+        { expandedModules: "modules", expandedDeclarations: "declarations" },
         {
             expandedModules: ImplicitParameters.first<string[]>(x => x.split(","), []),
             expandedDeclarations: ImplicitParameters.first<string[]>(x => x.split(","), []),
