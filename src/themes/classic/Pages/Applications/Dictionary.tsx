@@ -5,6 +5,7 @@ import { TKnownLanguages } from "../../../../context/GlossaryClient";
 
 import MHHTML from "../../../../lib/components/MHHTML";
 import { IDictionaryProps } from "../../../../theming/Pages/Applications/IDictionaryProps";
+import { urls } from "../../../../assets/urls";
 
 export default class Dictionary extends React.Component<IDictionaryProps> {
     render() {
@@ -18,6 +19,11 @@ export default class Dictionary extends React.Component<IDictionaryProps> {
         return (
             <Container>
                 <h1>Math Dictionary</h1>
+                <div>
+                    <Button href={urls.help.report} style={{marginBottom: "1.5em"}}>
+                    Report an Issue
+                </Button>
+                </div>
                 From:&nbsp;
                 <LanguageDropdown
                     value={fromLanguage}

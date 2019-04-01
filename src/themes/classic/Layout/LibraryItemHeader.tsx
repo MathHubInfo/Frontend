@@ -6,6 +6,7 @@ import MHHTML from "../../../lib/components/MHHTML";
 import { ILibraryItemHeaderProps } from "../../../theming/Layout/ILibraryItemHeaderProps";
 
 import { StatisticsTable } from "./Statistics";
+import { urls } from "../../../assets/urls";
 
 
 export default class LibraryItemHeader extends React.Component<ILibraryItemHeaderProps> {
@@ -21,6 +22,17 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
             </Button>
         );
     }
+    reportButton() {
+        const { sourceURL } = this.props;
+        if (sourceURL === undefined)
+            return null;
+
+        return (
+            <Button>
+                <a href={urls.help.report} style={{ color: "black" }}>Report an Issue</a>
+            </Button>
+        );
+    }
     render() {
         const { statistics, jupyterURL, description, responsible } = this.props;
 
@@ -29,6 +41,7 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
                 <Grid>
                     <Grid.Column width={10}>
                         {this.sourceButton()}
+                        {this.reportButton()}
                     </Grid.Column>
                     <Grid.Column width={6}>
                         <Container textAlign={"right"}>
