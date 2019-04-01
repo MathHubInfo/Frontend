@@ -51,6 +51,11 @@ export class Header extends React.Component<IHeaderProps> {
                                         Contact a Human
                                     </a>
                                 </Dropdown.Item>
+                                <Dropdown.Item>
+                                    <a href={urls.help.report} style={{ color: "black" }}>
+                                        Report an Issue
+                                    </a>
+                                </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                         <MHLink href="/news">

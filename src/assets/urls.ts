@@ -10,6 +10,8 @@ export interface IMathHubURLConfig {
         contactAHuman: string;
         // information about the beta version of mathhub
         beta: string;
+        // url to report an issue
+        report: string;
     };
 
     external: {
@@ -36,6 +38,7 @@ export const urls: IMathHubURLConfig = {
         // tslint:disable-next-line:no-http-string
         contactAHuman: "http://lists.informatik.uni-erlangen.de/mailman/listinfo/mathhub",
         beta: "https://github.com/MathHubInfo/Documentation/wiki/beta.mathhub.info",
+        report: "https://github.com/MathHubInfo/Frontend/issues/new",
     },
     external: {
         // tslint:disable-next-line:no-invalid-template-strings
