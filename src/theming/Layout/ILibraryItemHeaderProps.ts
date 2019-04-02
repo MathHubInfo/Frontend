@@ -21,6 +21,9 @@ export interface IItemHeaderDerived {
     // the url to the source (if any)
     sourceURL?: string;
 
+    // the url to issues (if any)
+    issueURL?: string;
+
     // the url to open a jupyter notebook (if any)
     jupyterURL?: string;
 }

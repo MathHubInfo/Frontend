@@ -3,7 +3,7 @@
 import getConfig from "next/config";
 import dynamic from "next/dynamic";
 
-import { jupyterURL, sourceURL } from "../../utils/urls";
+import { jupyterURL, sourceURL, issueURL } from "../../utils/urls";
 import { WithExtraProps } from "../../utils/WithExtraContext";
 
 import { IItemHeaderDerived, ILibraryItemHeaderProps } from "./ILibraryItemHeaderProps";
@@ -21,6 +21,7 @@ switch (getConfig().publicRuntimeConfig.theme) {
 export default WithExtraProps<IItemHeaderDerived, ILibraryItemHeaderProps>(LibraryItemHeader, ({ source, jupyter }) =>
     ({
         sourceURL: source && sourceURL(source),
+        issueURL: source && issueURL(source),
         jupyterURL: jupyter && jupyterURL(jupyter),
     }),
 );

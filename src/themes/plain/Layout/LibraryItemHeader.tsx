@@ -8,7 +8,7 @@ import { IStatistic } from "../../../context/LibraryClient/objects";
 
 export default class LibraryItemHeader extends React.Component<ILibraryItemHeaderProps> {
     render() {
-        const { statistics, sourceURL, jupyterURL, description, responsible } = this.props;
+        const { statistics, sourceURL, issueURL, jupyterURL, description, responsible } = this.props;
 
         return (
             <>
@@ -20,6 +20,7 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
                 <div>
                     {statistics && <LibraryItemStatistics statistics={statistics} /> }
                     {sourceURL && <a href={sourceURL}>View Source</a>}
+                    {issueURL && <a href={issueURL}>Report Issue</a>}
                     {jupyterURL && <a href={jupyterURL}>Test on Jupyter</a>}
                 </div>
                 <hr />

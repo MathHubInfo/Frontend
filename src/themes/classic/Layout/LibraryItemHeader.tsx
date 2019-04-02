@@ -6,8 +6,6 @@ import MHHTML from "../../../lib/components/MHHTML";
 import { ILibraryItemHeaderProps } from "../../../theming/Layout/ILibraryItemHeaderProps";
 
 import { StatisticsTable } from "./Statistics";
-import { urls } from "../../../assets/urls";
-
 
 export default class LibraryItemHeader extends React.Component<ILibraryItemHeaderProps> {
     sourceButton() {
@@ -23,13 +21,13 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
         );
     }
     reportButton() {
-        const { sourceURL } = this.props;
-        if (sourceURL === undefined)
+        const { issueURL } = this.props;
+        if (issueURL === undefined)
             return null;
 
         return (
             <Button>
-                <a href={urls.help.report} style={{ color: "black" }}>Report an Issue</a>
+                <a href={issueURL} style={{ color: "black" }}>Report an Issue</a>
             </Button>
         );
     }
