@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Container, Dropdown, Grid, Icon, Label } from "semantic-ui-react";
+import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";
 
 import MHHTML from "../../../lib/components/MHHTML";
 
@@ -26,9 +26,14 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
             return null;
 
         return (
-            <Button>
-                <a href={issueURL} style={{ color: "black" }}>Report an Issue</a>
-            </Button>
+            <Popup
+                trigger={
+                    <Button color="green">
+                        <a href={issueURL} style={{ color: "black" }}>Report an Issue</a>
+                    </Button>
+                }
+                content="Report an issue with the contents of the current page on the archive issue tracker."
+            />
         );
     }
     render() {
@@ -39,10 +44,10 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
                 <Grid>
                     <Grid.Column width={10}>
                         {this.sourceButton()}
-                        {this.reportButton()}
                     </Grid.Column>
                     <Grid.Column width={6}>
                         <Container textAlign={"right"}>
+                            {this.reportButton()}
                             <Dropdown text={"statistics"} button icon={null} pointing={"right"}>
                                 <Dropdown.Menu>
                                     <StatisticsTable statistics={statistics} />
