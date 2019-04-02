@@ -12,6 +12,7 @@ import MockClient from "./LibraryClient/MockClient";
 import RestClient from "./LibraryClient/RestClient";
 import NewsClient from "./NewsClient";
 import TranslationClient from "./TranslationClient";
+import AdminClient from "./AdminClient";
 
 
 /**
@@ -32,6 +33,9 @@ export interface IContext {
 
     // client to fetch data from
     glossaryClient: GlossaryClient;
+
+    // client to fetch admin data from
+    adminClient?: AdminClient;
 
     // client to translate text with
     translationClient: TranslationClient;
@@ -68,6 +72,9 @@ const getContext = Lazy(() => {
     // a client to receive the glossary
     const glossaryClient = new GlossaryClient(resolve(config.glossaryURL), httpClient);
 
+    // an admin client to interact with admin resources
+    const adminClient = process.browser ? new AdminClient(resolve(config.adminURL), httpClient) : undefined;
+
     // a client to translate text
     const translationClient = new TranslationClient(resolve(config.translationURL), httpClient);
 
@@ -78,6 +85,7 @@ const getContext = Lazy(() => {
         libraryClient,
         newsClient,
         glossaryClient,
+        adminClient,
         translationClient,
     };
 });

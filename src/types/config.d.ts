@@ -19,6 +19,9 @@ export interface IMathHubPublicConfig {
     // the url for the glossary client
     glossaryURL?: string;
 
+    // the url for the admin client
+    adminURL?: string;
+
     // the url for the translation client
     translationURL?: string;
 
