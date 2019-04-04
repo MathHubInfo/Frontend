@@ -1,4 +1,4 @@
-import { ILibraryItemHeaderProps } from "../../Layout/ILibraryItemHeaderProps";
+import { IActionHeaderProps } from "../../Layout/IActionHeaderProps";
 
 import { IGroup } from "../../../context/LibraryClient/objects";
 
@@ -6,7 +6,7 @@ import { IArchiveRefProps } from "./IArchiveRefProps";
 
 export interface IGroupProps {
     // the general information about this library page
-    header: React.ReactElement<ILibraryItemHeaderProps>;
+    header: React.ReactElement<IActionHeaderProps>;
 
     // the group being rederned
     item: IGroup;

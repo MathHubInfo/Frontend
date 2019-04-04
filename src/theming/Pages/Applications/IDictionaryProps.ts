@@ -1,10 +1,15 @@
 import { IGlossaryEntry, TKnownLanguages } from "../../../context/GlossaryClient";
+import { IActionHeaderProps } from "../../Layout/IActionHeaderProps";
+import { HTML } from "../../../context/LibraryClient/objects";
 
 export interface IDictionaryProps extends IDictionaryState {
     /**
      * A list of all known languages
      */
     knownLanguages: TKnownLanguages[];
+
+    // the general information about the Dictionary
+    header: React.ReactElement<IActionHeaderProps>;
 
     /**
      * Ref to update the language to translate from
@@ -61,4 +66,7 @@ export interface IDictionaryImplicits {
      * The text to be translated
      */
     text: string;
+
+    // a long, human-readable description of the dictionary
+    description?: HTML;
 }

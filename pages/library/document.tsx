@@ -14,7 +14,7 @@ import { crumbs, headerProps } from "../../src/lib/library/utils";
 
 import LayoutBody from "../../src/theming/Layout/LayoutBody";
 import LayoutFailure from "../../src/theming/Layout/LayoutFailure";
-import LibraryItemHeader from "../../src/theming/Layout/LibraryItemHeader";
+import ActionHeader from "../../src/theming/Layout/ActionHeader";
 import PageDocument from "../../src/theming/Pages/Library/PageDocument";
 
 import { Omit } from "../../src/types/lib";
@@ -97,7 +97,7 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
         );
 
         const { name, declarations: decls } = this.props.item;
-        const header = <LibraryItemHeader {...headerProps(this.props.item)} />;
+        const header = <ActionHeader {...headerProps(this.props.item)} />;
 
         const nprops: Omit<INarrativeElementProps, "children"> = {
             preloadModule: this.mstore.preload,

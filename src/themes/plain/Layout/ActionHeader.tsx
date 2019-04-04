@@ -2,11 +2,11 @@ import * as React from "react";
 
 import MHHTML from "../../../lib/components/MHHTML";
 
-import { ILibraryItemHeaderProps } from "../../../theming/Layout/ILibraryItemHeaderProps";
+import { IActionHeaderProps } from "../../../theming/Layout/IActionHeaderProps";
 
 import { IStatistic } from "../../../context/LibraryClient/objects";
 
-export default class LibraryItemHeader extends React.Component<ILibraryItemHeaderProps> {
+export default class ActionHeader extends React.Component<IActionHeaderProps> {
     render() {
         const { statistics, sourceURL, issueURL, jupyterURL, description, responsible } = this.props;
 
@@ -18,7 +18,7 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
                     <p><b>Responsible:</b> {responsible.map(p => <span key={p}>{p}</span>)}</p> }
                 </div>
                 <div>
-                    {statistics && <LibraryItemStatistics statistics={statistics} /> }
+                    {statistics && <ActionStatistics statistics={statistics} /> }
                     {sourceURL && <a href={sourceURL}>View Source</a>}
                     {issueURL && <a href={issueURL}>Report Issue</a>}
                     {jupyterURL && <a href={jupyterURL}>Test on Jupyter</a>}
@@ -29,7 +29,7 @@ export default class LibraryItemHeader extends React.Component<ILibraryItemHeade
     }
 }
 
-class LibraryItemStatistics extends React.Component<{statistics: IStatistic[]}> {
+class ActionStatistics extends React.Component<{statistics: IStatistic[]}> {
     render() {
         // For now statistics are just rendered in a very simplistics form
         // where we just JSON stringify them

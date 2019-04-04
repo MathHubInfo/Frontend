@@ -8,6 +8,7 @@ import ImplicitParameters from "../../src/utils/ImplicitParameters";
 import LayoutBody from "../../src/theming/Layout/LayoutBody";
 import { IDictionaryImplicits, IDictionaryState } from "../../src/theming/Pages/Applications/IDictionaryProps";
 import PageApplicationsDictionary from "../../src/theming/Pages/Applications/PageApplicationsDictionary";
+import ActionHeader from "../../src/theming/Layout/ActionHeader";
 
 import getContext from "../../src/context";
 
@@ -41,6 +42,7 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
         ...this.props.initial,
     };
 
+
     private readonly translationClient = getContext().translationClient;
 
     async componentDidUpdate(_: IDictionaryProps, prevState: IDictionaryState) {
@@ -52,11 +54,15 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
     }
 
     render() {
+        const { description } = this.props.initial;
+        const header = <ActionHeader description={description} />;
+
         return (
             <LayoutBody crumbs={[{ href: "/", title: "Home" }]} title={["Dictionary"]}>
                 <PageApplicationsDictionary
                     {...this.state}
 
+                    header={header}
                     knownLanguages={knownLanguages}
 
                     changeFromLanguage={this.changeFromLanguage}

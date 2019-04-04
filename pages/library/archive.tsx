@@ -15,7 +15,7 @@ import { crumbs, headerProps } from "../../src/lib/library/utils";
 
 import LayoutBody from "../../src/theming/Layout/LayoutBody";
 import LayoutFailure from "../../src/theming/Layout/LayoutFailure";
-import LibraryItemHeader from "../../src/theming/Layout/LibraryItemHeader";
+import ActionHeader from "../../src/theming/Layout/ActionHeader";
 import PageArchive from "../../src/theming/Pages/Library/PageArchive";
 
 
@@ -98,7 +98,7 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
         );
 
         const { description, name, narrativeRoot: { declarations: decls } } = this.props.item;
-        const header = <LibraryItemHeader {...headerProps(this.props.item, { description })} />;
+        const header = <ActionHeader {...headerProps(this.props.item, { description })} />;
 
         const nprops: Omit<INarrativeElementProps, "children"> = {
             preloadModule: this.mstore.preload,

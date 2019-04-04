@@ -6,19 +6,19 @@ import dynamic from "next/dynamic";
 import { jupyterURL, sourceURL, issueURL } from "../../utils/urls";
 import { WithExtraProps } from "../../utils/WithExtraContext";
 
-import { IItemHeaderDerived, ILibraryItemHeaderProps } from "./ILibraryItemHeaderProps";
+import { IActionDerived, IActionHeaderProps } from "./IActionHeaderProps";
 
-let LibraryItemHeader: React.ComponentClass<ILibraryItemHeaderProps>;
+let ActionHeader: React.ComponentClass<IActionHeaderProps>;
 
 switch (getConfig().publicRuntimeConfig.theme) {
     case "classic":
-        LibraryItemHeader = dynamic(import("../../themes/classic/Layout/LibraryItemHeader"));
+        ActionHeader = dynamic(import("../../themes/classic/Layout/ActionHeader"));
         break;
     default:
-        LibraryItemHeader = dynamic(import("../../themes/plain/Layout/LibraryItemHeader"));
+        ActionHeader = dynamic(import("../../themes/plain/Layout/ActionHeader"));
 }
 
-export default WithExtraProps<IItemHeaderDerived, ILibraryItemHeaderProps>(LibraryItemHeader, ({ source, jupyter }) =>
+export default WithExtraProps<IActionDerived, IActionHeaderProps>(ActionHeader, ({ source, jupyter }) =>
     ({
         sourceURL: source && sourceURL(source),
         issueURL: source && issueURL(source),

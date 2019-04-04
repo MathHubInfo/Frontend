@@ -3,7 +3,7 @@ import { IApiObject, IReferencable } from "../../context/LibraryClient/objects";
 import { IBreadcrumb } from "../../theming/Layout/ILayoutBodyProps";
 
 import { ObjectParents, ObjectSource } from "../../context/LibraryClient/objects/utils";
-import { ILibraryItemHeaderProps } from "../../theming/Layout/ILibraryItemHeaderProps";
+import { IActionHeaderProps } from "../../theming/Layout/IActionHeaderProps";
 import { Omit } from "../../types/lib";
 
 /**
@@ -11,8 +11,8 @@ import { Omit } from "../../types/lib";
  */
 export function headerProps(
     obj: IReferencable,
-    other?: Omit<ILibraryItemHeaderProps, "source" | "statistics" | "responsible">,
-): ILibraryItemHeaderProps {
+    other?: Omit<IActionHeaderProps, "source" | "statistics" | "responsible">,
+): IActionHeaderProps {
     let responsible;
     if (obj.kind === "archive" || obj.kind === "group")
         responsible = obj.responsible;

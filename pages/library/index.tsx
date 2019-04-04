@@ -12,7 +12,7 @@ import getDerivedParameter, { failed, IDerivedParameter, join2, statusCode } fro
 import getContext from "../../src/context";
 import PageLibrary from "../../src/theming/Pages/Library/PageLibrary";
 
-import LibraryItemHeader from "../../src/theming/Layout/LibraryItemHeader";
+import ActionHeader from "../../src/theming/Layout/ActionHeader";
 import PageGroupRef from "../../src/theming/Pages/Library/PageGroupRef";
 
 type ILibraryProps = IDerivedParameter<[string, IGroupRef[]]>;
@@ -41,7 +41,7 @@ export default class Library extends React.Component<ILibraryProps> {
 
     const [description, groups] = this.props.item;
     // the header for the library contains only the description
-    const header = <LibraryItemHeader description={description} />;
+    const header = <ActionHeader description={description} />;
 
     return (
         <LayoutBody crumbs={Library.crumbs} description={description} title={["Library"]}>

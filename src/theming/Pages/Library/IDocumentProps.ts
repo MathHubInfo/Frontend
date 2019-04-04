@@ -1,4 +1,4 @@
-import { ILibraryItemHeaderProps } from "../../Layout/ILibraryItemHeaderProps";
+import { IActionHeaderProps } from "../../Layout/IActionHeaderProps";
 
 import { IDocument } from "../../../context/LibraryClient/objects";
 
@@ -6,7 +6,7 @@ import { INarrativeElementProps } from "../../../lib/library/INarrativeElementPr
 
 export interface IDocumentProps {
     // the general information about this library page
-    header: React.ReactElement<ILibraryItemHeaderProps>;
+    header: React.ReactElement<IActionHeaderProps>;
 
     // the group being rederned
     item: IDocument;

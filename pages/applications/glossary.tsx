@@ -9,6 +9,7 @@ import ImplicitParameters from "../../src/utils/ImplicitParameters";
 import LayoutBody from "../../src/theming/Layout/LayoutBody";
 import { IGlossaryState } from "../../src/theming/Pages/Applications/IGlossaryProps";
 import PageApplicationsGlossary from "../../src/theming/Pages/Applications/PageApplicationsGlossary";
+import ActionHeader from "../../src/theming/Layout/ActionHeader";
 
 interface IGlossaryProps {
     initial: Partial<IGlossaryState>;
@@ -40,8 +41,8 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
 
 
     render() {
-        const { language } = this.state;
-
+        const { description, language } = this.state;
+        const header = <ActionHeader description={description} />;
         // filter all the entries by those available in the selected language
         const entries = this.props.entries.filter(e =>
             Object.keys(e.kwd).includes(language) && Object.keys(e.def).includes(language));
@@ -49,6 +50,7 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
         return (
             <LayoutBody crumbs={[{href: "/", title: "Home"}]} title={["Glossary"]}>
                 <PageApplicationsGlossary
+                    header={header}
                     knownLanguages={knownLanguages}
                     language={language}
                     entries={entries}

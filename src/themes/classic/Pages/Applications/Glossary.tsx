@@ -5,7 +5,6 @@ import { IGlossaryEntry, TKnownLanguages } from "../../../../context/GlossaryCli
 
 import MHHTML from "../../../../lib/components/MHHTML";
 import { IGlossaryProps } from "../../../../theming/Pages/Applications/IGlossaryProps";
-import { urls } from "../../../../assets/urls";
 
 export default class Glossary extends React.Component<IGlossaryProps> {
     languageTabs() {
@@ -24,9 +23,7 @@ export default class Glossary extends React.Component<IGlossaryProps> {
         return (
             <Container>
                 <h1>Glossary</h1>
-                <Button href={urls.help.report} style={{marginBottom: "1.5em"}}>
-                    Report an Issue
-                </Button>
+                {this.props.header}
                 <Tab
                     panes={this.languageTabs()}
                     activeIndex={knownLanguages.indexOf(selectedLanguage)}

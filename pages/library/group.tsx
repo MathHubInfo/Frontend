@@ -8,7 +8,7 @@ import { IGroup } from "../../src/context/LibraryClient/objects";
 
 import LayoutBody from "../../src/theming/Layout/LayoutBody";
 import LayoutFailure from "../../src/theming/Layout/LayoutFailure";
-import LibraryItemHeader from "../../src/theming/Layout/LibraryItemHeader";
+import ActionHeader from "../../src/theming/Layout/ActionHeader";
 import PageArchiveRef from "../../src/theming/Pages/Library/PageArchiveRef";
 import PageGroup from "../../src/theming/Pages/Library/PageGroup";
 
@@ -36,7 +36,7 @@ export default class Group extends React.Component<IGroupProps> {
     );
 
     const { description, declarations: archives, name } = this.props.item;
-    const header = <LibraryItemHeader {...headerProps(this.props.item, {description})} />;
+    const header = <ActionHeader {...headerProps(this.props.item, {description})} />;
 
     return (
         <LayoutBody crumbs={Group.crumbs} description={description} title={[name]}>

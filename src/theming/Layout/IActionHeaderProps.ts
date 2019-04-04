@@ -1,6 +1,6 @@
 import { ISourceReference, IStatistic } from "../../context/LibraryClient/objects";
 
-export interface ILibraryItemHeaderProps extends IItemHeaderDerived {
+export interface IActionHeaderProps extends IActionDerived {
     // description of the element in question, may contain html
     description?: string;
 
@@ -17,7 +17,7 @@ export interface ILibraryItemHeaderProps extends IItemHeaderDerived {
     responsible?: string[];
 }
 
-export interface IItemHeaderDerived {
+export interface IActionDerived {
     // the url to the source (if any)
     sourceURL?: string;
 

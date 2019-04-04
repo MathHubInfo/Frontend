@@ -3,11 +3,11 @@ import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-
 
 import MHHTML from "../../../lib/components/MHHTML";
 
-import { ILibraryItemHeaderProps } from "../../../theming/Layout/ILibraryItemHeaderProps";
+import { IActionHeaderProps } from "../../../theming/Layout/IActionHeaderProps";
 
 import { StatisticsTable } from "./Statistics";
 
-export default class LibraryItemHeader extends React.Component<ILibraryItemHeaderProps> {
+export default class ActionHeader extends React.Component<IActionHeaderProps> {
     sourceButton() {
         const { sourceURL } = this.props;
         if (sourceURL === undefined)
