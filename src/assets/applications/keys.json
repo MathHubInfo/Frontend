@@ -30,6 +30,11 @@
         "description": "document"
     },
     {
+        "key": "any_con",
+        "teaser": "Any constant",
+        "description": "declaration of a constant"
+    },
+    {
         "key": "unty_con",
         "teaser": "untyped constant",
         "description": "declaration of untyped constant"
