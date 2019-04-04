@@ -12,8 +12,9 @@ sourceURL.GROUP_TEMPLATE = "https://gl.mathhub.info/${group}";
 sourceURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/tree/${branch}/${path}";
 
 export function issueURL(source: ISourceReference) {
-    return makeURL(source, undefined, issueURL.ARCHIVE_TEMPLATE, undefined);
+    return makeURL(source, issueURL.GROUP_TEMPLATE, issueURL.ARCHIVE_TEMPLATE, issueURL.ARCHIVE_TEMPLATE);
 }
+issueURL.GROUP_TEMPLATE = "https://gl.mathhub.info/groups/${group}/-/issues";
 issueURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/issues";
 
 
