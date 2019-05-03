@@ -27,7 +27,7 @@
     "react-waypoint": "^9.0.1",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react": "^0.86.0",
-    "tgview": "git://github.com/UniFormal/TGView.git#v0.1.0",
+    "tgview": "git://github.com/UniFormal/TGView.git#v0.2.0",
     "ts-debounce": "^1.0.0",
     "xmldom": "^0.1.27"
   },
