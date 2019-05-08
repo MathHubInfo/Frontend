@@ -4,6 +4,7 @@ import {
     IMMTVersionInfo,
     IModuleRef,
     IStatistic,
+    TDocumentTags,
 } from "../objects";
 
 /**
@@ -68,6 +69,7 @@ export interface IMockArchive extends IMockObject {
 export interface IMockDocument extends IMockObject {
     parent: IMockReference;
     statistics: IStatistic[];
+    tags?: TDocumentTags[];
 
     modules: IMockReference[];
 }

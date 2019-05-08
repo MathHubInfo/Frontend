@@ -446,6 +446,7 @@ class LazyMockClient extends LibraryClient {
             ...ref,
             ref: false,
 
+            tags: actual.tags,
             declarations: decls,
             statistics: actual.statistics,
         };

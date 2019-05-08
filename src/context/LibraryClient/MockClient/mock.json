@@ -179,6 +179,7 @@
             "parent": {
                 "id": "ODK/Notebooks"
             },
+            "tags": ["ipynb-omdoc"],
             "id": "notebookRoot",
             "name": "notebookRoot",
             "statistics": [],
