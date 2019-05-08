@@ -3,7 +3,7 @@
 import getConfig from "next/config";
 import dynamic from "next/dynamic";
 
-import { jupyterURL, sourceURL, issueURL } from "../../utils/urls";
+import { jupyterURL, sourceURL, issueURL, tgViewURL } from "../../utils/urls";
 import { WithExtraProps } from "../../utils/WithExtraContext";
 
 import { IActionDerived, IActionHeaderProps } from "./IActionHeaderProps";
@@ -18,9 +18,10 @@ switch (getConfig().publicRuntimeConfig.theme) {
         ActionHeader = dynamic(import("../../themes/plain/Layout/ActionHeader"));
 }
 
-export default WithExtraProps<IActionDerived, IActionHeaderProps>(ActionHeader, ({ source, jupyter }) =>
+export default WithExtraProps<IActionDerived, IActionHeaderProps>(ActionHeader, ({ id, source, jupyter }) =>
     ({
         sourceURL: source && sourceURL(source),
+        tgViewURL: id && tgViewURL(id),
         issueURL: source && issueURL(source),
         jupyterURL: jupyter && jupyterURL(jupyter),
     }),

@@ -6,6 +6,7 @@ import MHHTML from "../../../lib/components/MHHTML";
 import { IActionHeaderProps } from "../../../theming/Layout/IActionHeaderProps";
 
 import { StatisticsTable } from "./Statistics";
+import MHLink from "../../../lib/components/MHLink";
 
 export default class ActionHeader extends React.Component<IActionHeaderProps> {
     sourceButton() {
@@ -17,6 +18,18 @@ export default class ActionHeader extends React.Component<IActionHeaderProps> {
             <Button icon>
                 <Icon name={"hand point right outline"} />
                 <a href={sourceURL} style={{ color: "black" }}>View Source</a>
+            </Button>
+        );
+    }
+    tgViewButton() {
+        const { tgViewURL } = this.props;
+        if (tgViewURL === undefined)
+            return null;
+
+        return (
+            <Button icon>
+                <Icon name={"hand point right outline"} />
+                <MHLink href={tgViewURL}><a style={{ color: "black" }}>View on TGView</a></MHLink>
             </Button>
         );
     }
@@ -44,6 +57,7 @@ export default class ActionHeader extends React.Component<IActionHeaderProps> {
                 <Grid>
                     <Grid.Column width={10}>
                         {this.sourceButton()}
+                        {this.tgViewButton()}
                     </Grid.Column>
                     <Grid.Column width={6}>
                         <Container textAlign={"right"}>

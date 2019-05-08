@@ -5,10 +5,11 @@ import MHHTML from "../../../lib/components/MHHTML";
 import { IActionHeaderProps } from "../../../theming/Layout/IActionHeaderProps";
 
 import { IStatistic } from "../../../context/LibraryClient/objects";
+import MHLink from "../../../lib/components/MHLink";
 
 export default class ActionHeader extends React.Component<IActionHeaderProps> {
     render() {
-        const { statistics, sourceURL, issueURL, jupyterURL, description, responsible } = this.props;
+        const { statistics, sourceURL, tgViewURL, issueURL, jupyterURL, description, responsible } = this.props;
 
         return (
             <>
@@ -20,6 +21,7 @@ export default class ActionHeader extends React.Component<IActionHeaderProps> {
                 <div>
                     {statistics && <ActionStatistics statistics={statistics} /> }
                     {sourceURL && <a href={sourceURL}>View Source</a>}
+                    {tgViewURL && <MHLink href={tgViewURL}><a>View TGView</a></MHLink>}
                     {issueURL && <a href={issueURL}>Report Issue</a>}
                     {jupyterURL && <a href={jupyterURL}>Test on Jupyter</a>}
                 </div>

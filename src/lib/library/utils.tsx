@@ -19,6 +19,7 @@ export function headerProps(
 
     return {
         ...(other || {}),
+        id: obj.id,
         responsible,
         statistics: obj.statistics,
         source: ObjectSource(obj),

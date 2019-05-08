@@ -17,6 +17,11 @@ export function issueURL(source: ISourceReference) {
 issueURL.GROUP_TEMPLATE = "https://gl.mathhub.info/groups/${group}/-/issues";
 issueURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/issues";
 
+export function tgViewURL(id: string) {
+    // TODO: Distinction between archive and theory graph to be done
+    return `/applications/tgview?type=archivegraph&graphdata=${escape(id)}`;
+}
+
 
 /**
  * Builds a URL for a jupyter reference

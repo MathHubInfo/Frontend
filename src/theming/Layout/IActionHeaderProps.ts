@@ -4,6 +4,9 @@ export interface IActionHeaderProps extends IActionDerived {
     // description of the element in question, may contain html
     description?: string;
 
+    // id of the element (if any)
+    id?: string;
+
     // source of the object (if any)
     source?: ISourceReference;
 
@@ -20,6 +23,9 @@ export interface IActionHeaderProps extends IActionDerived {
 export interface IActionDerived {
     // the url to the source (if any)
     sourceURL?: string;
+
+    // the url to tgview (if any)
+    tgViewURL?: string;
 
     // the url to issues (if any)
     issueURL?: string;
