@@ -1,5 +1,5 @@
 // tslint:disable:export-name no-invalid-template-strings
-import { ISourceReference } from "../context/LibraryClient/objects";
+import { ISourceReference, IReferencable } from "../context/LibraryClient/objects";
 
 /**
  * Builds a URL for a source reference
@@ -17,9 +17,24 @@ export function issueURL(source: ISourceReference) {
 issueURL.GROUP_TEMPLATE = "https://gl.mathhub.info/groups/${group}/-/issues";
 issueURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/issues";
 
-export function tgViewURL(id: string) {
-    // TODO: Distinction between archive and theory graph to be done
-    return `/applications/tgview?type=archivegraph&graphdata=${escape(id)}`;
+export function tgViewURL(obj: IReferencable) {
+    let type: string | undefined;
+    switch (obj.kind) {
+        case "archive":
+        case "group":
+            type = "archivegraph";
+            break;
+        case "document":
+            type = "docgraph";
+            break;
+        case "module":
+            type = "thgraph";
+            break;
+        default:
+            return undefined;
+    }
+
+    return `/applications/tgview?type=${type}&graphdata=${escape(obj.id)}`; // id=thgraph
 }
 
 

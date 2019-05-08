@@ -7,6 +7,7 @@ import { jupyterURL, sourceURL, issueURL, tgViewURL } from "../../utils/urls";
 import { WithExtraProps } from "../../utils/WithExtraContext";
 
 import { IActionDerived, IActionHeaderProps } from "./IActionHeaderProps";
+import { ObjectSource } from "../../context/LibraryClient/objects/utils";
 
 let ActionHeader: React.ComponentClass<IActionHeaderProps>;
 
@@ -18,11 +19,14 @@ switch (getConfig().publicRuntimeConfig.theme) {
         ActionHeader = dynamic(import("../../themes/plain/Layout/ActionHeader"));
 }
 
-export default WithExtraProps<IActionDerived, IActionHeaderProps>(ActionHeader, ({ id, source, jupyter }) =>
-    ({
+export default WithExtraProps<IActionDerived, IActionHeaderProps>(ActionHeader, ({ obj }) => {
+    const source = obj && ObjectSource(obj);
+
+    return {
         sourceURL: source && sourceURL(source),
-        tgViewURL: id && tgViewURL(id),
         issueURL: source && issueURL(source),
-        jupyterURL: jupyter && jupyterURL(jupyter),
-    }),
-);
+        jupyterURL: source && jupyterURL(source),
+        tgViewURL: obj && tgViewURL(obj),
+    };
+});
+

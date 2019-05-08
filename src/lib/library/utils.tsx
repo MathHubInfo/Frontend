@@ -2,7 +2,7 @@
 import { IApiObject, IReferencable } from "../../context/LibraryClient/objects";
 import { IBreadcrumb } from "../../theming/Layout/ILayoutBodyProps";
 
-import { ObjectParents, ObjectSource } from "../../context/LibraryClient/objects/utils";
+import { ObjectParents } from "../../context/LibraryClient/objects/utils";
 import { IActionHeaderProps } from "../../theming/Layout/IActionHeaderProps";
 import { Omit } from "../../types/lib";
 
@@ -19,10 +19,9 @@ export function headerProps(
 
     return {
         ...(other || {}),
-        id: obj.id,
+        obj,
         responsible,
         statistics: obj.statistics,
-        source: ObjectSource(obj),
     };
 }
 

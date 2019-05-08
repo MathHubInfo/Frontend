@@ -1,17 +1,11 @@
-import { ISourceReference, IStatistic } from "../../context/LibraryClient/objects";
+import { IStatistic, IReferencable } from "../../context/LibraryClient/objects";
 
 export interface IActionHeaderProps extends IActionDerived {
     // description of the element in question, may contain html
     description?: string;
 
-    // id of the element (if any)
-    id?: string;
-
-    // source of the object (if any)
-    source?: ISourceReference;
-
-    // jupyter notebook ref (if any)
-    jupyter?: ISourceReference;
+    // referenced object by this page
+    obj?: IReferencable;
 
     // statistics (if any)
     statistics?: IStatistic[];
