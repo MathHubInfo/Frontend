@@ -3,6 +3,8 @@
 import App, { AppProps, Container, DefaultAppIProps, NextAppContext } from "next/app";
 import Router from "next/router";
 import React from "react";
+import intl from "react-intl-universal";
+import Intl from "intl";
 
 import MHAppContext, { IMHAppContext } from "../src/lib/components/MHAppContext";
 import MHLink from "../src/lib/components/MHLink";
@@ -13,17 +15,33 @@ import { IMathHubRuntimeConfig } from "../src/types/config";
 
 import LayoutRoutingIndicator from "../src/theming/Layout/LayoutRoutingIndicator";
 
+
+// For Node.js, common locales should be added in the application
+global.Intl = Intl;
+await import("intl/locale-data/jsonp/en.js");
+await import("intl/locale-data/jsonp/de.js");
+
 type IMHAppProps = IMHAppOwnProps & DefaultAppIProps & AppProps;
 
 interface IMHAppOwnProps {
     clientNeedsProps: boolean;
     initialRuntimeConfig?: IMathHubRuntimeConfig;
 }
+const SUPPOER_LOCALES = [
+    {
+        name: "English",
+        value: "en",
+    },
+    {
+        name: "Deutsch",
+        value: "de",
+    },
+];
 
 export default class MHApp extends App<IMHAppOwnProps> {
     static async getInitialProps(context: NextAppContext): Promise<IMHAppProps> {
-        const {Component, router} = context;
-        const {config: {compilationPhase}} = getContext();
+        const { Component, router } = context;
+        const { config: { compilationPhase } } = getContext();
 
         // Check if we are running inside of an export
         const isExport = (!process.browser && compilationPhase === CompilationPhase.EXPORT);
@@ -35,8 +53,15 @@ export default class MHApp extends App<IMHAppOwnProps> {
             MHApp.getPageProps(isExport, context),
             MHApp.getRuntimeConfig(isExport, context),
         ]);
+        const currentLocale = SUPPOER_LOCALES[0].value;
+        await intl.init({
+            currentLocale,
+            locales: {
+                [currentLocale]: import(`../src/locales/${currentLocale}`),
+            },
+        });
 
-        return {Component, router, pageProps, clientNeedsProps, initialRuntimeConfig};
+        return { Component, router, pageProps, clientNeedsProps, initialRuntimeConfig };
     }
 
     /**
@@ -46,7 +71,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
     static async getPageProps(
         isExport: boolean,
         { Component, ctx }: NextAppContext,
-    ): Promise<{pageProps: {}; clientNeedsProps: boolean}> {
+    ): Promise<{ pageProps: {}; clientNeedsProps: boolean }> {
         let pageProps = {};
         let clientNeedsProps = false;
 
@@ -55,7 +80,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
         else if (Component.getInitialProps)
             pageProps = await Component.getInitialProps(ctx);
 
-        return {pageProps, clientNeedsProps};
+        return { pageProps, clientNeedsProps };
     }
 
     static async getRuntimeConfig(
@@ -74,12 +99,12 @@ export default class MHApp extends App<IMHAppOwnProps> {
     static async loadRuntimeConfig(): Promise<IMathHubRuntimeConfig | undefined> {
         const { httpClient, config: { configURL } } = getContext();
         if (configURL)
-            return httpClient.getIfOK(configURL, {resolve: true, ignoreError: true});
+            return httpClient.getIfOK(configURL, { resolve: true, ignoreError: true });
 
         return undefined;
     }
 
-    state: IMHAppContext & {initialPropsFix: boolean} = {
+    state: IMHAppContext & { initialPropsFix: boolean } = {
         routing: this.props.clientNeedsProps,
         initialPropsFix: this.props.clientNeedsProps,
         runtimeConfig: this.props.initialRuntimeConfig,
@@ -92,12 +117,12 @@ export default class MHApp extends App<IMHAppOwnProps> {
 
         // if we do not have the runtime configuration, start loading it
         if (!this.props.initialRuntimeConfig)
-            this.setState({ runtimeConfig: await MHApp.loadRuntimeConfig()});
+            this.setState({ runtimeConfig: await MHApp.loadRuntimeConfig() });
 
         // if we still need the properties of the client, we need to reload
         if (this.props.clientNeedsProps) {
             await Router.replace(MHLink.rewrite(Router.pathname + location.search));
-            this.setState({initialPropsFix: false});
+            this.setState({ initialPropsFix: false });
             this.handleRoutingEnd();
 
             return;
@@ -112,11 +137,11 @@ export default class MHApp extends App<IMHAppOwnProps> {
 
     render() {
         const { Component, pageProps } = this.props;
-        const {routing, initialPropsFix, runtimeConfig} = this.state;
+        const { routing, initialPropsFix, runtimeConfig } = this.state;
 
         return (
             <Container>
-                <MHAppContext.Provider value={{routing, runtimeConfig}}>
+                <MHAppContext.Provider value={{ routing, runtimeConfig }}>
                     {routing && <LayoutRoutingIndicator />}
                     {!initialPropsFix && <Component {...pageProps} />}
                 </MHAppContext.Provider>
@@ -127,3 +152,4 @@ export default class MHApp extends App<IMHAppOwnProps> {
     private readonly handleRoutingStart = () => this.setState({ routing: true });
     private readonly handleRoutingEnd = () => this.setState({ routing: false });
 }
+
