@@ -38,7 +38,7 @@ export default class Test extends React.Component {
             this.state.initDone &&
             (
             <Container>
-                <h1>This Page exists only for testing purposes</h1>
+                <h1>This Page only exists for testing purposes</h1>
                 {intl.get("TEST")}
             </Container>
             )
