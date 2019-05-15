@@ -3,8 +3,6 @@
 import App, { AppProps, Container, DefaultAppIProps, NextAppContext } from "next/app";
 import Router from "next/router";
 import React from "react";
-import intl from "react-intl-universal";
-import Intl from "intl";
 
 import MHAppContext, { IMHAppContext } from "../src/lib/components/MHAppContext";
 import MHLink from "../src/lib/components/MHLink";
@@ -16,27 +14,12 @@ import { IMathHubRuntimeConfig } from "../src/types/config";
 import LayoutRoutingIndicator from "../src/theming/Layout/LayoutRoutingIndicator";
 
 
-// For Node.js, common locales should be added in the application
-global.Intl = Intl;
-await import("intl/locale-data/jsonp/en.js");
-await import("intl/locale-data/jsonp/de.js");
-
 type IMHAppProps = IMHAppOwnProps & DefaultAppIProps & AppProps;
 
 interface IMHAppOwnProps {
     clientNeedsProps: boolean;
     initialRuntimeConfig?: IMathHubRuntimeConfig;
 }
-const SUPPOER_LOCALES = [
-    {
-        name: "English",
-        value: "en",
-    },
-    {
-        name: "Deutsch",
-        value: "de",
-    },
-];
 
 export default class MHApp extends App<IMHAppOwnProps> {
     static async getInitialProps(context: NextAppContext): Promise<IMHAppProps> {
@@ -53,13 +36,6 @@ export default class MHApp extends App<IMHAppOwnProps> {
             MHApp.getPageProps(isExport, context),
             MHApp.getRuntimeConfig(isExport, context),
         ]);
-        const currentLocale = SUPPOER_LOCALES[0].value;
-        await intl.init({
-            currentLocale,
-            locales: {
-                [currentLocale]: import(`../src/locales/${currentLocale}`),
-            },
-        });
 
         return { Component, router, pageProps, clientNeedsProps, initialRuntimeConfig };
     }

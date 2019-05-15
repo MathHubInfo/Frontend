@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Button, Container, Grid, Image } from "semantic-ui-react";
-import intl from "react-intl-universal";
 
 import MHLink from "../../../lib/components/MHLink";
 
@@ -12,7 +11,6 @@ export default class Home extends React.Component<IHomeProps> {
     render() {
         return (
             <Container>
-                <div>{intl.get("TEST")}</div>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column width={8}>
