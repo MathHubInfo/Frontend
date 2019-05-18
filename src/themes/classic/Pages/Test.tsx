@@ -1,47 +1,35 @@
 import * as React from "react";
 import intl from "react-intl-universal";
-import { Container } from "semantic-ui-react";
-import Axios from "axios";
+import { Button, Container } from "semantic-ui-react";
+import { ITestState } from "../../../../src/theming/Pages/Applications/ITestProps";
 
 
-export default class Test extends React.Component {
-    constructor(props: Readonly<{}>) {
-        super(props);
+export default class Test extends React.Component<ITestState> {
+    state = { english: true };
+    render() {
+        const { initDone } = this.props;
+
+        return (
+            <Container>
+                <h1>This Page only exists for testing purposes</h1>
+                <div>{initDone && intl.get("TEST")}</div>
+                <Button onClick={this.onButtonClick}>Switch</Button>
+            </Container>
+        );
     }
-    state = { initDone: false };
-
-    async componentDidMount() {
-        await this.loadLocales();
-    }
-    async loadLocales() {
-        const currentLocale = "en";
-
-        await Axios
-            .get(`../../../locales/${currentLocale}.json`)
+    private readonly onButtonClick = () => {
+        const currentLocale = this.state.english ? "de" : "en";
+        this.setState({ english: !this.state.english });
+        import(`../../../../src/locales/${currentLocale}.json`)
             .then(async res => {
-                // init method will load CLDR locale data according to currentLocale
                 return intl.init({
                     currentLocale,
                     locales: {
-                        [currentLocale]: res.data,
+                        [currentLocale]: res,
                     },
                 });
             })
-            .then(() => {
-                // After loading CLDR locale data, start to render
-                this.setState({ initDone: true });
-            });
-    }
-
-    render() {
-        return (
-            this.state.initDone &&
-            (
-            <Container>
-                <h1>This Page only exists for testing purposes</h1>
-                {intl.get("TEST")}
-            </Container>
-            )
-        );
+            // tslint:disable-next-line:no-console
+            .catch(err => console.log(`Error: ${err} occured while loading ${currentLocale}.json`));
     }
 }
