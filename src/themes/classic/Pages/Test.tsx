@@ -14,8 +14,12 @@ export default class Test extends React.Component<ITestState> {
                 <h1>This Page only exists for testing purposes</h1>
                 <div>{initDone && intl.get("TEST")}</div>
                 <Button onClick={this.onButtonClick}>Switch</Button>
+                <Button onClick={this.refresh}>Refresh</Button>
             </Container>
         );
+    }
+    private readonly refresh = () => {
+        this.forceUpdate();
     }
     private readonly onButtonClick = () => {
         const currentLocale = this.state.english ? "de" : "en";

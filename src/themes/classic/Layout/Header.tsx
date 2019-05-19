@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Container, Dropdown, Image, Menu } from "semantic-ui-react";
+import intl from "react-intl-universal";
+import { Button, Container, Dropdown, Flag, Grid, Image, Menu } from "semantic-ui-react";
 
 import { urls } from "../../../assets/urls";
 import MHLink from "../../../lib/components/MHLink";
@@ -76,10 +77,43 @@ export class Header extends React.Component<IHeaderProps> {
                     </Container>
                 </Menu>
                 <Container>
-                    <LayoutCrumbs crumbs={[...crumbs, { href: "", title: (title || [])[0] }]} />
+                    <Grid>
+                        <Grid.Column width={12}>
+                            <LayoutCrumbs crumbs={[...crumbs, { href: "", title: (title || [])[0] }]} />
+                        </Grid.Column>
+                        <Grid.Column width={4} textAlign={"right"}>
+                            <Button.Group compact basic size={"mini"} >
+                                <Button onClick={this.changeToGerman}>
+                                    <Flag name="de" />
+                                </Button>
+                                <Button onClick={this.changeToEnglish}>
+                                    <Flag name="gb" />
+                                </Button>
+                            </Button.Group>
+                        </Grid.Column>
+                    </Grid>
                 </Container>
             </header>
         );
+    }
+    private readonly changeToGerman = () => {
+        Header.changeLanguage("de");
+    }
+    private readonly changeToEnglish = () => {
+        Header.changeLanguage("en");
+    }
+    private static changeLanguage(currentLocale: string) {
+        import(`../../../../src/locales/${currentLocale}.json`)
+            .then(async res => {
+                return intl.init({
+                    currentLocale,
+                    locales: {
+                        [currentLocale]: res,
+                    },
+                });
+            })
+            // tslint:disable-next-line:no-console
+            .catch(err => console.log(`Error: ${err} occured while loading ${currentLocale}.json`));
     }
 }
 
