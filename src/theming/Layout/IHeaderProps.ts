@@ -13,6 +13,12 @@ export interface IHeaderProps {
      * Each Component is a pair of (title, url) to be used as arguments for creating a link.
      */
     crumbs: IBreadcrumb[];
+
+    /*
+    activeLanguage: string;
+    knownLanguages: string[];
+    changeLanguage: (s: string) => Promise<void>;
+    */
 }
 
 /**
