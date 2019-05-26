@@ -25,7 +25,10 @@ export default class LayoutBody extends React.Component<ILayoutBodyProps> {
                     <title>{theTitle}</title>
                     {description && <meta name="description" content={description} />}
                 </Head>
-                <Header title={title} crumbs={crumbs} />
+                <Header
+                    title={title}
+                    crumbs={crumbs}
+                />
                 <Divider />
                 <main>
                     {this.props.children}

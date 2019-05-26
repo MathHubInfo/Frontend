@@ -2,9 +2,9 @@
 import { IMHLinkable } from "../../lib/components/MHLink";
 
 export interface IHeaderProps {
-        /**
-         * The title of the current page, consisting out of differenct components
-         */
+    /**
+     * The title of the current page, consisting out of differenct components
+     */
     title?: string[];
 
 
@@ -13,12 +13,6 @@ export interface IHeaderProps {
      * Each Component is a pair of (title, url) to be used as arguments for creating a link.
      */
     crumbs: IBreadcrumb[];
-
-    /*
-    activeLanguage: string;
-    knownLanguages: string[];
-    changeLanguage: (s: string) => Promise<void>;
-    */
 }
 
 /**

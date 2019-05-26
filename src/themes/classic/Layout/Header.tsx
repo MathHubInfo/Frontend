@@ -1,119 +1,107 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Button, Container, Dropdown, Flag, Grid, Image, Menu } from "semantic-ui-react";
 
 import { urls } from "../../../assets/urls";
 import MHLink from "../../../lib/components/MHLink";
 import { IBreadcrumb, IHeaderProps } from "../../../theming/Layout/IHeaderProps";
+import MHAppContext from "../../../../src/lib/components/MHAppContext";
 
+// tslint:disable: jsx-no-lambda
 export class Header extends React.Component<IHeaderProps> {
     render() {
         const { title, crumbs } = this.props;
 
         return (
             <header>
-                <Menu>
-                    <Container>
-                        <MHLink href="/">
-                            <Menu.Item header>
-                                <Image
-                                    size="mini"
-                                    src={"/static/logos/MathHub.svg"}
-                                    style={{ marginRight: "1.5em" }}
-                                    alt="MathHub Logo"
-                                />
-                                MathHub
+                <MHAppContext.Consumer>
+                    {value =>
+                        <>
+                            <Menu>
+                                <Container>
+                                    <MHLink href="/">
+                                        <Menu.Item header>
+                                            <Image
+                                                size="mini"
+                                                src={"/static/logos/MathHub.svg"}
+                                                style={{ marginRight: "1.5em" }}
+                                                alt="MathHub Logo"
+                                            />
+                                            MathHub
+                            </Menu.Item>
+                                    </MHLink>
+                                    <Dropdown text="Applications" className="link item">
+                                        <Dropdown.Menu>
+                                            <MHLink href="/applications/glossary">
+                                                <Dropdown.Item>glossary</Dropdown.Item>
+                                            </MHLink>
+                                            <MHLink href="/applications/dictionary">
+                                                <Dropdown.Item>math dictionary</Dropdown.Item>
+                                            </MHLink>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                    <Dropdown text="Help" className="link item">
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item>
+                                                <a href={urls.help.documentation} style={{ color: "black" }}>
+                                                    Documentation
+                                    </a>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item>
+                                                <a href={urls.help.browseSources} style={{ color: "black" }}>
+                                                    Browse Sources
+                                    </a>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item>
+                                                <a href={urls.help.contactAHuman} style={{ color: "black" }}>
+                                                    Contact a Human
+                                    </a>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item>
+                                                <a href={urls.help.report} style={{ color: "black" }}>
+                                                    Report an Issue
+                                    </a>
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                    <MHLink href="/news">
+                                        <Menu.Item>
+                                            News
                     </Menu.Item>
-                        </MHLink>
-                        <Dropdown text="Applications" className="link item">
-                            <Dropdown.Menu>
-                                <MHLink href="/applications/glossary">
-                                    <Dropdown.Item>glossary</Dropdown.Item>
-                                </MHLink>
-                                <MHLink href="/applications/dictionary">
-                                    <Dropdown.Item>math dictionary</Dropdown.Item>
-                                </MHLink>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        <Dropdown text="Help" className="link item">
-                            <Dropdown.Menu>
-                                <Dropdown.Item>
-                                    <a href={urls.help.documentation} style={{ color: "black" }}>
-                                        Documentation
-                                    </a>
-                                </Dropdown.Item>
-                                <Dropdown.Item>
-                                    <a href={urls.help.browseSources} style={{ color: "black" }}>
-                                        Browse Sources
-                                    </a>
-                                </Dropdown.Item>
-                                <Dropdown.Item>
-                                    <a href={urls.help.contactAHuman} style={{ color: "black" }}>
-                                        Contact a Human
-                                    </a>
-                                </Dropdown.Item>
-                                <Dropdown.Item>
-                                    <a href={urls.help.report} style={{ color: "black" }}>
-                                        Report an Issue
-                                    </a>
-                                </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        <MHLink href="/news">
-                            <Menu.Item>
-                                News
-                    </Menu.Item>
-                        </MHLink>
-                        <Menu.Item>
-                            <a href={urls.admin} style={{ color: "black" }}>
-                                Admin
+                                    </MHLink>
+                                    <Menu.Item>
+                                        <a href={urls.admin} style={{ color: "black" }}>
+                                            Admin
                             </a>
-                        </Menu.Item>
-                        <Menu.Item>
-                            <a href={urls.about} style={{ color: "black" }}>
-                                About
+                                    </Menu.Item>
+                                    <Menu.Item>
+                                        <a href={urls.about} style={{ color: "black" }}>
+                                            About
                             </a>
-                        </Menu.Item>
-                    </Container>
-                </Menu>
-                <Container>
-                    <Grid>
-                        <Grid.Column width={12}>
-                            <LayoutCrumbs crumbs={[...crumbs, { href: "", title: (title || [])[0] }]} />
-                        </Grid.Column>
-                        <Grid.Column width={4} textAlign={"right"}>
-                            <Button.Group compact basic size={"mini"} >
-                                <Button onClick={this.changeToGerman}>
-                                    <Flag name="de" />
-                                </Button>
-                                <Button onClick={this.changeToEnglish}>
-                                    <Flag name="gb" />
-                                </Button>
-                            </Button.Group>
-                        </Grid.Column>
-                    </Grid>
-                </Container>
+                                    </Menu.Item>
+                                </Container>
+                            </Menu>
+                            <Container>
+                                <Grid>
+                                    <Grid.Column width={12}>
+                                        <LayoutCrumbs crumbs={[...crumbs, { href: "", title: (title || [])[0] }]} />
+                                    </Grid.Column>
+                                    <Grid.Column width={4} textAlign={"right"}>
+                                        <Button.Group compact basic size={"mini"} >
+                                            <Button onClick={() => value.changeLanguage("de")}>
+                                                <Flag name="de" />
+                                            </Button>
+                                            <Button onClick={() => value.changeLanguage("en")}>
+                                                <Flag name="gb" />
+                                            </Button>
+                                        </Button.Group>
+                                    </Grid.Column>
+                                </Grid>
+                            </Container>
+                        </>
+                    }
+                </MHAppContext.Consumer>
             </header>
         );
-    }
-    private readonly changeToGerman = () => {
-        Header.changeLanguage("de");
-    }
-    private readonly changeToEnglish = () => {
-        Header.changeLanguage("en");
-    }
-    private static changeLanguage(currentLocale: string) {
-        import(`../../../../src/locales/${currentLocale}.json`)
-            .then(async res => {
-                return intl.init({
-                    currentLocale,
-                    locales: {
-                        [currentLocale]: res,
-                    },
-                });
-            })
-            // tslint:disable-next-line:no-console
-            .catch(err => console.log(`Error: ${err} occured while loading ${currentLocale}.json`));
     }
 }
 

@@ -5,9 +5,9 @@ import { IMHLinkable } from "../../lib/components/MHLink";
 import { IMathHubVersion } from "../../types/config";
 
 export interface ILayoutBodyPureProps {
-     /**
-      * The title of the current page, consisting out of differenct components
-      */
+    /**
+     * The title of the current page, consisting out of differenct components
+     */
     title?: string[];
 
     /**

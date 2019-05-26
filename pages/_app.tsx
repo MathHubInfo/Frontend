@@ -7,6 +7,7 @@ import React from "react";
 import MHAppContext, { IMHAppContext } from "../src/lib/components/MHAppContext";
 import MHLink from "../src/lib/components/MHLink";
 
+import intl from "react-intl-universal";
 import getContext from "../src/context";
 import CompilationPhase from "../src/context/CompilationPhase";
 import { IMathHubRuntimeConfig } from "../src/types/config";
@@ -15,6 +16,8 @@ import LayoutRoutingIndicator from "../src/theming/Layout/LayoutRoutingIndicator
 
 
 type IMHAppProps = IMHAppOwnProps & DefaultAppIProps & AppProps;
+
+const knownLanguages = ["en", "de"];
 
 interface IMHAppOwnProps {
     clientNeedsProps: boolean;
@@ -84,12 +87,18 @@ export default class MHApp extends App<IMHAppOwnProps> {
         routing: this.props.clientNeedsProps,
         initialPropsFix: this.props.clientNeedsProps,
         runtimeConfig: this.props.initialRuntimeConfig,
+        activeLanguage: "en",
+        changeLanguage: this.loadLocales.bind(this),
     };
 
     async componentDidMount() {
         Router.events.on("routeChangeStart", this.handleRoutingStart);
         Router.events.on("routeChangeComplete", this.handleRoutingEnd);
         Router.events.on("routeChangeError", this.handleRoutingEnd);
+
+        // load the language file
+        this.state.activeLanguage === undefined ?
+            this.loadLocales("en") : await this.loadLocales(this.state.activeLanguage);
 
         // if we do not have the runtime configuration, start loading it
         if (!this.props.initialRuntimeConfig)
@@ -111,13 +120,28 @@ export default class MHApp extends App<IMHAppOwnProps> {
         Router.events.off("routeChangeError", this.handleRoutingEnd);
     }
 
+    async loadLocales(currentLocale: string) {
+        await import(`../src/locales/${currentLocale}.json`)
+            .then(async res => {
+                // init method will load CLDR locale data according to currentLocale
+                return intl.init({
+                    currentLocale,
+                    locales: {
+                        [currentLocale]: res,
+                    },
+                });
+            }).then(() => this.setState({activeLanguage: currentLocale}));
+    }
+
     render() {
         const { Component, pageProps } = this.props;
-        const { routing, initialPropsFix, runtimeConfig } = this.state;
+        const { activeLanguage, changeLanguage, routing, initialPropsFix, runtimeConfig } = this.state;
 
         return (
             <Container>
-                <MHAppContext.Provider value={{ routing, runtimeConfig }}>
+                <MHAppContext.Provider
+                    value={{ routing, runtimeConfig, activeLanguage, knownLanguages, changeLanguage }}
+                >
                     {routing && <LayoutRoutingIndicator />}
                     {!initialPropsFix && <Component {...pageProps} />}
                 </MHAppContext.Provider>

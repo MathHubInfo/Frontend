@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { Button, Container, Grid, Image } from "semantic-ui-react";
 
 import MHLink from "../../../lib/components/MHLink";

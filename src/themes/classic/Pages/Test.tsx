@@ -18,13 +18,9 @@ export default class Test extends React.Component<ITestState> {
             </Container>
         );
     }
-    private readonly refresh = () => {
-        this.forceUpdate();
-    }
-    private readonly onButtonClick = () => {
+    async changeLanguage() {
         const currentLocale = this.state.english ? "de" : "en";
-        this.setState({ english: !this.state.english });
-        import(`../../../../src/locales/${currentLocale}.json`)
+        await import(`../../../../src/locales/${currentLocale}.json`)
             .then(async res => {
                 return intl.init({
                     currentLocale,
@@ -32,8 +28,15 @@ export default class Test extends React.Component<ITestState> {
                         [currentLocale]: res,
                     },
                 });
-            })
+            });
+        this.setState({ english: !this.state.english });
+    }
+    private readonly refresh = () => {
+        this.forceUpdate();
+    }
+    private readonly onButtonClick = () => {
+        this.changeLanguage()
             // tslint:disable-next-line:no-console
-            .catch(err => console.log(`Error: ${err} occured while loading ${currentLocale}.json`));
+            .catch(err => console.log(`Error: ${err} occured while changing Language`));
     }
 }
