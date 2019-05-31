@@ -1,4 +1,5 @@
 import * as React from "react";
+import intl from "react-intl-universal";
 import { Button, Container, Dropdown, Flag, Grid, Image, Menu } from "semantic-ui-react";
 
 import { urls } from "../../../assets/urls";
@@ -29,13 +30,13 @@ export class Header extends React.Component<IHeaderProps> {
                                             MathHub
                             </Menu.Item>
                                     </MHLink>
-                                    <Dropdown text="Applications" className="link item">
+                                    <Dropdown text={intl.get("applications")} className="link item">
                                         <Dropdown.Menu>
                                             <MHLink href="/applications/glossary">
-                                                <Dropdown.Item>glossary</Dropdown.Item>
+                                                <Dropdown.Item>{intl.get("glossary")}</Dropdown.Item>
                                             </MHLink>
                                             <MHLink href="/applications/dictionary">
-                                                <Dropdown.Item>math dictionary</Dropdown.Item>
+                                                <Dropdown.Item>{intl.get("dictionary")}</Dropdown.Item>
                                             </MHLink>
                                         </Dropdown.Menu>
                                     </Dropdown>
@@ -43,39 +44,39 @@ export class Header extends React.Component<IHeaderProps> {
                                         <Dropdown.Menu>
                                             <Dropdown.Item>
                                                 <a href={urls.help.documentation} style={{ color: "black" }}>
-                                                    Documentation
+                                                    {intl.get("documentation")}
                                     </a>
                                             </Dropdown.Item>
                                             <Dropdown.Item>
                                                 <a href={urls.help.browseSources} style={{ color: "black" }}>
-                                                    Browse Sources
+                                                    {intl.get("sources")}
                                     </a>
                                             </Dropdown.Item>
                                             <Dropdown.Item>
                                                 <a href={urls.help.contactAHuman} style={{ color: "black" }}>
-                                                    Contact a Human
+                                                {intl.get("contact")}
                                     </a>
                                             </Dropdown.Item>
                                             <Dropdown.Item>
                                                 <a href={urls.help.report} style={{ color: "black" }}>
-                                                    Report an Issue
+                                                {intl.get("report")}
                                     </a>
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                     <MHLink href="/news">
                                         <Menu.Item>
-                                            News
+                                        {intl.get("news")}
                     </Menu.Item>
                                     </MHLink>
                                     <Menu.Item>
                                         <a href={urls.admin} style={{ color: "black" }}>
-                                            Admin
+                                        {intl.get("admin")}
                             </a>
                                     </Menu.Item>
                                     <Menu.Item>
                                         <a href={urls.about} style={{ color: "black" }}>
-                                            About
+                                        {intl.get("about")}
                             </a>
                                     </Menu.Item>
                                 </Container>

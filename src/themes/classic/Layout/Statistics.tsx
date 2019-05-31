@@ -1,4 +1,5 @@
 import * as React from "react";
+import intl from "react-intl-universal";
 import { Container, Dropdown, Popup, Table } from "semantic-ui-react";
 
 import { default as keysJson } from "../../../assets/applications/keys.json";
@@ -13,7 +14,7 @@ export function StatisticsTable(props: IStatisticsTableProps) {
     const { statistics } = props;
 
     if (statistics === undefined || statistics.length === 0)
-        return <p>No statistics available</p>;
+        return <p>{intl.get("no")}</p>;
 
     return (
         <Table collapsing>
@@ -28,7 +29,7 @@ export function StatisticsTable(props: IStatisticsTableProps) {
 export function StatisticsTableDropdown(props: IStatisticsTableProps) {
     return (
         <Container textAlign={"right"}>
-            <Dropdown text={"statistics"} button icon={null} pointing={"right"}>
+            <Dropdown text={intl.get("statistics")} button icon={null} pointing={"right"}>
                 <Dropdown.Menu>
                     <StatisticsTable statistics={props.statistics} />
                 </Dropdown.Menu>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import intl from "react-intl-universal";
 import { Button, Container, Divider, Dropdown, DropdownProps, Input } from "semantic-ui-react";
 
 import { TKnownLanguages } from "../../../../context/GlossaryClient";
@@ -13,27 +14,27 @@ export default class Dictionary extends React.Component<IDictionaryProps> {
 
         let statusText = "";
         if (!translationValid)
-            statusText = translating ? "Translating ..." : "Press Translate to translate";
+            statusText = translating ? intl.get("translatng") : intl.get("press");
 
         return (
             <Container>
-                <h1>Math Dictionary</h1>
+                <h1>{intl.get("dictionary")}</h1>
                 {this.props.header}
-                From:&nbsp;
+                {intl.get("from:")}&nbsp;
                 <LanguageDropdown
                     value={fromLanguage}
                     options={knownLanguages}
                     onChange={this.changeFromLanguage}
                 />
                 &nbsp;
-                To:&nbsp;
+                {intl.get("to:")}&nbsp;
                     <LanguageDropdown value={toLanguage} options={knownLanguages} onChange={this.changeToLanguage} />
                 <Divider />
                 <div>
                     <Input style={{ width: "70%" }} onChange={this.changeText} />
                     <br />
                     <Button disabled={translating} onClick={this.startTranslation} style={{ marginTop: "1em" }}>
-                        Translate
+                    {intl.get("translate")}
                     </Button>
                 </div>
                 <Divider />

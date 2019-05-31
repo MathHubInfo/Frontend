@@ -1,3 +1,53 @@
 {
-    "TEST" : "Das ist ein Übersetzunstest."
+    "glossary" : "Glossar",
+    "dictionary" : "Mathematik Lexikon",
+    "applications" : "Anwendungen",
+    "help" : "Hilfe",
+    "documentation": "Dokumentation",
+    "sources": "Quellen durchsuchen",
+    "contact": "Kontak",
+    "report": "Ein Problem melden",
+    "news": "News",
+    "admin": "Admin",
+    "about": "Über Mathhub",
+
+    "logger": "Logger",
+    "test" : "Testseite",
+    "notices": "Lizenz und Notizen",
+    "imprint": "Imprint",
+    "policy": "Datenschutzerklärung",
+    "version": "MathHub Version ${version} konfiguriert um ${time}",
+    "from": "von",
+    "branch": "auf der branch",
+
+    "view source": "Quelle anzeigen",
+    "view tgview": "Auf TGView anzeigen",
+    "issue": "Ein Problem mit dem Inhalt auf der aktuellen Seite melden",
+    "responsible": "Verantwortlich",
+    "jupyter": "Auf Jupyter testen",
+    "statistics": "Statistiken",
+    "no": "Keine Statistiken verfügbar",
+
+    "libraries": "MathHub Bibliothek",
+    "provide": "Über die Bibliothek",
+    "archives": "Archive",
+
+    "translating": "Übersetze...",
+    "press": "Übersetzen drücken um zu übersetzen",
+    "from:": "Von:",
+    "to:": "Nach:",
+    "translate": "Überstezen",
+
+    "synonyms": "Synonyme",
+
+    "date": "Datum",
+    "content": "Inhalt",
+
+    "library": "Bibliothek",
+
+    "loading": "laden",
+
+    "declaration": "Deklaration",
+    "load children": "Lade Kinder",
+    "load components": "Lade Komponenten"
 }

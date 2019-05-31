@@ -1,4 +1,5 @@
 import * as React from "react";
+import intl from "react-intl-universal";
 import { Container, Input, Table } from "semantic-ui-react";
 
 import { ILogEntry } from "../../../../context/LoggerClient";
@@ -14,7 +15,7 @@ export default class Logger extends React.Component<ILoggerProps> {
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell style={{ width: "20%" }}>Date</Table.HeaderCell>
+                            <Table.HeaderCell style={{ width: "20%" }}>{intl.get("date")}</Table.HeaderCell>
                             <Table.HeaderCell style={{ width: "20%" }}>
                                 <Input
                                     type="text"
@@ -23,7 +24,7 @@ export default class Logger extends React.Component<ILoggerProps> {
                                     placeholder="Filter"
                                 />
                             </Table.HeaderCell>
-                            <Table.HeaderCell style={{ width: "60%" }}>Content</Table.HeaderCell>
+                            <Table.HeaderCell style={{ width: "60%" }}>{intl.get("content")}</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>

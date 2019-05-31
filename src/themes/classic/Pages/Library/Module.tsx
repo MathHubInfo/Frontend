@@ -1,4 +1,5 @@
 import * as React from "react";
+import intl from "react-intl-universal";
 import { Button, Card, Icon, List, Loader } from "semantic-ui-react";
 
 import { IModuleProps } from "../../../../theming/Pages/Library/IModuleProps";
@@ -24,7 +25,7 @@ export default class Module extends React.Component<IModuleProps> {
                             <List bulleted>
                                 {children.map(c => <List.Item key={c.props.children.id}>{c}</List.Item>)}
                             </List> :
-                            <Loader active>loading</Loader>)
+                            <Loader active>{intl.get("loading")}</Loader>)
                         }
                     </Card.Description>
                 </Card.Content>

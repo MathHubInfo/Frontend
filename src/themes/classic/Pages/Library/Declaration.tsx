@@ -1,4 +1,5 @@
 import * as React from "react";
+import intl from "react-intl-universal";
 import { Button, Icon, List, Loader } from "semantic-ui-react";
 
 import { IDeclarationProps } from "../../../../theming/Pages/Library/IDeclarationProps";
@@ -18,7 +19,7 @@ export default class Declaration extends React.Component<IDeclarationProps> {
             <div>
                 <p>
                     {item.ref ?
-                        <><Loader active inline size={"mini"} />Declaration</>
+                        <><Loader active inline size={"mini"} />{intl.get("declaration")}</>
                         : Declaration.names[item.declaration.kind]}
                     &nbsp;
                     <b>{item.name}</b>
@@ -30,13 +31,13 @@ export default class Declaration extends React.Component<IDeclarationProps> {
                     <List bulleted>
                         {children.map(c => <List.Item key={c.props.children.id}>{c}</List.Item>)}
                     </List> :
-                    <Loader active inline size={"mini"}>Loading Children</Loader>)
+                    <Loader active inline size={"mini"}>{intl.get("load children")}</Loader>)
                 }
                 {expanded && (components !== undefined ?
                     <List bulleted>
                         {components.map(c => <List.Item key={c.props.children.name}>{c}</List.Item>)}
                     </List> :
-                    <Loader active inline size={"mini"}>Loading Components</Loader>)
+                    <Loader active inline size={"mini"}>{intl.get("loading components")}</Loader>)
                 }
             </div>
         );

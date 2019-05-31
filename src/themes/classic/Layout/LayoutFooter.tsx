@@ -1,4 +1,5 @@
 import * as React from "react";
+import intl from "react-intl-universal";
 import { Container, Divider, Grid, Header, Image } from "semantic-ui-react";
 
 import MHLink from "../../../lib/components/MHLink";
@@ -96,17 +97,17 @@ export class LayoutFooter extends React.Component<ILayoutFooterProps> {
                         </small>
                     </Grid.Column>
                     <Grid.Column width={4}>
-                        <MHLink href="/applications/logger"><a>Logger</a></MHLink>
+                        <MHLink href="/applications/logger"><a>{intl.get("logger")}</a></MHLink>
                         <br />
-                        <MHLink href="/test"><a>Testpage</a></MHLink>
+                        <MHLink href="/test"><a>{intl.get("test")}</a></MHLink>
                     </Grid.Column>
                     <Grid.Column width={4}>
-                        <MHLink href="/legal/notices"><a>Notices</a></MHLink>
+                        <MHLink href="/legal/notices"><a>{intl.get("notices")}</a></MHLink>
                         <br />
-                        <MHLink href="/legal/imprint"><a>Imprint</a></MHLink>
+                        <MHLink href="/legal/imprint"><a>{intl.get("imprint")}</a></MHLink>
                         <br />
                         <a href="https://privacy.kwarc.info/">
-                            Privacy Policy
+                            {intl.get("policy")}
                         </a>
                     </Grid.Column>
                 </Grid>
@@ -120,14 +121,14 @@ class MathHubVersion extends React.Component<{ version: IMathHubVersion }> {
         const { semantic, git, configTime } = this.props.version;
         const cfgTime = new Date(configTime).toISOString();
 
-        let version = `MathHub Version ${semantic} configured at ${cfgTime}`;
+        let version = intl.get("version", {version: semantic, time: cfgTime});
 
         if (git) {
-            version += " (from ";
+            version += ` (${intl.get("from")} `;
             if (git.dirty === true) version += "dirty ";
             else if (git.dirty === false) version += "clean ";
             version += `commit ${git.hash}`;
-            if (git.branch) version += ` on branch ${git.branch}`;
+            if (git.branch) version += ` ${intl.get("branch")} ${git.branch}`;
             version += ")";
         }
 

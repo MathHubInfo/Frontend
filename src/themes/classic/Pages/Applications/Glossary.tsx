@@ -1,4 +1,5 @@
 import * as React from "react";
+import intl from "react-intl-universal";
 import { Button, Card, Container, Grid, Tab, TabProps } from "semantic-ui-react";
 
 import { IGlossaryEntry, TKnownLanguages } from "../../../../context/GlossaryClient";
@@ -22,7 +23,7 @@ export default class Glossary extends React.Component<IGlossaryProps> {
 
         return (
             <Container>
-                <h1>Glossary</h1>
+                <h1>{intl.get("glossary")}</h1>
                 {this.props.header}
                 <Tab
                     panes={this.languageTabs()}
@@ -57,7 +58,7 @@ class GlossaryEntry extends React.Component<IGlossaryEntryProps> {
 
         return (
             <div>
-                <b>Synonyms: </b>
+                <b>{intl.get("synonyms")}: </b>
                 <MHHTML>{kwd.slice(1).join(", ")}</MHHTML>
             </div>
         );

@@ -1,4 +1,5 @@
 import * as React from "react";
+import intl from "react-intl-universal";
 import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";
 
 import MHHTML from "../../../lib/components/MHHTML";
@@ -17,7 +18,7 @@ export default class ActionHeader extends React.Component<IActionHeaderProps> {
         return (
             <Button icon>
                 <Icon name={"hand point right outline"} />
-                <a href={sourceURL} style={{ color: "black" }}>View Source</a>
+                <a href={sourceURL} style={{ color: "black" }}>{intl.get("view source")}</a>
             </Button>
         );
     }
@@ -29,7 +30,7 @@ export default class ActionHeader extends React.Component<IActionHeaderProps> {
         return (
             <Button icon>
                 <Icon name={"hand point right outline"} />
-                <MHLink href={tgViewURL}><a style={{ color: "black" }}>View on TGView</a></MHLink>
+                <MHLink href={tgViewURL}><a style={{ color: "black" }}>{intl.get("view tgview")}</a></MHLink>
             </Button>
         );
     }
@@ -42,10 +43,10 @@ export default class ActionHeader extends React.Component<IActionHeaderProps> {
             <Popup
                 trigger={
                     <Button color="green">
-                        <a href={issueURL} style={{ color: "black" }}>Report an Issue</a>
+                        <a href={issueURL} style={{ color: "black" }}>{intl.get("report")}</a>
                     </Button>
                 }
-                content="Report an issue with the contents of the current page on the archive issue tracker."
+                content={intl.get("issue")}
             />
         );
     }
@@ -62,7 +63,7 @@ export default class ActionHeader extends React.Component<IActionHeaderProps> {
                     <Grid.Column width={6}>
                         <Container textAlign={"right"}>
                             {this.reportButton()}
-                            <Dropdown text={"statistics"} button icon={null} pointing={"right"}>
+                            <Dropdown text={intl.get("statistics")} button icon={null} pointing={"right"}>
                                 <Dropdown.Menu>
                                     <StatisticsTable statistics={statistics} />
                                 </Dropdown.Menu>
@@ -73,10 +74,10 @@ export default class ActionHeader extends React.Component<IActionHeaderProps> {
                 <div>
                     {description && <MHHTML renderReferences>{description}</MHHTML>}
                     {responsible &&
-                        <div><b>Responsible:</b> {responsible.map(p => <Label key={p}>{p}</Label>)}</div>}
+                        <div><b>{intl.get("responsible")}:</b> {responsible.map(p => <Label key={p}>{p}</Label>)}</div>}
                 </div>
                 <div>
-                    {jupyterURL && <a href={jupyterURL}>Test on Jupyter</a>}
+                    {jupyterURL && <a href={jupyterURL}>{intl.get("jupyter")}</a>}
                 </div>
                 <hr />
             </>
