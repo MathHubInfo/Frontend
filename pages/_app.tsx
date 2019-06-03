@@ -121,16 +121,15 @@ export default class MHApp extends App<IMHAppOwnProps> {
     }
 
     async loadLocales(currentLocale: string) {
-        await import(`../src/locales/${currentLocale}.json`)
-            .then(async res => {
-                // init method will load CLDR locale data according to currentLocale
-                return intl.init({
-                    currentLocale,
-                    locales: {
-                        [currentLocale]: res,
-                    },
-                });
-            }).then(() => this.setState({activeLanguage: currentLocale}));
+        const res = await import(`../src/locales/${currentLocale}.json`);
+        // init method will load CLDR locale data according to currentLocale
+        await intl.init({
+            currentLocale,
+            locales: {
+                [currentLocale]: res,
+            },
+        });
+        this.setState({activeLanguage: currentLocale});
     }
 
     render() {

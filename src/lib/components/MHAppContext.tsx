@@ -23,6 +23,5 @@ export interface IMHAppContext {
  * Represents a Context Containing the current state of the Routing Component
  * You should not have to use this.
  */
-// tslint:disable-next-line:no-empty
-const MHAppContext = React.createContext<IMHAppContext>({ routing: false, changeLanguage: () => {} });
+const MHAppContext = React.createContext<IMHAppContext>({ routing: false, changeLanguage: () => ({}) });
 export default MHAppContext;
