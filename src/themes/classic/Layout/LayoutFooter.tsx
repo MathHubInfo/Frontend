@@ -98,8 +98,6 @@ export class LayoutFooter extends React.Component<ILayoutFooterProps> {
                     </Grid.Column>
                     <Grid.Column width={4}>
                         <MHLink href="/applications/logger"><a>{intl.get("logger")}</a></MHLink>
-                        <br />
-                        <MHLink href="/test"><a>{intl.get("test")}</a></MHLink>
                     </Grid.Column>
                     <Grid.Column width={4}>
                         <MHLink href="/legal/notices"><a>{intl.get("notices")}</a></MHLink>
