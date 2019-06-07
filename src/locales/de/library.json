@@ -1,0 +1,12 @@
+{
+    "libraries": "MathHub Bibliothek",
+    "provide": "Über die Bibliothek",
+    "archives": "Archive",
+    "library": "Bibliothek",
+
+    "loading": "laden",
+
+    "declaration": "Deklaration",
+    "load children": "Lade Kinder",
+    "load components": "Lade Komponenten"
+}
