@@ -40,7 +40,7 @@ export class Header extends React.Component<IHeaderProps> {
                                             </MHLink>
                                         </Dropdown.Menu>
                                     </Dropdown>
-                                    <Dropdown text="Help" className="link item">
+                                    <Dropdown text={intl.get("help")} className="link item">
                                         <Dropdown.Menu>
                                             <Dropdown.Item>
                                                 <a href={urls.help.documentation} style={{ color: "black" }}>

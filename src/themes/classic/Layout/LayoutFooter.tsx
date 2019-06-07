@@ -15,7 +15,7 @@ export class LayoutFooter extends React.Component<ILayoutFooterProps> {
                 <Grid divided inverted stackable>
                     <Grid.Row>
                         <Grid.Column width={4}>
-                            <Header as="h4" content="Developed by:" />
+                            <Header as="h4" content={intl.get("developed")} />
                             <Image
                                 size="tiny"
                                 title="wwww.kwarc.info"
@@ -26,7 +26,7 @@ export class LayoutFooter extends React.Component<ILayoutFooterProps> {
                             />
                         </Grid.Column>
                         <Grid.Column width={5}>
-                            <Header as="h4" content="Institutions:" />
+                            <Header as="h4" content={intl.get("institutions")} />
                             <Image
                                 size="tiny"
                                 title="www.fau.eu"
@@ -55,7 +55,7 @@ export class LayoutFooter extends React.Component<ILayoutFooterProps> {
                             />
                         </Grid.Column>
                         <Grid.Column width={5}>
-                            <Header as="h4" content="Funding:" />
+                            <Header as="h4" content={intl.get("funding")} />
                             <Image
                                 size="tiny"
                                 src={"/static/logos/eu_logo.png"}

@@ -16,7 +16,7 @@ export default class Home extends React.Component<IHomeProps> {
                 <Grid>
                     <Grid.Row>
                         <Grid.Column width={8}>
-                            <MHHTML as="div">{this.props.children}</MHHTML>
+                            <MHHTML as="div">{intl.get("introduction")}</MHHTML>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>

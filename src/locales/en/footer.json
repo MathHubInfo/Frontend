@@ -8,5 +8,8 @@
     "from": "from",
     "branch": "on branch",
     "date": "date",
-    "content": "content"
+    "content": "content",
+    "developed": "Developed by:",
+    "institutions": "Institutions:",
+    "funding": "Funding:"
 }

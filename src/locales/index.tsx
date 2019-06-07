@@ -5,6 +5,7 @@ export async function translations(language: string) {
     const action = await import (`./${language}/actionheader.json`);
     const library = await import (`./${language}/library.json`);
     const dict = await import (`./${language}/dictionary.json`);
+    const home = await import (`./${language}/home.json`);
 
-    return {...footer, ...header, ...action, ...library, ...dict};
+    return {...footer, ...header, ...action, ...library, ...dict, ...home};
 }
