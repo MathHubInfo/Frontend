@@ -29,6 +29,8 @@ pids
 *.seed
 *.pid.lock
 .eslintcache
+.awcache
 
 # And in case somewant wants to debug by hand
 .node_repl_history
+run
