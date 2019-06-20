@@ -1,6 +1,6 @@
 import * as React from "react";
 import intl from "react-intl-universal";
-import { Button, Icon, List, Loader } from "semantic-ui-react";
+import { Button, Icon, Loader } from "semantic-ui-react";
 
 import { IDeclarationProps } from "../../../../theming/Pages/Library/IDeclarationProps";
 
@@ -17,26 +17,27 @@ export default class Declaration extends React.Component<IDeclarationProps> {
 
         return (
             <div>
-                <p>
-                    {item.ref ?
-                        <><Loader active inline size={"mini"} />{intl.get("declaration")}</>
-                        : Declaration.names[item.declaration.kind]}
-                    &nbsp;
+                {item.ref ?
+                    <><Loader active inline size={"mini"} />{intl.get("declaration")}</>
+                    : Declaration.names[item.declaration.kind]}
+                &nbsp;
+                    <Button onClick={this.toggleExpansion} compact size={"tiny"}>
                     <b>{item.name}</b>
-                    <Button onClick={this.toggleExpansion} icon compact size={"mini"}>
-                        {expanded ? <Icon name="angle double up" /> : <Icon name="angle double down" />}
-                    </Button>
-                </p>
+                    &emsp;
+                        {expanded ? <Icon name="angle double up" fitted />
+                        :
+                        <Icon name="angle double down" fitted />}
+                </Button>
                 {expanded && (children !== undefined ?
-                    <List bulleted>
-                        {children.map(c => <List.Item key={c.props.children.id}>{c}</List.Item>)}
-                    </List> :
+                    (<ul>
+                        {children.map(c => <li key={c.props.children.id}>{c}</li>)}
+                    </ul>) :
                     <Loader active inline size={"mini"}>{intl.get("load children")}</Loader>)
                 }
                 {expanded && (components !== undefined ?
-                    <List bulleted>
-                        {components.map(c => <List.Item key={c.props.children.name}>{c}</List.Item>)}
-                    </List> :
+                    <ul>
+                        {components.map(c => <li key={c.props.children.name}>{c}</li>)}
+                    </ul> :
                     <Loader active inline size={"mini"}>{intl.get("loading components")}</Loader>)
                 }
             </div>
