@@ -63,7 +63,7 @@ export default class ImplicitParameters<T> {
         // if something has changed, update the url state
         // and overwrite the entire current state
         if (!isEqual(current, previous))
-            return ImplicitParameters.setImplicitsInternal(current);
+            return ImplicitParameters.replaceRouterParameters(current);
     }
 
     /**
@@ -71,7 +71,7 @@ export default class ImplicitParameters<T> {
      * @param implicits Implicit values to set
      */
     async setImplicits<Q extends T>(implicits: Partial<Q>): Promise<void> {
-        return ImplicitParameters.setImplicitsInternal(this.unmarshal(implicits));
+        return ImplicitParameters.replaceRouterParameters(this.unmarshal(implicits));
     }
 
     private unmarshal<Q extends T>(implicits: Partial<Q>): Record<string, string> {
@@ -106,10 +106,10 @@ export default class ImplicitParameters<T> {
     }
 
     /**
-     * Internally updates the state
+     * Explicitly replaces router query parameters
      * @param values Values to set
      */
-    private static async setImplicitsInternal(values: Record<string, string>): Promise<void> {
+    static async replaceRouterParameters(values: Record<string, string>): Promise<void> {
         // update the query to include the new value for the implicit parameters
         const query = {...(Router.query || {}), ...values};
 

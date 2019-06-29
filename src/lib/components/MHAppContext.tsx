@@ -10,18 +10,22 @@ export interface IMHAppContext {
     runtimeConfig?: IMathHubRuntimeConfig;
 
     // the current local language of the the page
-    activeLanguage?: string;
+    activeLanguage: string;
 
     // all possible languages
     knownLanguages?: string[];
 
     // a function to change the local language
-    changeLanguage(language: string): void;
+    changeLanguage(language: string): Promise<void>;
 }
 
 /**
  * Represents a Context Containing the current state of the Routing Component
  * You should not have to use this.
  */
-const MHAppContext = React.createContext<IMHAppContext>({ routing: false, changeLanguage: () => ({}) });
+const MHAppContext = React.createContext<IMHAppContext>({
+    routing: false,
+    activeLanguage: "",
+    changeLanguage: async (_: string) => { return; },
+});
 export default MHAppContext;
