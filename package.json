@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "mklegal": "yarn --ignore-platform licenses generate-disclaimer > src/assets/generated/notices.txt",
-    "dist": "yarn mklegal && yarn build && yarn export",
+    "dist": "yarn mklegal && yarn build",
     "devmmt": "cross-env MMT_URL=http://localhost:9000/:mathhub/ next dev",
     "devmock": "cross-env MMT_URL= next dev"
   },

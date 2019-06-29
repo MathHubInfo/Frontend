@@ -85,14 +85,8 @@ yarn dist
 yarn mklegal
 
 # run babel, i.e. compile and compress the source into the .next/
-# folder. Afterwards it is possible to run either `yarn export` or
-# `yarn start`.
+# folder. Afterwards it is possible to run `yarn start`.
 yarn build
-
-# Export the built codebase into a set of static html files
-# in the out/ directory. This can afterwards be served by a
-# static webserver in the root directory
-yarn export
 
 # To run code for local development several commands exist
 # skip to the end to see the import bits
