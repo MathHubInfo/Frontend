@@ -110,6 +110,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
         // if we still need to load languages
         // load them and only render after
         if (!this.state.languageLoaded)
+            // tslint:disable-next-line: no-floating-promises
             setLocale(this.state.activeLanguage).then(_ => this.setState({languageLoaded: true}));
 
         // if we do not have the runtime configuration, start loading it

@@ -29,7 +29,7 @@ export function rewrite(url: string): string {
 }
 
 /**
- * A link between different MathHub Pages. Takes care to carry the current language along with any parameters. 
+ * A link between different MathHub Pages. Takes care to carry the current language along with any parameters.
  */
 export class MHLink extends React.Component<IMHLinkProps & IMHAppContext, {href: string}> {
     state = {href: ""};
