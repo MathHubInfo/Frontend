@@ -1,19 +1,36 @@
 // tslint:disable:export-name
 
-import Document, { DefaultDocumentIProps, Head, Main, NextDocumentContext, NextScript } from "next/document";
+import Document, { DefaultDocumentIProps, Head, Main, NextDocumentContext, NextScript, DocumentProps } from "next/document";
 
 import LayoutHeader from "../src/theming/Layout/LayoutHeader";
+import { ILayoutHeaderProps } from "../src/theming/Layout/ILayoutHeaderProps";
+import { negotiateLanguage } from "../src/locales";
 
-export default class MHDocument extends Document {
-  static async getInitialProps(ctx: NextDocumentContext): Promise<DefaultDocumentIProps> {
-    return Document.getInitialProps(ctx);
+type MHDocumentProps = ILayoutHeaderProps & DefaultDocumentIProps & DocumentProps;
+
+export default class MHDocument extends Document<MHDocumentProps> {
+  static async getInitialProps(ctx: NextDocumentContext): Promise<MHDocumentProps> {
+    const [
+      documentProps,
+      headerProps,
+    ] = await Promise.all([
+      Document.getInitialProps(ctx),
+      MHDocument.getHeaderProps(ctx),
+    ]);
+
+    return {...(documentProps as DefaultDocumentIProps & DocumentProps), ...headerProps};
+  }
+  static async getHeaderProps(ctx: NextDocumentContext): Promise<ILayoutHeaderProps> {
+    const language = negotiateLanguage(ctx, true);
+
+    return { language };
   }
 
   render() {
     return (
-      <html>
+      <html lang={this.props.language}>
         <Head>
-          <LayoutHeader />
+          <LayoutHeader language={this.props.language} />
         </Head>
         <body>
           <Main />

@@ -5,74 +5,57 @@ import Router from "next/router";
 import React from "react";
 
 import MHAppContext, { IMHAppContext } from "../src/lib/components/MHAppContext";
-import { rewrite } from "../src/lib/components/MHLink";
 
-import { getLocaleOrFallback, initLocaleSupport, setLocale, supportedLocales as knownLanguages } from "../src/locales";
+import { negotiateLanguage, initLocaleSupport, setLocale, supportedLocales as knownLanguages } from "../src/locales";
 
 import getContext from "../src/context";
-import CompilationPhase from "../src/context/CompilationPhase";
 import { IMathHubRuntimeConfig } from "../src/types/config";
 
 import LayoutRoutingIndicator from "../src/theming/Layout/LayoutRoutingIndicator";
 import ImplicitParameters from "../src/utils/ImplicitParameters";
 
-
 type IMHAppProps = IMHAppOwnProps & DefaultAppIProps & AppProps;
 
 interface IMHAppOwnProps {
     initialLanguage: string;
-    clientNeedsProps: boolean;
     initialRuntimeConfig?: IMathHubRuntimeConfig;
 }
 
 export default class MHApp extends App<IMHAppOwnProps> {
     static async getInitialProps(context: NextAppContext): Promise<IMHAppProps> {
         const { Component, router } = context;
-        const { config: { compilationPhase } } = getContext();
-
-        // Check if we are running inside of an export
-        const isExport = (!process.browser && compilationPhase === CompilationPhase.EXPORT);
 
         const [
-            { pageProps, clientNeedsProps },
+            pageProps,
             initialRuntimeConfig,
+            initialLanguage,
         ] = await Promise.all([
-            MHApp.getPageProps(isExport, context),
-            MHApp.getRuntimeConfig(isExport, context),
+            MHApp.getPageProps(context),
+            MHApp.getRuntimeConfig(context),
+            MHApp.getInitialLanguage(context),
         ]);
 
-        // read initial language from the 'lang' parameter and initialize it
-        const initialLanguage = getLocaleOrFallback(((context.ctx.query || {}).lang || "").toString());
-        await initLocaleSupport();
-        await setLocale(initialLanguage);
-
-        return { Component, router, pageProps, clientNeedsProps, initialLanguage, initialRuntimeConfig };
+        return { Component, router, pageProps, initialLanguage, initialRuntimeConfig };
     }
 
     /**
      * Loads the properties for the current page, if any
-     * @param isExport Running during a `next export`
      */
-    static async getPageProps(
-        isExport: boolean,
-        { Component, ctx }: NextAppContext,
-    ): Promise<{ pageProps: {}; clientNeedsProps: boolean }> {
+    static async getPageProps({ Component, ctx }: NextAppContext) {
         let pageProps = {};
-        let clientNeedsProps = false;
-
-        if (isExport)
-            clientNeedsProps = !!Component.getInitialProps;
-        else if (Component.getInitialProps)
+        if (Component.getInitialProps)
             pageProps = await Component.getInitialProps(ctx);
 
-        return { pageProps, clientNeedsProps };
+        return pageProps;
     }
 
+    /**
+     * Loads the runtime config if not on the server
+     */
     static async getRuntimeConfig(
-        isExport: boolean,
         _: NextAppContext,
     ) {
-        if (!process.browser && !isExport)
+        if (!process.browser)
             return MHApp.loadRuntimeConfig();
 
         return undefined;
@@ -89,16 +72,35 @@ export default class MHApp extends App<IMHAppOwnProps> {
         return undefined;
     }
 
-    state: IMHAppContext & { initialPropsFix: boolean; languageLoaded: boolean } = {
-        routing: this.props.clientNeedsProps,
-        initialPropsFix: this.props.clientNeedsProps,
+    /**
+     * Initializes and loads the initial language
+     */
+    static async getInitialLanguage(context: NextAppContext): Promise<string> {
+        const selection = negotiateLanguage(context.ctx);
+
+        await initLocaleSupport();
+        await setLocale(selection);
+
+        return selection;
+    }
+
+    state: IMHAppContext & { languageLoaded: boolean } = {
+        routing: false,
         languageLoaded: !process.browser,
         runtimeConfig: this.props.initialRuntimeConfig,
         activeLanguage: this.props.initialLanguage,
+
+        // client-side only function to change the active language
         changeLanguage: async (lang: string): Promise<void> => {
+            // load the locale data
             await setLocale(lang);
-            this.setState({activeLanguage: lang});
+
+            // update the dom + url
+            document.getElementsByTagName("html")[0].setAttribute("lang", lang);
             await ImplicitParameters.replaceRouterParameters({lang});
+
+            // tell the state about having changed language
+            this.setState({activeLanguage: lang});
         },
     };
 
@@ -116,15 +118,6 @@ export default class MHApp extends App<IMHAppOwnProps> {
         // if we do not have the runtime configuration, start loading it
         if (!this.props.initialRuntimeConfig)
             this.setState({ runtimeConfig: await MHApp.loadRuntimeConfig() });
-
-        // if we still need the properties of the client, we need to reload
-        if (this.props.clientNeedsProps) {
-            await Router.replace(rewrite(Router.pathname + location.search));
-            this.setState({ initialPropsFix: false });
-            this.handleRoutingEnd();
-
-            return;
-        }
     }
 
     componentWillUnmount() {
@@ -135,7 +128,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
 
     render() {
         const { Component, pageProps } = this.props;
-        const { activeLanguage, changeLanguage, routing, initialPropsFix, languageLoaded, runtimeConfig } = this.state;
+        const { activeLanguage, changeLanguage, routing, languageLoaded, runtimeConfig } = this.state;
 
         return (
             <Container>
@@ -143,7 +136,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
                     value={{ routing, runtimeConfig, activeLanguage, knownLanguages, changeLanguage }}
                 >
                     {routing && <LayoutRoutingIndicator />}
-                    {!initialPropsFix && languageLoaded && <Component {...pageProps} />}
+                    {languageLoaded && <Component {...pageProps} />}
                 </MHAppContext.Provider>
             </Container>
         );

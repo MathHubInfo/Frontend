@@ -1,15 +1,86 @@
 import intl from "react-intl-universal";
+import { NextContext } from "next";
 
 // the locales we support
 // bad things happen when a non-existent locale is set here
 export const supportedLocales = ["en", "de"];
 
 /**
+ * Negotiates the language from the user
+ * @param context Context to negotiate language from
+ * @returns the negotiated language
+ */
+export function negotiateLanguage(context: NextContext, surpressHeader = false): string {
+    const language = getLocaleOrFallback(getSelectedLocale(context));
+    if (context.res && !surpressHeader)
+        context.res.setHeader("Content-Language", language);
+
+    return language;
+}
+
+/**
  * Returns a locale if it exists, or the default if it does not
  * @param locale Locale to get
  */
-export function getLocaleOrFallback(locale: string): string {
-    return (supportedLocales.indexOf(locale) === -1) ? supportedLocales[0] : locale;
+function getLocaleOrFallback(locale: string): string {
+    const theLocale = (locale.match(/^\s*[aA-zZ]{2}/g) || [""])[0].trim().toLowerCase();
+
+    return (supportedLocales.indexOf(theLocale) === -1) ? supportedLocales[0] : theLocale;
+}
+
+/**
+ * Reads the prefered locale from the user
+ */
+function getSelectedLocale(context: NextContext): string {
+    // if we have a 'lang' key in the request
+    // we should use that where possible
+    if (context.query && context.query.lang) {
+        const queryLang = context.query.lang;
+        if (typeof queryLang === "string") return queryLang;
+        else return queryLang[0];
+    }
+
+    // if we have navigator.languages or navigator.language, use those
+    if (process.browser) {
+        if (navigator && navigator.languages) return navigator.languages[0];
+        if (navigator && navigator.language) return navigator.language;
+    }
+
+    // our last alternative is the 'Accept-Language' header
+    // read the header and make sure that it exists
+    if (!context.req) return "";
+    const acceptLanguage = context.req.headers["accept-language"];
+    if (!acceptLanguage) return "";
+
+    // join all the headers by a '-'
+    return parseLanguageHeader(
+        (typeof acceptLanguage === "string")
+        ? acceptLanguage
+        : acceptLanguage.join(","),
+    );
+}
+
+/**
+ * Parses a language header
+ * @param header Header to parse
+ */
+function parseLanguageHeader(header: string): string {
+    let bits = header.split(",").map(e => {
+        const pair = e.split(";");
+        if (pair.length === 0) return ["", 0];
+
+        return [
+            (pair[0].match(/^\s*[aA-zZ]{2}/g) || [""])[0].trim().toLowerCase(),
+            pair.length > 1 ? parseFloat(pair[1].split("=")[1]) : 1,
+        ];
+    }) as Array<[string, number]>;
+
+    // filter out things that aren't known
+    bits = bits.filter(e => e[0] === "*" || supportedLocales.indexOf(e[0]) !== -1);
+    bits.sort((a, b) => b[1] - a[1]);
+
+    // and return the highest priority one
+    return bits.length > 0 ? bits[0][0] : "";
 }
 
 let initedIntl = false; // flag keeping track if intl has been inited
@@ -22,12 +93,13 @@ export async function initLocaleSupport(): Promise<void> {
     if (initedIntl) return;
     initedIntl = true;
 
-    // make sure to use a polyfill on the server
-    if (!process.browser)
-        global.Intl = await import("intl");
+    // if we have a 'global' we do not need to call any polyfills
+    if (global.Intl) return;
+
+    global.Intl = await import("intl");
 
     // load all the needed locale-data
-    // tslint:disable-next-line:no-require-imports no-submodule-imports
+    // tslint:disable-next-line:no-submodule-imports
     await Promise.all(supportedLocales.map(locale => import(`intl/locale-data/jsonp/${locale}.js`)));
 
     return;
