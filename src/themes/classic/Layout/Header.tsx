@@ -1,108 +1,137 @@
 import * as React from "react";
 import intl from "react-intl-universal";
-import { Button, Container, Dropdown, Flag, Grid, Image, Menu } from "semantic-ui-react";
+import { Button, Container, Dropdown, Flag, Grid, Image, Menu, FlagNameValues } from "semantic-ui-react";
 
 import { urls } from "../../../assets/urls";
 import MHLink from "../../../lib/components/MHLink";
 import { IBreadcrumb, IHeaderProps } from "../../../theming/Layout/IHeaderProps";
-import MHAppContext from "../../../../src/lib/components/MHAppContext";
+import MHAppContext, { IMHAppContext } from "../../../../src/lib/components/MHAppContext";
+import { WithContextProps } from "../../../utils/WithExtraContext";
 
 // tslint:disable: jsx-no-lambda
-export class Header extends React.Component<IHeaderProps> {
+class HeaderInt extends React.Component<IHeaderProps & IMHAppContext> {
     render() {
         const { title, crumbs } = this.props;
 
         return (
             <header>
-                <MHAppContext.Consumer>
-                    {value =>
-                        <>
-                            <Menu>
-                                <Container>
-                                    <MHLink href="/">
-                                        <Menu.Item header>
-                                            <Image
-                                                size="mini"
-                                                src={"/static/logos/MathHub.svg"}
-                                                style={{ marginRight: "1.5em" }}
-                                                alt="MathHub Logo"
-                                            />
-                                            MathHub
+                <>
+                    <Menu>
+                        <Container>
+                            <MHLink href="/">
+                                <Menu.Item header>
+                                    <Image
+                                        size="mini"
+                                        src={"/static/logos/MathHub.svg"}
+                                        style={{ marginRight: "1.5em" }}
+                                        alt="MathHub Logo"
+                                    />
+                                    MathHub
+                                </Menu.Item>
+                            </MHLink>
+                            <Dropdown text={intl.get("applications")} className="link item">
+                                <Dropdown.Menu>
+                                    <MHLink href="/applications/glossary">
+                                        <Dropdown.Item>{intl.get("glossary")}</Dropdown.Item>
+                                    </MHLink>
+                                    <MHLink href="/applications/dictionary">
+                                        <Dropdown.Item>{intl.get("dictionary")}</Dropdown.Item>
+                                    </MHLink>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            <Dropdown text={intl.get("help")} className="link item">
+                                <Dropdown.Menu>
+                                    <Dropdown.Item>
+                                        <a href={urls.help.documentation} style={{ color: "black" }}>
+                                            {intl.get("documentation")}
+                                        </a>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <a href={urls.help.browseSources} style={{ color: "black" }}>
+                                            {intl.get("sources")}
+                                        </a>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <a href={urls.help.contactAHuman} style={{ color: "black" }}>
+                                            {intl.get("contact")}
+                                        </a>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <a href={urls.help.report} style={{ color: "black" }}>
+                                            {intl.get("report")}
+                                        </a>
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                            <MHLink href="/news">
+                                <Menu.Item>
+                                    {intl.get("news")}
+                                </Menu.Item>
+                            </MHLink>
+                            <Menu.Item>
+                                <a href={urls.admin} style={{ color: "black" }}>
+                                    {intl.get("admin")}
+                                </a>
                             </Menu.Item>
-                                    </MHLink>
-                                    <Dropdown text={intl.get("applications")} className="link item">
-                                        <Dropdown.Menu>
-                                            <MHLink href="/applications/glossary">
-                                                <Dropdown.Item>{intl.get("glossary")}</Dropdown.Item>
-                                            </MHLink>
-                                            <MHLink href="/applications/dictionary">
-                                                <Dropdown.Item>{intl.get("dictionary")}</Dropdown.Item>
-                                            </MHLink>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                    <Dropdown text={intl.get("help")} className="link item">
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item>
-                                                <a href={urls.help.documentation} style={{ color: "black" }}>
-                                                    {intl.get("documentation")}
-                                    </a>
-                                            </Dropdown.Item>
-                                            <Dropdown.Item>
-                                                <a href={urls.help.browseSources} style={{ color: "black" }}>
-                                                    {intl.get("sources")}
-                                    </a>
-                                            </Dropdown.Item>
-                                            <Dropdown.Item>
-                                                <a href={urls.help.contactAHuman} style={{ color: "black" }}>
-                                                {intl.get("contact")}
-                                    </a>
-                                            </Dropdown.Item>
-                                            <Dropdown.Item>
-                                                <a href={urls.help.report} style={{ color: "black" }}>
-                                                {intl.get("report")}
-                                    </a>
-                                            </Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                    <MHLink href="/news">
-                                        <Menu.Item>
-                                        {intl.get("news")}
-                    </Menu.Item>
-                                    </MHLink>
-                                    <Menu.Item>
-                                        <a href={urls.admin} style={{ color: "black" }}>
-                                        {intl.get("admin")}
-                            </a>
-                                    </Menu.Item>
-                                    <Menu.Item>
-                                        <a href={urls.about} style={{ color: "black" }}>
-                                        {intl.get("about")}
-                            </a>
-                                    </Menu.Item>
-                                </Container>
-                            </Menu>
-                            <Container>
-                                <Grid>
-                                    <Grid.Column width={12}>
-                                        <LayoutCrumbs crumbs={[...crumbs, { href: "", title: (title || [])[0] }]} />
-                                    </Grid.Column>
-                                    <Grid.Column width={4} textAlign={"right"}>
-                                        <Button.Group compact basic size={"mini"} >
-                                            <Button onClick={() => value.changeLanguage("de")}>
-                                                <Flag name="de" />
-                                            </Button>
-                                            <Button onClick={() => value.changeLanguage("en")}>
-                                                <Flag name="gb" />
-                                            </Button>
-                                        </Button.Group>
-                                    </Grid.Column>
-                                </Grid>
-                            </Container>
-                        </>
-                    }
-                </MHAppContext.Consumer>
+                            <Menu.Item>
+                                <a href={urls.about} style={{ color: "black" }}>
+                                    {intl.get("about")}
+                                </a>
+                            </Menu.Item>
+                        </Container>
+                    </Menu>
+                    <Container>
+                        <Grid>
+                            <Grid.Column width={12}>
+                                <LayoutCrumbs crumbs={[...crumbs, { href: "", title: (title || [])[0] }]} />
+                            </Grid.Column>
+                            <Grid.Column width={4} textAlign={"right"}>
+                                <Button.Group compact basic size={"mini"} >{
+                                    this.props.knownLanguages.map(lang => (
+                                        <LanguageButton
+                                            key={lang}
+                                            language={lang}
+                                            activeLanguage={this.props.activeLanguage}
+                                            changeLanguage={this.props.changeLanguage}
+                                        />
+                                    ))
+                                }</Button.Group>
+                            </Grid.Column>
+                        </Grid>
+                    </Container>
+                </>
             </header>
         );
+    }
+}
+
+// tslint:disable-next-line:export-name
+export const Header = WithContextProps(HeaderInt, MHAppContext);
+
+class LanguageButton extends React.Component<{
+    language: string;
+    activeLanguage: string;
+    changeLanguage(language: string): void;
+}> {
+    render() {
+        return (
+            <Button
+                onClick={this.onClick}
+                active={this.props.language === this.props.activeLanguage}
+            >
+                <Flag name={LanguageButton.getFlag(this.props.language)} />
+            </Button>
+        );
+    }
+
+    private static getFlag(language: string) {
+        const flags: {[lang: string]: FlagNameValues | undefined} = { en: "gb" };
+
+        return flags[language] || (language as FlagNameValues);
+    }
+
+    private readonly onClick = () => {
+        this.props.changeLanguage(this.props.language);
     }
 }
 

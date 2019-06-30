@@ -89,6 +89,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
         languageLoaded: !process.browser,
         runtimeConfig: this.props.initialRuntimeConfig,
         activeLanguage: this.props.initialLanguage,
+        knownLanguages,
 
         // client-side only function to change the active language
         changeLanguage: async (lang: string): Promise<void> => {
