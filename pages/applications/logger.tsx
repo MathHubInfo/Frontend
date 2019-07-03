@@ -1,5 +1,6 @@
 import { NextContext } from "next";
 import * as React from "react";
+import intl from "react-intl-universal";
 
 import getContext from "../../src/context";
 import LoggerClient from "../../src/context/LoggerClient";
@@ -61,7 +62,7 @@ export default class Logger extends React.Component<ILoggerProps, ILoggerState> 
         const { entries, filter } = this.state;
 
         return (
-            <LayoutBody crumbs={Logger.crumbs} title={["Logger"]}>
+            <LayoutBody crumbs={[{ href: "/", title: intl.get("home") }]} title={[intl.get("logger")]}>
                 <PageApplicationsLogger
                     entries={entries.filter(e => e.prefix.startsWith(filter))}
                     filter={filter}

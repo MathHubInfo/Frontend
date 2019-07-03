@@ -1,5 +1,6 @@
 import { NextContext } from "next";
 import * as React from "react";
+import intl from "react-intl-universal";
 
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
@@ -25,11 +26,11 @@ export default class Group extends React.Component<IGroupProps> {
         res,
     );
   }
-  static crumbs = [{href: "/", title: "Home"}, {href: "/library", title: "Library"}];
   render() {
+    const crumbs = [{href: "/", title: intl.get("home")}, {href: "/library", title: intl.get("library")}];
     if (failed(this.props)) return (
       <LayoutFailure
-          crumbs={Group.crumbs}
+          crumbs={crumbs}
           statusCode={statusCode(this.props.status)}
           status={this.props.status}
       />
@@ -39,7 +40,7 @@ export default class Group extends React.Component<IGroupProps> {
     const header = <ActionHeader {...headerProps(this.props.item, {description})} />;
 
     return (
-        <LayoutBody crumbs={Group.crumbs} description={description} title={[name]}>
+        <LayoutBody crumbs={crumbs} description={description} title={[name]}>
             <PageGroup header={header} item={this.props.item}>
                 {archives.map(a => <PageArchiveRef
                     key={a.id}

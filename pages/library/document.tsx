@@ -1,6 +1,7 @@
 import { NextContext } from "next";
 
 import * as React from "react";
+import intl from "react-intl-universal";
 import { debounce } from "ts-debounce";
 
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
@@ -56,7 +57,6 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
 
         return { ...derived, initial: Document.implicits.readImplicits(query) };
     }
-    static crumbs = [{ href: "/", title: "Home" }, { href: "/library", title: "Library" }];
 
     state: IDocumentState = { expandedModules: [], expandedDeclarations: [], ...this.props.initial };
 
@@ -88,9 +88,10 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
     }
 
     render() {
+        const breadcrumbs = [{href: "/", title: intl.get("home")}, {href: "/library", title: intl.get("library")}];
         if (failed(this.props)) return (
             <LayoutFailure
-                crumbs={Document.crumbs}
+                crumbs={breadcrumbs}
                 statusCode={statusCode(this.props.status)}
                 status={this.props.status}
             />
@@ -111,7 +112,7 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
         };
 
         return (
-            <LayoutBody crumbs={[...Document.crumbs, ...crumbs(this.props.item)]} title={[name]}>
+            <LayoutBody crumbs={[...breadcrumbs, ...crumbs(this.props.item)]} title={[name]}>
                 <PageDocument header={header} item={this.props.item}>
                     {decls.map(d => <NarrativeElement {...nprops} key={d.id}>{d}</NarrativeElement>)}
                 </PageDocument>

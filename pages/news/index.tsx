@@ -27,11 +27,11 @@ export default class News extends React.Component<INewsProps> {
             res,
         );
     }
-    static crumbs = [{ href: "/", title: "Home" }];
     render() {
+        const crumbs = [{ href: "/", title: intl.get("home") }];
         if (failed(this.props)) return (
             <LayoutFailure
-                crumbs={News.crumbs}
+                crumbs={crumbs}
                 statusCode={statusCode(this.props.status)}
                 status={this.props.status}
             />
@@ -41,7 +41,7 @@ export default class News extends React.Component<INewsProps> {
 
 
         return (
-            <LayoutBody crumbs={News.crumbs} description={description} title={["News"]}>
+            <LayoutBody crumbs={crumbs} description={description} title={["News"]}>
                 <PageNews description={description}>{this.props.item.map(n => <PageNewsPageRef
                     key={n.id}
                     item={n}

@@ -1,6 +1,7 @@
 // tslint:disable:export-name
 import { NextContext } from "next";
 import * as React from "react";
+import intl from "react-intl-universal";
 
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../src/utils/getDerivedParameter";
 
@@ -28,9 +29,10 @@ export default class Home extends React.Component<IHomeProps> {
           status={this.props.status}
       />
     );
+    const title = intl.get("home");
 
     return (
-      <LayoutBody crumbs={Home.crumbs} title={["Home"]} description={this.props.item}>
+      <LayoutBody crumbs={Home.crumbs} title={[title]} description={this.props.item}>
         <PageHome>{this.props.item}</PageHome>
       </LayoutBody>
     );

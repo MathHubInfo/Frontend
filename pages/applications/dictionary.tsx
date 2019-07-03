@@ -1,6 +1,7 @@
 // tslint:disable:export-name
 import { NextContext } from "next";
 import * as React from "react";
+import intl from "react-intl-universal";
 
 import { IGlossaryEntry, isKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
@@ -58,7 +59,7 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
         const header = <ActionHeader description={description} />;
 
         return (
-            <LayoutBody crumbs={[{ href: "/", title: "Home" }]} title={["Dictionary"]}>
+            <LayoutBody crumbs={[{ href: "/", title: intl.get("home") }]} title={[intl.get("dictionary")]}>
                 <PageApplicationsDictionary
                     {...this.state}
 

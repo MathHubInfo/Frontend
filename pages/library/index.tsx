@@ -27,22 +27,23 @@ export default class Library extends React.Component<ILibraryProps> {
         res,
     );
   }
-  static crumbs = [{href: "/", title: "Home"}];
   render() {
+    const crumbs = [{href: "/", title: intl.get("home")}];
     if (failed(this.props)) return (
       <LayoutFailure
-          crumbs={Library.crumbs}
+          crumbs={crumbs}
           statusCode={statusCode(this.props.status)}
           status={this.props.status}
       />
     );
 
+    const title = intl.get("library");
     const description = intl.get("library intro");
     // the header for the library contains only the description
     const header = <ActionHeader description={description} />;
 
     return (
-        <LayoutBody crumbs={Library.crumbs} description={description} title={["Library"]}>
+        <LayoutBody crumbs={crumbs} description={description} title={[title]}>
             <PageLibrary header={header}>
                 {this.props.item.map(g => <PageGroupRef
                     key={g.id}

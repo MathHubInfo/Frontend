@@ -1,6 +1,7 @@
 // tslint:disable:export-name
 import { NextContext } from "next";
 import * as React from "react";
+import intl from "react-intl-universal";
 
 import getContext from "../../src/context";
 import { IGlossaryEntry, isKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
@@ -48,7 +49,7 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
             Object.keys(e.kwd).includes(language) && Object.keys(e.def).includes(language));
 
         return (
-            <LayoutBody crumbs={[{href: "/", title: "Home"}]} title={["Glossary"]}>
+            <LayoutBody crumbs={[{ href: "/", title: intl.get("home") }]} title={[intl.get("glossary")]}>
                 <PageApplicationsGlossary
                     header={header}
                     knownLanguages={knownLanguages}

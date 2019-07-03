@@ -1,5 +1,6 @@
 import { NextContext } from "next";
 import * as React from "react";
+import intl from "react-intl-universal";
 
 import getContext from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
@@ -21,11 +22,11 @@ export default class Page extends React.Component<IPageProps> {
             res,
         );
     }
-    static crumbs = [{href: "/", title: "Home"}, {href: "/news", title: "News"}];
     render() {
+        const crumbs = [{href: "/", title: intl.get("home")}, {href: "/news", title: intl.get("news")}];
         if (failed(this.props)) return (
             <LayoutFailure
-                crumbs={Page.crumbs}
+                crumbs={crumbs}
                 statusCode={statusCode(this.props.status)}
                 status={this.props.status}
             />
@@ -34,7 +35,7 @@ export default class Page extends React.Component<IPageProps> {
         const {item} = this.props;
 
         return (
-            <LayoutBody crumbs={Page.crumbs} title={[item.title, "News"]} description={item.teaser}>
+            <LayoutBody crumbs={crumbs} title={[item.title, "News"]} description={item.teaser}>
                 <PageNewsPage {...item} />
             </LayoutBody>
         );

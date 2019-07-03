@@ -3,6 +3,7 @@ import { NextContext } from "next";
 import { debounce } from "ts-debounce";
 
 import * as React from "react";
+import intl from "react-intl-universal";
 
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
@@ -57,8 +58,6 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
 
         return { ...derived, initial: Archive.implicits.readImplicits(query) };
     }
-    static crumbs = [{ href: "/", title: "Home" }, { href: "/library", title: "Library" }];
-
     state: IArchiveState = { expandedModules: [], expandedDeclarations: [], ...this.props.initial };
 
     private readonly debouncedUpdate = withDebug(debounce(() => this.forceUpdate(), 500), "forceUpdate");
@@ -89,9 +88,10 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
     }
 
     render() {
+        const breadcrumbs = [{href: "/", title: intl.get("home")}, {href: "/library", title: intl.get("library")}];
         if (failed(this.props)) return (
             <LayoutFailure
-                crumbs={Archive.crumbs}
+                crumbs={breadcrumbs}
                 statusCode={statusCode(this.props.status)}
                 status={this.props.status}
             />
@@ -112,7 +112,7 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
         };
 
         return (
-            <LayoutBody crumbs={[...Archive.crumbs, ...crumbs(this.props.item)]} title={[name]}>
+            <LayoutBody crumbs={[...breadcrumbs, ...crumbs(this.props.item)]} title={[name]}>
                 <PageArchive header={header} item={this.props.item}>
                     {decls.map(d => <NarrativeElement {...nprops} key={d.id}>{d}</NarrativeElement>)}
                 </PageArchive>
