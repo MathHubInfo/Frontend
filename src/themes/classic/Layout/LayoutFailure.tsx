@@ -1,4 +1,5 @@
 import * as React from "react";
+import intl from "react-intl-universal";
 import { Container, Icon } from "semantic-ui-react";
 
 import { DerivedDataStatus } from "../../../utils/getDerivedParameter";
@@ -11,14 +12,14 @@ export default class LayoutFailure extends React.Component<ILayoutFailureProps> 
     render() {
         const { status, statusCode, crumbs } = this.props;
 
-        let title = "Not Found";
-        let text = "We're sorry but it seems like the page you are looking for does not exist";
+        let title = intl.get("not found");
+        let text = intl.get("sorry");
         if (status === DerivedDataStatus.MISSING_VALUE) {
-             title = "Missing URL parameter";
-             text = "You are missing a paramter. Please check the URL and try again.";
+             title = intl.get("missing");
+             text = intl.get("missing paramter");
         }
         if (statusCode === 500 || status === DerivedDataStatus.ERROR_DERIVATION) {
-            title = "Something went wrong";
+            title = intl.get("wrong");
             text = "";
         }
 

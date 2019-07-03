@@ -65,6 +65,7 @@ function getSelectedLocale(context: NextContext): string {
  * @param header Header to parse
  */
 function parseLanguageHeader(header: string): string {
+// tslint:disable-next-line: no-unnecessary-type-assertion
     let bits = header.split(",").map(e => {
         const pair = e.split(";");
         if (pair.length === 0) return ["", 0];
@@ -137,6 +138,7 @@ async function localLocaleData(locale: string): Promise<{[key: string]: string}>
             "library",
             "dictionary",
             "home",
+            "failure",
         ]
         .map(component => import(`./${locale}/${component}.json`).then(x => x.default)),
     );
