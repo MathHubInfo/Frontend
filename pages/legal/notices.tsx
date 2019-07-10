@@ -1,5 +1,6 @@
 import { NextContext } from "next";
 import * as React from "react";
+import intl from "react-intl-universal";
 
 import { default as LicenseTxt } from "../../LICENSE.txt";
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
@@ -25,7 +26,7 @@ export default class Notices extends React.Component<INoticesProps> {
             res,
         );
     }
-    static readonly crumbs = [{href: "/", title: "Home"}];
+    static readonly crumbs = [{href: "/", title: intl.get("home")}];
     render() {
         if (failed(this.props)) return (
             <LayoutFailure
@@ -38,7 +39,7 @@ export default class Notices extends React.Component<INoticesProps> {
         const {item} = this.props;
 
         return (
-            <LayoutBody crumbs={Notices.crumbs} title={["Notices"]}>
+            <LayoutBody crumbs={Notices.crumbs} title={[intl.get("notices")]}>
                 <PageLegalNotices notices={item || undefined} license={LicenseTxt} />
             </LayoutBody>
         );

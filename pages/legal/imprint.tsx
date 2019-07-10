@@ -1,5 +1,6 @@
 import { NextContext } from "next";
 import * as React from "react";
+import intl from "react-intl-universal";
 
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
@@ -18,7 +19,7 @@ export default class Imprint extends React.Component<IImprintProps> {
             res,
         );
     }
-    static readonly crumbs = [{href: "/", title: "Home"}];
+    static readonly crumbs = [{href: "/", title: intl.get("home")}];
     render() {
         if (failed(this.props)) return (
             <LayoutFailure
@@ -31,7 +32,7 @@ export default class Imprint extends React.Component<IImprintProps> {
         const {item} = this.props;
 
         return (
-            <LayoutBody crumbs={Imprint.crumbs} title={["Imprint"]}>
+            <LayoutBody crumbs={Imprint.crumbs} title={[intl.get("imprint")]}>
                 <PageLegalImprint imprint={item} />
             </LayoutBody>
         );

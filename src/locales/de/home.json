@@ -1,5 +1,8 @@
 {
     "introduction": "MathHub.info ist ein Portal für aktive mathematische Dokumente und ein Archiv für <a href='https://github.com/MathHubInfo/Documentation/wiki/FlexiForms'>flexiformale Mathematik</a>. Es bietet ein reichhaltiges Interface zum lesen, schreiben, und interagieren mit mathematischen Dokumenten und Wissen <a href='https://github.com/MathHubInfo/Documentation/wiki/about'>... mehr</a>",
     "news intro": "Hier finden sie die News.",
-    "home": "Start"
+    "home": "Start",
+    "imprint responsible": "Verantwortlich für den Inhalt dieser Webseite:",
+    "license": "Lizenz",
+    "notices": "Notizen"
 }

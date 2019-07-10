@@ -1,7 +1,7 @@
 {
     "logger": "Logger",
     "test" : "Testpage",
-    "notices": "License and Notices",
+    "license and notices": "License and Notices",
     "imprint": "Imprint",
     "policy": "Privacy Policy",
     "version": "MathHub Version ${version} configured at ${time}",

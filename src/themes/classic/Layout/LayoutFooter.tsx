@@ -100,7 +100,7 @@ export class LayoutFooter extends React.Component<ILayoutFooterProps> {
                         <MHLink href="/applications/logger"><a>{intl.get("logger")}</a></MHLink>
                     </Grid.Column>
                     <Grid.Column width={4}>
-                        <MHLink href="/legal/notices"><a>{intl.get("notices")}</a></MHLink>
+                        <MHLink href="/legal/notices"><a>{intl.get("license and notices")}</a></MHLink>
                         <br />
                         <MHLink href="/legal/imprint"><a>{intl.get("imprint")}</a></MHLink>
                         <br />
