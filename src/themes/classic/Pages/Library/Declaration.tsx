@@ -16,7 +16,7 @@ export default class Declaration extends React.Component<IDeclarationProps> {
         const { expanded, item, children: [children, components] } = this.props;
 
         return (
-            <div>
+            <>
                 {item.ref ?
                     <><Loader active inline size={"mini"} />{intl.get("declaration")}</>
                     : Declaration.names[item.declaration.kind]}
@@ -40,7 +40,7 @@ export default class Declaration extends React.Component<IDeclarationProps> {
                     </ul> :
                     <Loader active inline size={"mini"}>{intl.get("loading components")}</Loader>)
                 }
-            </div>
+            </>
         );
     }
     private readonly toggleExpansion = () => this.props.toggleExpansion();
