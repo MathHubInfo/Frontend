@@ -18,7 +18,7 @@
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
     "axios": "^0.18.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "next": "^8.0.3",
     "next-server": "^8.0.3",
     "nprogress": "^0.2.0",
