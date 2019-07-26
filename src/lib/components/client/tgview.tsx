@@ -1,8 +1,6 @@
 // tslint:disable: no-implicit-dependencies no-submodule-imports
 import * as React from "react";
 
-import getConfig from "next/config";
-
 import { default as TGViewImpl } from "tgview";
 import { ITGViewOptions as ImplOptions } from "tgview/lib/Configuration";
 import { uuid } from "../../../utils/uuid";
@@ -12,6 +10,7 @@ import "tgview/src/css/styles.css";
 import "vis/dist/vis.min.css";
 import "jqueryui/jquery-ui.min.css";
 import "jstree/dist/themes/default/style.css";
+import getMathHubConfig from "../../../context";
 
 export interface ITGViewOptions extends Omit<
     Partial<ImplOptions>,
@@ -65,7 +64,7 @@ export default class TGView extends React.Component<ITGViewOptions> {
         if (!mainContainer) return;
 
         // fetch the server url, same as library
-        const serverBaseURL = getConfig().publicRuntimeConfig.libraryURL;
+        const serverBaseURL = getMathHubConfig().libraryClient.getURL();
         if (!serverBaseURL) return;
 
         this.tgview = new TGViewImpl({

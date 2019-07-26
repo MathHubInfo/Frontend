@@ -11,7 +11,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "plugins": [
-      { "name": "typescript-tslint-plugin" }
+      {
+        "name": "typescript-tslint-plugin"
+      }
     ],
     "preserveConstEnums": true,
     "removeComments": false,
@@ -24,5 +26,20 @@
       "node_modules/@types",
       "./src/types"
     ],
-  }
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "esModuleInterop": true,
+    "isolatedModules": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }

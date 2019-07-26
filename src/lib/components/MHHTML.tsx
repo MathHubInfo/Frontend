@@ -25,7 +25,7 @@ interface IMathHTMLProps<T> {
 /**
  * An element representing mathmatically relevant text based on html input
  */
-export default class MHHTML<S, T extends string | React.ComponentClass<S> | React.FunctionComponent<S>>
+export default class MHHTML<S, T extends string | React.ComponentType<S> | React.FunctionComponent<S>>
     extends React.PureComponent<IMathHTMLProps<T>> {
     render() {
         const { children: content, as: asElement, extra} = this.props;

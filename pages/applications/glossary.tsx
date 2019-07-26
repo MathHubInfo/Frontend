@@ -1,9 +1,9 @@
 // tslint:disable:export-name
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 import * as React from "react";
 import intl from "react-intl-universal";
 
-import getContext from "../../src/context";
+import getMathHubConfig from "../../src/context";
 import { IGlossaryEntry, isKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
@@ -23,8 +23,8 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
         { language: ImplicitParameters.validated(isKnownLanguage, knownLanguages[0]) },
     );
 
-    static async getInitialProps({ query }: NextContext): Promise<IGlossaryProps> {
-        const entries = await getContext().glossaryClient.loadAll();
+    static async getInitialProps({ query }: NextPageContext): Promise<IGlossaryProps> {
+        const entries = await getMathHubConfig().glossaryClient.loadAll();
         const initial = Glossary.implicits.readImplicits(query);
 
         return { entries, initial };

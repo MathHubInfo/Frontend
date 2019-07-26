@@ -1,5 +1,5 @@
 // tslint:disable:export-name
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 import * as React from "react";
 import intl from "react-intl-universal";
 
@@ -10,7 +10,7 @@ import { IGroupRef } from "../../src/context/LibraryClient/objects";
 
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
-import getContext from "../../src/context";
+import getMathHubConfig from "../../src/context";
 import PageLibrary from "../../src/theming/Pages/Library/PageLibrary";
 
 import ActionHeader from "../../src/theming/Layout/ActionHeader";
@@ -19,10 +19,10 @@ import PageGroupRef from "../../src/theming/Pages/Library/PageGroupRef";
 type ILibraryProps = IDerivedParameter<IGroupRef[]>;
 
 export default class Library extends React.Component<ILibraryProps> {
-  static async getInitialProps({res, query}: NextContext): Promise<ILibraryProps> {
+  static async getInitialProps({res, query}: NextPageContext): Promise<ILibraryProps> {
     return getDerivedParameter(
         undefined,
-        async (_: string) => getContext().libraryClient.getGroups(),
+        async (_: string) => getMathHubConfig().libraryClient.getGroups(),
         query,
         res,
     );

@@ -1,6 +1,6 @@
 import { isEqual } from "lodash";
-import { NextContext } from "next";
-import Router from "next/router";
+import { NextPageContext } from "next";
+import { default as Router } from "next/router";
 import { stringify } from "querystring";
 
 import { Indexable } from "../types/lib";
@@ -36,7 +36,7 @@ export default class ImplicitParameters<T> {
      * Reads the implicit parameters from the query
      * @param query Query object to marshal state from
      */
-    readImplicits(query: NextContext["query"]): Partial<T> {
+    readImplicits(query: NextPageContext["query"]): Partial<T> {
         const result: Indexable<Partial<T>> = {};
 
         Object.keys(this.names).forEach(p => {

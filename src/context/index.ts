@@ -1,7 +1,6 @@
-import { default as runtimeConfig } from "next/config";
-import { resolve as resolveURL } from "url";
+import { resolve as nodeResolve } from "url";
 
-import { IMathHubPublicConfig, IMathHubServerConfig } from "../types/config";
+import { IMathHubConfig } from "../types/config";
 
 import Lazy from "../utils/Lazy";
 
@@ -20,7 +19,7 @@ import AdminClient from "./AdminClient";
  */
 export interface IContext {
     // the configuration that induced this context
-    config: IMathHubPublicConfig;
+    config: IMathHubConfig;
 
     // client to make http requests
     httpClient: HTTPClient;
@@ -41,19 +40,26 @@ export interface IContext {
     translationClient: TranslationClient;
 }
 
-const iResolve = process.browser ?
-    (url: string) => url :
-    (url: string, server?: IMathHubServerConfig) => (server && resolveURL(server.upstreamRequestBase, url));
+// the MathHub Configuration
+const MATHHUB_CONFIG = process.env.MATHHUB_CONFIG as unknown as IMathHubConfig;
 
-const getContext = Lazy(() => {
-    // get the public configuration
-    const rtConfig = runtimeConfig();
-    if (!rtConfig.publicRuntimeConfig) throw new Error("Unable to load configuration");
-    const config: IMathHubPublicConfig = rtConfig.publicRuntimeConfig;
+/**
+ * Resolves a local URL
+ * @param url URL to resolve
+ */
+function rs(url: string): string {
+    if (process.browser)
+        return url;
+
+    return nodeResolve(MATHHUB_CONFIG.UPSTREAM_BASE_URL || "", url) || url;
+}
+
+const getMathHubConfig = Lazy(() => {
+    // load the mathhub config
+    const mhconfig = MATHHUB_CONFIG;
 
     // alias to easily resolve a url both from the server
     // and from the client
-    const rs = (url: string) => iResolve(url, rtConfig.serverRuntimeConfig) || url;
     const resolve = (url: string | undefined) => (typeof url === "string") ? rs(url) : undefined;
 
     // make a new httpClient for pooling requests
@@ -62,25 +68,25 @@ const getContext = Lazy(() => {
     const httpClient = new HTTPClient(rs);
 
     // a client to retrieve all the libraries from MMT
-    const libraryClient = config.libraryURL ?
-        new RestClient(rs(config.libraryURL), httpClient) :
+    const libraryClient = mhconfig.LIBRARY_URL ?
+        new RestClient(rs(mhconfig.LIBRARY_URL), httpClient) :
         new MockClient();
 
     // a client to receive all the news
-    const newsClient = new NewsClient(resolve(config.newsURL), httpClient);
+    const newsClient = new NewsClient(resolve(mhconfig.NEWS_URL), httpClient);
 
     // a client to receive the glossary
-    const glossaryClient = new GlossaryClient(resolve(config.glossaryURL), httpClient);
+    const glossaryClient = new GlossaryClient(resolve(mhconfig.GLOSSARY_URL), httpClient);
 
     // an admin client to interact with admin resources
-    const adminClient = process.browser ? new AdminClient(resolve(config.adminURL), httpClient) : undefined;
+    const adminClient = process.browser ? new AdminClient(resolve(mhconfig.ADMIN_URL), httpClient) : undefined;
 
     // a client to translate text
-    const translationClient = new TranslationClient(resolve(config.translationURL), httpClient);
+    const translationClient = new TranslationClient(resolve(mhconfig.TRANSLATION_URL), httpClient);
 
     // and all of the config
     return {
-        config,
+        config: mhconfig,
         httpClient,
         libraryClient,
         newsClient,
@@ -91,4 +97,4 @@ const getContext = Lazy(() => {
 });
 
 // tslint:disable-next-line:export-name
-export default getContext;
+export default getMathHubConfig;

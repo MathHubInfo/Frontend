@@ -2,9 +2,9 @@
 import * as React from "react";
 import intl from "react-intl-universal";
 
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 
-import getContext from "../../src/context";
+import getMathHubConfig from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
 
 import LayoutBody from "../../src/theming/Layout/LayoutBody";
@@ -19,10 +19,10 @@ import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../.
 type INewsProps = IDerivedParameter<INewsItem[]>;
 
 export default class News extends React.Component<INewsProps> {
-    static async getInitialProps({ res, query }: NextContext): Promise<INewsProps> {
+    static async getInitialProps({ res, query }: NextPageContext): Promise<INewsProps> {
         return getDerivedParameter(
             undefined,
-            async () => getContext().newsClient.loadAll(),
+            async () => getMathHubConfig().newsClient.loadAll(),
             query,
             res,
         );

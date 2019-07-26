@@ -1,4 +1,4 @@
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 
 import * as React from "react";
 import intl from "react-intl-universal";
@@ -6,7 +6,7 @@ import { debounce } from "ts-debounce";
 
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
-import getContext from "../../src/context";
+import getMathHubConfig from "../../src/context";
 import { IDeclaration, IDocument, IModule } from "../../src/context/LibraryClient/objects";
 
 import { INarrativeElementProps } from "../../src/lib/library/INarrativeElementProps";
@@ -47,10 +47,10 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
         },
     );
 
-    static async getInitialProps({ res, query }: NextContext): Promise<IDocumentProps> {
+    static async getInitialProps({ res, query }: NextPageContext): Promise<IDocumentProps> {
         const derived = await getDerivedParameter(
             "id",
-            async (id: string) => getContext().libraryClient.getDocument(id),
+            async (id: string) => getMathHubConfig().libraryClient.getDocument(id),
             query,
             res,
         );
@@ -64,13 +64,13 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
     private readonly mstore = new BooleanArrayStore<IModule>(
         () => this.state.expandedModules,
         update => this.setState(({ expandedModules }) => ({ expandedModules: update(expandedModules) })),
-        async id => getContext().libraryClient.getModule(id),
+        async id => getMathHubConfig().libraryClient.getModule(id),
         this.debouncedUpdate,
     );
     private readonly dstore = new BooleanArrayStore<IDeclaration>(
         () => this.state.expandedDeclarations,
         update => this.setState(({ expandedDeclarations }) => ({ expandedDeclarations: update(expandedDeclarations) })),
-        async id => getContext().libraryClient.getDeclaration(id),
+        async id => getMathHubConfig().libraryClient.getDeclaration(id),
         this.debouncedUpdate,
     );
 

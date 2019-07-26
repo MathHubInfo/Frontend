@@ -1,35 +1,30 @@
-import CompilationPhase from "../context/CompilationPhase";
-
 /**
  * Configuration known to both the server and client side
  */
-export interface IMathHubPublicConfig {
-    // the phase during which this configuration was compiled
-    compilationPhase: CompilationPhase;
-
+export interface IMathHubConfig {
     // the base url for the library client
-    libraryURL?: string;
+    LIBRARY_URL?: string;
 
     // the runtime config url to fetch data from (if any)
-    configURL?: string;
+    RUNTIME_CONFIG_URL?: string;
 
     // the url for the news client
-    newsURL?: string;
+    NEWS_URL?: string;
 
     // the url for the glossary client
-    glossaryURL?: string;
+    GLOSSARY_URL?: string;
 
     // the url for the admin client
-    adminURL?: string;
+    ADMIN_URL?: string;
 
     // the url for the translation client
-    translationURL?: string;
-
-    // the name of the theme to use
-    theme?: string;
+    TRANSLATION_URL?: string;
 
     // the current version of MathHub
-    version: IMathHubVersion;
+    MATHHUB_VERSION: IMathHubVersion;
+
+    // the (server-side) base for upstream requests
+    UPSTREAM_BASE_URL?: string;
 }
 
 /**
@@ -59,14 +54,6 @@ export interface IMathHubVersion {
         // Unix Epoch. 
         time?: number;
     }
-}
-
-/**
- * Configuration known to the server side
- */
-export interface IMathHubServerConfig {
-    // the base for upstream urls
-    upstreamRequestBase: string;
 }
 
 /**

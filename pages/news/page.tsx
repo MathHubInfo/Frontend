@@ -1,8 +1,8 @@
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 import * as React from "react";
 import intl from "react-intl-universal";
 
-import getContext from "../../src/context";
+import getMathHubConfig from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
@@ -14,10 +14,10 @@ import PageNewsPage from "../../src/theming/Pages/News/PageNewsPage";
 type IPageProps = IDerivedParameter<INewsItem>;
 
 export default class Page extends React.Component<IPageProps> {
-    static async getInitialProps({res, query}: NextContext): Promise<IPageProps> {
+    static async getInitialProps({res, query}: NextPageContext): Promise<IPageProps> {
         return getDerivedParameter(
             "id",
-            async (id: string) => getContext().newsClient.load(id),
+            async (id: string) => getMathHubConfig().newsClient.load(id),
             query,
             res,
         );

@@ -6,7 +6,7 @@ import MHLink from "../../../lib/components/MHLink";
 import { ILayoutFooterProps } from "../../../theming/Layout/ILayoutFooterProps";
 import { IMathHubVersion } from "../../../types/config";
 
-export class LayoutFooter extends React.Component<ILayoutFooterProps> {
+export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
     render() {
         const { version } = this.props;
 

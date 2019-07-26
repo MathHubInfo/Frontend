@@ -1,5 +1,5 @@
 // tslint:disable:export-name
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 import * as React from "react";
 import intl from "react-intl-universal";
 
@@ -11,7 +11,7 @@ import { IDictionaryImplicits, IDictionaryState } from "../../src/theming/Pages/
 import PageApplicationsDictionary from "../../src/theming/Pages/Applications/PageApplicationsDictionary";
 import ActionHeader from "../../src/theming/Layout/ActionHeader";
 
-import getContext from "../../src/context";
+import getMathHubConfig from "../../src/context";
 
 interface IDictionaryProps {
     initial: Partial<IDictionaryImplicits>;
@@ -27,7 +27,7 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
         },
     );
 
-    static async getInitialProps({ query }: NextContext): Promise<IDictionaryProps> {
+    static async getInitialProps({ query }: NextPageContext): Promise<IDictionaryProps> {
         return { initial: Dictionary.implicits.readImplicits(query) };
     }
 
@@ -44,7 +44,7 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
     };
 
 
-    private readonly translationClient = getContext().translationClient;
+    private readonly translationClient = getMathHubConfig().translationClient;
 
     async componentDidUpdate(_: IDictionaryProps, prevState: IDictionaryState) {
         return Dictionary.implicits.updateImplicits(this.state, prevState);

@@ -38,6 +38,8 @@ class LazyMockClient extends LibraryClient {
 
     private dataset: IMockDataSet | undefined;
 
+    getURL(): string | undefined { return undefined; }
+
     // get the MMT Version
     async getMMTVersion(): Promise<IMMTVersionInfo> {
         return this.loadDataSet().then(d => d.version);

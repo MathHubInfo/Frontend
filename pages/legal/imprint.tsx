@@ -1,4 +1,4 @@
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 import * as React from "react";
 import intl from "react-intl-universal";
 
@@ -11,7 +11,7 @@ import PageLegalImprint from "../../src/theming/Pages/Legal/PageLegalImprint";
 type IImprintProps = IDerivedParameter<string>;
 
 export default class Imprint extends React.Component<IImprintProps> {
-    static async getInitialProps({res, query}: NextContext): Promise<IImprintProps> {
+    static async getInitialProps({res, query}: NextPageContext): Promise<IImprintProps> {
         return getDerivedParameter(
             undefined,
             async (_: string) => (await import("../../src/assets/legal/imprint.txt")).default,

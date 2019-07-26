@@ -1,13 +1,7 @@
-import getConfig from "next/config";
 import dynamic from "next/dynamic";
 
 import { IOpaqueProps } from "./IOpaqueProps";
 
-let PageOpaque: React.ComponentClass<IOpaqueProps>;
-
-switch (getConfig().publicRuntimeConfig.theme) {
-    default:
-        PageOpaque = dynamic(import("../../../themes/plain/Pages/Library/Opaque"));
-}
-
+const PageOpaque: React.ComponentType<IOpaqueProps> =
+    dynamic(import("../../../themes/classic/Pages/Library/Opaque"));
 export default PageOpaque;

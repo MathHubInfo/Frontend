@@ -1,5 +1,5 @@
 // tslint:disable:export-name
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 import * as React from "react";
 import intl from "react-intl-universal";
 
@@ -12,7 +12,7 @@ import PageHome from "../src/theming/Pages/PageHome";
 type IHomeProps = IDerivedParameter<string>;
 
 export default class Home extends React.Component<IHomeProps> {
-  static async getInitialProps({res, query}: NextContext): Promise<IHomeProps> {
+  static async getInitialProps({res, query}: NextPageContext): Promise<IHomeProps> {
     return getDerivedParameter(
         undefined,
         async (_: string) => (await import("../src/assets/home.txt")).default,

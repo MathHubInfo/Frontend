@@ -1,6 +1,5 @@
 // tslint:disable export-name
 
-import getConfig from "next/config";
 import dynamic from "next/dynamic";
 
 import MHAppContext, { IMHAppContext } from "../../lib/components/MHAppContext";
@@ -9,21 +8,15 @@ import stripTags from "../../utils/stripTags";
 import WithExtraContext from "../../utils/WithExtraContext";
 
 import { IBodyDerivedProps, ILayoutBodyProps } from "./ILayoutBodyProps";
+import { IMathHubVersion } from "../../types/config";
+import getMathHubConfig from "../../context";
 
-let LayoutBody: React.ComponentClass<ILayoutBodyProps>;
-
-const {publicRuntimeConfig: {theme, version} } = getConfig();
-switch (theme) {
-    case "classic":
-        LayoutBody = dynamic(import("../../themes/classic/Layout/LayoutBody"));
-        break;
-    default:
-        LayoutBody = dynamic(import("../../themes/plain/Layout/LayoutBody"));
-}
+const LayoutBody = dynamic<ILayoutBodyProps>(import("../../themes/classic/Layout/LayoutBody"));
 
 export default WithExtraContext<IMHAppContext, IBodyDerivedProps, ILayoutBodyProps>(
     LayoutBody, MHAppContext, ({ description }) => {
         const descriptionText = description ? stripTags(description) : undefined;
+        const version: IMathHubVersion = getMathHubConfig().config.MATHHUB_VERSION;
 
         return {descriptionText, version};
     },

@@ -1,4 +1,4 @@
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 
 export type IDerivedParameter<T> = IDerivedParameterOK<T> | IDerivedParameterFail;
 
@@ -40,8 +40,8 @@ export enum DerivedDataStatus {
 export default async function getDerivedParameter<T>(
     name: string | undefined,
     derivation: (value: string) => Promise<T | undefined>,
-    query: NextContext["query"],
-    res?: NextContext["res"],
+    query: NextPageContext["query"],
+    res?: NextPageContext["res"],
 ): Promise<IDerivedParameter<T>> {
     const param: IDerivedParameter<string>
         = name ? getParameter(name, query) : {value: "", status: DerivedDataStatus.OK, item: ""};
@@ -104,7 +104,7 @@ export function join2<A, B>(
  */
 function getParameter(
     name: string,
-    query: NextContext["query"],
+    query: NextPageContext["query"],
 ): IDerivedParameter<string> {
     const item = query[name];
     if (item === undefined)
@@ -125,7 +125,7 @@ function getParameter(
  */
 function applyStatus(
     status: DerivedDataStatus,
-    res?: NextContext["res"],
+    res?: NextPageContext["res"],
 ) {
     if (res) res.statusCode = statusCode(status);
 }

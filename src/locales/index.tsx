@@ -1,5 +1,5 @@
 import intl from "react-intl-universal";
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 
 // the locales we support
 // bad things happen when a non-existent locale is set here
@@ -10,7 +10,7 @@ export const supportedLocales = ["en", "de"];
  * @param context Context to negotiate language from
  * @returns the negotiated language
  */
-export function negotiateLanguage(context: NextContext, surpressHeader = false): string {
+export function negotiateLanguage(context: NextPageContext, surpressHeader = false): string {
     const language = getLocaleOrFallback(getSelectedLocale(context));
     if (context.res && !surpressHeader)
         context.res.setHeader("Content-Language", language);
@@ -31,7 +31,7 @@ function getLocaleOrFallback(locale: string): string {
 /**
  * Reads the prefered locale from the user
  */
-function getSelectedLocale(context: NextContext): string {
+function getSelectedLocale(context: NextPageContext): string {
     // if we have a 'lang' key in the request
     // we should use that where possible
     if (context.query && context.query.lang) {

@@ -2,6 +2,9 @@ import { IArchive, IDeclaration, IDocument, IGroup,
          IGroupRef, IMMTVersionInfo, IModule, IReferencable, ITag, URI } from "./objects";
 
 export default abstract class LibraryClient {
+    /// gets the base url used by this client
+    abstract getURL(): string | undefined;
+
     // gets the version of MMT */
     abstract getMMTVersion(): Promise<IMMTVersionInfo>;
 

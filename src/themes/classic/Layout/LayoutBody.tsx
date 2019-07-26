@@ -7,8 +7,8 @@ import "semantic-ui-css/semantic.min.css";
 
 import { ILayoutBodyProps } from "../../../theming/Layout/ILayoutBodyProps";
 
-import { Header } from "./Header";
-import { LayoutFooter } from "./LayoutFooter";
+import Header from "./Header";
+import LayoutFooter from "./LayoutFooter";
 
 
 export default class LayoutBody extends React.Component<ILayoutBodyProps> {

@@ -8,9 +8,9 @@ import { Without } from "../types/lib";
  * @param extra function to get props with
  */
 export function WithExtraProps<M, P extends M>(
-    Component: React.ComponentClass<P>,
+    Component: React.ComponentType<P>,
     extra: ((props: Without<P, M>) => M) | M,
-): React.ComponentClass<Without<P, M>> {
+): React.ComponentType<Without<P, M>> {
     const cmpName = Component.displayName || Component.name;
 
     return class extends React.Component<Without<P, M>> {
@@ -34,9 +34,9 @@ export function WithExtraProps<M, P extends M>(
  * @param extra function to get props with
  */
 export function WithContextProps<M, P extends M>(
-    Component: React.ComponentClass<P>,
+    Component: React.ComponentType<P>,
     context: React.Context<M>,
-): React.ComponentClass<Without<P, M>> {
+): React.ComponentType<Without<P, M>> {
     return WithExtraContext(Component, context, {});
 }
 
@@ -47,10 +47,10 @@ export function WithContextProps<M, P extends M>(
  * @param extra Extra context to add
  */
 export default function WithExtraContext<C, M, P extends C & M>(
-    Component: React.ComponentClass<P>,
+    Component: React.ComponentType<P>,
     context: React.Context<C>,
     extra: ((props: Without<P, M>) => M) | M,
-): React.ComponentClass<Without<P, C & M>> {
+): React.ComponentType<Without<P, C & M>> {
     const cmpName = Component.displayName || Component.name;
 
     return class extends React.Component<Without<P, C & M>> {

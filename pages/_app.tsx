@@ -1,30 +1,27 @@
 // tslint:disable:export-name
 
-import App, { AppProps, Container, DefaultAppIProps, NextAppContext } from "next/app";
-import Router from "next/router";
+import App, { Container, AppContext } from "next/app";
+import { default as Router } from "next/router";
 import React from "react";
 
 import MHAppContext, { IMHAppContext } from "../src/lib/components/MHAppContext";
 
 import { negotiateLanguage, initLocaleSupport, setLocale, supportedLocales as knownLanguages } from "../src/locales";
 
-import getContext from "../src/context";
+import getMathHubConfig from "../src/context";
 import { IMathHubRuntimeConfig } from "../src/types/config";
 
 import LayoutRoutingIndicator from "../src/theming/Layout/LayoutRoutingIndicator";
 import ImplicitParameters from "../src/utils/ImplicitParameters";
 
-type IMHAppProps = IMHAppOwnProps & DefaultAppIProps & AppProps;
-
 interface IMHAppOwnProps {
     initialLanguage: string;
+    initialConfig: {};
     initialRuntimeConfig?: IMathHubRuntimeConfig;
 }
 
 export default class MHApp extends App<IMHAppOwnProps> {
-    static async getInitialProps(context: NextAppContext): Promise<IMHAppProps> {
-        const { Component, router } = context;
-
+    static async getInitialProps(context: AppContext) {
         const [
             pageProps,
             initialRuntimeConfig,
@@ -35,13 +32,13 @@ export default class MHApp extends App<IMHAppOwnProps> {
             MHApp.getInitialLanguage(context),
         ]);
 
-        return { Component, router, pageProps, initialLanguage, initialRuntimeConfig };
+        return { pageProps, initialLanguage, initialRuntimeConfig };
     }
 
     /**
      * Loads the properties for the current page, if any
      */
-    static async getPageProps({ Component, ctx }: NextAppContext) {
+    static async getPageProps({ Component, ctx }: AppContext) {
         let pageProps = {};
         if (Component.getInitialProps)
             pageProps = await Component.getInitialProps(ctx);
@@ -53,7 +50,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
      * Loads the runtime config if not on the server
      */
     static async getRuntimeConfig(
-        _: NextAppContext,
+        _: AppContext,
     ) {
         if (!process.browser)
             return MHApp.loadRuntimeConfig();
@@ -65,7 +62,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
      * Loads the runtime configuration url
      */
     static async loadRuntimeConfig(): Promise<IMathHubRuntimeConfig | undefined> {
-        const { httpClient, config: { configURL } } = getContext();
+        const { httpClient, config: { RUNTIME_CONFIG_URL: configURL } } = getMathHubConfig();
         if (configURL)
             return httpClient.getIfOK(configURL, { resolve: true, ignoreError: true });
 
@@ -75,7 +72,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
     /**
      * Initializes and loads the initial language
      */
-    static async getInitialLanguage(context: NextAppContext): Promise<string> {
+    static async getInitialLanguage(context: AppContext): Promise<string> {
         const selection = negotiateLanguage(context.ctx);
 
         await initLocaleSupport();
@@ -115,6 +112,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
         if (!this.state.languageLoaded)
             // tslint:disable-next-line: no-floating-promises
             setLocale(this.state.activeLanguage).then(_ => this.setState({languageLoaded: true}));
+
 
         // if we do not have the runtime configuration, start loading it
         if (!this.props.initialRuntimeConfig)

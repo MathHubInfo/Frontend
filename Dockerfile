@@ -6,9 +6,6 @@ FROM node
 # We have a lot of configurations that can be made
 # at compile time, but will be needed at runtime
 
-ARG MATHHUB_THEME="classic"
-ENV MATHHUB_THEME=${MATHHUB_THEME}
-
 ARG MMT_URL="/:mathhub/"
 ENV MMT_URL=${MMT_URL}
 

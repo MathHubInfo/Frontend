@@ -1,4 +1,5 @@
-import Link, { LinkProps } from "next/link";
+import Link from "next/link";
+type LinkProps = React.ComponentProps<typeof Link>;
 import { stringify } from "querystring";
 import * as React from "react";
 

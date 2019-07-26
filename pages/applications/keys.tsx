@@ -1,5 +1,5 @@
 // tslint:disable:export-name
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 import * as React from "react";
 
 import { default as keysJSON } from "../../src/assets/applications/keys.json";
@@ -20,7 +20,7 @@ export default class Glossary extends React.Component<IKeysProps, IKeysState> {
         { expanded: ImplicitParameters.first<boolean>(x => x.toLowerCase().trim() === "true", false) },
     );
 
-    static async getInitialProps({ query }: NextContext): Promise<IKeysProps> {
+    static async getInitialProps({ query }: NextPageContext): Promise<IKeysProps> {
         const initial = Glossary.implicits.readImplicits(query);
 
         return { initial };

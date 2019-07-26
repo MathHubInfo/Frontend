@@ -14,6 +14,8 @@ export default class RestClient extends LibraryClient {
      */
     constructor(private readonly MMT_URL: string, private readonly client: HTTPClient) { super(); }
 
+    getURL(): string | undefined { return this.MMT_URL; }
+
     async getMMTVersion(): Promise<IMMTVersionInfo> {
         return this.client.getOrError<IMMTVersionInfo>(this.buildURL("version"));
     }

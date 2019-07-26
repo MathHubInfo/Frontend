@@ -1,4 +1,4 @@
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 
 import { debounce } from "ts-debounce";
 
@@ -7,7 +7,7 @@ import intl from "react-intl-universal";
 
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
-import getContext from "../../src/context";
+import getMathHubConfig from "../../src/context";
 import { IArchive, IDeclaration, IModule } from "../../src/context/LibraryClient/objects";
 
 import { INarrativeElementProps } from "../../src/lib/library/INarrativeElementProps";
@@ -48,10 +48,10 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
         },
     );
 
-    static async getInitialProps({ res, query }: NextContext): Promise<IArchiveProps> {
+    static async getInitialProps({ res, query }: NextPageContext): Promise<IArchiveProps> {
         const derived = await getDerivedParameter(
             "id",
-            async (id: string) => getContext().libraryClient.getArchive(id),
+            async (id: string) => getMathHubConfig().libraryClient.getArchive(id),
             query,
             res,
         );
@@ -64,13 +64,13 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
     private readonly mstore = new BooleanArrayStore<IModule>(
         () => this.state.expandedModules,
         update => this.setState(({ expandedModules: expanded }) => ({ expandedModules: update(expanded) })),
-        async id => getContext().libraryClient.getModule(id),
+        async id => getMathHubConfig().libraryClient.getModule(id),
         this.debouncedUpdate,
     );
     private readonly dstore = new BooleanArrayStore<IDeclaration>(
         () => this.state.expandedDeclarations,
         update => this.setState(({ expandedDeclarations }) => ({ expandedDeclarations: update(expandedDeclarations) })),
-        async id => getContext().libraryClient.getDeclaration(id),
+        async id => getMathHubConfig().libraryClient.getDeclaration(id),
         this.debouncedUpdate,
     );
 

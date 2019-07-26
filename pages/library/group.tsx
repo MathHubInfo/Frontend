@@ -1,10 +1,10 @@
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 import * as React from "react";
 import intl from "react-intl-universal";
 
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
-import getContext from "../../src/context";
+import getMathHubConfig from "../../src/context";
 import { IGroup } from "../../src/context/LibraryClient/objects";
 
 import LayoutBody from "../../src/theming/Layout/LayoutBody";
@@ -18,10 +18,10 @@ import { headerProps } from "../../src/lib/library/utils";
 type IGroupProps = IDerivedParameter<IGroup>;
 
 export default class Group extends React.Component<IGroupProps> {
-  static async getInitialProps({res, query}: NextContext): Promise<IGroupProps> {
+  static async getInitialProps({res, query}: NextPageContext): Promise<IGroupProps> {
     return getDerivedParameter(
         "id",
-        async (id: string) => getContext().libraryClient.getGroup(id),
+        async (id: string) => getMathHubConfig().libraryClient.getGroup(id),
         query,
         res,
     );

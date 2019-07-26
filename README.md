@@ -130,8 +130,8 @@ Both should work out-of-the-box after cloning this repository and running the `y
 This repository conists of the following structure:
 * `pages/` -- Page route definitions 
 * `src/` -- Source files containing TypeScript code
-* `static/` -- Static content, such as 
-* `build/` -- Build Configuration (written in Node-8-compatible JavaScript)
+* `static/` -- Static content, such as
+* `next.config.js` -- NextJS Configuration
 * various build & configuration files in the root folder
 
 And the following un-committed folders that are generated automatically:
@@ -147,15 +147,14 @@ And the following un-committed folders that are generated automatically:
 The MathHub Frontend takes several environment variables, which can be used to fine-tune the behaviour of the frontend. 
 Variables are split into two kinds: Compile-Time Variables and Runtime variables. 
 
-#### Compile-Time Environment Variables
+#### Build-Time Environment Variables
 
-Compile-Time Environment Variables are set at compilation time of the code and can not be changed during runtime. 
-They are configured inside of `config/env.ts`. 
+Build-Time Environment Variables are set at compilation time of the code and can not be changed during runtime. 
+They are configured inside of `next.config.js`. 
 
 The supported variables are:
 
 * `MMT_URL` -- The URL to the MathHub MMT Extension. If omitted, defaults to mocking the MMT server. 
-* `MATHHUB_THEME` -- Theme to use for MathHub UI. Defaults to "plain". 
 * `NEWS_URL` -- The URL to retrieve news items from. If omitted, defaults to the news.json file under assets. 
 * `GLOSSARY_URL` -- The URL to retrieve glossary items from. If omitted, defaults to the glossary.json file under mocks.
 * `TRANSLATION_URL` -- The URL to translate text with. If omitted, translation is disabled.

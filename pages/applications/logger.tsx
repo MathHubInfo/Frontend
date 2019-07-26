@@ -1,8 +1,8 @@
-import { NextContext } from "next";
+import { NextPageContext } from "next";
 import * as React from "react";
 import intl from "react-intl-universal";
 
-import getContext from "../../src/context";
+import getMathHubConfig from "../../src/context";
 import LoggerClient from "../../src/context/LoggerClient";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
@@ -18,7 +18,7 @@ export default class Logger extends React.Component<ILoggerProps, ILoggerState> 
     constructor(props: ILoggerProps) {
         super(props);
 
-        const {httpClient, config: {libraryURL}} = getContext();
+        const {httpClient, config: {LIBRARY_URL: libraryURL}} = getMathHubConfig();
         this.client = (libraryURL && process.browser) ?
             new LoggerClient(libraryURL, httpClient, true) : null;
     }
@@ -30,7 +30,7 @@ export default class Logger extends React.Component<ILoggerProps, ILoggerState> 
 
     static readonly crumbs = [{href: "/", title: "Home"}];
 
-    static async getInitialProps({query}: NextContext): Promise<ILoggerProps> {
+    static async getInitialProps({query}: NextPageContext): Promise<ILoggerProps> {
         const initial = Logger.implicits.readImplicits(query);
 
         return { initial };
