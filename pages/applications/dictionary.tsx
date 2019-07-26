@@ -1,17 +1,16 @@
-// tslint:disable:export-name
 import { NextPageContext } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-
+import getMathHubConfig from "../../src/context";
 import { IGlossaryEntry, isKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
+import { IDictionaryImplicits, IDictionaryState } from "../../src/theming/Pages/Applications/IDictionaryProps";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
-import LayoutBody from "../../src/theming/Layout/LayoutBody";
-import { IDictionaryImplicits, IDictionaryState } from "../../src/theming/Pages/Applications/IDictionaryProps";
-import PageApplicationsDictionary from "../../src/theming/Pages/Applications/PageApplicationsDictionary";
-import ActionHeader from "../../src/theming/Layout/ActionHeader";
-
-import getMathHubConfig from "../../src/context";
+const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
+const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const PageApplicationsDictionary =
+    dynamic(() => import("../../src/theming/Pages/Applications/PageApplicationsDictionary"));
 
 interface IDictionaryProps {
     initial: Partial<IDictionaryImplicits>;
@@ -145,5 +144,5 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
 
         // indicate that translation is finished (which might mean an error)
         this.setState({ translating: false, translation, translationValid: true });
-            }
-        }
+    }
+}

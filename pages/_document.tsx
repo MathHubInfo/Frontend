@@ -1,10 +1,11 @@
 // tslint:disable:export-name
 
-import Document, { Head, Main, DocumentContext, NextScript, DocumentProps } from "next/document";
-
-import LayoutHeader from "../src/theming/Layout/LayoutHeader";
-import { ILayoutHeaderProps } from "../src/theming/Layout/ILayoutHeaderProps";
+import Document, { DocumentContext, DocumentProps, Head, Main, NextScript } from "next/document";
+import dynamic from "next/dynamic";
 import { negotiateLanguage } from "../src/locales";
+import { ILayoutHeaderProps } from "../src/theming/Layout/ILayoutHeaderProps";
+
+const LayoutHeader = dynamic(() => import("../src/theming/Layout/LayoutHeader"));
 
 type MHDocumentProps = ILayoutHeaderProps & DocumentProps;
 

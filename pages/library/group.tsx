@@ -1,19 +1,18 @@
 import { NextPageContext } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-
-import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
-
 import getMathHubConfig from "../../src/context";
 import { IGroup } from "../../src/context/LibraryClient/objects";
-
-import LayoutBody from "../../src/theming/Layout/LayoutBody";
-import LayoutFailure from "../../src/theming/Layout/LayoutFailure";
-import ActionHeader from "../../src/theming/Layout/ActionHeader";
-import PageArchiveRef from "../../src/theming/Pages/Library/PageArchiveRef";
-import PageGroup from "../../src/theming/Pages/Library/PageGroup";
-
 import { headerProps } from "../../src/lib/library/utils";
+import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
+
+const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
+const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
+
+const PageArchiveRef = dynamic(() => import("../../src/theming/Pages/Library/PageArchiveRef"));
+const PageGroup = dynamic(() => import("../../src/theming/Pages/Library/PageGroup"));
 
 type IGroupProps = IDerivedParameter<IGroup>;
 

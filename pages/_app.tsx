@@ -1,18 +1,16 @@
 // tslint:disable:export-name
 
-import App, { Container, AppContext } from "next/app";
+import App, { AppContext, Container } from "next/app";
+import dynamic from "next/dynamic";
 import { default as Router } from "next/router";
 import React from "react";
-
-import MHAppContext, { IMHAppContext } from "../src/lib/components/MHAppContext";
-
-import { negotiateLanguage, initLocaleSupport, setLocale, supportedLocales as knownLanguages } from "../src/locales";
-
 import getMathHubConfig from "../src/context";
+import MHAppContext, { IMHAppContext } from "../src/lib/components/MHAppContext";
+import { initLocaleSupport, negotiateLanguage, setLocale, supportedLocales as knownLanguages } from "../src/locales";
 import { IMathHubRuntimeConfig } from "../src/types/config";
-
-import LayoutRoutingIndicator from "../src/theming/Layout/LayoutRoutingIndicator";
 import ImplicitParameters from "../src/utils/ImplicitParameters";
+
+const LayoutRoutingIndicator = dynamic(() => import("../src/theming/Layout/LayoutRoutingIndicator"));
 
 interface IMHAppOwnProps {
     initialLanguage: string;

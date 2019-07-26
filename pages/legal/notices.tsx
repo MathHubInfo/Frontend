@@ -1,13 +1,13 @@
 import { NextPageContext } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-
 import { default as LicenseTxt } from "../../LICENSE.txt";
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
-import LayoutBody from "../../src/theming/Layout/LayoutBody";
-import LayoutFailure from "../../src/theming/Layout/LayoutFailure";
-import PageLegalNotices from "../../src/theming/Pages/Legal/PageLegalNotices";
+const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
+const PageLegalNotices = dynamic(() => import("../../src/theming/Pages/Legal/PageLegalNotices"));
 
 type INoticesProps = IDerivedParameter<string | false>;
 

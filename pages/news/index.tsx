@@ -1,20 +1,17 @@
 // tslint:disable:export-name
+import { NextPageContext } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-
-import { NextPageContext } from "next";
-
 import getMathHubConfig from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
-
-import LayoutBody from "../../src/theming/Layout/LayoutBody";
-import LayoutFailure from "../../src/theming/Layout/LayoutFailure";
-
-import PageNews from "../../src/theming/Pages/News/PageNews";
-import PageNewsPageRef from "../../src/theming/Pages/News/PageNewsPageRef";
-
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
+const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
+
+const PageNews = dynamic(() => import("../../src/theming/Pages/News/PageNews"));
+const PageNewsPageRef = dynamic(() => import("../../src/theming/Pages/News/PageNewsPageRef"));
 
 type INewsProps = IDerivedParameter<INewsItem[]>;
 

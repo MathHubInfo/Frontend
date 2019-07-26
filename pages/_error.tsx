@@ -1,11 +1,10 @@
 // tslint:disable:export-name
-
 import { NextPageContext } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
-
 import { Indexable } from "../src/types/lib";
 
-import LayoutFailure from "../src/theming/Layout/LayoutFailure";
+const LayoutFailure = dynamic(() => import("../src/theming/Layout/LayoutFailure"));
 
 interface IErrorProps {
   statusCode?: number;

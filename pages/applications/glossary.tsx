@@ -1,16 +1,16 @@
-// tslint:disable:export-name
 import { NextPageContext } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-
 import getMathHubConfig from "../../src/context";
 import { IGlossaryEntry, isKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
+import { IGlossaryState } from "../../src/theming/Pages/Applications/IGlossaryProps";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
-import LayoutBody from "../../src/theming/Layout/LayoutBody";
-import { IGlossaryState } from "../../src/theming/Pages/Applications/IGlossaryProps";
-import PageApplicationsGlossary from "../../src/theming/Pages/Applications/PageApplicationsGlossary";
-import ActionHeader from "../../src/theming/Layout/ActionHeader";
+const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
+const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+
+const PageApplicationsGlossary = dynamic(() => import("../../src/theming/Pages/Applications/PageApplicationsGlossary"));
 
 interface IGlossaryProps {
     initial: Partial<IGlossaryState>;

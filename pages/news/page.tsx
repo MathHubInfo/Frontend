@@ -1,15 +1,15 @@
 import { NextPageContext } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-
 import getMathHubConfig from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
-import LayoutBody from "../../src/theming/Layout/LayoutBody";
-import LayoutFailure from "../../src/theming/Layout/LayoutFailure";
-import PageNewsPage from "../../src/theming/Pages/News/PageNewsPage";
+const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
 
+const PageNewsPage = dynamic(() => import("../../src/theming/Pages/News/PageNewsPage"));
 
 type IPageProps = IDerivedParameter<INewsItem>;
 

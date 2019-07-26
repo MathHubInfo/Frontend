@@ -1,14 +1,14 @@
 import { NextPageContext } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-
 import getMathHubConfig from "../../src/context";
 import LoggerClient from "../../src/context/LoggerClient";
+import { ILoggerImplicits, ILoggerState } from "../../src/theming/Pages/Applications/ILoggerProps";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
-import LayoutBody from "../../src/theming/Layout/LayoutBody";
-import { ILoggerImplicits, ILoggerState } from "../../src/theming/Pages/Applications/ILoggerProps";
-import PageApplicationsLogger from "../../src/theming/Pages/Applications/PageApplicationsLogger";
+const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const PageApplicationsLogger = dynamic(() => import("../../src/theming/Pages/Applications/PageApplicationsLogger"));
 
 interface ILoggerProps {
     initial: Partial<ILoggerImplicits>;

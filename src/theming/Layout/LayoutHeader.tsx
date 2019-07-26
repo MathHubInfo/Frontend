@@ -1,7 +1,12 @@
-import dynamic from "next/dynamic";
-
+import * as React from "react";
 import { ILayoutHeaderProps } from "./ILayoutHeaderProps";
 
-const LayoutHeader: React.ComponentType<ILayoutHeaderProps> =
-    dynamic(import("../../themes/classic/Layout/LayoutHeader"));
-export default LayoutHeader;
+export default class LayoutHeader extends React.Component<ILayoutHeaderProps> {
+    render() {
+        return (
+            <>
+                <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
+            </>
+        );
+    }
+}

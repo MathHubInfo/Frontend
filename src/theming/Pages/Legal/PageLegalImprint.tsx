@@ -1,7 +1,17 @@
-import dynamic from "next/dynamic";
-
+import * as React from "react";
+import intl from "react-intl-universal";
+import { Container } from "semantic-ui-react";
 import { IImprintProps } from "./IImprintProps";
 
-const PageLegalImprint: React.ComponentType<IImprintProps> =
-    dynamic(import("../../../themes/classic/Pages/Legal/Imprint"));
-export default PageLegalImprint;
+export default class PageLegalImprint extends React.Component<IImprintProps> {
+    render() {
+        return (
+            <Container>
+                <div>{intl.get("imprint responsible")}</div>
+                <pre>
+                    {this.props.imprint}
+                </pre>
+            </Container>
+        );
+    }
+}

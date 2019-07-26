@@ -1,4 +1,4 @@
-// tslint:disable:export-name no-invalid-template-strings
+// tslint:disable:no-invalid-template-strings
 import { ISourceReference, IReferencable } from "../context/LibraryClient/objects";
 
 /**

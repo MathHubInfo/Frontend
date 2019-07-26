@@ -1,8 +1,16 @@
-import dynamic from "next/dynamic";
-
+import NProgress from "nprogress";
+import * as React from "react";
 import { ILayoutRoutingIndicatorProps } from "./ILayoutRoutingIndicatorProps";
 
-const LayoutRoutingIndicator: React.ComponentType<ILayoutRoutingIndicatorProps> = dynamic(
-    import("../../themes/classic/Layout/LayoutRoutingIndicator"),
-);
-export default LayoutRoutingIndicator;
+
+export default class LayoutRoutingIndicator extends React.Component<ILayoutRoutingIndicatorProps> {
+    componentDidMount() {
+        NProgress.start();
+    }
+    componentWillUnmount() {
+        NProgress.done();
+    }
+    render() {
+        return null;
+    }
+}

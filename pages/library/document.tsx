@@ -1,29 +1,23 @@
 import { NextPageContext } from "next";
-
+import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
 import { debounce } from "ts-debounce";
-
-import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
-
 import getMathHubConfig from "../../src/context";
 import { IDeclaration, IDocument, IModule } from "../../src/context/LibraryClient/objects";
-
 import { INarrativeElementProps } from "../../src/lib/library/INarrativeElementProps";
 import NarrativeElement from "../../src/lib/library/NarrativeElement";
 import { crumbs, headerProps } from "../../src/lib/library/utils";
-
-import LayoutBody from "../../src/theming/Layout/LayoutBody";
-import LayoutFailure from "../../src/theming/Layout/LayoutFailure";
-import ActionHeader from "../../src/theming/Layout/ActionHeader";
-import PageDocument from "../../src/theming/Pages/Library/PageDocument";
-
 import { Omit } from "../../src/types/lib";
 import { BooleanArrayStore } from "../../src/utils/DataStore";
+import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
+import ImplicitParameters from "../../src/utils/ImplicitParameters";
 import { withDebug } from "../../src/utils/withDebug";
 
-import ImplicitParameters from "../../src/utils/ImplicitParameters";
-
+const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
+const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
+const PageDocument = dynamic(() => import("../../src/theming/Pages/Library/PageDocument"));
 
 type IDocumentProps = IDerivedParameter<IDocument> & {
     initial: Partial<IDocumentState>;

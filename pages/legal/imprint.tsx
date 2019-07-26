@@ -1,12 +1,14 @@
 import { NextPageContext } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-
 import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
 
-import LayoutBody from "../../src/theming/Layout/LayoutBody";
-import LayoutFailure from "../../src/theming/Layout/LayoutFailure";
-import PageLegalImprint from "../../src/theming/Pages/Legal/PageLegalImprint";
+
+const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
+
+const PageLegalImprint = dynamic(() => import("../../src/theming/Pages/Legal/PageLegalImprint"));
 
 type IImprintProps = IDerivedParameter<string>;
 

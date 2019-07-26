@@ -1,4 +1,3 @@
-// tslint:disable:export-name
 import { DOMParser, XMLSerializer } from "xmldom";
 
 import Lazy from "./Lazy";

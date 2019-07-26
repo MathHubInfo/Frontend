@@ -2,8 +2,8 @@ import * as React from "react";
 import intl from "react-intl-universal";
 import { Container, Dropdown, Popup, Table } from "semantic-ui-react";
 
-import { default as keysJson } from "../../../assets/applications/keys.json";
-import { IStatistic } from "../../../context/LibraryClient/objects";
+import { default as keysJson } from "../../assets/applications/keys.json";
+import { IStatistic } from "../../context/LibraryClient/objects";
 
 interface IStatisticsTableProps {
     statistics?: IStatistic[];

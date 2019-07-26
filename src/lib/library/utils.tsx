@@ -1,4 +1,3 @@
-// tslint:disable:export-name
 import { IApiObject, IReferencable } from "../../context/LibraryClient/objects";
 import { IBreadcrumb } from "../../theming/Layout/ILayoutBodyProps";
 

@@ -1,7 +1,9 @@
-import dynamic from "next/dynamic";
-
+import * as React from "react";
+import MHHTML from "../../../lib/components/MHHTML";
 import { IOpaqueProps } from "./IOpaqueProps";
 
-const PageOpaque: React.ComponentType<IOpaqueProps> =
-    dynamic(import("../../../themes/classic/Pages/Library/Opaque"));
-export default PageOpaque;
+export default class PageOpaque extends React.Component<IOpaqueProps> {
+    render() {
+        return <MHHTML>{this.props.children.content}</MHHTML>;
+    }
+}
