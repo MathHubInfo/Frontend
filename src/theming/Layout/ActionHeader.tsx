@@ -2,7 +2,7 @@
 import * as React from "react";
 import intl from "react-intl-universal";
 import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";
-import { ISourceReference } from "../../context/LibraryClient/objects";
+import { IDocument, ISourceReference } from "../../context/LibraryClient/objects";
 import { ObjectSource } from "../../context/LibraryClient/objects/utils";
 import MHHTML from "../../lib/components/MHHTML";
 import MHLink from "../../lib/components/MHLink";
@@ -10,6 +10,7 @@ import { StatisticsTable } from "../../theming/Layout/Statistics";
 import { issueURL, jupyterURL, sourceURL, tgViewURL } from "../../utils/urls";
 import { WithExtraProps } from "../../utils/WithExtraContext";
 import { IActionDerived, IActionHeaderProps } from "./IActionHeaderProps";
+
 
 export class ActionHeader extends React.Component<IActionHeaderProps> {
     sourceButton() {
@@ -36,6 +37,18 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
             </Button>
         );
     }
+    jupyterButton() {
+        const { jupyterURL: jupyter } = this.props;
+        if (jupyter === undefined)
+            return null;
+
+        return (
+            <Button icon>
+                <Icon name={"hand point right outline"} />
+                <MHLink href={jupyter}><a style={{ color: "black" }}>{intl.get("jupyter")}</a></MHLink>
+            </Button>
+        );
+    }
     reportButton() {
         const { issueURL: issue } = this.props;
         if (issueURL === undefined)
@@ -53,16 +66,20 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
         );
     }
     render() {
-        const { statistics, jupyterURL: jupyter, description, responsible } = this.props;
+        const { statistics, description, responsible } = this.props;
+        if ((this.props.obj as IDocument).kind === "document")
+            return (<DocumentActionHeader {...this.props} />);
 
         return (
             <>
                 <Grid>
-                    <Grid.Column width={10}>
+                    <Grid.Column width={12}>
                         {this.sourceButton()}
                         {this.tgViewButton()}
+                        {this.jupyterButton()}
+                        <div>{description && <MHHTML renderReferences>{description}</MHHTML>}</div>
                     </Grid.Column>
-                    <Grid.Column width={6}>
+                    <Grid.Column width={4}>
                         <Container textAlign={"right"}>
                             {this.reportButton()}
                             <Dropdown text={intl.get("statistics")} button icon={null} pointing={"right"}>
@@ -74,12 +91,8 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
                     </Grid.Column>
                 </Grid>
                 <div>
-                    {description && <MHHTML renderReferences>{description}</MHHTML>}
                     {responsible &&
                         <div><b>{intl.get("responsible")}:</b> {responsible.map(p => <Label key={p}>{p}</Label>)}</div>}
-                </div>
-                <div>
-                    {jupyterURL && <a href={jupyter}>{intl.get("jupyter")}</a>}
                 </div>
                 <hr />
             </>
@@ -87,6 +100,33 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
     }
 }
 
+class DocumentActionHeader extends React.Component<IActionHeaderProps> {
+    render() {
+        const { sourceURL: source } = this.props;
+        const { tgViewURL: tgview } = this.props;
+        const { issueURL: issue } = this.props;
+        const { jupyterURL: jupyter } = this.props;
+
+        return (
+            <Dropdown text={intl.get("more")} simple item>
+                <Dropdown.Menu className="link item">
+                    {source && <Dropdown.Item>
+                        <a href={source} style={{ color: "black" }}>{intl.get("view source")}</a>
+                    </Dropdown.Item>}
+                    {tgview && <Dropdown.Item>
+                        <a href={tgview} style={{ color: "black" }}>{intl.get("view tgview")}</a>
+                    </Dropdown.Item>}
+                    {jupyter && <Dropdown.Item>
+                        <a href={jupyter} style={{ color: "black" }}>{intl.get("jupyter")}</a>
+                    </Dropdown.Item>}
+                    {issue && <Dropdown.Item>
+                        <a href={issue} style={{ color: "black" }}>{intl.get("report")}</a>
+                    </Dropdown.Item>}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    }
+}
 export default WithExtraProps<IActionDerived, IActionHeaderProps>(ActionHeader, ({ obj }) => {
     const source = obj && ObjectSource(obj);
 

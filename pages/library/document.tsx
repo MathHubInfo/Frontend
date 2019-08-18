@@ -82,7 +82,7 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
     }
 
     render() {
-        const breadcrumbs = [{href: "/", title: intl.get("home")}, {href: "/library", title: intl.get("library")}];
+        const breadcrumbs = [{ href: "/", title: intl.get("home") }, { href: "/library", title: intl.get("library") }];
         if (failed(this.props)) return (
             <LayoutFailure
                 crumbs={breadcrumbs}
