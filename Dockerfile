@@ -6,8 +6,8 @@ FROM node
 # We have a lot of configurations that can be made
 # at compile time, but will be needed at runtime
 
-ARG MMT_URL="/:mathhub/"
-ENV MMT_URL=${MMT_URL}
+ARG LIBRARY_URL="/:mathhub/"
+ENV LIBRARY_URL=${LIBRARY_URL}
 
 ARG NEWS_URL="/news.json"
 ENV NEWS_URL=${NEWS_URL}

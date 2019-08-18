@@ -10,11 +10,11 @@ import { IArchive, IDeclaration, IDocument, IGroup,
 export default class RestClient extends LibraryClient {
     /**
      * Creates a new RestClient
-     * @param MMT_URL The URL this client talks to
+     * @param LIBRARY_URL The URL this client talks to
      */
-    constructor(private readonly MMT_URL: string, private readonly client: HTTPClient) { super(); }
+    constructor(private readonly LIBRARY_URL: string, private readonly client: HTTPClient) { super(); }
 
-    getURL(): string | undefined { return this.MMT_URL; }
+    getURL(): string | undefined { return this.LIBRARY_URL; }
 
     async getMMTVersion(): Promise<IMMTVersionInfo> {
         return this.client.getOrError<IMMTVersionInfo>(this.buildURL("version"));
@@ -54,7 +54,7 @@ export default class RestClient extends LibraryClient {
 
     // builds a URL
     private buildURL(url: string, idParam?: string, id?: string) {
-        return resolve(this.MMT_URL, id ? `${url}?${idParam}=${RestClient.encodeID(id)}` : url);
+        return resolve(this.LIBRARY_URL, id ? `${url}?${idParam}=${RestClient.encodeID(id)}` : url);
     }
 
     // encodes an ID for use with the API

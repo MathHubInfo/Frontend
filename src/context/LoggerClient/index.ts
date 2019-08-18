@@ -8,10 +8,10 @@ import HTTPClient from "../HTTPClient";
 export default class LoggerClient {
     /**
      * Creates a new LoggerClient
-     * @param MMT_URL The URL this client talks to
+     * @param LIBRARY_URL The URL this client talks to
      */
     constructor(
-        private readonly MMT_URL: string,
+        private readonly LIBRARY_URL: string,
         private readonly client: HTTPClient,
         private readonly resolve = false,
     ) {}
@@ -50,7 +50,7 @@ export default class LoggerClient {
     private async doPoll(): Promise<ILogEntry[]> {
         // load entries from the server
         const newEntries = await this.client.getOrError<ILogEntry[]>(
-            resolveURL(this.MMT_URL, this.lastUUID ? (`log/after?uuid=${this.lastUUID}`) : "log/all"),
+            resolveURL(this.LIBRARY_URL, this.lastUUID ? (`log/after?uuid=${this.lastUUID}`) : "log/all"),
             {resolve: this.resolve},
         );
 

@@ -101,12 +101,12 @@ yarn dev
 
 # By default the webpack-dev-server expects a corresponding API
 # to run on http://localhost:9000/:mathhub/. 
-# This URL can be changed using the MMT_URL variable, e.g. like so:
-yarn cross-env MMT_URL=https://mmt.mathhub.info/:mathhub/ dev
+# This URL can be changed using the LIBRARY_URL variable, e.g. like so:
+yarn cross-env LIBRARY_URL=https://mmt.mathhub.info/:mathhub/ dev
 
 # Furthermore, in case no MMT is running, a Mock Client exists during development. 
 # This can be enabled like so:
-yarn cross-env MMT_URL= dev
+yarn cross-env LIBRARY_URL= dev
 
 # For convenience two shortcuts exist:
 yarn devmock
@@ -154,7 +154,7 @@ They are configured inside of `next.config.js`.
 
 The supported variables are:
 
-* `MMT_URL` -- The URL to the MathHub MMT Extension. If omitted, defaults to mocking the MMT server. 
+* `LIBRARY_URL` -- The URL to the MathHub MMT Extension. If omitted, defaults to mocking the MMT server. 
 * `NEWS_URL` -- The URL to retrieve news items from. If omitted, defaults to the news.json file under assets. 
 * `GLOSSARY_URL` -- The URL to retrieve glossary items from. If omitted, defaults to the glossary.json file under mocks.
 * `TRANSLATION_URL` -- The URL to translate text with. If omitted, translation is disabled.
