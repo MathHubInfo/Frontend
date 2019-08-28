@@ -67,19 +67,19 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
     }
     render() {
         const { statistics, description, responsible } = this.props;
-        if ((this.props.obj as IDocument).kind === "document")
+        if ((this.props.obj as IDocument) && (this.props.obj as IDocument).kind === "document")
             return (<DocumentActionHeader {...this.props} />);
 
         return (
             <>
                 <Grid>
-                    <Grid.Column width={12}>
+                    <Grid.Column width={11}>
                         {this.sourceButton()}
                         {this.tgViewButton()}
                         {this.jupyterButton()}
                         <div>{description && <MHHTML renderReferences>{description}</MHHTML>}</div>
                     </Grid.Column>
-                    <Grid.Column width={4}>
+                    <Grid.Column width={5}>
                         <Container textAlign={"right"}>
                             {this.reportButton()}
                             <Dropdown text={intl.get("statistics")} button icon={null} pointing={"right"}>
