@@ -22,11 +22,13 @@ export default class PageDeclaration extends React.Component<IDeclarationProps> 
                     : PageDeclaration.names[item.declaration.kind]}
                 &nbsp;
                     <Button onClick={this.toggleExpansion} compact size={"tiny"}>
-                    <b>{item.name}</b>
-                    &emsp;
+                    <h5>
+                        {item.name}
+                        &emsp;
                         {expanded ? <Icon name="angle double up" fitted />
-                        :
-                        <Icon name="angle double down" fitted />}
+                            :
+                            <Icon name="angle double down" fitted />}
+                    </h5>
                 </Button>
                 {expanded && (children !== undefined ?
                     (<ul>
