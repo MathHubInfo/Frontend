@@ -39,12 +39,10 @@ ADD yarn.lock /app/yarn.lock
 RUN yarn install
 
 # Add all the remaining source code
-ADD config /app/config/
 ADD pages /app/pages/
 ADD src /app/src
 ADD static /app/static
 
-ADD .babelrc /app/.babelrc
 ADD .gitignore /app/.gitignore
 ADD LICENSE.txt /app/LICENSE.txt
 ADD next.config.js next.config.js
