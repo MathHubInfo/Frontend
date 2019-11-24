@@ -15,7 +15,10 @@ export default class PageModule extends React.Component<IModuleProps> {
                             <h4>
                                 <b>{item.name}</b>
                                 &emsp;
-                            {expanded ? <Icon name="angle double up" fitted /> : <Icon name="angle double down" fitted />}
+                            {expanded ?
+                                <Icon name="angle double up" fitted /> :
+                                <Icon name="angle double down" fitted />
+                            }
                             </h4>
                         </Button>
                     </Card.Header>
@@ -23,10 +26,13 @@ export default class PageModule extends React.Component<IModuleProps> {
                         {item.ref ? "Module" : item.mod.kind === "theory" ? "Theory" : "View"}
                     </Card.Meta>
                     <Card.Description>
-                        {expanded && (children !== undefined ?
+                        {expanded && (children !== undefined ? (
                             <ul>
-                                {children.map(c => <li key={c.props.children.id} style={{ marginTop: "0.5em" }}>{c}</li>)}
-                            </ul> :
+                                {children.map(c =>
+                                    <li key={c.props.children.id} style={{ marginTop: "0.5em" }}>{c}</li>,
+                                )}
+                            </ul>
+                            ) :
                             <Loader active>{intl.get("loading")}</Loader>)
                         }
                     </Card.Description>

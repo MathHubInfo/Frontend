@@ -31,15 +31,19 @@ export default class PageDeclaration extends React.Component<IDeclarationProps> 
                     </h5>
                 </Button>
                 {expanded && (children !== undefined ?
-                    (<ul>
-                        {children.map(c => <li key={c.props.children.id}>{c}</li>)}
-                    </ul>) :
+                    (
+                        <ul>
+                            {children.map(c => <li key={c.props.children.id}>{c}</li>)}
+                        </ul>
+                    ) :
                     <Loader active inline size={"mini"}>{intl.get("load children")}</Loader>)
                 }
                 {expanded && (components !== undefined ?
-                    <ul>
-                        {components.map(c => <li key={c.props.children.name}>{c}</li>)}
-                    </ul> :
+                    (
+                        <ul>
+                            {components.map(c => <li key={c.props.children.name}>{c}</li>)}
+                        </ul>
+                    ) :
                     <Loader active inline size={"mini"}>{intl.get("loading components")}</Loader>)
                 }
             </>

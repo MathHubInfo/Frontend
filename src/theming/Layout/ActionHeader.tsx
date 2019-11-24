@@ -56,11 +56,11 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
 
         return (
             <Popup
-                trigger={
+                trigger={(
                     <Button color="green">
                         <a href={issue} style={{ color: "black" }}>{intl.get("report")}</a>
                     </Button>
-                }
+                )}
                 content={intl.get("issue")}
             />
         );
@@ -110,18 +110,26 @@ class DocumentActionHeader extends React.Component<IActionHeaderProps> {
         return (
             <Dropdown text={intl.get("more")} simple item>
                 <Dropdown.Menu className="link item">
-                    {source && <Dropdown.Item>
+                    {source && (
+                        <Dropdown.Item>
                         <a href={source} style={{ color: "black" }}>{intl.get("view source")}</a>
-                    </Dropdown.Item>}
-                    {tgview && <Dropdown.Item>
-                        <a href={tgview} style={{ color: "black" }}>{intl.get("view tgview")}</a>
-                    </Dropdown.Item>}
-                    {jupyter && <Dropdown.Item>
-                        <a href={jupyter} style={{ color: "black" }}>{intl.get("jupyter")}</a>
-                    </Dropdown.Item>}
-                    {issue && <Dropdown.Item>
-                        <a href={issue} style={{ color: "black" }}>{intl.get("report")}</a>
-                    </Dropdown.Item>}
+                        </Dropdown.Item>
+                    )}
+                    {tgview && (
+                        <Dropdown.Item>
+                            <a href={tgview} style={{ color: "black" }}>{intl.get("view tgview")}</a>
+                        </Dropdown.Item>
+                    )}
+                    {jupyter && (
+                        <Dropdown.Item>
+                            <a href={jupyter} style={{ color: "black" }}>{intl.get("jupyter")}</a>
+                        </Dropdown.Item>
+                    )}
+                    {issue && (
+                        <Dropdown.Item>
+                            <a href={issue} style={{ color: "black" }}>{intl.get("report")}</a>
+                        </Dropdown.Item>
+                    )}
                 </Dropdown.Menu>
             </Dropdown>
         );

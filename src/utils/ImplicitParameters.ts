@@ -101,7 +101,8 @@ export default class ImplicitParameters<T> {
 
             const unmarshal = this.unmarshals[name];
 
-            return [pName, unmarshal ? unmarshal(value) : value.toString()];
+            // tslint:disable-next-line: no-any
+            return [pName, unmarshal ? unmarshal(value) : (value as any).toString()];
         } else return [pName, undefined];
     }
 

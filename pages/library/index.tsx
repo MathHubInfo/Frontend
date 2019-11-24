@@ -44,11 +44,13 @@ export default class Library extends React.Component<ILibraryProps> {
     return (
         <LayoutBody crumbs={crumbs} description={description} title={[title]}>
             <PageLibrary header={header}>
-                {this.props.item.map(g => <PageGroupRef
+                {this.props.item.map(g => (
+                  <PageGroupRef
                     key={g.id}
                     item={g}
                     link={{href: "/library/group", query: {id: g.id}}}
-                />)}
+                  />
+                ))}
             </PageLibrary>
         </LayoutBody>
     );

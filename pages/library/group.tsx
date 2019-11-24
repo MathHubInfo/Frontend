@@ -41,11 +41,13 @@ export default class Group extends React.Component<IGroupProps> {
     return (
         <LayoutBody crumbs={crumbs} description={description} title={[name]}>
             <PageGroup header={header} item={this.props.item}>
-                {archives.map(a => <PageArchiveRef
+                {archives.map(a => (
+                  <PageArchiveRef
                     key={a.id}
                     item={a}
                     link={{href: "/library/archive", query: {id: a.id}}}
-                />)}
+                  />
+                ))}
             </PageGroup>
         </LayoutBody>
     );

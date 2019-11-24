@@ -39,11 +39,13 @@ export default class News extends React.Component<INewsProps> {
 
         return (
             <LayoutBody crumbs={crumbs} description={description} title={["News"]}>
-                <PageNews description={description}>{this.props.item.map(n => <PageNewsPageRef
-                    key={n.id}
-                    item={n}
-                    link={{ href: "/news/page", query: { id: n.id } }}
-                />)}</PageNews>
+                <PageNews description={description}>{this.props.item.map(n => (
+                    <PageNewsPageRef
+                        key={n.id}
+                        item={n}
+                        link={{ href: "/news/page", query: { id: n.id } }}
+                    />
+                ))}</PageNews>
             </LayoutBody>
         );
     }

@@ -29,13 +29,14 @@ export default class PageApplicationsGlossary extends React.Component<IGlossaryP
                     onTabChange={this.changeTab}
                 />
                 <Container>
-                    {entries.map(e =>
+                    {entries.map(e => (
                         <GlossaryEntry
                             key={e.id}
                             selectedLanguage={selectedLanguage}
                             entry={e}
                             changeLanguage={changeLanguage}
-                        />)}
+                        />
+                    ))}
                 </Container>
             </Container>
         );
@@ -92,13 +93,14 @@ class GlossaryEntry extends React.Component<IGlossaryEntryProps> {
                             </Grid.Column>
                             <Grid.Column width={8}>
                                 <Container textAlign="right">
-                                    {available.map(l =>
+                                    {available.map(l => (
                                         <LanguageLink
                                             key={l}
                                             language={l}
                                             selectedLanguage={selectedLanguage}
                                             changeLanguage={changeLanguage}
-                                        />)}
+                                        />
+                                    ))}
                                 </Container>
                             </Grid.Column>
                         </Grid>

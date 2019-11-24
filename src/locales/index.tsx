@@ -49,7 +49,7 @@ function getSelectedLocale(context: NextPageContext): string {
     // our last alternative is the 'Accept-Language' header
     // read the header and make sure that it exists
     if (!context.req) return "";
-    const acceptLanguage = context.req.headers["accept-language"];
+    const acceptLanguage = context.req.headers["accept-language"] || ([] as string[]);
     if (!acceptLanguage) return "";
 
     // join all the headers by a '-'

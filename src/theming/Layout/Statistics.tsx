@@ -48,12 +48,12 @@ function StatisticsElement(props: { name: string; value?: number }) {
         if (s.key === name)
             return (
                 <Popup
-                    trigger={
+                    trigger={(
                         <Table.Row>
                             <Table.Cell>{s.teaser}</Table.Cell>
                             <Table.Cell>{value}</Table.Cell>
                         </Table.Row>
-                    }
+                    )}
                     content={s.description}
                 />
             );

@@ -26,17 +26,29 @@ export default class PageHome extends React.Component<IHomeProps> {
                         </Grid.Column>
                         <Grid.Column width={6}>
                             <MHLink href="/library">
-                                <Button size={"small"} fluid style={{ marginBottom: "0.8em", backgroundColor: "#4F81BD" }}>
+                                <Button
+                                    size={"small"}
+                                    fluid
+                                    style={{ marginBottom: "0.8em", backgroundColor: "#4F81BD" }}
+                                >
                                     <h4>{intl.get("libraries")}</h4>
                                 </Button>
                             </MHLink>
                             <a href={"https://github.com/MathHubInfo/Documentation/wiki/libraries"}>
-                                <Button size={"small"} fluid style={{ marginBottom: "0.8em", backgroundColor: "#4F81BD" }}>
+                                <Button
+                                    size={"small"}
+                                    fluid
+                                    style={{ marginBottom: "0.8em", backgroundColor: "#4F81BD" }}
+                                >
                                     <h4>{intl.get("provide")}</h4>
                                 </Button>
                             </a>
                             <a href={"https://github.com/MathHubInfo/Documentation/wiki/math-archives"}>
-                                <Button size={"small"} fluid style={{ marginBottom: "0.8em", backgroundColor: "#4F81BD" }}>
+                                <Button
+                                    size={"small"}
+                                    fluid
+                                    style={{ marginBottom: "0.8em", backgroundColor: "#4F81BD" }}
+                                >
                                     <h4>{intl.get("archives")}</h4>
                                 </Button>
                             </a>
