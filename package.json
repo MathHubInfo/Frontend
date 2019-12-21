@@ -1,6 +1,6 @@
 {
   "name": "mathhub-react-frontend",
-  "version": "17.0.0",
+  "version": "20.0.0",
   "description": "A rewrite of the MathHub Frontend in React",
   "scripts": {
     "dev": "next dev",
