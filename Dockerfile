@@ -41,7 +41,7 @@ RUN yarn install
 # Add all the remaining source code
 ADD pages /app/pages/
 ADD src /app/src
-ADD static /app/static
+ADD public /app/public
 
 ADD .gitignore /app/.gitignore
 ADD LICENSE.txt /app/LICENSE.txt
