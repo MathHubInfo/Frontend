@@ -10,6 +10,7 @@ import { StatisticsTable } from "../../theming/Layout/Statistics";
 import { issueURL, jupyterURL, sourceURL, tgViewURL } from "../../utils/urls";
 import { WithExtraProps } from "../../utils/WithExtraContext";
 import { IActionDerived, IActionHeaderProps } from "./IActionHeaderProps";
+import TGViewLink from "../../lib/components/TGViewLink";
 
 
 export class ActionHeader extends React.Component<IActionHeaderProps> {
@@ -33,7 +34,7 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
         return (
             <Button icon>
                 <Icon name={"hand point right outline"} />
-                <MHLink href={tgview}><a style={{ color: "black" }}>{intl.get("view tgview")}</a></MHLink>
+                <TGViewLink {...tgview}>{intl.get("view tgview")}</TGViewLink>
             </Button>
         );
     }
@@ -117,7 +118,7 @@ class DocumentActionHeader extends React.Component<IActionHeaderProps> {
                     )}
                     {tgview && (
                         <Dropdown.Item>
-                            <a href={tgview} style={{ color: "black" }}>{intl.get("view tgview")}</a>
+                            <TGViewLink {...tgview}>{intl.get("view tgview")}</TGViewLink>
                         </Dropdown.Item>
                     )}
                     {jupyter && (

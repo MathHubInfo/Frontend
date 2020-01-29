@@ -1,4 +1,5 @@
 import { IStatistic, IReferencable } from "../../context/LibraryClient/objects";
+import { ITGViewData } from "../../utils/urls";
 
 export interface IActionHeaderProps extends IActionDerived {
     // description of the element in question, may contain html
@@ -19,7 +20,7 @@ export interface IActionDerived {
     sourceURL?: string;
 
     // the url to tgview (if any)
-    tgViewURL?: string;
+    tgViewURL?: ITGViewData;
 
     // the url to issues (if any)
     issueURL?: string;

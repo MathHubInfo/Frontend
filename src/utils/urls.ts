@@ -17,7 +17,12 @@ export function issueURL(source: ISourceReference) {
 issueURL.GROUP_TEMPLATE = "https://gl.mathhub.info/groups/${group}/-/issues";
 issueURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/issues";
 
-export function tgViewURL(obj: IReferencable) {
+export interface ITGViewData {
+    type: string;
+    graphdata: string;
+}
+
+export function tgViewURL(obj: IReferencable): ITGViewData | undefined {
     let type: string | undefined;
     switch (obj.kind) {
         case "archive":
@@ -34,7 +39,7 @@ export function tgViewURL(obj: IReferencable) {
             return undefined;
     }
 
-    return `/applications/tgview?type=${type}&graphdata=${escape(obj.id)}`; // id=thgraph
+    return {type, graphdata: obj.id};
 }
 
 
