@@ -1,6 +1,6 @@
 // tslint:disable:export-name
 
-import App, { AppContext, Container } from "next/app";
+import App, { AppContext } from "next/app";
 import dynamic from "next/dynamic";
 import { default as Router } from "next/router";
 import React from "react";
@@ -128,14 +128,12 @@ export default class MHApp extends App<IMHAppOwnProps> {
         const { activeLanguage, changeLanguage, routing, languageLoaded, runtimeConfig } = this.state;
 
         return (
-            <Container>
-                <MHAppContext.Provider
-                    value={{ routing, runtimeConfig, activeLanguage, knownLanguages, changeLanguage }}
-                >
-                    {routing && <LayoutRoutingIndicator />}
-                    {languageLoaded && <Component {...pageProps} />}
-                </MHAppContext.Provider>
-            </Container>
+            <MHAppContext.Provider
+                value={{ routing, runtimeConfig, activeLanguage, knownLanguages, changeLanguage }}
+            >
+                {routing && <LayoutRoutingIndicator />}
+                {languageLoaded && <Component {...pageProps} />}
+            </MHAppContext.Provider>
         );
     }
 
