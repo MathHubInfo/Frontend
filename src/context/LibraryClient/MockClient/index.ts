@@ -548,9 +548,11 @@ class LazyMockClient extends LibraryClient {
 export default class MockClient extends LazyMockClient {
     constructor() {
         super(async (): Promise<IMockDataSet> => {
+            // because of https://github.com/microsoft/TypeScript/issues/31920
+            // we need to force cast here!
             const mock = await import("./mock.json");
 
-            return mock.default;
+            return mock.default as unknown as IMockDataSet;
         });
     }
 }

@@ -186,7 +186,7 @@ export interface IDocument extends IDocumentItem {
 }
 
 enum DocumentTags { "ipynb-omdoc" }
-export type TDocumentTags = EnumKeys<typeof DocumentTags>;
+export type TDocumentTags = EnumKeys<typeof DocumentTags> | string; // either one of the known tags or any other string
 export const knownDocumentTags = getEnumKeys<typeof DocumentTags>(DocumentTags);
 
 interface IOpaqueElementItem extends IAPIObjectItem {
