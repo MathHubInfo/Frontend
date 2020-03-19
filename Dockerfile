@@ -1,7 +1,10 @@
 ### Dockerfile for MathHub-Frontend
 
 # Start from nodejs
-FROM node
+FROM node:12
+
+# no telemetry please
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # We have a lot of configurations that can be made
 # at compile time, but will be needed at runtime
