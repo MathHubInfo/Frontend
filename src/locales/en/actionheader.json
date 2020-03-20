@@ -1,6 +1,7 @@
 {
     "view source": "View Source",
     "view tgview": "View on TGView",
+    "view tgview3d": "View on TGView3D",
     "issue": "Report an issue with the contents of the current page on the archive issue tracker.",
     "responsible": "Responsible",
     "jupyter": "Test on Jupyter",

@@ -11,6 +11,7 @@ import { issueURL, jupyterURL, sourceURL, tgViewURL } from "../../utils/urls";
 import { WithExtraProps } from "../../utils/WithExtraContext";
 import { IActionDerived, IActionHeaderProps } from "./IActionHeaderProps";
 import TGViewLink from "../../lib/components/TGViewLink";
+import TGView3DLink from "../../lib/components/TGView3DLink";
 
 
 export class ActionHeader extends React.Component<IActionHeaderProps> {
@@ -35,6 +36,18 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
             <Button icon>
                 <Icon name={"hand point right outline"} />
                 <TGViewLink {...tgview}>{intl.get("view tgview")}</TGViewLink>
+            </Button>
+        );
+    }
+    tgView3DButton() {
+        const { tgViewURL: tgview } = this.props;
+        if (tgview === undefined)
+            return null;
+
+        return (
+            <Button icon>
+                <Icon name={"hand point right outline"} />
+                <TGView3DLink {...tgview}>{intl.get("view tgview3d")}</TGView3DLink>
             </Button>
         );
     }
@@ -77,6 +90,7 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
                     <Grid.Column width={11}>
                         {this.sourceButton()}
                         {this.tgViewButton()}
+                        {this.tgView3DButton()}
                         {this.jupyterButton()}
                         <div>{description && <MHHTML renderReferences>{description}</MHHTML>}</div>
                     </Grid.Column>
@@ -119,6 +133,11 @@ class DocumentActionHeader extends React.Component<IActionHeaderProps> {
                     {tgview && (
                         <Dropdown.Item>
                             <TGViewLink {...tgview}>{intl.get("view tgview")}</TGViewLink>
+                        </Dropdown.Item>
+                    )}
+                    {tgview && (
+                        <Dropdown.Item>
+                            <TGView3DLink {...tgview}>{intl.get("view tgview3d")}</TGView3DLink>
                         </Dropdown.Item>
                     )}
                     {jupyter && (
