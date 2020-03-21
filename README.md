@@ -1,6 +1,6 @@
 # MathHub-Frontend
 
-[![Build Status](https://img.shields.io/travis/MathHubInfo/Frontend.svg)](https://travis-ci.org/MathHubInfo/Frontend)
+[![Build Status](https://img.shields.io/travis/MathHubInfo/Frontend.svg)](https://travis-ci.com/MathHubInfo/Frontend)
 [![DockerHub Status](https://img.shields.io/docker/automated/mathhub/frontend.svg)](https://hub.docker.com/r/mathhub/frontend/)
 
 A new MathHub Frontend written with [Typescript](https://www.typescriptlang.org/) in [React](https://reactjs.org/) and [Next.js](https://nextjs.org/).
