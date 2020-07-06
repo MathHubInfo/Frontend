@@ -1,4 +1,4 @@
-// tslint:disable:export-name
+// tslint:disable:export-name no-submodule-imports no-implicit-dependencies
 
 import App, { AppContext } from "next/app";
 import dynamic from "next/dynamic";
@@ -9,6 +9,15 @@ import MHAppContext, { IMHAppContext } from "../src/lib/components/MHAppContext"
 import { initLocaleSupport, negotiateLanguage, setLocale, supportedLocales as knownLanguages } from "../src/locales";
 import { IMathHubRuntimeConfig } from "../src/types/config";
 import ImplicitParameters from "../src/utils/ImplicitParameters";
+
+// true global css
+import "semantic-ui-css/semantic.min.css";
+
+// tgview only css
+import "tgview/src/css/styles.css";
+import "vis/dist/vis.min.css";
+import "jqueryui/jquery-ui.min.css";
+import "jstree/dist/themes/default/style.css";
 
 const LayoutRoutingIndicator = dynamic(() => import("../src/theming/Layout/LayoutRoutingIndicator"));
 

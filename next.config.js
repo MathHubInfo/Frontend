@@ -1,8 +1,6 @@
 // @ts-check
 // tslint:disable:object-literal-sort-keys no-console no-empty
 
-const withCSS = require("@zeit/next-css");
-
 const resolve = require("path").resolve;
 const gitRevSync = require("git-rev-sync");
 
@@ -16,7 +14,7 @@ const IgnorePlugin = require("webpack").IgnorePlugin;
  */
 
 
-module.exports = withCSS({
+module.exports = {
     poweredByHeader: false,
 
     webpack: (config, options) => {
@@ -26,19 +24,6 @@ module.exports = withCSS({
         test: /\.txt$/i,
         use: {
           loader: "raw-loader",
-        },
-      });
-  
-      config.module.rules.push({
-        test: /\.(gif|png|svg|eot|otf|ttf|woff|woff2)$/i,
-        use: {
-          loader: "url-loader",
-          options: {
-            limit: 8192,
-            publicPath: "./",
-            outputPath: "static/css/",
-            name: "[name].[ext]",
-          },
         },
       });
   
@@ -128,4 +113,4 @@ module.exports = withCSS({
             UPSTREAM_BASE_URL: process.env.UPSTREAM_BASE_URL || undefined,
         }
     },
-});
+};

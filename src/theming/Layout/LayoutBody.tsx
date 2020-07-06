@@ -2,8 +2,6 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import * as React from "react";
-// tslint:disable-next-line: no-submodule-imports
-import "semantic-ui-css/semantic.min.css";
 import { Divider } from "semantic-ui-react";
 import getMathHubConfig from "../../context";
 import MHAppContext, { IMHAppContext } from "../../lib/components/MHAppContext";
