@@ -149,7 +149,7 @@ class LayoutCrumb extends React.Component<{ href: string; title: string; query?:
                 <MHLink href={href} query={query}>
                     <a>{title}</a>
                 </MHLink>
-                &nbsp;>&nbsp;
+                &nbsp;&gt;&nbsp;
             </>
         );
     }
