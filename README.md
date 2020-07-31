@@ -11,7 +11,7 @@ This is the source code for the MathHub Frontend.
 
 The MathHub Frontend exists in two different versions:
 
-- A stable (`master`) version, that is well-tested and more-feature-complete.
+- A stable (`main`) version, that is well-tested and more-feature-complete.
   This is deployed at [mathhub.info](https://mathhub.info/).
 
 - A development (`devel`) version, which has the newest features but might be unstable. 
