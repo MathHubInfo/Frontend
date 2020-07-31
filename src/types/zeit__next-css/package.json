@@ -1,7 +1,0 @@
-{
-    "private": true,
-    "dependencies": {
-        "next": "^9.3.3",
-        "@zeit/next-css": "^1.0.1"
-    }
-}
