@@ -1,7 +1,7 @@
 ### Dockerfile for MathHub-Frontend
 
 # Start from nodejs
-FROM node:12
+FROM node:14
 
 # no telemetry please
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -30,7 +30,6 @@ ENV UPSTREAM_BASE_URL=${UPSTREAM_BASE_URL}
 ARG RUNTIME_CONFIG_URL="/config.json"
 ENV RUNTIME_CONFIG_URL=${RUNTIME_CONFIG_URL}
 
-
 # We will place all our code into /app/
 WORKDIR /app/
 
@@ -39,7 +38,7 @@ WORKDIR /app/
 # change
 ADD package.json /app/package.json
 ADD yarn.lock /app/yarn.lock
-RUN yarn install
+RUN yarn --no-cache install
 
 # Add all the remaining source code
 ADD pages /app/pages/
@@ -58,4 +57,5 @@ RUN mkdir -p /app/src/assets/generated && yarn mklegal && yarn build
 
 # and set up the server
 EXPOSE 8043
+USER "www-data:www-data"
 CMD [ "yarn", "start", "--port", "8043", "--hostname", "0.0.0.0" ]
