@@ -1,6 +1,6 @@
 # MathHub-Frontend
 
-[![Build Status](https://img.shields.io/travis/MathHubInfo/Frontend.svg)](https://travis-ci.com/MathHubInfo/Frontend)
+![Build Status](https://github.com/MathHubInfo/Frontend/workflows/CI/badge.svg)
 [![DockerHub Status](https://img.shields.io/docker/automated/mathhub/frontend.svg)](https://hub.docker.com/r/mathhub/frontend/)
 
 A new MathHub Frontend written with [Typescript](https://www.typescriptlang.org/) in [React](https://reactjs.org/) and [Next.js](https://nextjs.org/).
@@ -168,12 +168,11 @@ Runtime variables are configuration variables that are loaded lazily at runtime 
 Currently there are no runtime environment variables.
 
 
-### Travis Testing
+### Testing
 
-This project has minimal Travis CI tests. 
+This project has minimal CI tests using GitHub Actions. 
 
-These check that the project *compiles* in both production and non-production configurations under Node Versions 8, 9 and 10. 
-
+These check that the project *compiles* in both production and non-production configurations. 
 
 ## License & Acknowledgements
 
