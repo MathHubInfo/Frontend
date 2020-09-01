@@ -4,7 +4,7 @@
     "license and notices": "License and Notices",
     "imprint": "Imprint",
     "policy": "Privacy Policy",
-    "version": "MathHub Version ${version} configured at ${time}",
+    "version": "MathHub Version {version} configured at {time}",
     "from": "from",
     "branch": "on branch",
     "date": "date",
