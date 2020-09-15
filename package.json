@@ -54,6 +54,8 @@
     "webpack": "^4.44.1"
   },
   "resolutions": {
+    "next/@ampproject/toolbox-optimizer/node-fetch": "^2.6.1",
+    "next/@ampproject/toolbox-optimizer/cross-fetch/node-fetch": "^2.6.1",
     "git-rev-sync/shelljs": "^0.8.4"
   }
 }
