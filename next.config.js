@@ -1,116 +1,148 @@
 // @ts-check
-// tslint:disable:object-literal-sort-keys no-console no-empty
 
-const resolve = require("path").resolve;
+// This file is the main configuration of the MathHub nextjs app. 
+// It's read only once, and directly from within node. 
+// For this reason we can't use "import" statements, as node doesn't natively support them.
+
+const { resolve } = require("path");
+const { readdirSync } = require("fs");
+const { ProvidePlugin, IgnorePlugin } = require("webpack");
 const gitRevSync = require("git-rev-sync");
 
-const readdirSync = require("fs").readdirSync;
-const ProvidePlugin = require("webpack").ProvidePlugin;
-const IgnorePlugin = require("webpack").IgnorePlugin;
 
-/**
- * @typedef {import("./src/types/config").IMathHubConfig} IMathHubConfig
- * @typedef {import("./src/types/config").IMathHubVersion} IMathHubVersion
- */
+/** @type{import("./src/types/config").IMathHubConfig} */
+const config = {
+  "MATHHUB_VERSION": mathhubversion(),
 
+  // read the rest of the environment variables from the real environment
+  // TODO: Consider moving these directly into NEXT_PUBLIC_ so that they're easier to setup
+  ...readenv([
+    "LIBRARY_URL",
+    "NEWS_URL",
+    "GLOSSARY_URL",
+    "TRANSLATION_URL",
+    "ADMIN_URL",
+    "RUNTIME_CONFIG_URL",
+    "UPSTREAM_BASE_URL",
+  ])
+}
 
 module.exports = {
-    poweredByHeader: false,
-
-    webpack: (config, options) => {
-
-      // add rules for txt
-      config.module.rules.push({
-        test: /\.txt$/i,
-        use: {
-          loader: "raw-loader",
-        },
-      });
-  
-      // all files from src/assets/generated might be missing
-      // so we need to craft a special IgnorePlugin instance that ignores
-      // all the non-existing ones.
-  
-      // first find all the existing ones and turn them into a regex
-      /** @type {string[]} */
-      let files = [];
-      try {
-        files = readdirSync(resolve(__dirname, "src", "assets", "generated"));
-  
-      // tslint:disable-next-line:no-empty
-      } catch (e) {}
-  
-      const filesRegex = files
-        .map(f => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-        .join("|");
-  
-      // then place them into the look-around regex
-      // \/assets\/generated\/((?!file1.txt|file2.txt|...))[^\/]+$
-      // (we omit the look-around if no files exist)
-      const regex = filesRegex !== ""
-        ? `\\/assets\\/generated\\/((?!${filesRegex}))[^\/]+$` : "\\/assets\\/generated\\/[^\/]+$";
-      config.plugins.push(new IgnorePlugin(new RegExp(regex)));
-  
-      // when we are not on the server, we need to provide jquery
-      if (!options.isServer) {
-        config.plugins.push(new ProvidePlugin({"$": "jQuery", "jQuery": "jquery"}));
-      }
-  
-      return config;
-    },
-
-    // MATHHUB_CONFIG
-    env: {
-        MATHHUB_CONFIG: {
-            // dynamically generate the version string
-            // based on the environment
-            MATHHUB_VERSION: (function () {
-                const pkg = require("./package.json").version;
-            
-                const root = resolve(__dirname, "..");
-            
-                /** @type {IMathHubVersion["git"] | undefined} */
-                let git = undefined;
-            
-                try {
-                    const gitHash = gitRevSync.long(root);
-                    if (!gitHash) {
-                        throw new Error("no git hash");
-                    }
-            
-                    git = { hash: gitHash };
-            
-                    try {
-                        /** @type {unknown} */
-                        const branch = gitRevSync.branch(root);
-                        git.branch = branch ? (branch + "") : undefined;
-                    } catch (f) {}
-            
-                    try {
-                        git.dirty = gitRevSync.isDirty();
-                    } catch (f) {}
-            
-                    try {
-                        git.time = gitRevSync.date().getTime();
-                    } catch (f) {}
-                } catch (e) {}
-            
-                return {
-                    semantic: pkg,
-                    configTime: new Date().getTime(),
-                    git: git,
-                };
-            })(),
-
-            // environment variables to read from the actual environment
-            // along with appropriate defaults
-            LIBRARY_URL: process.env.LIBRARY_URL || undefined,
-            NEWS_URL: process.env.NEWS_URL || undefined,
-            GLOSSARY_URL: process.env.GLOSSARY_URL || undefined,
-            TRANSLATION_URL: process.env.TRANSLATION_URL || undefined,
-            ADMIN_URL: process.env.ADMIN_URL || undefined,
-            RUNTIME_CONFIG_URL: process.env.RUNTIME_CONFIG_URL || undefined,
-            UPSTREAM_BASE_URL: process.env.UPSTREAM_BASE_URL || undefined,
-        }
-    },
+  poweredByHeader: false,
+  webpack,
+  env: {MATHHUB_CONFIG: config},
 };
+
+/**
+ * Makes a Regexp for source files inside path to be optional. 
+ * Assumes a subdirectory of source and does not support ".."s. 
+ * To be used by IgnorePlugin. 
+ * 
+ * @param  {...string} path 
+ * @returns {RegExp}
+ */
+function optionalRegex(...path) {
+  // Construct a regex of the path that matches the path
+  // But does not match the existing files in that path. 
+
+  /** pathRegexp is a version of the path to be used inside a regex */
+  const pathRegexp = (["", ...path, ""]).join("\\/");
+
+  /**
+   * All the files in the path that do exist
+   * @type {string[]}
+   */
+  let files = [];
+  try {
+    files = readdirSync(resolve(__dirname, "src", ...path));
+  } catch (e) { }
+
+  // escape special characters and build a look-around regex
+  let filesRegex = files.map(f => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+  filesRegex = filesRegex !== "" ? `((?!${filesRegex}))[^\/]+$` : "[^\/]+$";
+
+  return new RegExp(pathRegexp + filesRegex);
+}
+
+
+/**
+ * webpack updates the webpack configuration
+ * @param {import("webpack").Configuration} config 
+ * @param {*} options 
+ * @return {import("webpack").Configuration}
+ */
+function webpack(config, options) {
+  // add rules for txt
+  config.module.rules.push({
+    test: /\.txt$/i,
+    use: {
+      loader: "raw-loader",
+    },
+  });
+
+  // all files from src/assets/generated might be missing
+  // so we need to craft a special IgnorePlugin instance that ignores all the non-existing ones. 
+  config.plugins.push(new IgnorePlugin(optionalRegex("assets", "generated")));
+
+  // when we are not on the server, we need to provide jquery
+  if (!options.isServer) {
+    config.plugins.push(new ProvidePlugin({ "$": "jQuery", "jQuery": "jquery" }));
+  }
+
+  return config;
+}
+
+/**
+ * Build version information about this version of MathHub. 
+ * 
+ * @returns {import("./src/types/config").IMathHubVersion}
+ */
+function mathhubversion() {
+  const pkg = require("./package.json").version; // TODO: Use readfile
+
+  const root = resolve(__dirname, "..");
+
+  /** @type {import("./src/types/config").IMathHubVersion["git"] | undefined} */
+  let git = undefined;
+
+  try {
+    const gitHash = gitRevSync.long(root);
+    if (!gitHash) {
+      throw new Error("no git hash");
+    }
+
+    git = { hash: gitHash };
+
+    try {
+      const branch = gitRevSync.branch(root);
+      git.branch = branch ? (branch + "") : undefined;
+    } catch (f) { }
+
+    try {
+      git.dirty = gitRevSync.isDirty();
+    } catch (f) { }
+
+    try {
+      git.time = gitRevSync.date().getTime();
+    } catch (f) { }
+  } catch (e) { }
+
+  return {
+    semantic: pkg,
+    configTime: new Date().getTime(),
+    git: git,
+  };
+}
+
+/**
+ * Readenv reads variables from the environment and returns a dictionary containing them. 
+ * 
+ * @param {string[]} variables
+ * @return {Object.<string, string>}
+ */
+function readenv(variables) {
+  /** @type Object.<string, string> */
+  const dict = {};
+  variables.forEach(v => dict[v] = process.env[v] || undefined);
+  return dict;
+}
