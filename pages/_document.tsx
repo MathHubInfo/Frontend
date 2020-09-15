@@ -1,6 +1,6 @@
 // tslint:disable:export-name
 
-import Document, { DocumentContext, DocumentProps, Head, Main, NextScript } from "next/document";
+import Document, { DocumentContext, DocumentProps, Html, Head, Main, NextScript } from "next/document";
 import dynamic from "next/dynamic";
 import { negotiateLanguage } from "../src/locales";
 import { ILayoutHeaderProps } from "../src/theming/Layout/ILayoutHeaderProps";
@@ -29,7 +29,7 @@ export default class MHDocument extends Document<MHDocumentProps> {
 
   render() {
     return (
-      <html lang={this.props.language}>
+      <Html lang={this.props.language}>
         <Head>
           <LayoutHeader language={this.props.language} />
         </Head>
@@ -37,7 +37,7 @@ export default class MHDocument extends Document<MHDocumentProps> {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }
