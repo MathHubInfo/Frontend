@@ -45,7 +45,7 @@
     "cross-env": "^7.0.2",
     "file-loader": "^6.0.0",
     "fork-ts-checker-webpack-plugin": "^5.0.12",
-    "git-rev-sync": "^2.0.0",
+    "git-rev-sync": "^3.0.1",
     "raw-loader": "^4.0.1",
     "tslint": "^6.1.2",
     "tslint-microsoft-contrib": "^6.2.0",
@@ -55,7 +55,6 @@
   },
   "resolutions": {
     "next/@ampproject/toolbox-optimizer/node-fetch": "^2.6.1",
-    "next/@ampproject/toolbox-optimizer/cross-fetch/node-fetch": "^2.6.1",
-    "git-rev-sync/shelljs": "^0.8.4"
+    "next/@ampproject/toolbox-optimizer/cross-fetch/node-fetch": "^2.6.1"
   }
 }
