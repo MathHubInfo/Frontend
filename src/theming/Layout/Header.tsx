@@ -6,8 +6,21 @@ import { urls } from "../../assets/urls";
 import MHLink from "../../lib/components/MHLink";
 import MHAppContext, { IMHAppContext } from "../../../src/lib/components/MHAppContext";
 import { WithContextProps } from "../../utils/WithExtraContext";
+import { IBreadcrumb } from "./Props";
 
-import { IBreadcrumb, IHeaderProps } from "./IHeaderProps";
+interface IHeaderProps {
+    /**
+     * The title of the current page, consisting out of differenct components
+     */
+    title?: string[];
+
+
+    /**
+     * The breadcrumbs to the current page.
+     * Each Component is a pair of (title, url) to be used as arguments for creating a link.
+     */
+    crumbs: IBreadcrumb[];
+}
 
 class HeaderInt extends React.Component<IHeaderProps & IMHAppContext> {
     render() {

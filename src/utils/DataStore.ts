@@ -1,8 +1,19 @@
 import { sortBy } from "lodash";
 
-import { debugLog } from "./withDebug";
+import { DebugLog } from "./WithDebug";
 
+/**
+ * DataStore is an object that loads data from a getter
+ * Data is loaded asyncronously, and with a priority
+ */
 export default class DataStore<T> {
+    /**
+     * Create a new DataStore
+     * @param getter function to load elements from
+     * @param onUpdate Function to call on update
+     * @param cycleDelay Delay between loading cycles
+     * @param entries Existing entries at the beginning
+     */
     constructor(
         private readonly getter: (id: string) => Promise<T | undefined>,
         private readonly onUpdate?: () => void,
@@ -12,143 +23,146 @@ export default class DataStore<T> {
         this.cache = new Map<string, T>(entries);
     }
 
-    // the known elements in this store
-    private readonly cache: Map<string, T>;
+    private readonly cache: Map<string, T>; // data that has actually been loaded
 
-    // the quenue of elements to be loaded
-    private actualQuenue: string[] = [];
+    // There are two kinds of quenues
+    // - a regular quenue to load elements
+    // - a priority quenue to load elements from
+    private quenue: string[] = [];
+    private pQuenue: Array<[number, string]> = [];
 
-    // the qunue of elements to be pre-loaded
-    // i.e. elements that should be loaded
-    // should always remain sorted by number
-    private preloadQuenue: Array<[number, string]> = [];
-
-    // boolean indiciating if a loading cycle is currently running
+    // state of the loading cycle
     private isCycleRunning = false;
-
-    // set to true if this object is due for being destroyed
     private stop = false;
 
-    /**
-     * Stops all future updates
-     */
-    destroy() {
-        // clear everything
-        this.actualQuenue = [];
-        this.preloadQuenue = [];
-        this.cache.clear();
+    //
+    // Element getters
+    //
 
-        // and set the stop flag
-        this.stop = true;
+    /**
+     * Has checks if this store has the provided element in the cache
+     * @param id ID of element to check
+     */
+    has(id: string): boolean {
+        return this.cache.has(id) ||
+            this.quenue.indexOf(id) > -1 ||
+            this.pQuenue.find(e => e[1] === id) !== undefined;
     }
 
     /**
-     * Gets an element if it is currently stored
+     * Get gets an element if this store currently has it in the cache
+     * @param id ID of element to get
      */
-    getElement(id: string): T | undefined {
+    get(id: string): T | undefined {
         return this.cache.get(id);
     }
 
     /**
-     * Checks if an element is "known" to the store
-     * I.e. it is either in the store or quenued for loading
+     * Delete removes an element from the cache
+     * @param id ID of element to delete
      */
-    knowsElement(id: string): boolean {
-        return this.cache.has(id) ||
-            this.actualQuenue.indexOf(id) > -1 ||
-            this.preloadQuenue.find(e => e[1] === id) !== undefined;
-    }
-
-    /**
-     * Removes an element from this DataStore
-     */
-    clearElement(id: string): void {
+    delete(id: string): void {
         if (this.cache.delete(id))
-           if (this.onUpdate && !this.stop) this.runNext(this.onUpdate);
+           if (this.onUpdate && !this.stop) this.runAsyncNext(this.onUpdate);
     }
 
     /**
-     * Informs the store to load an element
-     * unless it is already loaded
+     * destroy stops all future updates to this DataStore
      */
-    loadElement(id: string): void {
-        if (this.stop) return; // exit if we are stopped
-
-        if (!this.knowsElement(id)) {
-            this.actualQuenue.push(id);
-            this.runNow(this.loadingCyle);
-        }
+    destroy() {
+        // set the stop flag
+        // and then clear all the quenues
+        this.stop = true;
+        this.quenue = [];
+        this.pQuenue = [];
+        this.cache.clear();
     }
 
     /**
-     * Informs the store to preload an element
-     * as soon as the main quenue is empty
-     * Elements with lower priority will be loaded first
+     * Load informs this store to load an element.
+     * Load requests are stored in a FIFO.
+     * @param id ID of element to load
      */
-    preloadElement(id: string, priority = 0): void {
-        if (this.stop) return; // exit if we are stopped
+    load(id: string): void {
+        // if we have already loaded this element
+        // or are stopped, don't do anything
+        if (this.stop || this.has(id)) return;
 
-        if (!this.knowsElement(id)) {
-            // insert [priority, id] into the list
-            this.preloadQuenue = sortBy<[number, string]>([[priority, id], ...this.preloadQuenue], ([p]) => p);
+        this.quenue.push(id);
+        this.runAsync(this.loadingCyle);
+    }
 
-            // and update
-            this.runNow(this.loadingCyle);
-        }
+    /**
+     * Preload informs this store to prioritize loading an element.
+     * Load requests are stored in a FIFO quenue that is stored by priority.
+     * Preload requests are prioritized over normal load requests.
+     * Elements with the lowest priority are loaded first.
+     * @param id ID of element to preload
+     * @param priority Priority of loading request
+     */
+    preload(id: string, priority = 0): void {
+        // if we have already loaded this element
+        // or are stopped, don't do anything
+        if (this.stop || this.has(id)) return;
+
+        this.pQuenue = sortBy<[number, string]>([[priority, id], ...this.pQuenue], ([p]) => p);
+        this.runAsync(this.loadingCyle);
     }
 
     /**
      * Triggers a cycle of loading
      */
     private readonly loadingCyle = async () => {
-        if (this.stop) return; // don't run if we are supposed to exit
-        if (this.isCycleRunning) return; // don't run if we are already running
+        // if we are supposed to stop, or the cycle is already running
+        // we don't need to run
+        if (this.stop || this.isCycleRunning) return;
 
-        if (this.actualQuenue.length === 0 && this.preloadQuenue.length === 0)
-            return; // don't run if there is nothing to get
+        // if there are no elements in either quenue
+        // we don't need to run either
+        if (this.quenue.length === 0 && this.pQuenue.length === 0) return;
 
-        // block all other attempts at running
+        // run the actual loading cycle
         this.isCycleRunning = true;
-
-        // grab the next element to fetch
-
-        const isPreload = this.actualQuenue.length === 0;
-        const [prio, next] = isPreload ?
-            (this.preloadQuenue.pop() || [0, undefined]) :
-            [0, this.actualQuenue.shift()];
-
-        debugLog("preloadingCycle", next, "preload", isPreload);
-
-        // if we have a new element to fetch
-        if (next && !this.cache.has(next))
-            try {
-                // get the next data item
-                const data = await this.getter(next);
-
-                if (data === undefined) throw new Error("not found");
-
-                // if we haven't stopped in the meanwhile
-                // update the cache and call the update handler
-                if (!this.stop) {
-                    this.cache.set(next, data);
-                    if (this.onUpdate) this.onUpdate();
-                }
-
-            // something went wrong, try loading this element again
-            } catch (e) {
-                this.runNext(() => {
-                        if (isPreload) this.preloadElement(next, prio);
-                        else this.loadElement(next);
-                });
-            }
-
-        // end the current cycle and start the next one
+        await this.loadingCycleActual();
         this.isCycleRunning = false;
-        if (!this.stop) this.runNext(this.loadingCyle);
+
+        // setup the next cycle if needed
+        if (this.stop) return;
+        this.runAsyncNext(this.loadingCyle);
     }
 
-    private readonly runNext = (f: () => void) => setTimeout(f, this.cycleDelay);
-    private readonly runNow = (f: () => void) => setTimeout(f, 0);
+    private readonly loadingCycleActual = async () => {
+        // find the next element to load
+        const isPreload = (this.pQuenue.length !== 0);
+        const [prio, next] = isPreload ?
+            this.pQuenue.pop() as [number, string] : [0, this.quenue.shift()];
+
+        DebugLog("preloadingCycle", next, "preload", isPreload);
+
+        // if we don't have an element to load
+        // or we have already loaded it, we're done
+        if (next === undefined || this.cache.has(next)) return;
+
+        try {
+            const data = await this.getter(next);
+            if (data === undefined) throw new Error("not found");
+
+            // there was an async, so we could have stopped
+            if (this.stop) return;
+
+            // store the element and trigger the update call
+            this.cache.set(next, data);
+            if (this.onUpdate) this.onUpdate();
+        } catch (e) {
+            this.runAsyncNext(() => {
+                if (isPreload) this.preload(next, prio);
+                else this.load(next);
+            });
+        }
+    }
+
+    private readonly runAsyncNext = (f: () => void) => setTimeout(f, this.cycleDelay);
+    private readonly runAsync = (f: () => void) => setTimeout(f, 0);
 }
 
 export class BooleanArrayStore<T> {
@@ -173,7 +187,7 @@ export class BooleanArrayStore<T> {
     /**
      * Gets an element from the store
      */
-    getElement = (id: string) => this.store.getElement(id);
+    get = (id: string) => this.store.get(id);
 
     /**
      * Checks if this store contains a given item
@@ -192,7 +206,7 @@ export class BooleanArrayStore<T> {
                 newAry.splice(index, 1);
             else {
                 // add the element to the elements to be loaded
-                this.store.loadElement(id);
+                this.store.load(id);
 
                 // add the element to the ones to be expanded
                 newAry.push(id);
@@ -205,5 +219,5 @@ export class BooleanArrayStore<T> {
     /**
      * Sets a given element to be pre-loaded
      */
-    preload = (id: string, urgent: boolean) => this.store.preloadElement(id, urgent ? 0 : 1);
+    preload = (id: string, urgent: boolean) => this.store.preload(id, urgent ? 0 : 1);
 }

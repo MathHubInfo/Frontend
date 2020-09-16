@@ -37,7 +37,7 @@ export enum DerivedDataStatus {
  * @param query query to extract parameter from
  * @param res Response object
  */
-export default async function getDerivedParameter<T>(
+export default async function GetDerivedParameter<T>(
     name: string | undefined,
     derivation: (value: string) => Promise<T | undefined>,
     query: NextPageContext["query"],

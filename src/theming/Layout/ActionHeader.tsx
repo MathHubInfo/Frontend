@@ -2,16 +2,44 @@
 import * as React from "react";
 import intl from "react-intl-universal";
 import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";
-import { IDocument, ISourceReference } from "../../context/LibraryClient/objects";
+import { IDocument, IReferencable, ISourceReference, IStatistic } from "../../context/LibraryClient/objects";
 import { ObjectSource } from "../../context/LibraryClient/objects/utils";
 import MHHTML from "../../lib/components/MHHTML";
 import MHLink from "../../lib/components/MHLink";
 import { StatisticsTable } from "../../theming/Layout/Statistics";
-import { issueURL, jupyterURL, sourceURL, tgViewURL } from "../../utils/urls";
+import { IssueURL, ITGViewData, JupyterURL, SourceURL, TGViewURL } from "../../utils/URLs";
 import { WithExtraProps } from "../../utils/WithExtraContext";
-import { IActionDerived, IActionHeaderProps } from "./IActionHeaderProps";
 import TGViewLink from "../../lib/components/TGViewLink";
 import TGView3DLink from "../../lib/components/TGView3DLink";
+
+
+interface IActionHeaderProps extends IActionDerived {
+    // description of the element in question, may contain html
+    description?: string;
+
+    // referenced object by this page
+    obj?: IReferencable;
+
+    // statistics (if any)
+    statistics?: IStatistic[];
+
+    // a list of people responsible for the item
+    responsible?: string[];
+}
+
+interface IActionDerived {
+    // the url to the source (if any)
+    sourceURL?: string;
+
+    // the url to tgview (if any)
+    tgViewURL?: ITGViewData;
+
+    // the url to issues (if any)
+    issueURL?: string;
+
+    // the url to open a jupyter notebook (if any)
+    jupyterURL?: string;
+}
 
 
 export class ActionHeader extends React.Component<IActionHeaderProps> {
@@ -65,7 +93,7 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
     }
     reportButton() {
         const { issueURL: issue } = this.props;
-        if (issueURL === undefined)
+        if (IssueURL === undefined)
             return null;
 
         return (
@@ -164,10 +192,10 @@ export default WithExtraProps<IActionDerived, IActionHeaderProps>(ActionHeader, 
         jupyter = ObjectSource(obj);
 
     return {
-        sourceURL: source && sourceURL(source),
-        issueURL: source && issueURL(source),
-        jupyterURL: jupyter && jupyterURL(jupyter),
-        tgViewURL: obj && tgViewURL(obj),
+        sourceURL: source && SourceURL(source),
+        issueURL: source && IssueURL(source),
+        jupyterURL: jupyter && JupyterURL(jupyter),
+        tgViewURL: obj && TGViewURL(obj),
     };
 });
 

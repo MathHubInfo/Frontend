@@ -3,7 +3,7 @@
  */
 import * as React from "react";
 
-import { getDocumentConstants, parseHTMLString } from "./dom";
+import { ELEMENT_NODE, ParseHTML, TEXT_NODE } from "./DOM";
 
 // a react element
 export type TReactElement = React.ReactElement<{}>;
@@ -35,12 +35,12 @@ export interface IHTMLReactParserOptions {
 export default function Parse(html: string, options?: IHTMLReactParserOptions): TReactElement[] {
     // and parse the fragment
     return parseNodes(
-        parseHTMLString(html),
+        ParseHTML(html),
         options || {},
     );
 }
 
-export function parseNodes(
+function parseNodes(
     nodes: TNodeList, options: IHTMLReactParserOptions, keyPrefix?: string,
 ): TReactElement[] {
     const results =
@@ -62,9 +62,9 @@ function handleNode(node: Node, key: string, options: IHTMLReactParserOptions): 
 
 
     // else switch by type of node
-    if (node.nodeType === getDocumentConstants().ELEMENT_NODE)
+    if (node.nodeType === ELEMENT_NODE)
         return handleElement(node as Element, key, options);
-    else if (node.nodeType === getDocumentConstants().TEXT_NODE)
+    else if (node.nodeType === TEXT_NODE)
         return handleText(node as Text, key, options);
     else
         return null;

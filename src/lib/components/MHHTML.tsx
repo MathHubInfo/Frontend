@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { default as Parser, TNodeList, TReactElement } from "../../utils/reactHTMLParser";
+import { default as Parser, TNodeList, TReactElement } from "../../utils/ReactHTMLParser";
 
-import { getDocumentConstants, outerHTML } from "../../utils/dom";
+import { ELEMENT_NODE, OuterHTML } from "../../utils/DOM";
 
 interface IMathHTMLProps<T> {
     // the html (string) that should be rendered
@@ -38,7 +38,7 @@ export default class MHHTML<S, T extends string | React.ComponentType<S> | React
     }
 
     private readonly replaceHTMLNodes = (node: Node, callback: (nodes: TNodeList) => TReactElement[]) => {
-        if (node.nodeType !== getDocumentConstants().ELEMENT_NODE) return undefined;
+        if (node.nodeType !== ELEMENT_NODE) return undefined;
 
         const {renderMath} = this.props;
 
@@ -72,7 +72,7 @@ export default class MHHTML<S, T extends string | React.ComponentType<S> | React
 
     private readonly replaceMathNode = (node: Element, _: (nodes: Node[]) => TReactElement[]) => {
         if (node.nodeName.toLowerCase() === "math")
-            return <RenderedMath>{outerHTML(node)}</RenderedMath>;
+            return <RenderedMath>{OuterHTML(node)}</RenderedMath>;
     }
 }
 

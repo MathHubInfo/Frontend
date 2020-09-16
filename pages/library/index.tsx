@@ -5,7 +5,7 @@ import * as React from "react";
 import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import { IGroupRef } from "../../src/context/LibraryClient/objects";
-import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
+import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 
 const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
@@ -19,7 +19,7 @@ type ILibraryProps = IDerivedParameter<IGroupRef[]>;
 
 export default class Library extends React.Component<ILibraryProps> {
   static async getInitialProps({res, query}: NextPageContext): Promise<ILibraryProps> {
-    return getDerivedParameter(
+    return GetDerivedParameter(
         undefined,
         async (_: string) => getMathHubConfig().libraryClient.getGroups(),
         query,

@@ -5,24 +5,24 @@ import { ISourceReference, IReferencable } from "../context/LibraryClient/object
  * Builds a URL for a source reference
  * @param source Source Reference to build URL for
  */
-export function sourceURL(source: ISourceReference) {
-    return makeURL(source, sourceURL.GROUP_TEMPLATE, sourceURL.ARCHIVE_TEMPLATE, sourceURL.ARCHIVE_TEMPLATE);
+export function SourceURL(source: ISourceReference) {
+    return makeURL(source, SourceURL.GROUP_TEMPLATE, SourceURL.ARCHIVE_TEMPLATE, SourceURL.ARCHIVE_TEMPLATE);
 }
-sourceURL.GROUP_TEMPLATE = "https://gl.mathhub.info/${group}";
-sourceURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/tree/${branch}/${path}";
+SourceURL.GROUP_TEMPLATE = "https://gl.mathhub.info/${group}";
+SourceURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/tree/${branch}/${path}";
 
-export function issueURL(source: ISourceReference) {
-    return makeURL(source, issueURL.GROUP_TEMPLATE, issueURL.ARCHIVE_TEMPLATE, issueURL.ARCHIVE_TEMPLATE);
+export function IssueURL(source: ISourceReference) {
+    return makeURL(source, IssueURL.GROUP_TEMPLATE, IssueURL.ARCHIVE_TEMPLATE, IssueURL.ARCHIVE_TEMPLATE);
 }
-issueURL.GROUP_TEMPLATE = "https://gl.mathhub.info/groups/${group}/-/issues";
-issueURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/issues";
+IssueURL.GROUP_TEMPLATE = "https://gl.mathhub.info/groups/${group}/-/issues";
+IssueURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/issues";
 
 export interface ITGViewData {
     type: string;
     graphdata: string;
 }
 
-export function tgViewURL(obj: IReferencable): ITGViewData | undefined {
+export function TGViewURL(obj: IReferencable): ITGViewData | undefined {
     let type: string | undefined;
     switch (obj.kind) {
         case "archive":
@@ -47,12 +47,12 @@ export function tgViewURL(obj: IReferencable): ITGViewData | undefined {
  * Builds a URL for a jupyter reference
  * @param source Jupyter Reference to build URL for
  */
-export function jupyterURL(source: ISourceReference) {
-    return makeURL(source, jupyterURL.GROUP_TEMPLATE, jupyterURL.ARCHIVE_TEMPLATE, jupyterURL.ARCHIVE_TEMPLATE);
+export function JupyterURL(source: ISourceReference) {
+    return makeURL(source, JupyterURL.GROUP_TEMPLATE, JupyterURL.ARCHIVE_TEMPLATE, JupyterURL.ARCHIVE_TEMPLATE);
 }
-jupyterURL.GROUP_TEMPLATE = "";
+JupyterURL.GROUP_TEMPLATE = "";
 // tslint:disable-next-line:max-line-length
-jupyterURL.ARCHIVE_TEMPLATE = "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false";
+JupyterURL.ARCHIVE_TEMPLATE = "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false";
 
 /**
  * Builds a generic URL

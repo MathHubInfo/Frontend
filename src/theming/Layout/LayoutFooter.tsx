@@ -3,7 +3,11 @@ import intl from "react-intl-universal";
 import { Container, Divider, Grid, Header, Image } from "semantic-ui-react";
 import MHLink from "../../lib/components/MHLink";
 import { IMathHubVersion } from "../../types/config";
-import { ILayoutFooterProps } from "./ILayoutFooterProps";
+
+interface ILayoutFooterProps {
+    version: IMathHubVersion;
+}
+
 
 export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
     render() {

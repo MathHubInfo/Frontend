@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ITGViewData } from "../../utils/urls";
+import { ITGViewData } from "../../utils/URLs";
 
 export default class TGViewLink extends React.Component<ITGViewData, {url: string}> {
     state = {

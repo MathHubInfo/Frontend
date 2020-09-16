@@ -5,7 +5,7 @@ import * as React from "react";
 import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
-import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
+import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
 const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
@@ -17,7 +17,7 @@ type INewsProps = IDerivedParameter<INewsItem[]>;
 
 export default class News extends React.Component<INewsProps> {
     static async getInitialProps({ res, query }: NextPageContext): Promise<INewsProps> {
-        return getDerivedParameter(
+        return GetDerivedParameter(
             undefined,
             async () => getMathHubConfig().newsClient.loadAll(),
             query,

@@ -1,4 +1,4 @@
-import { EnumKeys, getEnumKeys, isEnumKey } from "../../utils/EnumKeys";
+import { EnumKeys, GetEnumKeys, IsEnumKey } from "../../utils/EnumKeys";
 
 import FatClient from "../FatClient";
 
@@ -20,5 +20,5 @@ export interface IGlossaryEntry {
 // known languages
 enum Languages { en, de, fr, tr, ro, zhs, zht }
 export type TKnownLanguages = EnumKeys<typeof Languages>;
-export const isKnownLanguage = isEnumKey<typeof Languages>(Languages);
-export const knownLanguages = getEnumKeys<typeof Languages>(Languages);
+export const isKnownLanguage = IsEnumKey<typeof Languages>(Languages);
+export const knownLanguages = GetEnumKeys<typeof Languages>(Languages);

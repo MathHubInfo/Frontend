@@ -10,9 +10,9 @@ import NarrativeElement from "../../src/lib/library/NarrativeElement";
 import { crumbs, headerProps } from "../../src/lib/library/utils";
 import { Omit } from "../../src/types/lib";
 import { BooleanArrayStore } from "../../src/utils/DataStore";
-import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
+import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
-import { withDebug } from "../../src/utils/withDebug";
+import { WithDebug } from "../../src/utils/WithDebug";
 
 const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
@@ -43,7 +43,7 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
     );
 
     static async getInitialProps({ res, query }: NextPageContext): Promise<IArchiveProps> {
-        const derived = await getDerivedParameter(
+        const derived = await GetDerivedParameter(
             "id",
             async (id: string) => getMathHubConfig().libraryClient.getArchive(id),
             query,
@@ -54,7 +54,7 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
     }
     state: IArchiveState = { expandedModules: [], expandedDeclarations: [], ...this.props.initial };
 
-    private readonly debouncedUpdate = withDebug(debounce(() => this.forceUpdate(), 500), "forceUpdate");
+    private readonly debouncedUpdate = WithDebug(debounce(() => this.forceUpdate(), 500), "forceUpdate");
     private readonly mstore = new BooleanArrayStore<IModule>(
         () => this.state.expandedModules,
         update => this.setState(({ expandedModules: expanded }) => ({ expandedModules: update(expanded) })),
@@ -101,8 +101,8 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
             isDeclarationExpanded: this.dstore.contains,
             toggleModuleExpansion: this.mstore.toggle,
             toggleDeclarationExpansion: this.dstore.toggle,
-            getModule: this.mstore.getElement,
-            getDeclaration: this.dstore.getElement,
+            getModule: this.mstore.get,
+            getDeclaration: this.dstore.get,
         };
 
         return (

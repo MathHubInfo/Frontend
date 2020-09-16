@@ -3,7 +3,7 @@ import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../src/utils/getDerivedParameter";
+import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../src/utils/GetDerivedParameter";
 
 const LayoutBody = dynamic(() => import("../src/theming/Layout/LayoutBody"));
 const LayoutFailure = dynamic(() => import("../src/theming/Layout/LayoutFailure"));
@@ -13,7 +13,7 @@ type IHomeProps = IDerivedParameter<string>;
 
 export default class Home extends React.Component<IHomeProps> {
   static async getInitialProps({res, query}: NextPageContext): Promise<IHomeProps> {
-    return getDerivedParameter(
+    return GetDerivedParameter(
         undefined,
         async (_: string) => (await import("../src/assets/home.txt")).default,
         query,

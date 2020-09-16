@@ -1,6 +1,0 @@
-{
-    "private": true,
-    "dependencies": {
-        "git-rev-sync": "^1.12.0"        
-    }
-}

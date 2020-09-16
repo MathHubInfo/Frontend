@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
 import { default as LicenseTxt } from "../../LICENSE.txt";
-import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
+import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
 const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
@@ -13,7 +13,7 @@ type INoticesProps = IDerivedParameter<string | false>;
 
 export default class Notices extends React.Component<INoticesProps> {
     static async getInitialProps({res, query}: NextPageContext): Promise<INoticesProps> {
-        return getDerivedParameter(
+        return GetDerivedParameter(
             undefined,
             async (_: string) => {
                 try {

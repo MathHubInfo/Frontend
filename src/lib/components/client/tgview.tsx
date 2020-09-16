@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { default as TGViewImpl } from "tgview";
 import { ITGViewOptions as ImplOptions } from "tgview/lib/Configuration";
-import { uuid } from "../../../utils/uuid";
+import { UUID } from "../../../utils/UUID";
 import { Omit } from "../../../types/lib";
 
 import getMathHubConfig from "../../../context";
@@ -25,7 +25,7 @@ export default class TGView extends React.Component<ITGViewOptions> {
     private tgview: TGViewImpl | undefined;
 
     // internal prefix used by tgview, randomly generated
-    private readonly instanceId: string = uuid();
+    private readonly instanceId: string = UUID();
     private readonly divRef = React.createRef<HTMLDivElement>();
 
     componentDidMount() {

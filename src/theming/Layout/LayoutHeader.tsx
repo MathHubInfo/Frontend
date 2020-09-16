@@ -1,5 +1,8 @@
 import * as React from "react";
-import { ILayoutHeaderProps } from "./ILayoutHeaderProps";
+
+interface ILayoutHeaderProps {
+    language: string; // the language that was negotiated with the client
+}
 
 export default class LayoutHeader extends React.Component<ILayoutHeaderProps> {
     render() {

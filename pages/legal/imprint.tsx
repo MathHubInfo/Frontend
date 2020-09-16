@@ -2,7 +2,7 @@ import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-import getDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/getDerivedParameter";
+import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
@@ -14,7 +14,7 @@ type IImprintProps = IDerivedParameter<string>;
 
 export default class Imprint extends React.Component<IImprintProps> {
     static async getInitialProps({res, query}: NextPageContext): Promise<IImprintProps> {
-        return getDerivedParameter(
+        return GetDerivedParameter(
             undefined,
             async (_: string) => (await import("../../src/assets/legal/imprint.txt")).default,
             query,
