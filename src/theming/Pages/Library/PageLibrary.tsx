@@ -2,7 +2,17 @@ import * as React from "react";
 import intl from "react-intl-universal";
 import { Container, List } from "semantic-ui-react";
 import Compare from "../../../utils/Compare";
-import { ILibraryProps } from "./ILibraryProps";
+import { IActionHeaderProps } from "../../Layout/ActionHeader";
+import { IGroupRefProps } from "./PageGroupRef";
+
+interface ILibraryProps {
+    // the general information about this library page
+    header: React.ReactElement<IActionHeaderProps>;
+
+    // all the groups that are known in the library
+    children: Array<React.ReactElement<IGroupRefProps>>;
+}
+
 
 export default class PageLibrary extends React.Component<ILibraryProps> {
     render() {

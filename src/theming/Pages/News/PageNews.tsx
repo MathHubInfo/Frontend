@@ -1,6 +1,19 @@
 import * as React from "react";
 import { Container, Divider, List } from "semantic-ui-react";
-import { INewsProps } from "./INewsProps";
+import { INewsPageRefProps } from "./PageNewsPageRef";
+
+interface INewsProps {
+    /**
+     * the description of the page
+     */
+    description: string;
+
+    /**
+     * the list of known news items
+     */
+    children: Array<React.ReactElement<INewsPageRefProps>>;
+}
+
 
 export default class PageNews extends React.Component<INewsProps> {
     render() {

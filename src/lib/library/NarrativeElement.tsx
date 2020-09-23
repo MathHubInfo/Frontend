@@ -4,11 +4,10 @@ import { Waypoint as ReactWaypoint } from "react-waypoint";
 
 import PageDocumentRef from "../../theming/Pages/Library/PageDocumentRef";
 
-import { IComponentProps } from "../../theming/Pages/Library/IComponentProps";
+import PageComponent, { IComponentProps } from "../../theming/Pages/Library/PageComponent";
 import PageModule from "../../theming/Pages/Library/PageModule";
 import PageOpaque from "../../theming/Pages/Library/PageOpaque";
 
-import PageComponent from "../../theming/Pages/Library/PageComponent";
 import PageDeclaration from "../../theming/Pages/Library/PageDeclaration";
 
 import { IDeclarationElementProps, IModuleElementProps, INarrativeElementProps } from "./INarrativeElementProps";

@@ -4,7 +4,7 @@ import * as React from "react";
 import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import { IGlossaryEntry, IsKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
-import { IGlossaryState } from "../../src/theming/Pages/Applications/IGlossaryProps";
+import { IGlossaryState } from "../../src/theming/Pages/Applications/PageApplicationsGlossary";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
 const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));

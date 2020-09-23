@@ -1,6 +1,11 @@
 import * as React from "react";
 import MHHTML from "../../../lib/components/MHHTML";
-import { IComponentProps } from "./IComponentProps";
+
+import { IComponent } from "../../../context/LibraryClient/objects";
+
+export interface IComponentProps {
+    children: IComponent;
+}
 
 export default class PageComponent extends React.Component<IComponentProps> {
     render() {

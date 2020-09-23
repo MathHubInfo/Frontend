@@ -4,7 +4,7 @@ import * as React from "react";
 import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import LoggerClient from "../../src/context/LoggerClient";
-import { ILoggerImplicits, ILoggerState } from "../../src/theming/Pages/Applications/ILoggerProps";
+import { ILoggerImplicits, ILoggerState } from "../../src/theming/Pages/Applications/PageApplicationsLogger";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));

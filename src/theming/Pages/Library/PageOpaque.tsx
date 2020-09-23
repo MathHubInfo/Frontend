@@ -1,6 +1,11 @@
 import * as React from "react";
+import { IOpaqueElement } from "../../../context/LibraryClient/objects";
 import MHHTML from "../../../lib/components/MHHTML";
-import { IOpaqueProps } from "./IOpaqueProps";
+
+interface IOpaqueProps {
+    children: IOpaqueElement;
+}
+
 
 export default class PageOpaque extends React.Component<IOpaqueProps> {
     render() {

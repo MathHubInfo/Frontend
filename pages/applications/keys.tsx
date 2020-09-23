@@ -2,7 +2,7 @@ import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
 import { default as keysJSON } from "../../src/assets/applications/keys.json";
-import { IKeysState } from "../../src/theming/Pages/Applications/IKeysProps";
+import { IKeysState } from "../../src/theming/Pages/Applications/PageApplicationsKeys";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));

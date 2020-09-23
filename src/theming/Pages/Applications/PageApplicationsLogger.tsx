@@ -2,7 +2,29 @@ import * as React from "react";
 import intl from "react-intl-universal";
 import { Container, Input, Table } from "semantic-ui-react";
 import { ILogEntry } from "../../../context/LoggerClient";
-import { ILoggerProps } from "./ILoggerProps";
+
+interface ILoggerProps extends ILoggerState {
+    /**
+     * Ref to change the filter
+     */
+    changeFilter(filter: string): void;
+}
+
+export interface ILoggerState extends ILoggerImplicits {
+    /**
+     * The current log entries
+     */
+    entries: ILogEntry[];
+}
+
+
+export interface ILoggerImplicits {
+    /**
+     * The current filter
+     */
+    filter: string;
+}
+
 
 export default class PageApplicationsLogger extends React.Component<ILoggerProps> {
     render() {

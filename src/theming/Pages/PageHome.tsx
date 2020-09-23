@@ -3,7 +3,10 @@ import intl from "react-intl-universal";
 import { Button, Container, Grid, Image } from "semantic-ui-react";
 import MHHTML from "../../lib/components/MHHTML";
 import MHLink from "../../lib/components/MHLink";
-import { IHomeProps } from "./IHomeProps";
+
+interface IHomeProps {
+    children: string;
+}
 
 export default class PageHome extends React.Component<IHomeProps> {
     render() {

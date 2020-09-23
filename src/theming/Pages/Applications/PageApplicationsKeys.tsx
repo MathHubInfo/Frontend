@@ -1,5 +1,32 @@
 import * as React from "react";
-import { IKey, IKeysProps } from "./IKeysProps";
+
+interface IKeysProps extends IKeysState {
+    /**
+     * The keys that are being described
+     */
+    keys: IKey[];
+
+    /**
+     * Ref to toggle expansion
+     */
+    toggleExpansion(): void;
+}
+
+export interface IKeysState {
+    /**
+     * Indicator if we are currently expanded
+     */
+    expanded: boolean;
+}
+
+/**
+ * Represents a single described key
+ */
+interface IKey {
+    key: string;
+    teaser: string;
+    description: string;
+}
 
 export default class PageApplicationsKeys extends React.Component<IKeysProps> {
     render() {

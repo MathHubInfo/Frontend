@@ -1,7 +1,22 @@
 import * as React from "react";
 import intl from "react-intl-universal";
 import { Button, Card, Icon, Loader } from "semantic-ui-react";
-import { IModuleProps } from "./IModuleProps";
+import { IModule, IModuleRef } from "../../../context/LibraryClient/objects";
+import { IDocumentProps } from "./PageDocument";
+
+export interface IModuleProps {
+    item: IModule | IModuleRef;
+
+    // all the children of this module (if any)
+    children?: IDocumentProps["children"];
+
+    // is this item expanded?
+    expanded: boolean;
+
+    // ref to toggle the expansion of this element
+    toggleExpansion(): void;
+}
+
 
 export default class PageModule extends React.Component<IModuleProps> {
     render() {

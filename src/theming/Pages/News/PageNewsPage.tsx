@@ -1,7 +1,12 @@
 import * as React from "react";
 import { Container } from "semantic-ui-react";
 import MHHTML from "../../../lib/components/MHHTML";
-import { INewsPageProps } from "./INewsPageProps";
+
+import { INewsItem } from "../../../context/NewsClient";
+
+// tslint:disable-next-line: no-empty-interface
+interface INewsPageProps extends INewsItem {}
+
 
 export default class PageNewsPage extends React.Component<INewsPageProps> {
     render() {

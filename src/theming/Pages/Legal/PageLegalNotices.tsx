@@ -1,7 +1,19 @@
 import * as React from "react";
 import intl from "react-intl-universal";
 import { Container } from "semantic-ui-react";
-import { INoticesProps } from "./INoticesProps";
+
+interface INoticesProps {
+    /**
+     * the legal text of required notices
+     */
+    notices: string | undefined;
+
+    /**
+     * The MathHub License Text
+     */
+    license: string;
+}
+
 
 export default class PageLegalNotices extends React.Component<INoticesProps> {
     render() {

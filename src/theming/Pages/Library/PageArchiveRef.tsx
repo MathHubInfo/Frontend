@@ -1,8 +1,15 @@
 import * as React from "react";
 import { Card } from "semantic-ui-react";
 import MHHTML from "../../../lib/components/MHHTML";
-import MHLink from "../../../lib/components/MHLink";
-import { IArchiveRefProps } from "./IArchiveRefProps";
+import MHLink, { IMHLinkable } from "../../../lib/components/MHLink";
+
+import { IArchiveRef } from "../../../context/LibraryClient/objects";
+
+export interface IArchiveRefProps {
+    link: IMHLinkable;
+    item: IArchiveRef;
+}
+
 
 export default class PageArchiveRef extends React.Component<IArchiveRefProps> {
     render() {

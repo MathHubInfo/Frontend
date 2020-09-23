@@ -1,8 +1,14 @@
 import * as React from "react";
 import { Card } from "semantic-ui-react";
 import MHHTML from "../../../lib/components/MHHTML";
-import MHLink from "../../../lib/components/MHLink";
-import { IGroupRefProps } from "./IGroupRefProps";
+import MHLink, { IMHLinkable } from "../../../lib/components/MHLink";
+
+import { IGroupRef } from "../../../context/LibraryClient/objects";
+
+export interface IGroupRefProps {
+    link: IMHLinkable;
+    item: IGroupRef;
+}
 
 export default class PageGroupRef extends React.Component<IGroupRefProps> {
     render() {

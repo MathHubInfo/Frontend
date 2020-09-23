@@ -2,8 +2,40 @@ import * as React from "react";
 import intl from "react-intl-universal";
 import { Button, Card, Container, Grid, Tab, TabProps } from "semantic-ui-react";
 import { IGlossaryEntry, TKnownLanguages } from "../../../context/GlossaryClient";
+import { HTML } from "../../../context/LibraryClient/objects";
 import MHHTML from "../../../lib/components/MHHTML";
-import { IGlossaryProps } from "./IGlossaryProps";
+import { IActionHeaderProps } from "../../Layout/ActionHeader";
+
+export interface IGlossaryState {
+    /**
+     * the currently selected language
+     */
+    language: TKnownLanguages;
+
+    // a long, human-readable description of the dictionary
+    description?: HTML;
+}
+
+interface IGlossaryProps extends IGlossaryState {
+    /**
+     * A list of all known languages
+     */
+    knownLanguages: readonly TKnownLanguages[];
+
+    /**
+     * The list of known glossary entries
+     * available in the selected language
+     */
+    entries: IGlossaryEntry[];
+
+    // the general information about the Glossary
+    header: React.ReactElement<IActionHeaderProps>;
+
+    /**
+     * Ref to change the language
+     */
+    changeLanguage(language: TKnownLanguages): void;
+}
 
 export default class PageApplicationsGlossary extends React.Component<IGlossaryProps> {
     languageTabs() {

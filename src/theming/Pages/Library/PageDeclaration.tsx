@@ -1,8 +1,27 @@
 import * as React from "react";
 import intl from "react-intl-universal";
 import { Button, Icon, Loader } from "semantic-ui-react";
-import { IDeclarationProps } from "./IDeclarationProps";
 
+import { IDeclaration, IDeclarationRef } from "../../../context/LibraryClient/objects";
+import { IComponentProps } from "./PageComponent";
+import { IDocumentProps } from "./PageDocument";
+
+interface IDeclarationProps {
+    item: IDeclaration | IDeclarationRef;
+
+    // the declarations within this module
+    // and the components of this declaration
+    children: [
+        IDocumentProps["children"],
+        Array<React.ReactElement<IComponentProps>>
+    ];
+
+    // is this item expanded?
+    expanded: boolean;
+
+    // ref to toggle the expansion of this element
+    toggleExpansion(): void;
+}
 
 export default class PageDeclaration extends React.Component<IDeclarationProps> {
     private static readonly names = {
