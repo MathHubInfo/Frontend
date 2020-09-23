@@ -1,6 +1,8 @@
 // tslint:disable:no-invalid-template-strings
 import { ISourceReference, IReferencable } from "../context/LibraryClient/objects";
 
+// TODO: Read the template URLS from the configuration
+
 /**
  * Builds a URL for a source reference
  * @param source Source Reference to build URL for

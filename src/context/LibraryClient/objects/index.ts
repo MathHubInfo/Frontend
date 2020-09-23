@@ -1,4 +1,3 @@
-import { EnumKeys, GetEnumKeys } from "../../../utils/EnumKeys";
 
 // This file contains type definitions for all OMDOC types exposed by the MMT API
 
@@ -185,9 +184,8 @@ export interface IDocument extends IDocumentItem {
 
 }
 
-enum DocumentTags { "ipynb-omdoc" }
-export type TDocumentTags = EnumKeys<typeof DocumentTags> | string; // either one of the known tags or any other string
-export const knownDocumentTags = GetEnumKeys<typeof DocumentTags>(DocumentTags);
+export const knownDocumentTags = ["ipynb-omdoc"] as const;
+export type TDocumentTags = typeof knownDocumentTags[number];
 
 interface IOpaqueElementItem extends IAPIObjectItem {
     kind: "opaque";

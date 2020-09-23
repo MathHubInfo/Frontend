@@ -1,5 +1,3 @@
-import { EnumKeys, GetEnumKeys, IsEnumKey } from "../../utils/EnumKeys";
-
 import FatClient from "../FatClient";
 
 export default class GlossaryClient extends FatClient<IGlossaryEntry> {
@@ -17,8 +15,8 @@ export interface IGlossaryEntry {
     def: {[k in TKnownLanguages]?: string};
 }
 
-// known languages
-enum Languages { en, de, fr, tr, ro, zhs, zht }
-export type TKnownLanguages = EnumKeys<typeof Languages>;
-export const isKnownLanguage = IsEnumKey<typeof Languages>(Languages);
-export const knownLanguages = GetEnumKeys<typeof Languages>(Languages);
+export const knownLanguages = ["en", "de", "fr", "tr", "ro", "zhs", "zht"] as const;
+export type TKnownLanguages = typeof knownLanguages[number];
+export function IsKnownLanguage(value: string): value is TKnownLanguages {
+    return knownLanguages.indexOf(value as TKnownLanguages) !== -1;
+}
