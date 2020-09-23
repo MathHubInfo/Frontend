@@ -22,7 +22,6 @@ const config = {
     "GLOSSARY_URL",
     "TRANSLATION_URL",
     "ADMIN_URL",
-    "RUNTIME_CONFIG_URL",
     "UPSTREAM_BASE_URL",
   ])
 }

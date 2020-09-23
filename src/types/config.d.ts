@@ -5,9 +5,6 @@ export interface IMathHubConfig {
     // the base url for the library client
     LIBRARY_URL?: string;
 
-    // the runtime config url to fetch data from (if any)
-    RUNTIME_CONFIG_URL?: string;
-
     // the url for the news client
     NEWS_URL?: string;
 
@@ -54,11 +51,4 @@ export interface IMathHubVersion {
         // Unix Epoch. 
         time?: number;
     }
-}
-
-/**
- * Configuration loaded lazily at runtime
- */
-export interface IMathHubRuntimeConfig {
-    SHOW_RIBBON?: string;
 }

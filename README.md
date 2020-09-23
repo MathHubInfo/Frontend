@@ -145,12 +145,8 @@ And the following un-committed folders that are generated automatically:
 ## Environment Variables
 
 The MathHub Frontend takes several environment variables, which can be used to fine-tune the behaviour of the frontend. 
-Variables are split into two kinds: Compile-Time Variables and Runtime variables. 
-
-#### Build-Time Environment Variables
-
-Build-Time Environment Variables are set at compilation time of the code and can not be changed during runtime. 
-They are configured inside of `next.config.js`. 
+Environment variables are set at compilation time of the code and can not be changed during runtime. 
+They are read inside of `next.config.js`. 
 
 The supported variables are:
 
@@ -159,14 +155,6 @@ The supported variables are:
 * `GLOSSARY_URL` -- The URL to retrieve glossary items from. If omitted, defaults to the glossary.json file under mocks.
 * `TRANSLATION_URL` -- The URL to translate text with. If omitted, translation is disabled.
 * `UPSTREAM_BASE_URL` -- Server Side only (see below). Prefix for all requests sent to the upstream server. 
-* `RUNTIME_CONFIG_URL` -- If set to a non-empty string, load runtime configuration variables from the given url. 
-
-#### Runtime Environment Variables
-
-Runtime variables are configuration variables that are loaded lazily at runtime using Ajax. 
-
-Currently there are no runtime environment variables.
-
 
 ### Testing
 
