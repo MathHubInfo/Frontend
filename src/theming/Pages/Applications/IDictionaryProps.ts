@@ -1,12 +1,12 @@
 import { IGlossaryEntry, TKnownLanguages } from "../../../context/GlossaryClient";
-import { IActionHeaderProps } from "../../Layout/IActionHeaderProps";
+import { IActionHeaderProps } from "../../Layout/ActionHeader";
 import { HTML } from "../../../context/LibraryClient/objects";
 
 export interface IDictionaryProps extends IDictionaryState {
     /**
      * A list of all known languages
      */
-    knownLanguages: TKnownLanguages[];
+    knownLanguages: readonly TKnownLanguages[];
 
     // the general information about the Dictionary
     header: React.ReactElement<IActionHeaderProps>;

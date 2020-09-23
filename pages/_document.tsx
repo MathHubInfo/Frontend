@@ -3,7 +3,7 @@
 import Document, { DocumentContext, DocumentProps, Html, Head, Main, NextScript } from "next/document";
 import dynamic from "next/dynamic";
 import { negotiateLanguage } from "../src/locales";
-import { ILayoutHeaderProps } from "../src/theming/Layout/ILayoutHeaderProps";
+import { ILayoutHeaderProps } from "../src/theming/Layout/LayoutHeader";
 
 const LayoutHeader = dynamic(() => import("../src/theming/Layout/LayoutHeader"));
 

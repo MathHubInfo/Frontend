@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
-import { IGlossaryEntry, isKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
+import { IGlossaryEntry, IsKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
 import { IGlossaryState } from "../../src/theming/Pages/Applications/IGlossaryProps";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
@@ -20,7 +20,7 @@ interface IGlossaryProps {
 export default class Glossary extends React.Component<IGlossaryProps, IGlossaryState> {
     static implicits = new ImplicitParameters<IGlossaryState>(
         { language: null },
-        { language: ImplicitParameters.validated(isKnownLanguage, knownLanguages[0]) },
+        { language: ImplicitParameters.validated(IsKnownLanguage, knownLanguages[0]) },
     );
 
     static async getInitialProps({ query }: NextPageContext): Promise<IGlossaryProps> {

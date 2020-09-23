@@ -13,7 +13,7 @@ import TGViewLink from "../../lib/components/TGViewLink";
 import TGView3DLink from "../../lib/components/TGView3DLink";
 
 
-interface IActionHeaderProps extends IActionDerived {
+export interface IActionHeaderProps extends IActionDerived {
     // description of the element in question, may contain html
     description?: string;
 

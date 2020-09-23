@@ -79,7 +79,7 @@ export default class PageApplicationsDictionary extends React.Component<IDiction
 
 interface IDropdownProps<K extends string> {
     value: K;
-    options: string[];
+    options: readonly string[];
     onChange?(k: K): void;
 }
 

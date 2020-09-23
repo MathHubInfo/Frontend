@@ -1,12 +1,12 @@
 import { IGlossaryEntry, TKnownLanguages } from "../../../context/GlossaryClient";
-import { IActionHeaderProps } from "../../Layout/IActionHeaderProps";
+import { IActionHeaderProps } from "../../Layout/ActionHeader";
 import { HTML } from "../../../context/LibraryClient/objects";
 
 export interface IGlossaryProps extends IGlossaryState {
     /**
      * A list of all known languages
      */
-    knownLanguages: TKnownLanguages[];
+    knownLanguages: readonly TKnownLanguages[];
 
     /**
      * The list of known glossary entries

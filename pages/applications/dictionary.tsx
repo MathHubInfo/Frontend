@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
-import { IGlossaryEntry, isKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
+import { IGlossaryEntry, IsKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
 import { IDictionaryImplicits, IDictionaryState } from "../../src/theming/Pages/Applications/IDictionaryProps";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
@@ -20,8 +20,8 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
     static implicits = new ImplicitParameters<IDictionaryImplicits>(
         { fromLanguage: "from", toLanguage: "to", text: null },
         {
-            fromLanguage: ImplicitParameters.validated(isKnownLanguage, knownLanguages[0]),
-            toLanguage: ImplicitParameters.validated(isKnownLanguage, knownLanguages[1]),
+            fromLanguage: ImplicitParameters.validated(IsKnownLanguage, knownLanguages[0]),
+            toLanguage: ImplicitParameters.validated(IsKnownLanguage, knownLanguages[1]),
             text: ImplicitParameters.firstString(""),
         },
     );

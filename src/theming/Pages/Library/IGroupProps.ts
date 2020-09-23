@@ -1,4 +1,4 @@
-import { IActionHeaderProps } from "../../Layout/IActionHeaderProps";
+import { IActionHeaderProps } from "../../Layout/ActionHeader";
 
 import { IGroup } from "../../../context/LibraryClient/objects";
 
