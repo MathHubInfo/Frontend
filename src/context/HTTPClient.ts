@@ -1,10 +1,10 @@
-import Axios, { AxiosError, AxiosResponse } from "axios";
-
 interface IHTTPClientOptions {
     // If set to true, automatically resolve the options
     resolve?: boolean;
     // If set to true, ignore errors and return undefined instead
     ignoreError?: boolean;
+
+    // function used to check result
     checker?: TChecker;
 }
 
@@ -22,22 +22,19 @@ export default class HTTPClient {
         url: string,
         {checker, resolve, ignoreError}: IHTTPClientOptions = {},
     ): Promise<T | undefined> {
-        let res: AxiosResponse<T>;
+        let res;
         try {
-            res = await Axios.get<T>(resolve ? this.resolve(url) : url);
+            res = await fetch(resolve ? this.resolve(url) : url);
         } catch (e) {
             if (ignoreError) return undefined;
-            if ((e as AxiosError).response) {
-                res = (e as AxiosError).response as AxiosResponse<T>;
-                if (res.status !== 404) throw e;
-            } else throw e;
+            throw e;
         }
 
         // handle non-200 status-code
         if (res.status === 404) return undefined;
         else if (res.status !== 200) throw new Error(`Got unexpected status code ${res.status}`);
 
-        return HTTPClient.checkOrError(res.data, checker);
+        return HTTPClient.checkOrError(await res.json(), checker);
     }
 
     /**
@@ -46,20 +43,12 @@ export default class HTTPClient {
      */
     async getOrError<T>(
         url: string,
-        {checker, resolve, ignoreError}: IHTTPClientOptions = {},
+        {checker, resolve}: IHTTPClientOptions = {},
     ): Promise<T> {
-        // tslint:disable-next-line:no-console
-        if (ignoreError !== undefined) console.warn("getOrError does not support ignoreError");
-
-        let res;
-        try {
-            res = await Axios.get<T>(resolve ? this.resolve(url) : url);
-        } catch (e) {
-            throw e;
-        }
+        const res = await fetch(resolve ? this.resolve(url) : url);
         if (res.status !== 200) throw new Error(`Got status code ${res.status}, expected code 200`);
 
-        return HTTPClient.checkOrError(res.data, checker);
+        return HTTPClient.checkOrError(await res.json(), checker);
     }
 
     private static async checkOrError<T>(data: T, checker?: TChecker): Promise<T> {
