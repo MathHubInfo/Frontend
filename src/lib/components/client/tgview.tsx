@@ -4,7 +4,6 @@ import * as React from "react";
 import { default as TGViewImpl } from "tgview";
 import { ITGViewOptions as ImplOptions } from "tgview/lib/Configuration";
 import { UUID } from "../../../utils/UUID";
-import { Omit } from "../../../types/lib";
 
 import getMathHubConfig from "../../../context";
 

@@ -7,7 +7,6 @@ import getMathHubConfig from "../../src/context";
 import { IArchive, IDeclaration, IModule } from "../../src/context/LibraryClient/objects";
 import NarrativeElement, { INarrativeElementProps } from "../../src/lib/library/NarrativeElement";
 import { crumbs, headerProps } from "../../src/lib/library/utils";
-import { Omit } from "../../src/types/lib";
 import { BooleanArrayStore } from "../../src/utils/DataStore";
 import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";

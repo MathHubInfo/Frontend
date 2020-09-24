@@ -3,7 +3,6 @@ import { IBreadcrumb } from "../../theming/Layout/Props";
 
 import { ObjectParents } from "../../context/LibraryClient/objects/utils";
 import { IActionHeaderProps } from "../../theming/Layout/ActionHeader";
-import { Omit } from "../../types/lib";
 
 /**
  * Extracts common header properties from an object

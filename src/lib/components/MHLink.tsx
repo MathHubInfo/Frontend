@@ -3,7 +3,6 @@ type LinkProps = React.ComponentProps<typeof Link>;
 import { stringify } from "querystring";
 import * as React from "react";
 
-import { Omit } from "../../types/lib";
 import { WithContextProps } from "../../utils/WithExtraContext";
 import MHAppContext, { IMHAppContext } from "./MHAppContext";
 
