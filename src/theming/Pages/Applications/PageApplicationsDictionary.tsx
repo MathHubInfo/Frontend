@@ -5,7 +5,7 @@ import { Button, Container, Divider, Dropdown, DropdownProps, Input } from "sema
 import { IGlossaryEntry, TKnownLanguages } from "../../../context/GlossaryClient";
 import { HTML } from "../../../context/LibraryClient/objects";
 
-import MHHTML from "../../../lib/components/MHHTML";
+import MHHTML from "../../../components/MHHTML";
 import { IActionHeaderProps } from "../../Layout/ActionHeader";
 
 interface IDictionaryProps extends IDictionaryState {

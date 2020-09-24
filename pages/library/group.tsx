@@ -4,7 +4,7 @@ import * as React from "react";
 import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import { IGroup } from "../../src/context/LibraryClient/objects";
-import { headerProps } from "../../src/lib/library/utils";
+import { headerProps } from "../../src/library/utils";
 import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 
 const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));

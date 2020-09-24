@@ -1,8 +1,8 @@
 import * as React from "react";
 import intl from "react-intl-universal";
 import { Button, Container, Grid, Image } from "semantic-ui-react";
-import MHHTML from "../../lib/components/MHHTML";
-import MHLink from "../../lib/components/MHLink";
+import MHHTML from "../../components/MHHTML";
+import MHLink from "../../components/MHLink";
 
 interface IHomeProps {
     children: string;

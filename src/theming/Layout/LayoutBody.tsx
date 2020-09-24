@@ -4,7 +4,7 @@ import Head from "next/head";
 import * as React from "react";
 import { Divider } from "semantic-ui-react";
 import getMathHubConfig from "../../context";
-import MHAppContext, { IMHAppContext } from "../../lib/components/MHAppContext";
+import MHAppContext, { IMHAppContext } from "../../types/MHAppContext";
 import { IMathHubVersion } from "../../types/config";
 import WithExtraContext from "../../utils/WithExtraContext";
 import { IBreadcrumb } from "./Props";

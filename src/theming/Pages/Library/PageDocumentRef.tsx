@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Card, Icon } from "semantic-ui-react";
 import { IDocument, IDocumentRef } from "../../../context/LibraryClient/objects";
-import MHLink, { IMHLinkable } from "../../../lib/components/MHLink";
+import MHLink, { IMHLinkable } from "../../../components/MHLink";
 
 
 export interface IDocumentRefProps {

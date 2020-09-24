@@ -3,8 +3,8 @@ import intl from "react-intl-universal";
 import { Button, Container, Dropdown, Flag, Grid, Image, Menu, FlagNameValues } from "semantic-ui-react";
 
 import { urls } from "../../assets/urls";
-import MHLink from "../../lib/components/MHLink";
-import MHAppContext, { IMHAppContext } from "../../../src/lib/components/MHAppContext";
+import MHLink from "../../components/MHLink";
+import MHAppContext, { IMHAppContext } from "../../types/MHAppContext";
 import { WithContextProps } from "../../utils/WithExtraContext";
 import { IBreadcrumb } from "./Props";
 

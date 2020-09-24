@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Container, List } from "semantic-ui-react";
-import MHHTML from "../../../lib/components/MHHTML";
+import MHHTML from "../../../components/MHHTML";
 import Compare from "../../../utils/Compare";
 
 import { IActionHeaderProps } from "../../Layout/ActionHeader";

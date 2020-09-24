@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IOpaqueElement } from "../../../context/LibraryClient/objects";
-import MHHTML from "../../../lib/components/MHHTML";
+import MHHTML from "../../../components/MHHTML";
 
 interface IOpaqueProps {
     children: IOpaqueElement;

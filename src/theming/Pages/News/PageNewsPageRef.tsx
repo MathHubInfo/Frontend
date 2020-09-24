@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Card, Icon } from "semantic-ui-react";
 import { INewsItem } from "../../../context/NewsClient";
-import MHHTML from "../../../lib/components/MHHTML";
-import MHLink, { IMHLinkable } from "../../../lib/components/MHLink";
+import MHHTML from "../../../components/MHHTML";
+import MHLink, { IMHLinkable } from "../../../components/MHLink";
 
 
 // tslint:disable-next-line: no-empty-interface

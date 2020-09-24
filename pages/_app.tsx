@@ -4,7 +4,7 @@ import App, { AppContext } from "next/app";
 import dynamic from "next/dynamic";
 import { default as Router } from "next/router";
 import React from "react";
-import MHAppContext, { IMHAppContext } from "../src/lib/components/MHAppContext";
+import MHAppContext, { IMHAppContext } from "../src/types/MHAppContext";
 import { initLocaleSupport, negotiateLanguage, setLocale, supportedLocales as knownLanguages } from "../src/locales";
 import ImplicitParameters from "../src/utils/ImplicitParameters";
 

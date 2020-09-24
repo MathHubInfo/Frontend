@@ -4,13 +4,13 @@ import intl from "react-intl-universal";
 import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";
 import { IDocument, IReferencable, ISourceReference, IStatistic } from "../../context/LibraryClient/objects";
 import { ObjectSource } from "../../context/LibraryClient/objects/utils";
-import MHHTML from "../../lib/components/MHHTML";
-import MHLink from "../../lib/components/MHLink";
+import MHHTML from "../../components/MHHTML";
+import MHLink from "../../components/MHLink";
 import { StatisticsTable } from "../../theming/Layout/Statistics";
 import { IssueURL, ITGViewData, JupyterURL, SourceURL, TGViewURL } from "../../utils/URLs";
 import { WithExtraProps } from "../../utils/WithExtraContext";
-import TGViewLink from "../../lib/components/TGViewLink";
-import TGView3DLink from "../../lib/components/TGView3DLink";
+import TGViewLink from "../../components/TGViewLink";
+import TGView3DLink from "../../components/TGView3DLink";
 
 
 export interface IActionHeaderProps extends IActionDerived {

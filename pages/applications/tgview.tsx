@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import * as React from "react";
 import intl from "react-intl-universal";
-import { default as TGViewComponent } from "../../src/lib/components/TGView";
+import { default as TGViewComponent } from "../../src/components/TGView";
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
 

@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { default as Parser, TNodeList, TReactElement } from "../../utils/ReactHTMLParser";
+import { default as Parser, TNodeList, TReactElement } from "../utils/ReactHTMLParser";
 
-import { ELEMENT_NODE, OuterHTML } from "../../utils/DOM";
+import { ELEMENT_NODE, OuterHTML } from "../utils/DOM";
 
 interface IMathHTMLProps<T> {
     // the html (string) that should be rendered

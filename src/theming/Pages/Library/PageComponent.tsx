@@ -1,5 +1,5 @@
 import * as React from "react";
-import MHHTML from "../../../lib/components/MHHTML";
+import MHHTML from "../../../components/MHHTML";
 
 import { IComponent } from "../../../context/LibraryClient/objects";
 

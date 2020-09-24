@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Container } from "semantic-ui-react";
-import MHHTML from "../../../lib/components/MHHTML";
+import MHHTML from "../../../components/MHHTML";
 
 import { INewsItem } from "../../../context/NewsClient";
 

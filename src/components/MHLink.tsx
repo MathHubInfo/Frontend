@@ -3,8 +3,8 @@ type LinkProps = React.ComponentProps<typeof Link>;
 import { stringify } from "querystring";
 import * as React from "react";
 
-import { WithContextProps } from "../../utils/WithExtraContext";
-import MHAppContext, { IMHAppContext } from "./MHAppContext";
+import { WithContextProps } from "../utils/WithExtraContext";
+import MHAppContext, { IMHAppContext } from "../types/MHAppContext";
 
 type IMHLinkProps = Omit<LinkProps, "href"> & IMHLinkable;
 

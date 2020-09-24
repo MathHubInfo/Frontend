@@ -3,7 +3,7 @@ import intl from "react-intl-universal";
 import { Button, Card, Container, Grid, Tab, TabProps } from "semantic-ui-react";
 import { IGlossaryEntry, TKnownLanguages } from "../../../context/GlossaryClient";
 import { HTML } from "../../../context/LibraryClient/objects";
-import MHHTML from "../../../lib/components/MHHTML";
+import MHHTML from "../../../components/MHHTML";
 import { IActionHeaderProps } from "../../Layout/ActionHeader";
 
 export interface IGlossaryState {

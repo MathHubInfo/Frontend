@@ -1,7 +1,7 @@
 import * as React from "react";
 import intl from "react-intl-universal";
 import { Container, Divider, Grid, Header, Image } from "semantic-ui-react";
-import MHLink from "../../lib/components/MHLink";
+import MHLink from "../../components/MHLink";
 import { IMathHubVersion } from "../../types/config";
 
 interface ILayoutFooterProps {

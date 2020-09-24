@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { Waypoint as ReactWaypoint } from "react-waypoint";
 
-import PageDocumentRef from "../../theming/Pages/Library/PageDocumentRef";
+import PageDocumentRef from "../theming/Pages/Library/PageDocumentRef";
 
-import PageComponent, { IComponentProps } from "../../theming/Pages/Library/PageComponent";
-import PageModule from "../../theming/Pages/Library/PageModule";
-import PageOpaque from "../../theming/Pages/Library/PageOpaque";
+import PageComponent, { IComponentProps } from "../theming/Pages/Library/PageComponent";
+import PageModule from "../theming/Pages/Library/PageModule";
+import PageOpaque from "../theming/Pages/Library/PageOpaque";
 
-import PageDeclaration from "../../theming/Pages/Library/PageDeclaration";
-import { IDeclaration, IDeclarationRef, IModule, IModuleRef, INarrativeElement  } from "../../context/LibraryClient/objects";
+import PageDeclaration from "../theming/Pages/Library/PageDeclaration";
+import { IDeclaration, IDeclarationRef, IModule, IModuleRef, INarrativeElement  } from "../context/LibraryClient/objects";
 
 
 export interface INarrativeElementProps extends IExpansionProps {
