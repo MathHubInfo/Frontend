@@ -3,7 +3,7 @@ import intl from "react-intl-universal";
 import { Container, Divider, Grid, List, Menu, Tab } from "semantic-ui-react";
 import { IDocument } from "../../../context/LibraryClient/objects";
 import MHHTML from "../../../lib/components/MHHTML";
-import { INarrativeElementProps } from "../../../lib/library/INarrativeElementProps";
+import { INarrativeElementProps } from "../../../lib/library/NarrativeElement";
 import { IActionHeaderProps } from "../../Layout/ActionHeader";
 import { StatisticsTable } from "../../Layout/Statistics";
 
