@@ -5,13 +5,14 @@ import intl from "react-intl-universal";
 import { debounce } from "ts-debounce";
 import getMathHubConfig from "../../src/context";
 import { IArchive, IDeclaration, IModule } from "../../src/context/LibraryClient/objects";
-import NarrativeElement, { INarrativeElementProps } from "../../src/library/NarrativeElement";
+import { INarrativeElementProps } from "../../src/library/NarrativeElement";
 import { crumbs, headerProps } from "../../src/library/utils";
 import { BooleanArrayStore } from "../../src/utils/DataStore";
 import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 import { WithDebug } from "../../src/utils/WithDebug";
 
+const NarrativeElement = dynamic(() => import("../../src/library/NarrativeElement"));
 const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
 const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
