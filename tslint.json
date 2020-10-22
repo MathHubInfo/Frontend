@@ -2,8 +2,7 @@
     // TSLint Configuration file for MathHub
     "extends": [
         "tslint:latest", 
-        "tslint-react",
-        "tslint-microsoft-contrib"
+        "tslint-react"
     ],
 
     // the MathHub Compilation Process interrupts iff there are errors
@@ -14,13 +13,6 @@
     // we explicitly configure each setting
     // so that we complete control over what is enabled and what isn't
     "rules": {
-        // deprecated rules are off
-        "no-function-constructor-with-string-args": false,
-        "no-reserved-keywords": false,
-        "no-increment-decrement": false,
-        "no-unnecessary-bind": false,
-        // /end deprecations
-
         // we require overloaded signatures (if any) to be consecutive
         "adjacent-overload-signatures": {
             "severity": "error"
@@ -381,10 +373,6 @@
         "no-unused-expression": {
             "options": "allow-fast-null-checks"
         },
-
-        // variables should be used
-        // but this rules is deprecated so we don't use it
-        "no-unused-variable": false,
         
         // we want some declarations in reverse order
         // so disable this
@@ -437,11 +425,6 @@
         "triple-equals": {
             "severity": "error"
         },
-
-        // when using typeof, you should use strings
-        // however this rules is deprecated
-        // so we don't use it
-        "typeof-compare": false,
 
         // if you're using the default
         // it would be much more readable
@@ -868,10 +851,6 @@
         "chai-prefer-contains-to-index-of": false,
         "chai-vague-errors": false,
 
-        // exports should match the file name
-        // this should be overwritten for "export default f(x)"
-        "export-name": true,
-
         // this is already achieved by a different rule
         "function-name": false,
 
@@ -887,23 +866,11 @@
         // TODO: Once implemented use this
         "informative-docs": false,
 
-        // you should never use insecure random sources
-        // instead make use of crypto.randomBytes instead
-        "insecure-random": {
-            "severity": "error"
-        },
-
         // we are not using jQuery, so disable this
         "jquery-deferred-must-complete": false,
 
         // function bodies may be as long as they like
         "max-func-body-length": false,
-
-        // rule is deprecated
-        "missing-jsdoc": false,
-
-        // rule is depreacted
-        "missing-optional-annotation": false,
         
         // we're not using mocha
         "mocha-avoid-only": false,
@@ -913,49 +880,9 @@
         // we're not using those
         "no-backbone-get-set-outside-model": false,
 
-        // do not use eval, arguments, ...
-        "no-banned-terms": {
-            "severity": "error"
-        },
-
-        // do not use constant conditions
-        // just don't put them in the first place
-        "no-constant-condition": true,
-
-        // do not put control characters
-        "no-control-regex": {
-            "severity": "error"
-        },
-
-        // cause GDPR
-        "no-cookies": {
-            "severity": "error"
-        },
-
         // already covered by over rules
         "no-delete-expression": false,
         "no-disable-auto-sanitization": false,
-
-        // do not use document.domain
-        "no-document-domain": {
-            "severity": "error"
-        },
-        "no-document-write": {
-            "severity": "error"
-        },
-        
-        // deprecated
-        "no-duplicate-case": false,
-        "no-duplicate-parameter-names": false,
-        "no-empty-interfaces": false,
-        
-        // no empty lines after opening braces
-        "no-empty-line-after-opening-brace": true,
-
-        // do not use execScript
-        "no-exec-script": {
-            "severity": "error"
-        },
 
         // do not use for ... in
         // instead use an array
@@ -971,40 +898,11 @@
         // already covered by other rules
         "no-function-expression": false,
 
-        // urls should start with https://
-        "no-http-string": true,
-
         // avoid using increment and decrement operators
         "increment-decrement": true,
 
-        // do not use .innerHTML
-        "no-inner-html": {
-            "severity": "error"
-        },
-
-        // regular expressions need to be valid
-        "no-invalid-regexp": {
-            "severity": "error"
-        },
-
         // we are not using jquery
         "no-jquery-raw-elements": false,
-
-        // deprecated
-        "no-missing-visibility-modifiers": false,
-
-        // do not use multiline strings -- out-source big ones into files
-        "no-multiline-string": {
-            "severity": "error"
-        },
-
-        // deprecated
-        "no-multiple-var-decl": false,
-
-        // do not use octals
-        "no-octal-literal": {
-            "severity": "error"
-        },
 
         // you may have spaces in regex
         "no-regex-spaces": false,
@@ -1012,70 +910,18 @@
         // you may have relative imports
         "no-relative-imports": false,
 
-        // if comments are a single line, they should not be blocks
-        "no-single-line-block-comment": true,
-
-        // deprecated
-        "no-stateless-class": false,
-        
-        // do not use setImmediate with strings
-        "no-string-based-set-immediate": {
-            "severity": "error"
-        },
-        
-        // do not use setInterval with strings
-        "no-string-based-set-interval": {
-            "severity": "error"
-        },
-
-        // do not use setTimeout with strings
-        "no-string-based-set-timeout": {
-            "severity": "error"
-        },
-        
-        // we want comments like this to show up as warnings
-        "no-suspicious-comment": true,
-
-        // use === undefined instead of typeof === undefined
-        "no-typeof-undefined": true,
-
         // we are mono-lingual, so we do not use this string
         "no-unexternalized-strings": false,
 
         // do not do .bind(this), instead use arrow functions
         "unnecessary-bind": true,
-
-        // do not initialize fields
-        "no-unnecessary-field-initialization": true,
-
-        // do not "const x = ...; return x"
-        "no-unnecessary-local-variable": true,
-
-        // never override when only calling super()
-        "no-unnecessary-override": true,
         
         // we might have unsupported browser code
         "no-unsupported-browser-code": false,
 
-        // warn about unneeded files
-        "no-useless-files": true,
-
-        // deprecated
-        "no-var-self": false,
-        
-        // with statements are evil
-        "no-with-statement": {
-            "severity": "error"
-        },
-
         // we do not use the fs module
         // so we do not need this
         "non-literal-fs-path": false,
-
-        // require() calls need to be literals
-        "non-literal-require": {
-            "severity": "error"
-        },
 
         // not using node so not relevant
         "possible-timing-attack": false,
@@ -1115,25 +961,15 @@
         // we do not use iframes
         "react-iframe-missing-sandbox": false,
 
-        // you should not set innerHTML dangerously
-        // if this is needed, override it locally
-        "react-no-dangerous-html": true,
-
         // already done by other rules
         "react-this-binding-issue": false,
         "react-tsx-curly-spacing": false,
-
-        // props should not go unused
-        "react-unused-props-and-state": true,
 
         // we do not use underscore
         "underscore-consistent-invocation": false,
 
         // arguments is already disabled
-        "use-named-parameter": false,
-
-        // deprecated
-        "valid-typeof": false
+        "use-named-parameter": false
     },
 
     // also check definition files
