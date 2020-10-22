@@ -20,7 +20,6 @@ interface IGroupProps {
 }
 
 
-
 export default class PageGroup extends React.Component<IGroupProps> {
     render() {
         const archives = this.props.children.sort(Compare);
