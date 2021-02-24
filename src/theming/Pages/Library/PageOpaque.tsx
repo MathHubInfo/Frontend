@@ -1,6 +1,7 @@
 import * as React from "react";
 import { IOpaqueElement } from "../../../context/LibraryClient/objects";
 import MHHTML from "../../../components/MHHTML";
+import STEXHTML from "../../../components/STEXHTML";
 
 interface IOpaqueProps {
     children: IOpaqueElement;
@@ -9,6 +10,18 @@ interface IOpaqueProps {
 
 export default class PageOpaque extends React.Component<IOpaqueProps> {
     render() {
-        return <MHHTML>{this.props.children.content}</MHHTML>;
+        const {contentFormat, content} = this.props.children;
+        switch(contentFormat) {
+            case "html":
+                return <MHHTML>{content}</MHHTML>;
+            case "application/xhtml+stex":
+                return <STEXHTML>{content}</STEXHTML>;
+            default:
+        }
+        
+        return <div>
+            <b>{contentFormat}</b>
+            <pre>{content}</pre>
+        </div>
     }
 }

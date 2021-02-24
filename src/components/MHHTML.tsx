@@ -8,9 +8,6 @@ interface IMathHTMLProps<T> {
     // the html (string) that should be rendered
     children: string;
 
-    // should we render semantic references, false as default
-    renderReferences?: boolean;
-
     // should we render math, defaults to true
     renderMath?: boolean;
 
@@ -42,11 +39,6 @@ export default class MHHTML<S, T extends string | React.ComponentType<S> | React
 
         const {renderMath} = this.props;
 
-        /*if (renderReferences) {
-            const linkReplaced = this.replaceLinkNode(node as Element, callback);
-            if (linkReplaced) return linkReplaced;
-        }*/
-
         if (renderMath !== false) {
             const mathReplaced = this.replaceMathNode(node as Element, callback);
             if (mathReplaced) return mathReplaced;
@@ -54,21 +46,6 @@ export default class MHHTML<S, T extends string | React.ComponentType<S> | React
 
         return undefined;
     }
-
-    /*
-    private readonly replaceLinkNode = (node: Element, callback: (nodes: TNodeList) => TReactElement[]) => {
-        if (node.nodeName.toLowerCase() === "a") {
-            const href = node.getAttribute("href") || "";
-
-            return (
-                <Popup
-                    trigger={
-                        <a href={href}>{callback(node.childNodes)}</a>}
-                    content={<div>{href}</div>}
-                />
-            );
-        }
-    }*/
 
     private readonly replaceMathNode = (node: Element, _: (nodes: Node[]) => TReactElement[]) => {
         if (node.nodeName.toLowerCase() === "math")
