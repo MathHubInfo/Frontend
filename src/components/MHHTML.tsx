@@ -8,6 +8,9 @@ interface IMathHTMLProps<T> {
     // the html (string) that should be rendered
     children: string;
 
+    // optional function to replace nodes in the html
+    replaceNodes?: (node: Element, callback: (nodes: TNodeList) => TReactElement[]) =>  JSX.Element | undefined
+
     // should we render math, defaults to true
     renderMath?: boolean;
 
@@ -34,22 +37,28 @@ export default class MHHTML<S, T extends string | React.ComponentType<S> | React
         return React.createElement(asElement || React.Fragment, (extra || {}) as S, ...children);
     }
 
-    private readonly replaceHTMLNodes = (node: Node, callback: (nodes: TNodeList) => TReactElement[]) => {
+    private readonly replaceHTMLNodes = (node: Node, callback: (nodes: TNodeList) => TReactElement[]): JSX.Element | undefined => {
         if (node.nodeType !== ELEMENT_NODE) return undefined;
 
-        const {renderMath} = this.props;
+        const {renderMath, replaceNodes} = this.props;
 
         if (renderMath !== false) {
             const mathReplaced = this.replaceMathNode(node as Element, callback);
             if (mathReplaced) return mathReplaced;
         }
 
+        if (typeof replaceNodes === 'function') {
+            const replaced = replaceNodes(node as Element, callback);
+            if (replaced) return replaced;
+        }
+
         return undefined;
     }
 
     private readonly replaceMathNode = (node: Element, _: (nodes: Node[]) => TReactElement[]) => {
-        if (node.nodeName.toLowerCase() === "math")
-            return <RenderedMath>{OuterHTML(node)}</RenderedMath>;
+        if (node.nodeName.toLowerCase() !== "math") return;
+
+        return <RenderedMath>{OuterHTML(node)}</RenderedMath>;
     }
 }
 

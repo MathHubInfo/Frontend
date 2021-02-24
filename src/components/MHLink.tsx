@@ -31,7 +31,7 @@ export function rewrite(url: string): string {
 /**
  * A link between different MathHub Pages. Takes care to carry the current language along with any parameters.
  */
-export class MHLink extends React.Component<IMHLinkProps & IMHAppContext, {href: string}> {
+class MHLink extends React.Component<IMHLinkProps & IMHAppContext, {href: string}> {
     state = {href: ""};
     static getDerivedStateFromProps(props: IMHLinkProps & IMHAppContext): { href: string } {
         const {href, query} = props;

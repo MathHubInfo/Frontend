@@ -12,6 +12,8 @@ export default class PageOpaque extends React.Component<IOpaqueProps> {
     render() {
         const {contentFormat, content} = this.props.children;
         switch(contentFormat) {
+            case "text":
+                return content;
             case "html":
                 return <MHHTML>{content}</MHHTML>;
             case "application/xhtml+stex":
