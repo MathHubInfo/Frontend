@@ -13,6 +13,6 @@ export default class PageComponent extends React.Component<IComponentProps> {
         if (component.kind === "notation")
             return <><b>{name}</b> <pre>{component.notation}</pre></>;
         else
-            return <><b>{name}</b> <MHHTML renderReferences>{component.object}</MHHTML></>;
+            return <><b>{name}</b> <MHHTML>{component.object}</MHHTML></>;
     }
 }

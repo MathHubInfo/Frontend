@@ -19,7 +19,7 @@ export default abstract class FatClient<T> {
     }
 
     // loads the mocked dataset
-    protected abstract async mock(): Promise<T[]>;
+    protected abstract mock(): Promise<T[]>;
 
     // internal function to load all urls and store them
     private async loadAllInternal(): Promise<T[]> {

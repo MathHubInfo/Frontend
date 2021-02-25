@@ -120,7 +120,7 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
                         {this.tgViewButton()}
                         {this.tgView3DButton()}
                         {this.jupyterButton()}
-                        <div>{description && <MHHTML renderReferences>{description}</MHHTML>}</div>
+                        <div>{description && <MHHTML>{description}</MHHTML>}</div>
                     </Grid.Column>
                     <Grid.Column width={5}>
                         <Container textAlign={"right"}>
