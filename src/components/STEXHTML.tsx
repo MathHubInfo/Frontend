@@ -4,6 +4,9 @@ import MHHTML from "./MHHTML";
 interface ISTEXHTMLProps {
     // the html (string) that should be rendered
     children: string;
+
+    // current language to link
+    lang?: string;
 }
 
 import { TNodeList, TReactElement } from "../utils/ReactHTMLParser";
@@ -29,7 +32,10 @@ export default class STEXHTML extends React.PureComponent<ISTEXHTMLProps> {
         if(!href.startsWith(STEX_MODULE_URI_PREFIX)) return;
 
         // make a content uri for it!
-        const id = `pseudo-tree://smglom-stex/${href.substring(STEX_MODULE_URI_PREFIX.length)}`;
+        // TODO: This should move to the MMT side!
+
+        const suffix = this.props.lang ? "/" + this.props.lang : "";
+        const id = `pseudo-tree://smglom-stex/${href.substring(STEX_MODULE_URI_PREFIX.length)}${suffix}`;
         return <MHLink href="/library/document" query={{id}}><a>{callback(node.childNodes)}</a></MHLink>;
     }
 }
