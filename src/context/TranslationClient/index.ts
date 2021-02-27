@@ -1,4 +1,3 @@
-// tslint:disable: export-name
 import HTTPClient from "../HTTPClient";
 
 import { IGlossaryEntry, TKnownLanguages } from "../GlossaryClient";

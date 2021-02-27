@@ -60,7 +60,6 @@ function getSelectedLocale(context: NextPageContext): string {
  * @param header Header to parse
  */
 function parseLanguageHeader(header: string): string {
-    // tslint:disable-next-line: no-unnecessary-type-assertion
     let bits = header.split(",").map(e => {
         const pair = e.split(";");
         if (pair.length === 0) return ["", 0];
@@ -95,7 +94,7 @@ export async function initLocaleSupport(): Promise<void> {
     global.Intl = await import("intl");
 
     // load all the needed locale-data
-    // tslint:disable-next-line:no-submodule-imports
+
     await Promise.all(supportedLocales.map(locale => import(`intl/locale-data/jsonp/${locale}.js`)));
 
     return;

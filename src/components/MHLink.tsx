@@ -50,5 +50,4 @@ class MHLink extends React.Component<IMHLinkProps & IMHAppContext, { href: strin
     }
 }
 
-// tslint:disable-next-line:export-name
 export default WithContextProps(MHLink, MHAppContext);

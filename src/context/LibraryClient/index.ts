@@ -1,4 +1,3 @@
-// tslint:disable:export-name
 import HTTPClient from "../HTTPClient";
 import LibraryClient from "./LibraryClient";
 import MockClient from "./MockClient";

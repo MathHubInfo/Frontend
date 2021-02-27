@@ -15,6 +15,5 @@ export function WithDebug<T>(f: () => T, ...messages: string[]): () => T {
 export function DebugLog(...messages: any[]): void {
     if (process.env.NODE_ENV === "production") return;
 
-    // tslint:disable-next-line: no-console
     console.log(...messages);
 }

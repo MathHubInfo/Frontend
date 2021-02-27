@@ -1,5 +1,3 @@
-// tslint:disable:export-name
-
 import LibraryClient from "../LibraryClient";
 
 import {
@@ -197,7 +195,6 @@ class LazyMockClient extends LibraryClient {
                 co = this.cleanDeclaration(obj, ds);
                 break;
             default:
-                // tslint:disable-next-line:no-console
                 console.warn(`Mock Dataset: Got object of unknown kind ${kind}, skipping cleanup. `);
                 co = obj;
         }
@@ -380,12 +377,10 @@ class LazyMockClient extends LibraryClient {
 
         // if we have more than one child, try the first valid one or fail
         if (children.length !== 1) {
-            // tslint:disable-next-line:no-console
             console.warn(`Mock Dataset: Expected exactly one child of ${archive.id}, found ${children.length}`);
 
             narrativeRoot = (children.find((c: INarrativeElement) => c.kind === "document") || {}) as IDocument;
 
-            // tslint:disable-next-line:no-console
             console.warn(`Mock Dataset: child is of kind ${narrativeRoot.kind}`);
         } else narrativeRoot = children[0] as IDocument;
 

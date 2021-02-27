@@ -1,4 +1,3 @@
-// tslint:disable:export-name
 import * as React from "react";
 import intl from "react-intl-universal";
 import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";

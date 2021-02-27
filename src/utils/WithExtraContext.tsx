@@ -20,7 +20,6 @@ export function WithExtraProps<M, P extends M>(
                       (extra as (props: Omit<P, keyof M>) => M)(this.props)
                     : extra;
 
-            // tslint:disable-next-line:no-object-literal-type-assertion
             const compProps = { ...this.props, ...newProps } as P;
 
             return <Component {...compProps} />;
@@ -58,7 +57,6 @@ export default function WithExtraContext<C, M, P extends C & M>(
         static contextType = context;
         context!: M;
         render() {
-            // tslint:disable-next-line:no-object-literal-type-assertion
             const compProps = { ...this.props, ...this.context } as Omit<P, keyof M>;
 
             // add more new props to it
@@ -68,7 +66,6 @@ export default function WithExtraContext<C, M, P extends C & M>(
                       (extra as (props: Omit<P, keyof M>) => M)(compProps)
                     : extra;
 
-            // tslint:disable-next-line:no-object-literal-type-assertion
             const allProps = { ...this.context, ...newProps, ...this.props } as P;
 
             return <Component {...allProps} />;

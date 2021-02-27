@@ -1,5 +1,3 @@
-// tslint:disable:export-name
-
 import Document, { DocumentContext, DocumentProps, Html, Head, Main, NextScript } from "next/document";
 import dynamic from "next/dynamic";
 import { negotiateLanguage } from "../src/locales";

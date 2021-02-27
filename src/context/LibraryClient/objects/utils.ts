@@ -87,7 +87,7 @@ export function ObjectParents(obj: IReferencable | IReference): IReference[] {
 
         // if we have an archive, the next lower level is a document which *is* the achives content
         // so if it exists, the next level should be removed
-        // tslint:disable-next-line:no-non-null-assertion
+
         if (parents[0] && parents[1] && parents[0].kind === "archive") parents.splice(1, 1);
     }
 

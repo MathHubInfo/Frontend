@@ -34,17 +34,16 @@ export const urls: IMathHubURLConfig = {
         documentation: "https://github.com/MathHubInfo/Documentation/wiki",
         browseSources: "https://gl.mathhub.info/",
         // Uni Erlangen: FIX THIS PLEASE
-        // tslint:disable-next-line:no-http-string
+
         contactAHuman: "http://lists.informatik.uni-erlangen.de/mailman/listinfo/mathhub",
         beta: "https://github.com/MathHubInfo/Documentation/wiki/beta.mathhub.info",
         report: "https://github.com/MathHubInfo/Frontend/issues/new",
     },
     external: {
-        // tslint:disable-next-line:no-invalid-template-strings
         gitlabGroup: "https://gl.mathhub.info/${group}",
-        // tslint:disable-next-line:no-invalid-template-strings
+
         gitlabArchive: "https://gl.mathhub.info/${archive}/tree/${branch}/${path}",
-        // tslint:disable-next-line:max-line-length no-invalid-template-strings
+
         jupyter:
             "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false",
     },

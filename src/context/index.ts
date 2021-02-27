@@ -93,5 +93,4 @@ const getMathHubConfig = Lazy(() => {
     };
 });
 
-// tslint:disable-next-line:export-name
 export default getMathHubConfig;

@@ -12,7 +12,6 @@ export default class TGView3DLink extends React.Component<ITGViewData, { url: st
     private static computeMagicURL(data: ITGViewData): string {
         const { hostname } = window.location;
 
-        // tslint:disable-next-line: no-suspicious-comment
         // HACK HACK HACK
         // Until TGVIEW3D is ready, we hard-code the URLs to use here
         // These are based on the MathHub base URL
@@ -23,7 +22,6 @@ export default class TGView3DLink extends React.Component<ITGViewData, { url: st
             case "beta.mathhub.info":
                 return this.computeLegacyURL("https://mmt.beta.mathhub.info", data);
             case "localhost":
-                // tslint:disable-next-line: no-http-string
                 return this.computeLegacyURL("http://localhost:8080", data);
             default:
                 return this.computeDefaultURL(data);
@@ -49,7 +47,7 @@ export default class TGView3DLink extends React.Component<ITGViewData, { url: st
         const { children } = this.props;
 
         // remove the protocol from the url
-        // tslint:disable-next-line: no-http-string
+
         if (url.startsWith("http://")) url = url.substring(7);
         else if (url.startsWith("https://")) url = url.substring(8);
 

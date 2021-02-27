@@ -51,7 +51,6 @@ export function JupyterURL(source: ISourceReference): string | undefined {
     return makeURL(source, JupyterURL.GROUP_TEMPLATE, JupyterURL.ARCHIVE_TEMPLATE, JupyterURL.ARCHIVE_TEMPLATE);
 }
 JupyterURL.GROUP_TEMPLATE = "";
-// tslint:disable-next-line:max-line-length
 JupyterURL.ARCHIVE_TEMPLATE =
     "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false";
 

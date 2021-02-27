@@ -1,6 +1,6 @@
 import * as React from "react";
 import { default as TGViewImpl } from "tgview";
-// tslint:disable-next-line: no-submodule-imports
+
 import { ITGViewOptions as ImplOptions } from "tgview/lib/Configuration";
 import getMathHubConfig from "../context";
 import { UUID } from "../utils/UUID";

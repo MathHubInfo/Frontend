@@ -84,7 +84,7 @@ export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
                                 alt="dfg University Logo"
                                 inline
                                 // DFG: Fix this
-                                // tslint:disable-next-line:no-http-string
+
                                 href={"http://dfg.de"}
                             />
                         </Grid.Column>

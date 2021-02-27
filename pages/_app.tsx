@@ -1,5 +1,3 @@
-// tslint:disable:export-name no-submodule-imports no-implicit-dependencies
-
 import App, { AppContext } from "next/app";
 import dynamic from "next/dynamic";
 import { default as Router } from "next/router";
@@ -84,7 +82,6 @@ export default class MHApp extends App<IMHAppOwnProps> {
         // if we still need to load languages
         // load them and only render after
         if (!this.state.languageLoaded)
-            // tslint:disable-next-line: no-floating-promises
             setLocale(this.state.activeLanguage).then(() => this.setState({ languageLoaded: true }));
     }
 

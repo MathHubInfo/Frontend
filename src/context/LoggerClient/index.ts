@@ -69,7 +69,7 @@ export interface ILogEntry {
     uuid: string;
     // unix epoch time of creation
     time: number;
-    // tslint:disable-next-line:no-banned-terms
+
     caller: string;
     // indentation
     indent: number;

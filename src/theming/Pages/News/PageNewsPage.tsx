@@ -4,7 +4,6 @@ import MHHTML from "../../../components/MHHTML";
 
 import { INewsItem } from "../../../context/NewsClient";
 
-// tslint:disable-next-line: no-empty-interface
 type INewsPageProps = INewsItem;
 
 export default class PageNewsPage extends React.Component<INewsPageProps> {

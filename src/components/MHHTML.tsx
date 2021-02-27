@@ -9,7 +9,7 @@ interface IMathHTMLProps<T> {
     children: string;
 
     // optional function to replace nodes in the html
-    // tslint:disable-next-line: prefer-method-signature
+
     replaceNodes?: (node: Element, callback: (nodes: TNodeList) => TReactElement[]) => JSX.Element | undefined;
 
     // should we render math, defaults to true
@@ -69,6 +69,5 @@ export default class MHHTML<
 
 // renders a single math element
 function RenderedMath(props: { children: string }) {
-    // tslint:disable-next-line:react-no-dangerous-html
     return <span dangerouslySetInnerHTML={{ __html: props.children }} />;
 }

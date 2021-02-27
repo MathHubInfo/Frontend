@@ -275,7 +275,6 @@ function handleAttributes(element: Element): { [name: string]: {} } {
     // eslint-disable-next-line @typescript-eslint/ban-types
     const theAttributes: { [name: string]: string | {} } = {};
 
-    // tslint:disable-next-line:prefer-for-of no-increment-decrement
     for (let i = 0; i < attribs.length; i += 1) {
         // get the name of the attribute if we know it
         attribName = attribs[i].name.toLowerCase();
@@ -327,7 +326,6 @@ function handleText(text: Text, key: string): TReactElement | null {
 function nodeList2Array(nodeList: TNodeList): Node[] {
     const nodes: Node[] = [];
 
-    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < nodeList.length; i += 1) nodes.push(nodeList[i]);
 
     return nodes;

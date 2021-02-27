@@ -1,4 +1,3 @@
-// tslint:disable export-name
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import * as React from "react";
