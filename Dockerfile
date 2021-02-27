@@ -47,7 +47,6 @@ ADD LICENSE.txt /app/LICENSE.txt
 ADD next.config.js next.config.js
 ADD README.md /app/README.md
 ADD tsconfig.json /app/tsconfig.json
-ADD tslint.json /app/tslint.json
 
 # Generate a distribution
 RUN mkdir -p /app/src/assets/generated && yarn mklegal && yarn build
