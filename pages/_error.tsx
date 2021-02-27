@@ -7,18 +7,17 @@ import { Indexable } from "../src/types/lib";
 const LayoutFailure = dynamic(() => import("../src/theming/Layout/LayoutFailure"));
 
 interface IErrorProps {
-  statusCode?: number;
+    statusCode?: number;
 }
 
 export default class Error extends React.Component<IErrorProps> {
-  static async getInitialProps({ res, err }: NextPageContext): Promise<IErrorProps> {
-    const statusCode = res ? res.statusCode : err ? (err as Indexable<Error>).statusCode : null;
+    static async getInitialProps({ res, err }: NextPageContext): Promise<IErrorProps> {
+        const statusCode = res ? res.statusCode : err ? (err as Indexable<Error>).statusCode : null;
 
-    return { statusCode };
-  }
+        return { statusCode };
+    }
 
-  render() {
-    return <LayoutFailure crumbs={[]} statusCode={this.props.statusCode || 404} />;
-  }
+    render() {
+        return <LayoutFailure crumbs={[]} statusCode={this.props.statusCode || 404} />;
+    }
 }
-

@@ -14,7 +14,6 @@ interface IHeaderProps {
      */
     title?: string[];
 
-
     /**
      * The breadcrumbs to the current page.
      * Each Component is a pair of (title, url) to be used as arguments for creating a link.
@@ -76,9 +75,7 @@ class HeaderInt extends React.Component<IHeaderProps & IMHAppContext> {
                             </Dropdown.Menu>
                         </Dropdown>
                         <MHLink href="/news">
-                            <Menu.Item>
-                                {intl.get("news")}
-                            </Menu.Item>
+                            <Menu.Item>{intl.get("news")}</Menu.Item>
                         </MHLink>
                         <Menu.Item>
                             <a href={urls.admin} style={{ color: "black" }}>
@@ -98,16 +95,16 @@ class HeaderInt extends React.Component<IHeaderProps & IMHAppContext> {
                             <LayoutCrumbs crumbs={[...crumbs, { href: "", title: (title || [])[0] }]} />
                         </Grid.Column>
                         <Grid.Column width={4} textAlign={"right"}>
-                            <Button.Group compact basic size={"mini"} >{
-                                this.props.knownLanguages.map(lang => (
+                            <Button.Group compact basic size={"mini"}>
+                                {this.props.knownLanguages.map(lang => (
                                     <LanguageButton
                                         key={lang}
                                         language={lang}
                                         activeLanguage={this.props.activeLanguage}
                                         changeLanguage={this.props.changeLanguage}
                                     />
-                                ))
-                            }</Button.Group>
+                                ))}
+                            </Button.Group>
                         </Grid.Column>
                     </Grid>
                 </Container>
@@ -126,33 +123,36 @@ class LanguageButton extends React.Component<{
 }> {
     render() {
         return (
-            <Button
-                onClick={this.onClick}
-                active={this.props.language === this.props.activeLanguage}
-            >
+            <Button onClick={this.onClick} active={this.props.language === this.props.activeLanguage}>
                 <Flag name={LanguageButton.getFlag(this.props.language)} />
             </Button>
         );
     }
 
     private static getFlag(language: string) {
-        const flags: {[lang: string]: FlagNameValues | undefined} = { en: "gb" };
+        const flags: { [lang: string]: FlagNameValues | undefined } = { en: "gb" };
 
         return flags[language] || (language as FlagNameValues);
     }
 
     private readonly onClick = () => {
         this.props.changeLanguage(this.props.language);
-    }
+    };
 }
 
 class LayoutCrumbs extends React.Component<{ crumbs: IBreadcrumb[] }> {
     render() {
-        return <div>{this.props.crumbs.map(c => <LayoutCrumb key={c.href} {...c} />)}</div>;
+        return (
+            <div>
+                {this.props.crumbs.map(c => (
+                    <LayoutCrumb key={c.href} {...c} />
+                ))}
+            </div>
+        );
     }
 }
 
-class LayoutCrumb extends React.Component<{ href: string; title: string; query?: {} }> {
+class LayoutCrumb extends React.Component<{ href: string; title: string; query?: Record<string, string> }> {
     render() {
         const { href, title, query } = this.props;
         if (!href) return <b>{title}</b>;

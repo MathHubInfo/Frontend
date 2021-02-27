@@ -12,7 +12,6 @@ import TranslationClient from "./TranslationClient";
 import AdminClient from "./AdminClient";
 import { resolveURL } from "../utils/resolve";
 
-
 /**
  * Configuration used by MathHub
  */
@@ -40,15 +39,14 @@ export interface IContext {
 }
 
 // the MathHub Configuration
-const MATHHUB_CONFIG = process.env.MATHHUB_CONFIG as unknown as IMathHubConfig;
+const MATHHUB_CONFIG = (process.env.MATHHUB_CONFIG as unknown) as IMathHubConfig;
 
 /**
  * Resolves a local URL
  * @param url URL to resolve
  */
 function rs(url: string): string {
-    if (process.browser)
-        return url;
+    if (process.browser) return url;
 
     return resolveURL(MATHHUB_CONFIG.UPSTREAM_BASE_URL || "", url) || url;
 }
@@ -59,7 +57,7 @@ const getMathHubConfig = Lazy(() => {
 
     // alias to easily resolve a url both from the server
     // and from the client
-    const resolve = (url: string | undefined) => (typeof url === "string") ? rs(url) : undefined;
+    const resolve = (url: string | undefined) => (typeof url === "string" ? rs(url) : undefined);
 
     // make a new httpClient for pooling requests
     // on the server side, this should only have a single request
@@ -67,9 +65,9 @@ const getMathHubConfig = Lazy(() => {
     const httpClient = new HTTPClient(rs);
 
     // a client to retrieve all the libraries from MMT
-    const libraryClient = mhconfig.LIBRARY_URL ?
-        new RestClient(rs(mhconfig.LIBRARY_URL), httpClient) :
-        new MockClient();
+    const libraryClient = mhconfig.LIBRARY_URL
+        ? new RestClient(rs(mhconfig.LIBRARY_URL), httpClient)
+        : new MockClient();
 
     // a client to receive all the news
     const newsClient = new NewsClient(resolve(mhconfig.NEWS_URL), httpClient);

@@ -34,18 +34,20 @@ export default class PageApplicationsKeys extends React.Component<IKeysProps> {
 
         return (
             <div>
-                <table style={{width: "100%"}}>
+                <table style={{ width: "100%" }}>
                     <thead>
                         <tr>
-                            <th style={{width: "20%"}}>Key</th>
-                            <th style={{width: "80%"}}>
+                            <th style={{ width: "20%" }}>Key</th>
+                            <th style={{ width: "80%" }}>
                                 Description
-                                <button onClick={this.toggleExpansion}>{expanded ? "<<" : ">>" }</button>
+                                <button onClick={this.toggleExpansion}>{expanded ? "<<" : ">>"}</button>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {keys.map(k => <KeyRow key={k.key} item={k} expanded={expanded} />)}
+                        {keys.map(k => (
+                            <KeyRow key={k.key} item={k} expanded={expanded} />
+                        ))}
                     </tbody>
                 </table>
             </div>
@@ -55,14 +57,17 @@ export default class PageApplicationsKeys extends React.Component<IKeysProps> {
     private readonly toggleExpansion = () => this.props.toggleExpansion();
 }
 
-class KeyRow extends React.Component<{item: IKey; expanded: boolean}> {
+class KeyRow extends React.Component<{ item: IKey; expanded: boolean }> {
     render() {
-        const {expanded, item: { key, description, teaser }} = this.props;
+        const {
+            expanded,
+            item: { key, description, teaser },
+        } = this.props;
 
         return (
             <tr>
                 <td>{key}</td>
-                <td>{expanded ? description : teaser }</td>
+                <td>{expanded ? description : teaser}</td>
             </tr>
         );
     }

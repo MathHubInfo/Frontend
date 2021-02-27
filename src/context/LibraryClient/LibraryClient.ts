@@ -1,5 +1,15 @@
-import { IArchive, IDeclaration, IDocument, IGroup,
-         IGroupRef, IMMTVersionInfo, IModule, IReferencable, ITag, URI } from "./objects";
+import {
+    IArchive,
+    IDeclaration,
+    IDocument,
+    IGroup,
+    IGroupRef,
+    IMMTVersionInfo,
+    IModule,
+    IReferencable,
+    ITag,
+    URI,
+} from "./objects";
 
 export default abstract class LibraryClient {
     /// gets the base url used by this client

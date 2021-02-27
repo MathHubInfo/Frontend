@@ -53,7 +53,10 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
     }
     state: IArchiveState = { expandedModules: [], expandedDeclarations: [], ...this.props.initial };
 
-    private readonly debouncedUpdate = WithDebug(debounce(() => this.forceUpdate(), 500), "forceUpdate");
+    private readonly debouncedUpdate = WithDebug(
+        debounce(() => this.forceUpdate(), 500),
+        "forceUpdate",
+    );
     private readonly mstore = new BooleanArrayStore<IModule>(
         () => this.state.expandedModules,
         update => this.setState(({ expandedModules: expanded }) => ({ expandedModules: update(expanded) })),
@@ -81,16 +84,24 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
     }
 
     render() {
-        const breadcrumbs = [{href: "/", title: intl.get("home")}, {href: "/library", title: intl.get("library")}];
-        if (failed(this.props)) return (
-            <LayoutFailure
-                crumbs={breadcrumbs}
-                statusCode={statusCode(this.props.status)}
-                status={this.props.status}
-            />
-        );
+        const breadcrumbs = [
+            { href: "/", title: intl.get("home") },
+            { href: "/library", title: intl.get("library") },
+        ];
+        if (failed(this.props))
+            return (
+                <LayoutFailure
+                    crumbs={breadcrumbs}
+                    statusCode={statusCode(this.props.status)}
+                    status={this.props.status}
+                />
+            );
 
-        const { description, name, narrativeRoot: { declarations: decls } } = this.props.item;
+        const {
+            description,
+            name,
+            narrativeRoot: { declarations: decls },
+        } = this.props.item;
         const header = <ActionHeader {...headerProps(this.props.item, { description })} />;
 
         const nprops: Omit<INarrativeElementProps, "children"> = {
@@ -107,7 +118,11 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
         return (
             <LayoutBody crumbs={[...breadcrumbs, ...crumbs(this.props.item)]} title={[name]}>
                 <PageArchive header={header} item={this.props.item}>
-                    {decls.map(d => <NarrativeElement {...nprops} key={d.id}>{d}</NarrativeElement>)}
+                    {decls.map(d => (
+                        <NarrativeElement {...nprops} key={d.id}>
+                            {d}
+                        </NarrativeElement>
+                    ))}
                 </PageArchive>
             </LayoutBody>
         );

@@ -11,8 +11,8 @@ export default class GlossaryClient extends FatClient<IGlossaryEntry> {
 // a single glossary entry
 export interface IGlossaryEntry {
     id: string;
-    kwd: {[k in TKnownLanguages]?: string[]};
-    def: {[k in TKnownLanguages]?: string};
+    kwd: { [k in TKnownLanguages]?: string[] };
+    def: { [k in TKnownLanguages]?: string };
 }
 
 export const knownLanguages = ["en", "de", "fr", "tr", "ro", "zhs", "zht"] as const;

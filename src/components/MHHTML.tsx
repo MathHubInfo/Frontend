@@ -10,7 +10,7 @@ interface IMathHTMLProps<T> {
 
     // optional function to replace nodes in the html
     // tslint:disable-next-line: prefer-method-signature
-    replaceNodes?: (node: Element, callback: (nodes: TNodeList) => TReactElement[]) =>  JSX.Element | undefined;
+    replaceNodes?: (node: Element, callback: (nodes: TNodeList) => TReactElement[]) => JSX.Element | undefined;
 
     // should we render math, defaults to true
     renderMath?: boolean;
@@ -19,21 +19,22 @@ interface IMathHTMLProps<T> {
     as?: T;
 
     // extra properties to give to the element being created
-    // tslint:disable-next-line:no-any
-    extra?: { [key: string]: any };
+    extra?: Record<string, unknown>;
 }
 
 /**
  * An element representing mathmatically relevant text based on html input
  */
-export default class MHHTML<S, T extends string | React.ComponentType<S> | React.FunctionComponent<S>>
-    extends React.PureComponent<IMathHTMLProps<T>> {
+export default class MHHTML<
+    S,
+    T extends string | React.ComponentType<S> | React.FunctionComponent<S>
+> extends React.PureComponent<IMathHTMLProps<T>> {
     render() {
-        const { children: content, as: asElement, extra} = this.props;
+        const { children: content, as: asElement, extra } = this.props;
 
-        const children = Parser(content, {replace: this.replaceHTMLNodes}).map(
-            (child: React.ReactElement<{}>, index: number) => React.cloneElement(child, {key: index}),
-        );
+        const children = Parser(content, {
+            replace: this.replaceHTMLNodes,
+        }).map((child, index) => React.cloneElement(child, { key: index }));
 
         return React.createElement(asElement || React.Fragment, (extra || {}) as S, ...children);
     }
@@ -42,13 +43,12 @@ export default class MHHTML<S, T extends string | React.ComponentType<S> | React
         node: Node,
         callback: (nodes: TNodeList) => TReactElement[],
     ): JSX.Element | undefined => {
-
         if (node.nodeType !== ELEMENT_NODE) return undefined;
 
-        const {renderMath, replaceNodes} = this.props;
+        const { renderMath, replaceNodes } = this.props;
 
         if (renderMath !== false) {
-            const mathReplaced = this.replaceMathNode(node as Element, callback);
+            const mathReplaced = this.replaceMathNode(node as Element);
             if (mathReplaced) return mathReplaced;
         }
 
@@ -58,17 +58,17 @@ export default class MHHTML<S, T extends string | React.ComponentType<S> | React
         }
 
         return undefined;
-    }
+    };
 
-    private readonly replaceMathNode = (node: Element, _: (nodes: Node[]) => TReactElement[]) => {
+    private readonly replaceMathNode = (node: Element) => {
         if (node.nodeName.toLowerCase() !== "math") return undefined;
 
         return <RenderedMath>{OuterHTML(node)}</RenderedMath>;
-    }
+    };
 }
 
 // renders a single math element
-function RenderedMath(props: {children: string}) {
+function RenderedMath(props: { children: string }) {
     // tslint:disable-next-line:react-no-dangerous-html
-    return <span dangerouslySetInnerHTML={{__html: props.children}} />;
+    return <span dangerouslySetInnerHTML={{ __html: props.children }} />;
 }

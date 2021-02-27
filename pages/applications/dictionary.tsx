@@ -4,13 +4,17 @@ import * as React from "react";
 import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import { IGlossaryEntry, IsKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
-import { IDictionaryImplicits, IDictionaryState } from "../../src/theming/Pages/Applications/PageApplicationsDictionary";
+import {
+    IDictionaryImplicits,
+    IDictionaryState,
+} from "../../src/theming/Pages/Applications/PageApplicationsDictionary";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
 const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
-const PageApplicationsDictionary =
-    dynamic(() => import("../../src/theming/Pages/Applications/PageApplicationsDictionary"));
+const PageApplicationsDictionary = dynamic(
+    () => import("../../src/theming/Pages/Applications/PageApplicationsDictionary"),
+);
 
 interface IDictionaryProps {
     initial: Partial<IDictionaryImplicits>;
@@ -42,7 +46,6 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
         ...this.props.initial,
     };
 
-
     private readonly translationClient = getMathHubConfig().translationClient;
 
     async componentDidUpdate(_: IDictionaryProps, prevState: IDictionaryState) {
@@ -61,14 +64,11 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
             <LayoutBody crumbs={[{ href: "/", title: intl.get("home") }]} title={[intl.get("dictionary")]}>
                 <PageApplicationsDictionary
                     {...this.state}
-
                     header={header}
                     knownLanguages={knownLanguages}
-
                     changeFromLanguage={this.changeFromLanguage}
                     changeToLanguage={this.changeToLanguage}
                     changeText={this.changeText}
-
                     startTranslation={this.startTranslation}
                 />
             </LayoutBody>
@@ -77,15 +77,15 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
 
     private readonly changeFromLanguage = (fromLanguage: TKnownLanguages) => {
         this.setState({ fromLanguage });
-    }
+    };
 
     private readonly changeToLanguage = (toLanguage: TKnownLanguages) => {
         this.setState({ toLanguage });
-    }
+    };
 
     private readonly changeText = (text: string) => {
         this.setState(ps => ({ ...ps, text, translationValid: ps.text === text }));
-    }
+    };
 
     /**
      * Starts the translation, iff it is not blocked
@@ -101,7 +101,7 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
             // and return the update
             return { ...ps, translating: true };
         });
-    }
+    };
 
     /**
      * Runs the translation
@@ -144,5 +144,5 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
 
         // indicate that translation is finished (which might mean an error)
         this.setState({ translating: false, translation, translationValid: true });
-    }
+    };
 }

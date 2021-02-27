@@ -1,4 +1,3 @@
-// tslint:disable:no-invalid-template-strings
 import { ISourceReference, IReferencable } from "../context/LibraryClient/objects";
 
 // TODO: Read the template URLS from the configuration
@@ -7,13 +6,13 @@ import { ISourceReference, IReferencable } from "../context/LibraryClient/object
  * Builds a URL for a source reference
  * @param source Source Reference to build URL for
  */
-export function SourceURL(source: ISourceReference) {
+export function SourceURL(source: ISourceReference): string | undefined {
     return makeURL(source, SourceURL.GROUP_TEMPLATE, SourceURL.ARCHIVE_TEMPLATE, SourceURL.ARCHIVE_TEMPLATE);
 }
 SourceURL.GROUP_TEMPLATE = "https://gl.mathhub.info/${group}";
 SourceURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/tree/${branch}/${path}";
 
-export function IssueURL(source: ISourceReference) {
+export function IssueURL(source: ISourceReference): string | undefined {
     return makeURL(source, IssueURL.GROUP_TEMPLATE, IssueURL.ARCHIVE_TEMPLATE, IssueURL.ARCHIVE_TEMPLATE);
 }
 IssueURL.GROUP_TEMPLATE = "https://gl.mathhub.info/groups/${group}/-/issues";
@@ -41,20 +40,20 @@ export function TGViewURL(obj: IReferencable): ITGViewData | undefined {
             return undefined;
     }
 
-    return {type, graphdata: obj.id};
+    return { type, graphdata: obj.id };
 }
-
 
 /**
  * Builds a URL for a jupyter reference
  * @param source Jupyter Reference to build URL for
  */
-export function JupyterURL(source: ISourceReference) {
+export function JupyterURL(source: ISourceReference): string | undefined {
     return makeURL(source, JupyterURL.GROUP_TEMPLATE, JupyterURL.ARCHIVE_TEMPLATE, JupyterURL.ARCHIVE_TEMPLATE);
 }
 JupyterURL.GROUP_TEMPLATE = "";
 // tslint:disable-next-line:max-line-length
-JupyterURL.ARCHIVE_TEMPLATE = "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false";
+JupyterURL.ARCHIVE_TEMPLATE =
+    "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false";
 
 /**
  * Builds a generic URL
@@ -63,9 +62,11 @@ JupyterURL.ARCHIVE_TEMPLATE = "https://jupyter.mathhub.info/user-redirect/upload
  * @param ARCHIVE_URL_TEMPLATE Template for archive urls
  */
 function makeURL(
-        source: ISourceReference,
-        GROUP_URL_TEMPLATE?: string, ARCHIVE_URL_TEMPLATE?: string, FILE_URL_TEMPLATE?: string,
-    ): undefined | string {
+    source: ISourceReference,
+    GROUP_URL_TEMPLATE?: string,
+    ARCHIVE_URL_TEMPLATE?: string,
+    FILE_URL_TEMPLATE?: string,
+): string | undefined {
     if (source.parent.kind === "group") {
         if (GROUP_URL_TEMPLATE === undefined) return undefined;
 
@@ -73,15 +74,13 @@ function makeURL(
     } else if (!source.path) {
         if (ARCHIVE_URL_TEMPLATE === undefined) return undefined;
 
-        return ARCHIVE_URL_TEMPLATE
-            .replace("${archive}", source.parent.id)
+        return ARCHIVE_URL_TEMPLATE.replace("${archive}", source.parent.id)
             .replace("${branch}", source.version || "master")
             .replace("${path}", "");
     } else {
         if (FILE_URL_TEMPLATE === undefined) return undefined;
 
-        return FILE_URL_TEMPLATE
-            .replace("${archive}", source.parent.id)
+        return FILE_URL_TEMPLATE.replace("${archive}", source.parent.id)
             .replace("${branch}", source.version || "master")
             .replace("${path}", source.path || "");
     }

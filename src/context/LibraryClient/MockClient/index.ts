@@ -38,13 +38,14 @@ class LazyMockClient extends LibraryClient {
 
     private dataset: IMockDataSet | undefined;
 
-    getURL(): string | undefined { return undefined; }
+    getURL(): string | undefined {
+        return undefined;
+    }
 
     // get the MMT Version
     async getMMTVersion(): Promise<IMMTVersionInfo> {
         return this.loadDataSet().then(d => d.version);
     }
-
 
     // #region "Getters"
 
@@ -57,90 +58,71 @@ class LazyMockClient extends LibraryClient {
     async getURI(uri: URI): Promise<IReferencable | undefined> {
         let kind = "";
 
-        return this.getObjectOfType<IReferencable>(
-            (ds: IMockDataSet) => {
-                const groups = ds.groups.find(g => g.id === uri);
-                if (groups) {
-                    kind = "group";
+        return this.getObjectOfType<IReferencable>((ds: IMockDataSet) => {
+            const groups = ds.groups.find(g => g.id === uri);
+            if (groups) {
+                kind = "group";
 
-                    return groups;
-                }
+                return groups;
+            }
 
-                const archives = ds.archives.find(a => a.id === uri);
-                if (archives) {
-                    kind = "archive";
+            const archives = ds.archives.find(a => a.id === uri);
+            if (archives) {
+                kind = "archive";
 
-                    return archives;
-                }
+                return archives;
+            }
 
-                const documents = ds.documents.find(d => d.id === uri);
-                if (documents) {
-                    kind = "document";
+            const documents = ds.documents.find(d => d.id === uri);
+            if (documents) {
+                kind = "document";
 
-                    return documents;
-                }
+                return documents;
+            }
 
-                const opaques = ds.opaques.find(o => o.id === uri);
-                if (opaques) {
-                    kind = "opaque";
+            const opaques = ds.opaques.find(o => o.id === uri);
+            if (opaques) {
+                kind = "opaque";
 
-                    return opaques;
-                }
+                return opaques;
+            }
 
-                const modules = ds.modules.find(m => m.id === uri);
-                if (modules) {
-                    kind = "modules";
+            const modules = ds.modules.find(m => m.id === uri);
+            if (modules) {
+                kind = "modules";
 
-                    return modules;
-                }
+                return modules;
+            }
 
-                return undefined;
-            },
-            kind,
-        );
+            return undefined;
+        }, kind);
     }
 
     // gets a group from the mock dataset
     async getGroup(id: string): Promise<IGroup | undefined> {
-        return this.getObjectOfType<IGroup>(
-            (ds: IMockDataSet) => ds.groups.find(g => g.id === id),
-            "group",
-        );
+        return this.getObjectOfType<IGroup>((ds: IMockDataSet) => ds.groups.find(g => g.id === id), "group");
     }
 
     // gets a group from the mock dataset
     async getTag(id: string): Promise<ITag | undefined> {
-        const theMockTag = id.startsWith("@") ?
-            {id, name: id.substring(1)} : undefined;
+        const theMockTag = id.startsWith("@") ? { id, name: id.substring(1) } : undefined;
 
-        return this.getObjectOfType<ITag>(
-            (_: IMockDataSet) => theMockTag,
-            "tag",
-        );
+        return this.getObjectOfType<ITag>(() => theMockTag, "tag");
     }
 
     // gets an archive from the mock dataset
     async getArchive(id: string): Promise<IArchive | undefined> {
-        return this.getObjectOfType<IArchive>(
-            (ds: IMockDataSet) => ds.archives.find(a => a.id === id),
-            "archive",
-        );
+        return this.getObjectOfType<IArchive>((ds: IMockDataSet) => ds.archives.find(a => a.id === id), "archive");
     }
 
     // gets a document from the mock dataset
     async getDocument(id: string): Promise<IDocument | undefined> {
-        return this.getObjectOfType<IDocument>(
-            (ds: IMockDataSet) => ds.documents.find(d => d.id === id),
-            "document",
-        );
+        return this.getObjectOfType<IDocument>((ds: IMockDataSet) => ds.documents.find(d => d.id === id), "document");
     }
 
     // gets a module from the mock dataset
     async getModule(id: string): Promise<IModule | undefined> {
-        return this.getObjectOfType<IModule>(
-            (ds: IMockDataSet) => ds.modules.find(m => m.id === id),
-            "module",
-        );
+        return this.getObjectOfType<IModule>((ds: IMockDataSet) => ds.modules.find(m => m.id === id), "module");
     }
 
     // gets a declaration from the mock dataset
@@ -159,8 +141,7 @@ class LazyMockClient extends LibraryClient {
     private async loadDataSet(): Promise<IMockDataSet> {
         // if we already fetched the dataset
         // we can return it immediatly
-        if (this.dataset !== undefined)
-            return this.dataset;
+        if (this.dataset !== undefined) return this.dataset;
 
         // else we need to fetch it
         this.dataset = await this.datasetFactory();
@@ -176,13 +157,11 @@ class LazyMockClient extends LibraryClient {
     private async getObjectOfType<T extends IApiObject>(
         getter: (data: IMockDataSet) => IMockObject | undefined,
         kind: string,
-    ): Promise<T | undefined>  {
+    ): Promise<T | undefined> {
         const ds = await this.loadDataSet();
         const obj = getter(ds);
-        if (obj !== undefined)
-            return LazyMockClient.cleanAny<T>(kind, obj, ds);
-        else
-            return undefined;
+        if (obj !== undefined) return LazyMockClient.cleanAny<T>(kind, obj, ds);
+        else return undefined;
     }
 
     // #endregion
@@ -194,7 +173,7 @@ class LazyMockClient extends LibraryClient {
     }
 
     private static cleanAny<T extends IApiObject>(kind: string, obj: IMockObject, ds: IMockDataSet): T {
-        let co: {}; // cleaned object
+        let co: unknown; // cleaned object
         switch (kind) {
             case "group":
                 co = this.cleanGroup(obj, ds);
@@ -243,7 +222,7 @@ class LazyMockClient extends LibraryClient {
         };
     }
 
-    private static cleanTagRef(tag: IMockReference, _: IMockDataSet): ITagRef {
+    private static cleanTagRef(tag: IMockReference): ITagRef {
         if (!tag.id.startsWith("@")) throw LazyMockClient.MockNotFoundError(tag.id, "tags");
 
         return {
@@ -277,12 +256,9 @@ class LazyMockClient extends LibraryClient {
     private static cleanDocumentParentRef(ref: IMockReference, ds: IMockDataSet): IDocumentParentRef {
         // if we can find a document reference, return a document
         const docRef = ds.documents.find(d => d.id === ref.id);
-        if (docRef !== undefined)
-            return this.cleanDocumentRef(ref, ds);
-
+        if (docRef !== undefined) return this.cleanDocumentRef(ref, ds);
         // else try and find an archive reference
-        else
-            return this.cleanArchiveRef(ref, ds);
+        else return this.cleanArchiveRef(ref, ds);
     }
 
     private static cleanDocumentRef(document: IMockReference, ds: IMockDataSet): IDocumentRef {
@@ -351,9 +327,7 @@ class LazyMockClient extends LibraryClient {
         const actual = ds.groups.find(g => g.id === group.id);
         if (!actual) throw LazyMockClient.MockNotFoundError(group.id, "groups");
 
-        const archives = ds.archives
-            .filter(a => a.parent.id === group.id)
-            .map(a => this.cleanArchiveRef(a, ds));
+        const archives = ds.archives.filter(a => a.parent.id === group.id).map(a => this.cleanArchiveRef(a, ds));
 
         return {
             ...ref,
@@ -367,10 +341,8 @@ class LazyMockClient extends LibraryClient {
     }
 
     private static cleanTag(tag: IMockReference, ds: IMockDataSet): ITag {
-        const ref = this.cleanTagRef(tag, ds);
-        const archives =  ds.archives
-            .filter(a => a.tags.indexOf(ref.name) !== -1)
-            .map(a => this.cleanArchiveRef(a, ds));
+        const ref = this.cleanTagRef(tag);
+        const archives = ds.archives.filter(a => a.tags.indexOf(ref.name) !== -1).map(a => this.cleanArchiveRef(a, ds));
 
         return {
             ...ref,
@@ -386,21 +358,16 @@ class LazyMockClient extends LibraryClient {
         ds: IMockDataSet,
     ): INarrativeElement[] {
         // Note: This does not maintain order
-        const opaques = ds.opaques
-            .filter(o => o.parent.id === parent.id)
-            .map(o => this.cleanOpaqueElement(o, ds));
+        const opaques = ds.opaques.filter(o => o.parent.id === parent.id).map(o => this.cleanOpaqueElement(o, ds));
 
-        const documents = ds.documents
-            .filter(d => d.parent.id === parent.id)
-            .map(d => this.cleanDocument(d, ds));
+        const documents = ds.documents.filter(d => d.parent.id === parent.id).map(d => this.cleanDocument(d, ds));
 
         const modules = moduleChildren
             .map(m => ds.modules.find(dm => dm.id === m.id))
             .filter((m): m is IMockModule => m !== undefined)
             .map(m => this.cleanModuleRef(m, ds));
 
-        return ([] as INarrativeElement[])
-            .concat(opaques, documents, modules);
+        return ([] as INarrativeElement[]).concat(opaques, documents, modules);
     }
 
     private static cleanArchive(archive: IMockReference, ds: IMockDataSet): IArchive {
@@ -418,12 +385,11 @@ class LazyMockClient extends LibraryClient {
 
             narrativeRoot = (children.find((c: INarrativeElement) => c.kind === "document") || {}) as IDocument;
 
-        // tslint:disable-next-line:no-console
+            // tslint:disable-next-line:no-console
             console.warn(`Mock Dataset: child is of kind ${narrativeRoot.kind}`);
-         } else
-            narrativeRoot = children[0] as IDocument;
+        } else narrativeRoot = children[0] as IDocument;
 
-        const tags = actual.tags.map(ts => this.cleanTagRef({id: `@${ts}`}, ds));
+        const tags = actual.tags.map(ts => this.cleanTagRef({ id: `@${ts}` }));
 
         return {
             ...ref,
@@ -481,7 +447,7 @@ class LazyMockClient extends LibraryClient {
 
                 inner = {
                     kind: "theory",
-                    meta: thyT as (IModuleRef & {mod: "theory"}),
+                    meta: thyT as IModuleRef & { mod: "theory" },
                 };
             } else
                 inner = {
@@ -493,12 +459,13 @@ class LazyMockClient extends LibraryClient {
 
             inner = {
                 kind: "view",
-                domain: domainT as IModuleRef & {mod: "theory"},
-                codomain: codomainT as IModuleRef & {mod: "theory"},
+                domain: domainT as IModuleRef & { mod: "theory" },
+                codomain: codomainT as IModuleRef & { mod: "theory" },
             };
         }
 
-        const declarations = ds.declarations.filter(d => d.parent.id === actual.id)
+        const declarations = ds.declarations
+            .filter(d => d.parent.id === actual.id)
             .map(d => LazyMockClient.cleanDeclarationRef(d, ds));
 
         return {
@@ -528,8 +495,7 @@ class LazyMockClient extends LibraryClient {
                 kind: "nested",
                 mod: modT,
             };
-        } else
-            inner = actual.declaration;
+        } else inner = actual.declaration;
 
         return {
             ...ref,
@@ -547,12 +513,14 @@ class LazyMockClient extends LibraryClient {
 
 export default class MockClient extends LazyMockClient {
     constructor() {
-        super(async (): Promise<IMockDataSet> => {
-            // because of https://github.com/microsoft/TypeScript/issues/31920
-            // we need to force cast here!
-            const mock = await import("./mock.json");
+        super(
+            async (): Promise<IMockDataSet> => {
+                // because of https://github.com/microsoft/TypeScript/issues/31920
+                // we need to force cast here!
+                const mock = await import("./mock.json");
 
-            return mock.default as unknown as IMockDataSet;
-        });
+                return (mock.default as unknown) as IMockDataSet;
+            },
+        );
     }
 }

@@ -2,8 +2,7 @@ import HTTPClient from "../HTTPClient";
 
 export default class AdminClient {
     constructor(private readonly ADMIN_URL: string | undefined, readonly client: HTTPClient) {
-        if (!process.browser)
-            throw new Error("AdminClient may only be instantiated on the client");
+        if (!process.browser) throw new Error("AdminClient may only be instantiated on the client");
     }
     async status(): Promise<IAdminStatus> {
         // if we are mocking, then return a dummy unauthenticated object

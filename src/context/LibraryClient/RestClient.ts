@@ -2,8 +2,18 @@ import { resolveURL } from "../../utils/resolve";
 import HTTPClient from "../HTTPClient";
 
 import LibraryClient from "./LibraryClient";
-import { IArchive, IDeclaration, IDocument, IGroup,
-         IGroupRef, IMMTVersionInfo, IModule, IReferencable, ITag, URI } from "./objects";
+import {
+    IArchive,
+    IDeclaration,
+    IDocument,
+    IGroup,
+    IGroupRef,
+    IMMTVersionInfo,
+    IModule,
+    IReferencable,
+    ITag,
+    URI,
+} from "./objects";
 
 // A client that talks to MMT via the REST interface
 export default class RestClient extends LibraryClient {
@@ -11,9 +21,13 @@ export default class RestClient extends LibraryClient {
      * Creates a new RestClient
      * @param LIBRARY_URL The URL this client talks to
      */
-    constructor(private readonly LIBRARY_URL: string, private readonly client: HTTPClient) { super(); }
+    constructor(private readonly LIBRARY_URL: string, private readonly client: HTTPClient) {
+        super();
+    }
 
-    getURL(): string | undefined { return this.LIBRARY_URL; }
+    getURL(): string | undefined {
+        return this.LIBRARY_URL;
+    }
 
     async getMMTVersion(): Promise<IMMTVersionInfo> {
         return this.client.getOrError<IMMTVersionInfo>(this.buildURL("version"));

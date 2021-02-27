@@ -14,7 +14,6 @@ interface INoticesProps {
     license: string;
 }
 
-
 export default class PageLegalNotices extends React.Component<INoticesProps> {
     render() {
         return (

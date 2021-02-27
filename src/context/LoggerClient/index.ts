@@ -1,4 +1,4 @@
-import { resolveURL  } from "../../utils/resolve";
+import { resolveURL } from "../../utils/resolve";
 
 import HTTPClient from "../HTTPClient";
 
@@ -25,7 +25,7 @@ export default class LoggerClient {
     // the last UUID we received
     private lastUUID: string | null = null;
 
-    async poll(callback: (entries: ILogEntry[]) => void, timeout?: number) {
+    async poll(callback: (entries: ILogEntry[]) => void, timeout?: number): Promise<void> {
         const theTimeout = timeout || 1000;
         const r = await this.doPoll();
 
@@ -33,16 +33,12 @@ export default class LoggerClient {
 
         callback(r);
 
-        window.setTimeout(
-            () => {
-                this.poll(callback, theTimeout)
-                    .catch(_ => null);
-            },
-            theTimeout,
-        );
+        setTimeout(() => {
+            this.poll(callback, theTimeout).catch(() => null);
+        }, theTimeout);
     }
 
-    stopPoll() {
+    stopPoll(): void {
         this.cancelled = true;
     }
 
@@ -50,12 +46,12 @@ export default class LoggerClient {
     private async doPoll(): Promise<ILogEntry[]> {
         // load entries from the server
         const newEntries = await this.client.getOrError<ILogEntry[]>(
-            resolveURL(this.LIBRARY_URL, this.lastUUID ? (`log/after?uuid=${this.lastUUID}`) : "log/all"),
-            {resolve: this.resolve},
+            resolveURL(this.LIBRARY_URL, this.lastUUID ? `log/after?uuid=${this.lastUUID}` : "log/all"),
+            { resolve: this.resolve },
         );
 
         // add the new entries and update the last uuid
-        this.entries.push.apply(this.entries, newEntries);
+        this.entries.push(...newEntries);
         this.updateUUID();
 
         // and return
@@ -63,8 +59,7 @@ export default class LoggerClient {
     }
 
     private updateUUID() {
-        if (this.entries.length > 0)
-            this.lastUUID = this.entries[this.entries.length - 1].uuid;
+        if (this.entries.length > 0) this.lastUUID = this.entries[this.entries.length - 1].uuid;
     }
 }
 

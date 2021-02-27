@@ -18,21 +18,24 @@ export interface IDocumentProps {
     children: Array<React.ReactElement<INarrativeElementProps>>;
 }
 
-
 export default class PageDocument extends React.Component<IDocumentProps> {
     render() {
         const statistics = this.props.item.statistics;
         const panes = [
             {
-                menuItem: intl.get("content"), render: () => (
+                menuItem: intl.get("content"),
+                render: () => (
                     <Tab.Pane tab="Content">
-                        <Content children={this.props.children} />
+                        <Content>{this.props.children}</Content>
                     </Tab.Pane>
                 ),
             },
             {
-                menuItem: intl.get("statistics"), render: () => (
-                    <Tab.Pane tab="Statistics"><StatisticsTable statistics={statistics} /></Tab.Pane>
+                menuItem: intl.get("statistics"),
+                render: () => (
+                    <Tab.Pane tab="Statistics">
+                        <StatisticsTable statistics={statistics} />
+                    </Tab.Pane>
                 ),
             },
         ];
@@ -41,17 +44,19 @@ export default class PageDocument extends React.Component<IDocumentProps> {
             <Container>
                 <Grid>
                     <Grid.Column width={14}>
-                        <h1><MHHTML>{this.props.item.name}</MHHTML></h1>
+                        <h1>
+                            <MHHTML>{this.props.item.name}</MHHTML>
+                        </h1>
                     </Grid.Column>
                     <Grid.Column width={2}>
-                        <Menu compact style={{backgroundColor: "#4F81BD"}}>
+                        <Menu compact style={{ backgroundColor: "#4F81BD" }}>
                             {this.props.header}
                         </Menu>
                     </Grid.Column>
                 </Grid>
                 <Divider />
                 <Tab panes={panes} />
-            </Container >
+            </Container>
         );
     }
 }
@@ -60,7 +65,9 @@ class Content extends React.Component<{ children: Array<React.ReactElement<INarr
     render() {
         return (
             <List relaxed>
-                {this.props.children.map(c => <List.Item key={c.props.children.id}>{c}</List.Item>)}
+                {this.props.children.map(c => (
+                    <List.Item key={c.props.children.id}>{c}</List.Item>
+                ))}
             </List>
         );
     }

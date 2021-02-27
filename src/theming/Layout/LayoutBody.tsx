@@ -29,9 +29,8 @@ interface ILayoutBodyPureProps {
     /**
      * Current page being rendered
      */
-    children: React.ReactElement<{}>;
+    children: React.ReactElement<unknown>;
 }
-
 
 interface IBodyDerivedProps {
     /**
@@ -46,7 +45,6 @@ interface IBodyDerivedProps {
 }
 
 type ILayoutBodyProps = IMHAppContext & ILayoutBodyPureProps & IBodyDerivedProps;
-
 
 const Header = dynamic(() => import("./Header"));
 const LayoutFooter = dynamic(() => import("./LayoutFooter"));
@@ -65,14 +63,9 @@ class LayoutBody extends React.Component<ILayoutBodyProps> {
                     <title>{theTitle}</title>
                     {description && <meta name="description" content={description} />}
                 </Head>
-                <Header
-                    title={title}
-                    crumbs={crumbs}
-                />
+                <Header title={title} crumbs={crumbs} />
                 <Divider />
-                <main>
-                    {this.props.children}
-                </main>
+                <main>{this.props.children}</main>
                 <Divider />
                 <LayoutFooter version={version} />
             </>
@@ -80,12 +73,13 @@ class LayoutBody extends React.Component<ILayoutBodyProps> {
     }
 }
 
-
 export default WithExtraContext<IMHAppContext, IBodyDerivedProps, ILayoutBodyProps>(
-    LayoutBody, MHAppContext, ({ description }) => {
+    LayoutBody,
+    MHAppContext,
+    ({ description }) => {
         const descriptionText = description || undefined;
         const version: IMathHubVersion = getMathHubConfig().config.MATHHUB_VERSION;
 
-        return {descriptionText, version};
+        return { descriptionText, version };
     },
 );

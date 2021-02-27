@@ -25,10 +25,14 @@ export default class PageArchive extends React.Component<IArchiveProps> {
 
         return (
             <Container>
-                <h1><MHHTML>{this.props.item.name}</MHHTML></h1>
+                <h1>
+                    <MHHTML>{this.props.item.name}</MHHTML>
+                </h1>
                 {this.props.header}
                 <List relaxed>
-                    {documents.map(c => <List.Item key={c.props.children.id}>{c}</List.Item>)}
+                    {documents.map(c => (
+                        <List.Item key={c.props.children.id}>{c}</List.Item>
+                    ))}
                 </List>
             </Container>
         );

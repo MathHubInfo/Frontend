@@ -1,18 +1,16 @@
-
 // This file contains type definitions for all OMDOC types exposed by the MMT API
 
 // anything returned by the API
 export type IResponse = IApiObject | IMMTVersionInfo | IStatistic;
 
 // any object returned by the public api
-export type IApiObject = IReferencable | IReference ;
+export type IApiObject = IReferencable | IReference;
 
 // any object that is referencable
 export type IReferencable = IGroup | ITag | IArchive | IDocument | IOpaqueElement | IModule | IDeclaration;
 
 // any concrete reference
-export type IReference =
-    IHubReference | ITagRef | IDocumentRef | IOpaqueElementRef | IModuleRef | IDeclarationRef;
+export type IReference = IHubReference | ITagRef | IDocumentRef | IOpaqueElementRef | IModuleRef | IDeclarationRef;
 
 // a reference to a group or an archive
 export type IHubReference = IGroupRef | IArchiveRef;
@@ -56,7 +54,6 @@ export interface IGroup extends IGroupItem {
 
     // statistics of this group
     statistics: IStatistic[];
-
 }
 
 //
@@ -132,20 +129,13 @@ export interface IArchive extends IArchiveItem {
 
     // statistics of this archive
     statistics: IStatistic[];
-
 }
 
 //
 // Narration
 //
 // a narrative element inside an archive
-export type INarrativeElement =
-    IOpaqueElement |
-    IDocument |
-    IDocumentRef |
-    IModuleRef |
-    IDeclaration |
-    IDeclarationRef;
+export type INarrativeElement = IOpaqueElement | IDocument | IDocumentRef | IModuleRef | IDeclaration | IDeclarationRef;
 
 // parent of a document
 export type IDocumentParentRef = IArchiveRef | IDocumentRef;
@@ -181,7 +171,6 @@ export interface IDocument extends IDocumentItem {
 
     // statistics of this document
     statistics: IStatistic[];
-
 }
 
 export const knownDocumentTags = ["ipynb-omdoc"] as const;
@@ -239,7 +228,7 @@ export interface IModule extends IModuleItem {
     declarations: IDeclarationRef[];
 }
 
-type ITheoryRef = IModuleRef & {mod: "theory"};
+type ITheoryRef = IModuleRef & { mod: "theory" };
 interface ITheory {
     kind: "theory";
 

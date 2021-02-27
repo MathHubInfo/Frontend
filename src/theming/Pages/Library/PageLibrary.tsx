@@ -13,7 +13,6 @@ interface ILibraryProps {
     children: Array<React.ReactElement<IGroupRefProps>>;
 }
 
-
 export default class PageLibrary extends React.Component<ILibraryProps> {
     render() {
         const group = this.props.children.sort(Compare);
@@ -23,7 +22,9 @@ export default class PageLibrary extends React.Component<ILibraryProps> {
                 <h1>{intl.get("library")}</h1>
                 {this.props.header}
                 <List relaxed>
-                    {group.map(c => <List.Item key={c.props.item.id}>{c}</List.Item>)}
+                    {group.map(c => (
+                        <List.Item key={c.props.item.id}>{c}</List.Item>
+                    ))}
                 </List>
             </Container>
         );

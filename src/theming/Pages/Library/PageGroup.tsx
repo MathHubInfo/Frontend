@@ -19,17 +19,20 @@ interface IGroupProps {
     children: Array<React.ReactElement<IArchiveRefProps>>;
 }
 
-
 export default class PageGroup extends React.Component<IGroupProps> {
     render() {
         const archives = this.props.children.sort(Compare);
 
         return (
             <Container>
-                <h1><MHHTML>{this.props.item.name}</MHHTML></h1>
+                <h1>
+                    <MHHTML>{this.props.item.name}</MHHTML>
+                </h1>
                 {this.props.header}
                 <List relaxed>
-                    {archives.map(c => <List.Item key={c.props.item.id}>{c}</List.Item>)}
+                    {archives.map(c => (
+                        <List.Item key={c.props.item.id}>{c}</List.Item>
+                    ))}
                 </List>
             </Container>
         );

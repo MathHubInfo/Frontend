@@ -8,7 +8,6 @@ interface ILayoutFooterProps {
     version: IMathHubVersion;
 }
 
-
 export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
     render() {
         const { version } = this.props;
@@ -84,7 +83,6 @@ export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
                                 style={{ marginRight: "1.5em" }}
                                 alt="dfg University Logo"
                                 inline
-
                                 // DFG: Fix this
                                 // tslint:disable-next-line:no-http-string
                                 href={"http://dfg.de"}
@@ -93,23 +91,27 @@ export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
                     </Grid.Row>
                 </Grid>
                 <Divider />
-                <Grid >
+                <Grid>
                     <Grid.Column width={4}>
                         <small>
                             <MathHubVersion version={version} />
                         </small>
                     </Grid.Column>
                     <Grid.Column width={4}>
-                        <MHLink href="/applications/logger"><a>{intl.get("logger")}</a></MHLink>
+                        <MHLink href="/applications/logger">
+                            <a>{intl.get("logger")}</a>
+                        </MHLink>
                     </Grid.Column>
                     <Grid.Column width={4}>
-                        <MHLink href="/legal/notices"><a>{intl.get("license and notices")}</a></MHLink>
+                        <MHLink href="/legal/notices">
+                            <a>{intl.get("license and notices")}</a>
+                        </MHLink>
                         <br />
-                        <MHLink href="/legal/imprint"><a>{intl.get("imprint")}</a></MHLink>
+                        <MHLink href="/legal/imprint">
+                            <a>{intl.get("imprint")}</a>
+                        </MHLink>
                         <br />
-                        <a href="https://privacy.kwarc.info/">
-                            {intl.get("policy")}
-                        </a>
+                        <a href="https://privacy.kwarc.info/">{intl.get("policy")}</a>
                     </Grid.Column>
                 </Grid>
             </Container>
@@ -122,7 +124,7 @@ class MathHubVersion extends React.Component<{ version: IMathHubVersion }> {
         const { semantic, git, configTime } = this.props.version;
         const cfgTime = new Date(configTime).toISOString();
 
-        let version = intl.get("version", {version: semantic, time: cfgTime});
+        let version = intl.get("version", { version: semantic, time: cfgTime });
 
         if (git) {
             version += ` (${intl.get("from")} `;

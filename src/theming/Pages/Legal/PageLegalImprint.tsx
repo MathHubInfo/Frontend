@@ -14,9 +14,7 @@ export default class PageLegalImprint extends React.Component<IImprintProps> {
         return (
             <Container>
                 <div>{intl.get("imprint responsible")}</div>
-                <pre>
-                    {this.props.imprint}
-                </pre>
+                <pre>{this.props.imprint}</pre>
             </Container>
         );
     }

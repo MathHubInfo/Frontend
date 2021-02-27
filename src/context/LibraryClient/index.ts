@@ -10,4 +10,3 @@ export default function createLibraryClient(url: string, client: HTTPClient): Li
 }
 
 export { default as LibraryClient } from "./LibraryClient";
-

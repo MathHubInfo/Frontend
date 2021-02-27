@@ -5,11 +5,8 @@ import { ITGViewOptions as ImplOptions } from "tgview/lib/Configuration";
 import getMathHubConfig from "../context";
 import { UUID } from "../utils/UUID";
 
-
-export interface ITGViewOptions extends Omit<
-    Partial<ImplOptions>,
-    "mainContainer" | "prefix" | "serverBaseURL" | "serverUrl"
-> {
+export interface ITGViewOptions
+    extends Omit<Partial<ImplOptions>, "mainContainer" | "prefix" | "serverBaseURL" | "serverUrl"> {
     // a mandatory key for this instance of tgview
     // if it changes, the tgview instance is re-created
     instanceKey: string;
@@ -31,8 +28,7 @@ export default class TGView extends React.Component<ITGViewOptions> {
     }
 
     componentDidUpdate(prevState: ITGViewOptions) {
-        if (prevState.instanceKey !== this.props.instanceKey)
-            this.createInstance();
+        if (prevState.instanceKey !== this.props.instanceKey) this.createInstance();
     }
 
     componentWillUnmount() {
@@ -45,8 +41,7 @@ export default class TGView extends React.Component<ITGViewOptions> {
 
     // destroys the current tgview instance, if any
     private destroyInstance() {
-        if (this.tgview)
-            this.tgview.destroy();
+        if (this.tgview) this.tgview.destroy();
         this.tgview = undefined;
     }
     // creates a new tgview instance

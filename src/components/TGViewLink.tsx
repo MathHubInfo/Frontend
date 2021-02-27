@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ITGViewData } from "../utils/URLs";
 
-export default class TGViewLink extends React.Component<ITGViewData, {url: string}> {
+export default class TGViewLink extends React.Component<ITGViewData, { url: string }> {
     state = {
         url: TGViewLink.computeDefaultURL(this.props),
     };
@@ -10,7 +10,7 @@ export default class TGViewLink extends React.Component<ITGViewData, {url: strin
      * Computes the URL for a TGView Link
      */
     private static computeMagicURL(data: ITGViewData): string {
-        const {hostname} = window.location;
+        const { hostname } = window.location;
 
         // tslint:disable-next-line: no-suspicious-comment
         // HACK HACK HACK
@@ -29,30 +29,33 @@ export default class TGViewLink extends React.Component<ITGViewData, {url: strin
                 return this.computeDefaultURL(data);
         }
     }
-    private static computeDefaultURL({type, graphdata}: ITGViewData) {
+    private static computeDefaultURL({ type, graphdata }: ITGViewData) {
         return `/applications/tgview?type=${type}&graphdata=${escape(graphdata)}`;
     }
-    private static computeLegacyURL(base: string, {type, graphdata}: ITGViewData) {
+    private static computeLegacyURL(base: string, { type, graphdata }: ITGViewData) {
         return `${base}/graphs/tgview.html?type=${type}&graphdata=${escape(graphdata)}`;
     }
 
     componentDidMount() {
         this.updateURL();
     }
-    componentDidUpdate({type: prevType, graphdata: prevGraphdata}: ITGViewData) {
-        const {type, graphdata} = this.props;
-        if (prevType !== type || prevGraphdata !== graphdata)
-            this.updateURL();
+    componentDidUpdate({ type: prevType, graphdata: prevGraphdata }: ITGViewData) {
+        const { type, graphdata } = this.props;
+        if (prevType !== type || prevGraphdata !== graphdata) this.updateURL();
     }
 
     render() {
         const { url } = this.state;
         const { children } = this.props;
 
-        return <a href={url} style={{ color: "black" }}>{children}</a>;
+        return (
+            <a href={url} style={{ color: "black" }}>
+                {children}
+            </a>
+        );
     }
 
     private updateURL() {
-        this.setState({url: TGViewLink.computeMagicURL(this.props)});
+        this.setState({ url: TGViewLink.computeMagicURL(this.props) });
     }
 }

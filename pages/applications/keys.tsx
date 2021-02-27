@@ -24,7 +24,7 @@ export default class Keys extends React.Component<IKeysProps, IKeysState> {
         return { initial };
     }
 
-    state = {expanded: false, ...this.props.initial};
+    state = { expanded: false, ...this.props.initial };
 
     async componentDidUpdate(_: IKeysProps, prevState: IKeysState) {
         return Keys.implicits.updateImplicits(this.state, prevState);
@@ -34,16 +34,15 @@ export default class Keys extends React.Component<IKeysProps, IKeysState> {
         return Keys.implicits.setImplicits(this.state);
     }
 
-
     render() {
         const { expanded } = this.state;
 
         return (
-            <LayoutBody crumbs={[{href: "/", title: "Home"}]} title={["Keys"]}>
+            <LayoutBody crumbs={[{ href: "/", title: "Home" }]} title={["Keys"]}>
                 <PageApplicationsKeys keys={keysJSON} expanded={expanded} toggleExpansion={this.toggleExpansion} />
             </LayoutBody>
         );
     }
 
-    private readonly toggleExpansion = () => this.setState(({expanded}) => ({expanded: !expanded}));
+    private readonly toggleExpansion = () => this.setState(({ expanded }) => ({ expanded: !expanded }));
 }

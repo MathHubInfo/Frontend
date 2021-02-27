@@ -21,10 +21,7 @@ export default class PageHome extends React.Component<IHomeProps> {
                     <Grid.Row>
                         <Grid.Column width={8}>
                             <MHLink href="/library">
-                                <Image
-                                    src="/static/library.jpg"
-                                    title="Mathhub libraries"
-                                />
+                                <Image src="/static/library.jpg" title="Mathhub libraries" />
                             </MHLink>
                         </Grid.Column>
                         <Grid.Column width={6}>

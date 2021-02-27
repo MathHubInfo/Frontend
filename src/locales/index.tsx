@@ -12,8 +12,7 @@ export const supportedLocales = ["en", "de"];
  */
 export function negotiateLanguage(context: NextPageContext, surpressHeader = false): string {
     const language = getLocaleOrFallback(getSelectedLocale(context));
-    if (context.res && !surpressHeader)
-        context.res.setHeader("Content-Language", language);
+    if (context.res && !surpressHeader) context.res.setHeader("Content-Language", language);
 
     return language;
 }
@@ -25,7 +24,7 @@ export function negotiateLanguage(context: NextPageContext, surpressHeader = fal
 function getLocaleOrFallback(locale: string): string {
     const theLocale = (locale.match(/^\s*[aA-zZ]{2}/g) || [""])[0].trim().toLowerCase();
 
-    return (supportedLocales.indexOf(theLocale) === -1) ? supportedLocales[0] : theLocale;
+    return supportedLocales.indexOf(theLocale) === -1 ? supportedLocales[0] : theLocale;
 }
 
 /**
@@ -53,11 +52,7 @@ function getSelectedLocale(context: NextPageContext): string {
     if (!acceptLanguage) return "";
 
     // join all the headers by a '-'
-    return parseLanguageHeader(
-        (typeof acceptLanguage === "string")
-        ? acceptLanguage
-        : acceptLanguage.join(","),
-    );
+    return parseLanguageHeader(typeof acceptLanguage === "string" ? acceptLanguage : acceptLanguage.join(","));
 }
 
 /**
@@ -65,7 +60,7 @@ function getSelectedLocale(context: NextPageContext): string {
  * @param header Header to parse
  */
 function parseLanguageHeader(header: string): string {
-// tslint:disable-next-line: no-unnecessary-type-assertion
+    // tslint:disable-next-line: no-unnecessary-type-assertion
     let bits = header.split(",").map(e => {
         const pair = e.split(";");
         if (pair.length === 0) return ["", 0];
@@ -128,21 +123,14 @@ export async function setLocale(locale: string): Promise<string> {
  * Loads location data for the given locale
  * @param locale Name of locale to use. Assumed to be safe.
  */
-async function localLocaleData(locale: string): Promise<{[key: string]: string}> {
+async function localLocaleData(locale: string): Promise<Record<string, string>> {
     // load all the components
     const data = await Promise.all(
-        [
-            "footer",
-            "header",
-            "actionheader",
-            "library",
-            "dictionary",
-            "home",
-            "failure",
-        ]
-        .map(component => import(`./${locale}/${component}.json`).then(x => x.default)),
+        ["footer", "header", "actionheader", "library", "dictionary", "home", "failure"].map(component =>
+            import(`./${locale}/${component}.json`).then(x => x.default),
+        ),
     );
 
     // merge all the objects
-    return data.reduce((p, c) => ({...p, ...c}));
+    return data.reduce((p, c) => ({ ...p, ...c }));
 }

@@ -1,7 +1,7 @@
 import nProgress from "nprogress";
 import * as React from "react";
 
-// tslint:disable-next-line: no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ILayoutRoutingIndicatorProps {}
 
 export default class LayoutRoutingIndicator extends React.Component<ILayoutRoutingIndicatorProps> {

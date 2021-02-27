@@ -21,15 +21,12 @@ const LayoutRoutingIndicator = dynamic(() => import("../src/theming/Layout/Layou
 
 interface IMHAppOwnProps {
     initialLanguage: string;
-    initialConfig: {};
+    initialConfig: unknown;
 }
 
 export default class MHApp extends App<IMHAppOwnProps> {
     static async getInitialProps(context: AppContext) {
-        const [
-            pageProps,
-            initialLanguage,
-        ] = await Promise.all([
+        const [pageProps, initialLanguage] = await Promise.all([
             MHApp.getPageProps(context),
             MHApp.getInitialLanguage(context),
         ]);
@@ -42,8 +39,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
      */
     static async getPageProps({ Component, ctx }: AppContext) {
         let pageProps = {};
-        if (Component.getInitialProps)
-            pageProps = await Component.getInitialProps(ctx);
+        if (Component.getInitialProps) pageProps = await Component.getInitialProps(ctx);
 
         return pageProps;
     }
@@ -73,10 +69,10 @@ export default class MHApp extends App<IMHAppOwnProps> {
 
             // update the dom + url
             document.getElementsByTagName("html")[0].setAttribute("lang", lang);
-            await ImplicitParameters.replaceRouterParameters({lang});
+            await ImplicitParameters.replaceRouterParameters({ lang });
 
             // tell the state about having changed language
-            this.setState({activeLanguage: lang});
+            this.setState({ activeLanguage: lang });
         },
     };
 
@@ -89,7 +85,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
         // load them and only render after
         if (!this.state.languageLoaded)
             // tslint:disable-next-line: no-floating-promises
-            setLocale(this.state.activeLanguage).then(_ => this.setState({languageLoaded: true}));
+            setLocale(this.state.activeLanguage).then(() => this.setState({ languageLoaded: true }));
     }
 
     componentWillUnmount() {
@@ -103,9 +99,7 @@ export default class MHApp extends App<IMHAppOwnProps> {
         const { activeLanguage, changeLanguage, routing, languageLoaded } = this.state;
 
         return (
-            <MHAppContext.Provider
-                value={{ routing, activeLanguage, knownLanguages, changeLanguage }}
-            >
+            <MHAppContext.Provider value={{ routing, activeLanguage, knownLanguages, changeLanguage }}>
                 {routing && <LayoutRoutingIndicator />}
                 {languageLoaded && <Component {...pageProps} />}
             </MHAppContext.Provider>
@@ -115,4 +109,3 @@ export default class MHApp extends App<IMHAppOwnProps> {
     private readonly handleRoutingStart = () => this.setState({ routing: true });
     private readonly handleRoutingEnd = () => this.setState({ routing: false });
 }
-

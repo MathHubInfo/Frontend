@@ -9,10 +9,18 @@ export interface IComponentProps {
 
 export default class PageComponent extends React.Component<IComponentProps> {
     render() {
-        const {name, component} = this.props.children;
+        const { name, component } = this.props.children;
         if (component.kind === "notation")
-            return <><b>{name}</b> <pre>{component.notation}</pre></>;
+            return (
+                <>
+                    <b>{name}</b> <pre>{component.notation}</pre>
+                </>
+            );
         else
-            return <><b>{name}</b> <MHHTML>{component.object}</MHHTML></>;
+            return (
+                <>
+                    <b>{name}</b> <MHHTML>{component.object}</MHHTML>
+                </>
+            );
     }
 }

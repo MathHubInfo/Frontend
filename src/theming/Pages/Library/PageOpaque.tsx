@@ -7,19 +7,16 @@ interface IOpaqueProps {
     children: IOpaqueElement;
 }
 
-
 export default class PageOpaque extends React.Component<IOpaqueProps> {
     render() {
-        const {contentFormat, content, id} = this.props.children;
+        const { contentFormat, content, id } = this.props.children;
         switch (contentFormat) {
             case "text":
                 return content;
             case "html":
                 return <MHHTML>{content}</MHHTML>;
             case "application/xhtml+stex":
-                const lang = HACKGetSmglomLanguageID(id);
-
-                return <STEXHTML lang={lang}>{content}</STEXHTML>;
+                return <STEXHTML lang={HACKGetSmglomLanguageID(id)}>{content}</STEXHTML>;
             default:
         }
 

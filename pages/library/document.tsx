@@ -53,7 +53,10 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
 
     state: IDocumentState = { expandedModules: [], expandedDeclarations: [], ...this.props.initial };
 
-    private readonly debouncedUpdate = WithDebug(debounce(() => this.forceUpdate(), 500), "forceUpdate");
+    private readonly debouncedUpdate = WithDebug(
+        debounce(() => this.forceUpdate(), 500),
+        "forceUpdate",
+    );
     private readonly mstore = new BooleanArrayStore<IModule>(
         () => this.state.expandedModules,
         update => this.setState(({ expandedModules }) => ({ expandedModules: update(expandedModules) })),
@@ -81,14 +84,18 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
     }
 
     render() {
-        const breadcrumbs = [{ href: "/", title: intl.get("home") }, { href: "/library", title: intl.get("library") }];
-        if (failed(this.props)) return (
-            <LayoutFailure
-                crumbs={breadcrumbs}
-                statusCode={statusCode(this.props.status)}
-                status={this.props.status}
-            />
-        );
+        const breadcrumbs = [
+            { href: "/", title: intl.get("home") },
+            { href: "/library", title: intl.get("library") },
+        ];
+        if (failed(this.props))
+            return (
+                <LayoutFailure
+                    crumbs={breadcrumbs}
+                    statusCode={statusCode(this.props.status)}
+                    status={this.props.status}
+                />
+            );
 
         const { name, declarations: decls } = this.props.item;
         const header = <ActionHeader {...headerProps(this.props.item)} />;
@@ -107,7 +114,11 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
         return (
             <LayoutBody crumbs={[...breadcrumbs, ...crumbs(this.props.item)]} title={[name]}>
                 <PageDocument header={header} item={this.props.item}>
-                    {decls.map(d => <NarrativeElement {...nprops} key={d.id}>{d}</NarrativeElement>)}
+                    {decls.map(d => (
+                        <NarrativeElement {...nprops} key={d.id}>
+                            {d}
+                        </NarrativeElement>
+                    ))}
                 </PageDocument>
             </LayoutBody>
         );

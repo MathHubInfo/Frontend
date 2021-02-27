@@ -17,7 +17,6 @@ export interface IModuleProps {
     toggleExpansion(): void;
 }
 
-
 export default class PageModule extends React.Component<IModuleProps> {
     render() {
         const { expanded, item, children } = this.props;
@@ -26,30 +25,37 @@ export default class PageModule extends React.Component<IModuleProps> {
             <Card fluid>
                 <Card.Content>
                     <Card.Header>
-                        <Button compact size={"small"} onClick={this.toggleExpansion} style={{ backgroundColor: "#4F81BD" }}>
+                        <Button
+                            compact
+                            size={"small"}
+                            onClick={this.toggleExpansion}
+                            style={{ backgroundColor: "#4F81BD" }}
+                        >
                             <h4>
                                 <b>{item.name}</b>
                                 &emsp;
-                            {expanded ?
-                                <Icon name="angle double up" fitted /> :
-                                <Icon name="angle double down" fitted />
-                            }
+                                {expanded ? (
+                                    <Icon name="angle double up" fitted />
+                                ) : (
+                                    <Icon name="angle double down" fitted />
+                                )}
                             </h4>
                         </Button>
                     </Card.Header>
-                    <Card.Meta>
-                        {item.ref ? "Module" : item.mod.kind === "theory" ? "Theory" : "View"}
-                    </Card.Meta>
+                    <Card.Meta>{item.ref ? "Module" : item.mod.kind === "theory" ? "Theory" : "View"}</Card.Meta>
                     <Card.Description>
-                        {expanded && (children !== undefined ? (
-                            <ul>
-                                {children.map(c =>
-                                    <li key={c.props.children.id} style={{ marginTop: "0.5em" }}>{c}</li>,
-                                )}
-                            </ul>
-                            ) :
-                            <Loader active>{intl.get("loading")}</Loader>)
-                        }
+                        {expanded &&
+                            (children !== undefined ? (
+                                <ul>
+                                    {children.map(c => (
+                                        <li key={c.props.children.id} style={{ marginTop: "0.5em" }}>
+                                            {c}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <Loader active>{intl.get("loading")}</Loader>
+                            ))}
                     </Card.Description>
                 </Card.Content>
             </Card>

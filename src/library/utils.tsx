@@ -12,8 +12,7 @@ export function headerProps(
     other?: Omit<IActionHeaderProps, "source" | "statistics" | "responsible">,
 ): IActionHeaderProps {
     let responsible;
-    if (obj.kind === "archive" || obj.kind === "group")
-        responsible = obj.responsible;
+    if (obj.kind === "archive" || obj.kind === "group") responsible = obj.responsible;
 
     return {
         ...(other || {}),
@@ -32,7 +31,7 @@ export function crumbs(to: IApiObject): IBreadcrumb[] {
     const parents = ObjectParents(to);
     parents.splice(-1, 1);
 
-    return parents.map(({kind, name, id}) => ({
+    return parents.map(({ kind, name, id }) => ({
         href: `/library/${kind}`,
         title: name,
         query: { id },

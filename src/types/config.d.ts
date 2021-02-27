@@ -32,7 +32,7 @@ export interface IMathHubVersion {
     semantic: string;
 
     // the time at which the configuration for this
-    // mathhub version was generated. Unix Epoch. 
+    // mathhub version was generated. Unix Epoch.
     configTime: number;
 
     // the git version (if available)
@@ -48,7 +48,7 @@ export interface IMathHubVersion {
         dirty?: boolean;
 
         // the time at which this commit was built (if available)
-        // Unix Epoch. 
+        // Unix Epoch.
         time?: number;
-    }
+    };
 }

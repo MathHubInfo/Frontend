@@ -1,4 +1,3 @@
-
 // configuration for external urls used by mathHub
 export interface IMathHubURLConfig {
     help: {
@@ -46,7 +45,8 @@ export const urls: IMathHubURLConfig = {
         // tslint:disable-next-line:no-invalid-template-strings
         gitlabArchive: "https://gl.mathhub.info/${archive}/tree/${branch}/${path}",
         // tslint:disable-next-line:max-line-length no-invalid-template-strings
-        jupyter: "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false",
+        jupyter:
+            "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false",
     },
     admin: "/admin/",
     about: "https://github.com/MathHubInfo/Documentation/wiki/about",

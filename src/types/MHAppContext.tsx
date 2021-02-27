@@ -24,6 +24,7 @@ const MHAppContext = React.createContext<IMHAppContext>({
     routing: false,
     activeLanguage: "",
     knownLanguages: [],
-    changeLanguage: async (_: string) => { return; },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    changeLanguage: async () => {},
 });
 export default MHAppContext;

@@ -8,7 +8,7 @@ interface IHTTPClientOptions {
     checker?: TChecker;
 }
 
-type TChecker = (data: {}) => boolean | Promise<boolean>;
+type TChecker = (data: unknown) => boolean | Promise<boolean>;
 
 export default class HTTPClient {
     constructor(public resolve: (s: string) => string) {}
@@ -18,10 +18,7 @@ export default class HTTPClient {
      * Everything else throws an error
      * @param url URL to get
      */
-    async getIfOK<T>(
-        url: string,
-        {checker, resolve, ignoreError}: IHTTPClientOptions = {},
-    ): Promise<T | undefined> {
+    async getIfOK<T>(url: string, { checker, resolve, ignoreError }: IHTTPClientOptions = {}): Promise<T | undefined> {
         let res;
         try {
             res = await fetch(resolve ? this.resolve(url) : url);
@@ -41,10 +38,7 @@ export default class HTTPClient {
      * Gets data from a url if it returns HTTP 200, or throws an error
      * @param url URL to get
      */
-    async getOrError<T>(
-        url: string,
-        {checker, resolve}: IHTTPClientOptions = {},
-    ): Promise<T> {
+    async getOrError<T>(url: string, { checker, resolve }: IHTTPClientOptions = {}): Promise<T> {
         const res = await fetch(resolve ? this.resolve(url) : url);
         if (res.status !== 200) throw new Error(`Got status code ${res.status}, expected code 200`);
 
@@ -52,7 +46,7 @@ export default class HTTPClient {
     }
 
     private static async checkOrError<T>(data: T, checker?: TChecker): Promise<T> {
-        const theChecker = checker ? checker : (d: {}) => typeof d !== "string";
+        const theChecker = checker ? checker : (d: unknown) => typeof d !== "string";
 
         let checkResult;
         try {

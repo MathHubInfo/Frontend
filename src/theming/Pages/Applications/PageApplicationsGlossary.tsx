@@ -38,16 +38,16 @@ interface IGlossaryProps extends IGlossaryState {
 }
 
 export default class PageApplicationsGlossary extends React.Component<IGlossaryProps> {
-    languageTabs() {
+    private languageTabs() {
         const { knownLanguages } = this.props;
 
         return knownLanguages.map(l => ({ menuItem: l }));
     }
-    changeTab = ({ }, { activeIndex }: TabProps) => {
+    private changeTab = ({}, { activeIndex }: TabProps) => {
         const { changeLanguage, knownLanguages } = this.props;
         const active = activeIndex as number;
         changeLanguage(knownLanguages[active]);
-    }
+    };
     render() {
         const { knownLanguages, language: selectedLanguage, changeLanguage, entries } = this.props;
 
@@ -84,8 +84,7 @@ interface IGlossaryEntryProps {
 class GlossaryEntry extends React.Component<IGlossaryEntryProps> {
     state = { open: false };
     showSynonyms(kwd: string[]) {
-        if (kwd.length === 1 || !this.state.open)
-            return null;
+        if (kwd.length === 1 || !this.state.open) return null;
 
         return (
             <div>
@@ -95,8 +94,7 @@ class GlossaryEntry extends React.Component<IGlossaryEntryProps> {
         );
     }
     showDefinition(def: string) {
-        if (this.state.open)
-            return (<MHHTML>{def}</MHHTML>);
+        if (this.state.open) return <MHHTML>{def}</MHHTML>;
 
         return null;
     }
@@ -146,9 +144,9 @@ class GlossaryEntry extends React.Component<IGlossaryEntryProps> {
         );
     }
     private readonly handleClick = () =>
-    this.setState({
-        open: !this.state.open,
-    })
+        this.setState({
+            open: !this.state.open,
+        });
 }
 
 interface ILanguageLinkProps {
@@ -161,15 +159,17 @@ class LanguageLink extends React.Component<ILanguageLinkProps> {
     render() {
         const { language, selectedLanguage } = this.props;
 
-        if (language === selectedLanguage)
-            return null;
+        if (language === selectedLanguage) return null;
         else
-            return <Button onClick={this.changeLanguage} size={"tiny"}>{language}</Button>;
+            return (
+                <Button onClick={this.changeLanguage} size={"tiny"}>
+                    {language}
+                </Button>
+            );
     }
 
     private readonly changeLanguage = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
         this.props.changeLanguage(this.props.language);
-    }
+    };
 }
-

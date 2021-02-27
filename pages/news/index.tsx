@@ -17,35 +17,24 @@ type INewsProps = IDerivedParameter<INewsItem[]>;
 
 export default class News extends React.Component<INewsProps> {
     static async getInitialProps({ res, query }: NextPageContext): Promise<INewsProps> {
-        return GetDerivedParameter(
-            undefined,
-            async () => getMathHubConfig().newsClient.loadAll(),
-            query,
-            res,
-        );
+        return GetDerivedParameter(undefined, async () => getMathHubConfig().newsClient.loadAll(), query, res);
     }
     render() {
         const crumbs = [{ href: "/", title: intl.get("home") }];
-        if (failed(this.props)) return (
-            <LayoutFailure
-                crumbs={crumbs}
-                statusCode={statusCode(this.props.status)}
-                status={this.props.status}
-            />
-        );
+        if (failed(this.props))
+            return (
+                <LayoutFailure crumbs={crumbs} statusCode={statusCode(this.props.status)} status={this.props.status} />
+            );
 
         const description = intl.get("news intro");
 
-
         return (
             <LayoutBody crumbs={crumbs} description={description} title={["News"]}>
-                <PageNews description={description}>{this.props.item.map(n => (
-                    <PageNewsPageRef
-                        key={n.id}
-                        item={n}
-                        link={{ href: "/news/page", query: { id: n.id } }}
-                    />
-                ))}</PageNews>
+                <PageNews description={description}>
+                    {this.props.item.map(n => (
+                        <PageNewsPageRef key={n.id} item={n} link={{ href: "/news/page", query: { id: n.id } }} />
+                    ))}
+                </PageNews>
             </LayoutBody>
         );
     }

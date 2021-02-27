@@ -11,7 +11,7 @@ export function WithDebug<T>(f: () => T, ...messages: string[]): () => T {
     };
 }
 
-// tslint:disable-next-line: no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function DebugLog(...messages: any[]): void {
     if (process.env.NODE_ENV === "production") return;
 

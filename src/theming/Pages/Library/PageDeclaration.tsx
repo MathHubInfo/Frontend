@@ -11,10 +11,7 @@ interface IDeclarationProps {
 
     // the declarations within this module
     // and the components of this declaration
-    children: [
-        IDocumentProps["children"],
-        Array<React.ReactElement<IComponentProps>>
-    ];
+    children: [IDocumentProps["children"], Array<React.ReactElement<IComponentProps>>];
 
     // is this item expanded?
     expanded: boolean;
@@ -32,39 +29,54 @@ export default class PageDeclaration extends React.Component<IDeclarationProps> 
     };
 
     render() {
-        const { expanded, item, children: [children, components] } = this.props;
+        const {
+            expanded,
+            item,
+            children: [children, components],
+        } = this.props;
 
         return (
             <>
-                {item.ref ?
-                    <><Loader active inline size={"mini"} />{intl.get("declaration")}</>
-                    : PageDeclaration.names[item.declaration.kind]}
+                {item.ref ? (
+                    <>
+                        <Loader active inline size={"mini"} />
+                        {intl.get("declaration")}
+                    </>
+                ) : (
+                    PageDeclaration.names[item.declaration.kind]
+                )}
                 &nbsp;
-                    <Button onClick={this.toggleExpansion} compact size={"tiny"}>
+                <Button onClick={this.toggleExpansion} compact size={"tiny"}>
                     <h5>
                         {item.name}
                         &emsp;
-                        {expanded ? <Icon name="angle double up" fitted />
-                            :
-                            <Icon name="angle double down" fitted />}
+                        {expanded ? <Icon name="angle double up" fitted /> : <Icon name="angle double down" fitted />}
                     </h5>
                 </Button>
-                {expanded && (children !== undefined ?
-                    (
+                {expanded &&
+                    (children !== undefined ? (
                         <ul>
-                            {children.map(c => <li key={c.props.children.id}>{c}</li>)}
+                            {children.map(c => (
+                                <li key={c.props.children.id}>{c}</li>
+                            ))}
                         </ul>
-                    ) :
-                    <Loader active inline size={"mini"}>{intl.get("load children")}</Loader>)
-                }
-                {expanded && (components !== undefined ?
-                    (
+                    ) : (
+                        <Loader active inline size={"mini"}>
+                            {intl.get("load children")}
+                        </Loader>
+                    ))}
+                {expanded &&
+                    (components !== undefined ? (
                         <ul>
-                            {components.map(c => <li key={c.props.children.name}>{c}</li>)}
+                            {components.map(c => (
+                                <li key={c.props.children.name}>{c}</li>
+                            ))}
                         </ul>
-                    ) :
-                    <Loader active inline size={"mini"}>{intl.get("loading components")}</Loader>)
-                }
+                    ) : (
+                        <Loader active inline size={"mini"}>
+                            {intl.get("loading components")}
+                        </Loader>
+                    ))}
             </>
         );
     }

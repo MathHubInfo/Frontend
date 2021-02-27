@@ -21,14 +21,17 @@ export default class STEXHTML extends React.PureComponent<ISTEXHTMLProps> {
     render() {
         const { children } = this.props;
 
-        return <MHHTML replaceNodes={this.replaceLinkNodes} renderMath>{children}</MHHTML>;
+        return (
+            <MHHTML replaceNodes={this.replaceLinkNodes} renderMath>
+                {children}
+            </MHHTML>
+        );
     }
 
     private readonly replaceLinkNodes = (
         node: Element,
         callback: (nodes: TNodeList) => TReactElement[],
-    ):  JSX.Element | undefined => {
-
+    ): JSX.Element | undefined => {
         if (node.nodeName.toLowerCase() !== "a") return undefined;
 
         // check that an href was generated
@@ -42,6 +45,10 @@ export default class STEXHTML extends React.PureComponent<ISTEXHTMLProps> {
         const suffix = this.props.lang ? `/${this.props.lang}` : "";
         const id = `pseudo-tree://smglom-stex/${href.substring(STEX_MODULE_URI_PREFIX.length)}${suffix}`;
 
-        return <MHLink href="/library/document" query={{id}}><a>{callback(node.childNodes)}</a></MHLink>;
-    }
+        return (
+            <MHLink href="/library/document" query={{ id }}>
+                <a>{callback(node.childNodes)}</a>
+            </MHLink>
+        );
+    };
 }

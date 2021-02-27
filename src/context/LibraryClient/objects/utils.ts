@@ -21,10 +21,8 @@ import {
 
 // turns any object returned from the API into a reference
 export function AnyToRef(obj: IApiObject): IReference {
-    if (obj.ref)
-        return obj;
-    else
-        return ObjectToRef(obj);
+    if (obj.ref) return obj;
+    else return ObjectToRef(obj);
 }
 
 // turns an object into a reference
@@ -55,11 +53,11 @@ export function ObjectToRef(obj: IReferencable): IReference {
 export function ObjectSource(obj: IReferencable): ISourceReference | undefined {
     switch (obj.kind) {
         case "group":
-            return {kind: "source", ref: true, parent: GroupObjectToRef(obj)};
+            return { kind: "source", ref: true, parent: GroupObjectToRef(obj) };
         case "tag":
             return undefined;
         case "archive":
-            return {kind: "source", ref: true, parent: ArchiveObjectToRef(obj)};
+            return { kind: "source", ref: true, parent: ArchiveObjectToRef(obj) };
         case "document":
             return obj.sourceRef;
         case "opaque":
@@ -90,8 +88,7 @@ export function ObjectParents(obj: IReferencable | IReference): IReference[] {
         // if we have an archive, the next lower level is a document which *is* the achives content
         // so if it exists, the next level should be removed
         // tslint:disable-next-line:no-non-null-assertion
-        if (parents[0] && parents[1] && parents[0].kind === "archive")
-            parents.splice(1, 1);
+        if (parents[0] && parents[1] && parents[0].kind === "archive") parents.splice(1, 1);
     }
 
     return parents;

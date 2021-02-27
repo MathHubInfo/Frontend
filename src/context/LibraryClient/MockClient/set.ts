@@ -1,11 +1,4 @@
-import {
-    HTML,
-    IComponent,
-    IMMTVersionInfo,
-    IModuleRef,
-    IStatistic,
-    TDocumentTags,
-} from "../objects";
+import { HTML, IComponent, IMMTVersionInfo, IModuleRef, IStatistic, TDocumentTags } from "../objects";
 
 /**
  * The Mock Data Set contained in library.json
@@ -103,7 +96,6 @@ export interface IMockView {
     codomain: IMockReference;
 }
 
-
 // a mocked declaration
 export interface IMockDeclaration extends IMockObject {
     parent: IMockReference;
@@ -137,4 +129,3 @@ export interface IMockNestedModule extends IMockObject {
 
     mod: IModuleRef;
 }
-

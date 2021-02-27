@@ -14,12 +14,14 @@ export function WithExtraProps<M, P extends M>(
     return class extends React.Component<Omit<P, keyof M>> {
         static displayName = `WithExtraProps(${cmpName})`;
         render() {
-            const newProps = (typeof extra === "function") ?
-                // we need an extra cast here, since M could be a function type
-                (extra as (props: Omit<P, keyof M>) => M)(this.props) : extra;
+            const newProps =
+                typeof extra === "function"
+                    ? // we need an extra cast here, since M could be a function type
+                      (extra as (props: Omit<P, keyof M>) => M)(this.props)
+                    : extra;
 
             // tslint:disable-next-line:no-object-literal-type-assertion
-            const compProps = {...this.props, ...newProps} as P;
+            const compProps = { ...this.props, ...newProps } as P;
 
             return <Component {...compProps} />;
         }
@@ -52,21 +54,22 @@ export default function WithExtraContext<C, M, P extends C & M>(
     const cmpName = Component.displayName || Component.name;
 
     return class extends React.Component<Omit<P, keyof (C & M)>> {
-        static displayName =
-            `WithExtraContext(${cmpName})`;
+        static displayName = `WithExtraContext(${cmpName})`;
         static contextType = context;
         context!: M;
         render() {
             // tslint:disable-next-line:no-object-literal-type-assertion
-            const compProps = {...this.props, ...this.context} as Omit<P, keyof M>;
+            const compProps = { ...this.props, ...this.context } as Omit<P, keyof M>;
 
             // add more new props to it
-            const newProps = (typeof extra === "function") ?
-                // we need an extra cast here, since M could be a function type
-                (extra as (props: Omit<P, keyof M>) => M)(compProps) : extra;
+            const newProps =
+                typeof extra === "function"
+                    ? // we need an extra cast here, since M could be a function type
+                      (extra as (props: Omit<P, keyof M>) => M)(compProps)
+                    : extra;
 
             // tslint:disable-next-line:no-object-literal-type-assertion
-            const allProps = {...this.context, ...newProps, ...this.props} as P;
+            const allProps = { ...this.context, ...newProps, ...this.props } as P;
 
             return <Component {...allProps} />;
         }

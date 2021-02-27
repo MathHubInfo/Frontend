@@ -8,19 +8,19 @@ import { Indexable } from "../types/lib";
 /**
  * A set of names for initial parameters
  */
-type IImplicitMappedToString<T> = {[key in keyof T]: string | null};
+type IImplicitMappedToString<T> = { [key in keyof T]: string | null };
 
 /**
  * A dictonary of marshals for a given value.
  * If a marshal is omitted, it is assumed that T is a sub-type of string.
  */
-type IImplicitMarshals<T> = {[key in keyof T]?: IImplicitMarshal<T[key]>};
+type IImplicitMarshals<T> = { [key in keyof T]?: IImplicitMarshal<T[key]> };
 
 /**
  * A dictionary of un-marshals of a given value.
  * If a marshal is omitted, it is assumed that it is the toString() function
  */
-type IImplicitUnmarshals<T> = {[key in keyof T]?: IImplicitUnmarshal<T[key]>};
+type IImplicitUnmarshals<T> = { [key in keyof T]?: IImplicitUnmarshal<T[key]> };
 
 type IImplicitMarshal<T> = (value: string[] | string | undefined) => T;
 type IImplicitUnmarshal<T> = (value: T) => string;
@@ -43,9 +43,13 @@ export default class ImplicitParameters<T> {
             const parser = this.marshals[p as keyof T];
             const value = query[(this.names as Indexable<IImplicitMappedToString<T>>)[p] || p];
 
-            result[p] = parser ? parser(value) :
-                typeof value === "string" ? value as unknown as T[keyof T] :
-                value === undefined ? undefined : value[0] as unknown as T[keyof T];
+            result[p] = parser
+                ? parser(value)
+                : typeof value === "string"
+                ? ((value as unknown) as T[keyof T])
+                : value === undefined
+                ? undefined
+                : ((value[0] as unknown) as T[keyof T]);
         });
 
         return result as Partial<T>;
@@ -62,8 +66,7 @@ export default class ImplicitParameters<T> {
 
         // if something has changed, update the url state
         // and overwrite the entire current state
-        if (!isEqual(current, previous))
-            return ImplicitParameters.replaceRouterParameters(current);
+        if (!isEqual(current, previous)) return ImplicitParameters.replaceRouterParameters(current);
     }
 
     /**
@@ -78,10 +81,9 @@ export default class ImplicitParameters<T> {
         const record: Record<string, string> = {};
 
         Object.keys(implicits).forEach(ik => {
-            if (this.names.hasOwnProperty(ik)) {
+            if (Object.prototype.hasOwnProperty.call(this.names, ik)) {
                 const [name, value] = this.unmarshalkey(implicits, ik as keyof T);
-                if (value !== undefined)
-                    record[name] = value;
+                if (value !== undefined) record[name] = value;
             }
         });
 
@@ -95,13 +97,13 @@ export default class ImplicitParameters<T> {
      */
     private unmarshalkey(implicits: Partial<T>, name: keyof T): [string, string | undefined] {
         const pName = (this.names[name] || name) as string;
-        if (implicits.hasOwnProperty(name)) {
+        if (Object.prototype.hasOwnProperty.call(implicits, name)) {
             const value = implicits[name] as T[keyof T] | undefined;
             if (value === undefined) return [pName, undefined];
 
             const unmarshal = this.unmarshals[name];
 
-            // tslint:disable-next-line: no-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             return [pName, unmarshal ? unmarshal(value) : (value as any).toString()];
         } else return [pName, undefined];
     }
@@ -112,11 +114,11 @@ export default class ImplicitParameters<T> {
      */
     static async replaceRouterParameters(values: Record<string, string>): Promise<void> {
         // update the query to include the new value for the implicit parameters
-        const query = {...(Router.query || {}), ...values};
+        const query = { ...(Router.query || {}), ...values };
 
         try {
-            await Router.replace(`${Router.pathname}?${stringify(query)}`, undefined, {shallow: true});
-        } catch (e) { }
+            await Router.replace(`${Router.pathname}?${stringify(query)}`, undefined, { shallow: true });
+        } catch (e) {}
     }
 
     static first<T>(parser: (x: string) => T | undefined, dflt: T): IImplicitMarshal<T> {
@@ -133,7 +135,6 @@ export default class ImplicitParameters<T> {
     }
 
     static validated<T extends string>(validator: (x: string) => x is T, dflt: T): IImplicitMarshal<T> {
-        return ImplicitParameters.first(x => validator(x) ? x : undefined, dflt);
+        return ImplicitParameters.first(x => (validator(x) ? x : undefined), dflt);
     }
-
 }

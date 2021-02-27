@@ -5,8 +5,7 @@ import MHHTML from "../../../components/MHHTML";
 import { INewsItem } from "../../../context/NewsClient";
 
 // tslint:disable-next-line: no-empty-interface
-interface INewsPageProps extends INewsItem {}
-
+type INewsPageProps = INewsItem;
 
 export default class PageNewsPage extends React.Component<INewsPageProps> {
     render() {
@@ -14,11 +13,13 @@ export default class PageNewsPage extends React.Component<INewsPageProps> {
         theDate.setUTCSeconds(this.props.date);
 
         return (
-        <Container>
-            <h2><MHHTML>{this.props.title}</MHHTML></h2>
-            <div style={{color: "grey"}}>{theDate.toDateString()}</div>
-            <MHHTML>{this.props.content}</MHHTML>
-        </Container>
+            <Container>
+                <h2>
+                    <MHHTML>{this.props.title}</MHHTML>
+                </h2>
+                <div style={{ color: "grey" }}>{theDate.toDateString()}</div>
+                <MHHTML>{this.props.content}</MHHTML>
+            </Container>
         );
     }
 }

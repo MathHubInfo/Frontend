@@ -44,9 +44,7 @@ export default class DataStore<T> {
      * @param id ID of element to check
      */
     has(id: string): boolean {
-        return this.cache.has(id) ||
-            this.quenue.indexOf(id) > -1 ||
-            this.pQuenue.find(e => e[1] === id) !== undefined;
+        return this.cache.has(id) || this.quenue.indexOf(id) > -1 || this.pQuenue.find(e => e[1] === id) !== undefined;
     }
 
     /**
@@ -62,14 +60,13 @@ export default class DataStore<T> {
      * @param id ID of element to delete
      */
     delete(id: string): void {
-        if (this.cache.delete(id))
-           if (this.onUpdate && !this.stop) this.runAsyncNext(this.onUpdate);
+        if (this.cache.delete(id)) if (this.onUpdate && !this.stop) this.runAsyncNext(this.onUpdate);
     }
 
     /**
      * destroy stops all future updates to this DataStore
      */
-    destroy() {
+    destroy(): void {
         // set the stop flag
         // and then clear all the quenues
         this.stop = true;
@@ -129,13 +126,12 @@ export default class DataStore<T> {
         // setup the next cycle if needed
         if (this.stop) return;
         this.runAsyncNext(this.loadingCyle);
-    }
+    };
 
     private readonly loadingCycleActual = async () => {
         // find the next element to load
-        const isPreload = (this.pQuenue.length !== 0);
-        const [prio, next] = isPreload ?
-            this.pQuenue.pop() as [number, string] : [0, this.quenue.shift()];
+        const isPreload = this.pQuenue.length !== 0;
+        const [prio, next] = isPreload ? (this.pQuenue.pop() as [number, string]) : [0, this.quenue.shift()];
 
         DebugLog("preloadingCycle", next, "preload", isPreload);
 
@@ -159,7 +155,7 @@ export default class DataStore<T> {
                 else this.load(next);
             });
         }
-    }
+    };
 
     private readonly runAsyncNext = (f: () => void) => setTimeout(f, this.cycleDelay);
     private readonly runAsync = (f: () => void) => setTimeout(f, 0);
@@ -182,22 +178,22 @@ export class BooleanArrayStore<T> {
     /**
      * Destroys this store
      */
-    destroy = () => this.store.destroy();
+    destroy = (): void => this.store.destroy();
 
     /**
      * Gets an element from the store
      */
-    get = (id: string) => this.store.get(id);
+    get = (id: string): T | undefined => this.store.get(id);
 
     /**
      * Checks if this store contains a given item
      */
-    contains = (id: string) => this.arrayGetter().indexOf(id) > -1;
+    contains = (id: string): boolean => this.arrayGetter().indexOf(id) > -1;
 
     /**
      * Toggles a given item in this store
      */
-    toggle = (id: string) => {
+    toggle = (id: string): void => {
         this.arraySetter(ary => {
             const newAry = [...ary];
             const index = ary.indexOf(id);
@@ -213,11 +209,11 @@ export class BooleanArrayStore<T> {
             }
 
             return newAry;
-          });
-    }
+        });
+    };
 
     /**
      * Sets a given element to be pre-loaded
      */
-    preload = (id: string, urgent: boolean) => this.store.preload(id, urgent ? 0 : 1);
+    preload = (id: string, urgent: boolean): void => this.store.preload(id, urgent ? 0 : 1);
 }

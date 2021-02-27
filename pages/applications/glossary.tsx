@@ -40,13 +40,13 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
         return Glossary.implicits.setImplicits(this.state);
     }
 
-
     render() {
         const { description, language } = this.state;
         const header = <ActionHeader description={description} />;
         // filter all the entries by those available in the selected language
-        const entries = this.props.entries.filter(e =>
-            Object.keys(e.kwd).includes(language) && Object.keys(e.def).includes(language));
+        const entries = this.props.entries.filter(
+            e => Object.keys(e.kwd).includes(language) && Object.keys(e.def).includes(language),
+        );
 
         return (
             <LayoutBody crumbs={[{ href: "/", title: intl.get("home") }]} title={[intl.get("glossary")]}>

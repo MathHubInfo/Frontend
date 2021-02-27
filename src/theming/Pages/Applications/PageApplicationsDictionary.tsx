@@ -56,7 +56,6 @@ export interface IDictionaryState extends IDictionaryImplicits {
     translationValid: boolean | undefined;
 }
 
-
 export interface IDictionaryImplicits {
     /**
      * The language to translation from
@@ -77,35 +76,29 @@ export interface IDictionaryImplicits {
     description?: HTML;
 }
 
-
 export default class PageApplicationsDictionary extends React.Component<IDictionaryProps> {
     render() {
         const { knownLanguages, fromLanguage, toLanguage } = this.props;
         const { translating, translationValid } = this.props;
 
         let statusText = "";
-        if (!translationValid)
-            statusText = translating ? intl.get("translatng") : intl.get("press");
+        if (!translationValid) statusText = translating ? intl.get("translatng") : intl.get("press");
 
         return (
             <Container>
                 <h1>{intl.get("dictionary")}</h1>
                 {this.props.header}
                 {intl.get("from:")}&nbsp;
-                <LanguageDropdown
-                    value={fromLanguage}
-                    options={knownLanguages}
-                    onChange={this.changeFromLanguage}
-                />
+                <LanguageDropdown value={fromLanguage} options={knownLanguages} onChange={this.changeFromLanguage} />
                 &nbsp;
                 {intl.get("to:")}&nbsp;
-                    <LanguageDropdown value={toLanguage} options={knownLanguages} onChange={this.changeToLanguage} />
+                <LanguageDropdown value={toLanguage} options={knownLanguages} onChange={this.changeToLanguage} />
                 <Divider />
                 <div>
                     <Input style={{ width: "70%" }} onChange={this.changeText} />
                     <br />
                     <Button disabled={translating} onClick={this.startTranslation} style={{ marginTop: "1em" }}>
-                    {intl.get("translate")}
+                        {intl.get("translate")}
                     </Button>
                 </div>
                 <Divider />
@@ -123,7 +116,11 @@ export default class PageApplicationsDictionary extends React.Component<IDiction
 
             return (
                 <>
-                    {kwd && <b><MHHTML>{kwd.join(", ")}</MHHTML></b>}
+                    {kwd && (
+                        <b>
+                            <MHHTML>{kwd.join(", ")}</MHHTML>
+                        </b>
+                    )}
                     <div>{def && <MHHTML>{def}</MHHTML>}</div>
                 </>
             );
@@ -133,19 +130,19 @@ export default class PageApplicationsDictionary extends React.Component<IDiction
     }
     private readonly changeFromLanguage = (fromLanguage: TKnownLanguages) => {
         this.props.changeFromLanguage(fromLanguage);
-    }
+    };
 
     private readonly changeToLanguage = (toLanguage: TKnownLanguages) => {
         this.props.changeToLanguage(toLanguage);
-    }
+    };
 
-    private readonly changeText = (event: React.ChangeEvent<HTMLInputElement>, { }) => {
+    private readonly changeText = (event: React.ChangeEvent<HTMLInputElement>, {}) => {
         this.props.changeText(event.target.value);
-    }
+    };
 
     private readonly startTranslation = () => {
         this.props.startTranslation();
-    }
+    };
 }
 
 interface IDropdownProps<K extends string> {
@@ -168,8 +165,7 @@ class LanguageDropdown<K extends string> extends React.Component<IDropdownProps<
         );
     }
 
-    private readonly onChange = ({ }, data: DropdownProps) => {
-        if (this.props.onChange)
-            this.props.onChange(data.value as K);
-    }
+    private readonly onChange = ({}, data: DropdownProps) => {
+        if (this.props.onChange) this.props.onChange(data.value as K);
+    };
 }

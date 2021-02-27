@@ -1,7 +1,7 @@
 // tslint:disable: export-name
 import HTTPClient from "../HTTPClient";
 
-import { IGlossaryEntry , TKnownLanguages } from "../GlossaryClient";
+import { IGlossaryEntry, TKnownLanguages } from "../GlossaryClient";
 
 export default class TranslationClient {
     constructor(readonly CLIENT_URL: string | undefined, readonly client: HTTPClient) {}

@@ -9,8 +9,13 @@ import PageModule from "../theming/Pages/Library/PageModule";
 import PageOpaque from "../theming/Pages/Library/PageOpaque";
 
 import PageDeclaration from "../theming/Pages/Library/PageDeclaration";
-import { IDeclaration, IDeclarationRef, IModule, IModuleRef, INarrativeElement  } from "../context/LibraryClient/objects";
-
+import {
+    IDeclaration,
+    IDeclarationRef,
+    IModule,
+    IModuleRef,
+    INarrativeElement,
+} from "../context/LibraryClient/objects";
 
 export interface INarrativeElementProps extends IExpansionProps {
     children: INarrativeElement;
@@ -22,7 +27,6 @@ interface IModuleElementProps extends IExpansionProps {
 interface IDeclarationElementProps extends IExpansionProps {
     children: IDeclarationRef | IDeclaration;
 }
-
 
 export interface IExpansionProps {
     // tells the parent to start pre-loading an element
@@ -52,13 +56,13 @@ export interface IExpansionProps {
 
 export default class NarrativeElement extends React.Component<INarrativeElementProps> {
     render() {
-        const {children} = this.props;
+        const { children } = this.props;
 
         switch (children.kind) {
             case "document":
-                const link = {href: "/library/document", query: {id: children.id}};
-
-                return <PageDocumentRef item={children} link={link} />;
+                return (
+                    <PageDocumentRef item={children} link={{ href: "/library/document", query: { id: children.id } }} />
+                );
 
             case "opaque":
                 return <PageOpaque>{children}</PageOpaque>;
@@ -73,7 +77,7 @@ export default class NarrativeElement extends React.Component<INarrativeElementP
 }
 
 class ModuleElement extends React.Component<IModuleElementProps> {
-    state = {item: this.props.children, expanded: false};
+    state = { item: this.props.children, expanded: false };
 
     render() {
         const { children, ...rest } = this.props;
@@ -88,12 +92,11 @@ class ModuleElement extends React.Component<IModuleElementProps> {
         // we want to load them
         let modChildren: Array<React.ReactElement<INarrativeElementProps>> = [];
         if (expanded && !theItem.ref && theItem.declarations)
-            modChildren = theItem.declarations
-                .map(d => (
-                    <NarrativeElement key={d.id} {...rest}>
-                        {d}
-                    </NarrativeElement>
-                ));
+            modChildren = theItem.declarations.map(d => (
+                <NarrativeElement key={d.id} {...rest}>
+                    {d}
+                </NarrativeElement>
+            ));
 
         // and render the actual module
         // with the children (if any)
@@ -127,25 +130,24 @@ class DeclarationElement extends React.Component<IDeclarationElementProps> {
         // if we are expanded and want some more children, get their information
         let modChildren: Array<React.ReactElement<INarrativeElementProps>> = [];
         if (expanded && !theDeclaration.ref && theDeclaration.declarations)
-            modChildren = theDeclaration.declarations
-                .map(d => <NarrativeElement key={d.id} {...rest}>{d}</NarrativeElement>);
+            modChildren = theDeclaration.declarations.map(d => (
+                <NarrativeElement key={d.id} {...rest}>
+                    {d}
+                </NarrativeElement>
+            ));
 
         // if we are expanded, render the components
         let modComponents: Array<React.ReactElement<IComponentProps>> = [];
         if (expanded && !theDeclaration.ref && theDeclaration.components)
-            modComponents = theDeclaration.components
-                .map(c => <PageComponent key={c.name}>{c}</PageComponent>);
+            modComponents = theDeclaration.components.map(c => <PageComponent key={c.name}>{c}</PageComponent>);
 
         // and render the actual declaration
         return (
             <>
                 <ReactWaypoint onEnter={this.onEnter} />
-                <PageDeclaration
-                    item={theDeclaration}
-                    expanded={expanded}
-                    toggleExpansion={this.toggleExpansion}
-                    children={[modChildren, modComponents]}
-                />
+                <PageDeclaration item={theDeclaration} expanded={expanded} toggleExpansion={this.toggleExpansion}>
+                    {[modChildren, modComponents]}
+                </PageDeclaration>
             </>
         );
     }

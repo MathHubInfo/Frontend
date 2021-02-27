@@ -23,7 +23,7 @@ export default abstract class FatClient<T> {
 
     // internal function to load all urls and store them
     private async loadAllInternal(): Promise<T[]> {
-        return (this.CLIENT_URL === "" || this.CLIENT_URL === undefined) ? this.mock() : this.rest();
+        return this.CLIENT_URL === "" || this.CLIENT_URL === undefined ? this.mock() : this.rest();
     }
 
     // load via rest

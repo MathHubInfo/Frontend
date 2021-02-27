@@ -27,7 +27,6 @@ interface ILayoutFailureProps {
     crumbs: IBreadcrumb[];
 }
 
-
 const LayoutBody = dynamic(() => import("./LayoutBody"));
 
 export default class LayoutFailure extends React.Component<ILayoutFailureProps> {
@@ -37,8 +36,8 @@ export default class LayoutFailure extends React.Component<ILayoutFailureProps> 
         let title = intl.get("not found");
         let text = intl.get("sorry");
         if (status === DerivedDataStatus.MISSING_VALUE) {
-             title = intl.get("missing");
-             text = intl.get("missing paramter");
+            title = intl.get("missing");
+            text = intl.get("missing paramter");
         }
         if (statusCode === 500 || status === DerivedDataStatus.ERROR_DERIVATION) {
             title = intl.get("wrong");
@@ -49,7 +48,9 @@ export default class LayoutFailure extends React.Component<ILayoutFailureProps> 
             <LayoutBody crumbs={crumbs} title={[title]}>
                 <Container>
                     <Icon name={"frown outline"} size={"huge"} />
-                    <div>HTTP {statusCode}: {title}</div>
+                    <div>
+                        HTTP {statusCode}: {title}
+                    </div>
                     <div>{text}</div>
                 </Container>
             </LayoutBody>

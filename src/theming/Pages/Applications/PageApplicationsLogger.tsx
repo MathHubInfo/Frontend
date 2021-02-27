@@ -17,14 +17,12 @@ export interface ILoggerState extends ILoggerImplicits {
     entries: ILogEntry[];
 }
 
-
 export interface ILoggerImplicits {
     /**
      * The current filter
      */
     filter: string;
 }
-
 
 export default class PageApplicationsLogger extends React.Component<ILoggerProps> {
     render() {
@@ -48,7 +46,9 @@ export default class PageApplicationsLogger extends React.Component<ILoggerProps
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {entries.map(e => <LoggerTableRow entry={e} key={e.uuid} />)}
+                        {entries.map(e => (
+                            <LoggerTableRow entry={e} key={e.uuid} />
+                        ))}
                     </Table.Body>
                 </Table>
             </Container>
@@ -56,7 +56,7 @@ export default class PageApplicationsLogger extends React.Component<ILoggerProps
     }
     private readonly onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.props.changeFilter(event.target.value);
-    }
+    };
 }
 
 class LoggerTableRow extends React.Component<{ entry: ILogEntry }> {

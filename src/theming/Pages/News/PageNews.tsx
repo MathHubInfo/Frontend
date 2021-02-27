@@ -14,7 +14,6 @@ interface INewsProps {
     children: Array<React.ReactElement<INewsPageRefProps>>;
 }
 
-
 export default class PageNews extends React.Component<INewsProps> {
     render() {
         return (
@@ -23,7 +22,9 @@ export default class PageNews extends React.Component<INewsProps> {
                 <div>{this.props.description}</div>
                 <Divider />
                 <List relaxed>
-                    {this.props.children.map(c => <List.Item key={c.props.item.id}>{c}</List.Item>)}
+                    {this.props.children.map(c => (
+                        <List.Item key={c.props.item.id}>{c}</List.Item>
+                    ))}
                 </List>
             </Container>
         );

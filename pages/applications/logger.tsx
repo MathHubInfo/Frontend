@@ -18,9 +18,11 @@ export default class Logger extends React.Component<ILoggerProps, ILoggerState> 
     constructor(props: ILoggerProps) {
         super(props);
 
-        const {httpClient, config: {LIBRARY_URL: libraryURL}} = getMathHubConfig();
-        this.client = (libraryURL && process.browser) ?
-            new LoggerClient(libraryURL, httpClient, true) : null;
+        const {
+            httpClient,
+            config: { LIBRARY_URL: libraryURL },
+        } = getMathHubConfig();
+        this.client = libraryURL && process.browser ? new LoggerClient(libraryURL, httpClient, true) : null;
     }
 
     static implicits = new ImplicitParameters<ILoggerImplicits>(
@@ -28,34 +30,34 @@ export default class Logger extends React.Component<ILoggerProps, ILoggerState> 
         { filter: ImplicitParameters.firstString("") },
     );
 
-    static readonly crumbs = [{href: "/", title: "Home"}];
+    static readonly crumbs = [{ href: "/", title: "Home" }];
 
-    static async getInitialProps({query}: NextPageContext): Promise<ILoggerProps> {
+    static async getInitialProps({ query }: NextPageContext): Promise<ILoggerProps> {
         const initial = Logger.implicits.readImplicits(query);
 
         return { initial };
     }
 
-    state: ILoggerState = {filter: "", ...this.props.initial, entries: []};
+    state: ILoggerState = { filter: "", ...this.props.initial, entries: [] };
     private readonly client: LoggerClient | null;
 
     async componentDidMount() {
-        await Logger.implicits.setImplicits({filter: this.state.filter});
+        await Logger.implicits.setImplicits({ filter: this.state.filter });
         if (this.client)
-            this.client.poll(entries => this.setState({entries: entries.reverse()}))
-                .catch(_ => {
+            this.client
+                .poll(entries => this.setState({ entries: entries.reverse() }))
+                .catch(() => {
                     if (this.client) this.client.stopPoll();
                     this.setState({ entries: [] });
                 });
     }
 
     componentWillUnmount() {
-        if (this.client)
-            this.client.stopPoll();
+        if (this.client) this.client.stopPoll();
     }
 
     async componentDidUpdate(_: ILoggerProps, prevState: ILoggerState) {
-        return Logger.implicits.updateImplicits({filter: this.state.filter}, {filter: prevState.filter});
+        return Logger.implicits.updateImplicits({ filter: this.state.filter }, { filter: prevState.filter });
     }
 
     render() {
@@ -73,6 +75,6 @@ export default class Logger extends React.Component<ILoggerProps, ILoggerState> 
     }
 
     private readonly changeFilter = (filter: string) => {
-        this.setState({filter});
-    }
+        this.setState({ filter });
+    };
 }

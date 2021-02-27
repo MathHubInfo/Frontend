@@ -4,7 +4,6 @@ import { INewsItem } from "../../../context/NewsClient";
 import MHHTML from "../../../components/MHHTML";
 import MHLink, { IMHLinkable } from "../../../components/MHLink";
 
-
 // tslint:disable-next-line: no-empty-interface
 export interface INewsPageRefProps {
     link: IMHLinkable;
@@ -17,7 +16,7 @@ export default class PageNewsPageRef extends React.Component<INewsPageRefProps> 
         theDate.setUTCSeconds(this.props.item.date);
 
         return (
-            <MHLink {...this.props.link} >
+            <MHLink {...this.props.link}>
                 <Card fluid>
                     <Card.Content>
                         <Card.Header>

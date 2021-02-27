@@ -12,7 +12,6 @@ import { WithExtraProps } from "../../utils/WithExtraContext";
 import TGViewLink from "../../components/TGViewLink";
 import TGView3DLink from "../../components/TGView3DLink";
 
-
 export interface IActionHeaderProps extends IActionDerived {
     // description of the element in question, may contain html
     description?: string;
@@ -41,24 +40,23 @@ interface IActionDerived {
     jupyterURL?: string;
 }
 
-
 export class ActionHeader extends React.Component<IActionHeaderProps> {
-    sourceButton() {
+    private sourceButton() {
         const { sourceURL: source } = this.props;
-        if (source === undefined)
-            return null;
+        if (source === undefined) return null;
 
         return (
             <Button icon>
                 <Icon name={"hand point right outline"} />
-                <a href={source} style={{ color: "black" }}>{intl.get("view source")}</a>
+                <a href={source} style={{ color: "black" }}>
+                    {intl.get("view source")}
+                </a>
             </Button>
         );
     }
-    tgViewButton() {
+    private tgViewButton() {
         const { tgViewURL: tgview } = this.props;
-        if (tgview === undefined)
-            return null;
+        if (tgview === undefined) return null;
 
         return (
             <Button icon>
@@ -67,10 +65,9 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
             </Button>
         );
     }
-    tgView3DButton() {
+    private tgView3DButton() {
         const { tgViewURL: tgview } = this.props;
-        if (tgview === undefined)
-            return null;
+        if (tgview === undefined) return null;
 
         return (
             <Button icon>
@@ -79,30 +76,32 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
             </Button>
         );
     }
-    jupyterButton() {
+    private jupyterButton() {
         const { jupyterURL: jupyter } = this.props;
-        if (jupyter === undefined)
-            return null;
+        if (jupyter === undefined) return null;
 
         return (
             <Button icon>
                 <Icon name={"hand point right outline"} />
-                <MHLink href={jupyter}><a style={{ color: "black" }}>{intl.get("jupyter")}</a></MHLink>
+                <MHLink href={jupyter}>
+                    <a style={{ color: "black" }}>{intl.get("jupyter")}</a>
+                </MHLink>
             </Button>
         );
     }
-    reportButton() {
+    private reportButton() {
         const { issueURL: issue } = this.props;
-        if (IssueURL === undefined)
-            return null;
+        if (IssueURL === undefined) return null;
 
         return (
             <Popup
-                trigger={(
+                trigger={
                     <Button color="green">
-                        <a href={issue} style={{ color: "black" }}>{intl.get("report")}</a>
+                        <a href={issue} style={{ color: "black" }}>
+                            {intl.get("report")}
+                        </a>
                     </Button>
-                )}
+                }
                 content={intl.get("issue")}
             />
         );
@@ -110,7 +109,7 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
     render() {
         const { statistics, description, responsible } = this.props;
         if ((this.props.obj as IDocument) && (this.props.obj as IDocument).kind === "document")
-            return (<DocumentActionHeader {...this.props} />);
+            return <DocumentActionHeader {...this.props} />;
 
         return (
             <>
@@ -134,8 +133,14 @@ export class ActionHeader extends React.Component<IActionHeaderProps> {
                     </Grid.Column>
                 </Grid>
                 <div>
-                    {responsible &&
-                        <div><b>{intl.get("responsible")}:</b> {responsible.map(p => <Label key={p}>{p}</Label>)}</div>}
+                    {responsible && (
+                        <div>
+                            <b>{intl.get("responsible")}:</b>{" "}
+                            {responsible.map(p => (
+                                <Label key={p}>{p}</Label>
+                            ))}
+                        </div>
+                    )}
                 </div>
                 <hr />
             </>
@@ -155,7 +160,9 @@ class DocumentActionHeader extends React.Component<IActionHeaderProps> {
                 <Dropdown.Menu className="link item">
                     {source && (
                         <Dropdown.Item>
-                        <a href={source} style={{ color: "black" }}>{intl.get("view source")}</a>
+                            <a href={source} style={{ color: "black" }}>
+                                {intl.get("view source")}
+                            </a>
                         </Dropdown.Item>
                     )}
                     {tgview && (
@@ -170,12 +177,16 @@ class DocumentActionHeader extends React.Component<IActionHeaderProps> {
                     )}
                     {jupyter && (
                         <Dropdown.Item>
-                            <a href={jupyter} style={{ color: "black" }}>{intl.get("jupyter")}</a>
+                            <a href={jupyter} style={{ color: "black" }}>
+                                {intl.get("jupyter")}
+                            </a>
                         </Dropdown.Item>
                     )}
                     {issue && (
                         <Dropdown.Item>
-                            <a href={issue} style={{ color: "black" }}>{intl.get("report")}</a>
+                            <a href={issue} style={{ color: "black" }}>
+                                {intl.get("report")}
+                            </a>
                         </Dropdown.Item>
                     )}
                 </Dropdown.Menu>
@@ -198,4 +209,3 @@ export default WithExtraProps<IActionDerived, IActionHeaderProps>(ActionHeader, 
         tgViewURL: obj && TGViewURL(obj),
     };
 });
-

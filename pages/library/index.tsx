@@ -14,45 +14,32 @@ const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailu
 const PageGroupRef = dynamic(() => import("../../src/theming/Pages/Library/PageGroupRef"));
 const PageLibrary = dynamic(() => import("../../src/theming/Pages/Library/PageLibrary"));
 
-
 type ILibraryProps = IDerivedParameter<IGroupRef[]>;
 
 export default class Library extends React.Component<ILibraryProps> {
-  static async getInitialProps({res, query}: NextPageContext): Promise<ILibraryProps> {
-    return GetDerivedParameter(
-        undefined,
-        async (_: string) => getMathHubConfig().libraryClient.getGroups(),
-        query,
-        res,
-    );
-  }
-  render() {
-    const crumbs = [{href: "/", title: intl.get("home")}];
-    if (failed(this.props)) return (
-      <LayoutFailure
-          crumbs={crumbs}
-          statusCode={statusCode(this.props.status)}
-          status={this.props.status}
-      />
-    );
+    static async getInitialProps({ res, query }: NextPageContext): Promise<ILibraryProps> {
+        return GetDerivedParameter(undefined, async () => getMathHubConfig().libraryClient.getGroups(), query, res);
+    }
+    render() {
+        const crumbs = [{ href: "/", title: intl.get("home") }];
+        if (failed(this.props))
+            return (
+                <LayoutFailure crumbs={crumbs} statusCode={statusCode(this.props.status)} status={this.props.status} />
+            );
 
-    const title = intl.get("library");
-    const description = intl.get("library intro");
-    // the header for the library contains only the description
-    const header = <ActionHeader description={description} />;
+        const title = intl.get("library");
+        const description = intl.get("library intro");
+        // the header for the library contains only the description
+        const header = <ActionHeader description={description} />;
 
-    return (
-        <LayoutBody crumbs={crumbs} description={description} title={[title]}>
-            <PageLibrary header={header}>
-                {this.props.item.map(g => (
-                  <PageGroupRef
-                    key={g.id}
-                    item={g}
-                    link={{href: "/library/group", query: {id: g.id}}}
-                  />
-                ))}
-            </PageLibrary>
-        </LayoutBody>
-    );
-  }
+        return (
+            <LayoutBody crumbs={crumbs} description={description} title={[title]}>
+                <PageLibrary header={header}>
+                    {this.props.item.map(g => (
+                        <PageGroupRef key={g.id} item={g} link={{ href: "/library/group", query: { id: g.id } }} />
+                    ))}
+                </PageLibrary>
+            </LayoutBody>
+        );
+    }
 }

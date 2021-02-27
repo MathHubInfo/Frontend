@@ -12,10 +12,10 @@ const PageLegalNotices = dynamic(() => import("../../src/theming/Pages/Legal/Pag
 type INoticesProps = IDerivedParameter<string | false>;
 
 export default class Notices extends React.Component<INoticesProps> {
-    static async getInitialProps({res, query}: NextPageContext): Promise<INoticesProps> {
+    static async getInitialProps({ res, query }: NextPageContext): Promise<INoticesProps> {
         return GetDerivedParameter(
             undefined,
-            async (_: string) => {
+            async () => {
                 try {
                     return (await import("../../src/assets/generated/notices.txt")).default;
                 } catch (e) {
@@ -26,17 +26,18 @@ export default class Notices extends React.Component<INoticesProps> {
             res,
         );
     }
-    static readonly crumbs = [{href: "/", title: intl.get("home")}];
+    static readonly crumbs = [{ href: "/", title: intl.get("home") }];
     render() {
-        if (failed(this.props)) return (
-            <LayoutFailure
-                crumbs={Notices.crumbs}
-                statusCode={statusCode(this.props.status)}
-                status={this.props.status}
-            />
-        );
+        if (failed(this.props))
+            return (
+                <LayoutFailure
+                    crumbs={Notices.crumbs}
+                    statusCode={statusCode(this.props.status)}
+                    status={this.props.status}
+                />
+            );
 
-        const {item} = this.props;
+        const { item } = this.props;
 
         return (
             <LayoutBody crumbs={Notices.crumbs} title={[intl.get("notices")]}>
