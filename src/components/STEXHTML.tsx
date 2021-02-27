@@ -34,15 +34,16 @@ export default class STEXHTML extends React.PureComponent<ISTEXHTMLProps> {
     ): JSX.Element | undefined => {
         if (node.nodeName.toLowerCase() !== "a") return undefined;
 
-        // check that an href was generated
+        // check that the <a> comes with an <href>
         const href = node.getAttribute("href");
-        if (typeof href !== "string") return undefined;
+        if (typeof href !== "string" || href == "") {
+            // invalid link was found in source => replace it with a red number
+            return <span style={{ color: "red" }}>{callback(node.childNodes)}</span>;
+        }
         if (!href.startsWith(STEX_MODULE_URI_PREFIX)) return undefined;
 
-        // make a content uri for it!
-        // TODO: This should move to the MMT side!
-
-        const suffix = this.props.lang ? `/${this.props.lang}` : "";
+        const { lang } = this.props;
+        const suffix = lang ? `/${lang}` : "";
         const id = `pseudo-tree://smglom-stex/${href.substring(STEX_MODULE_URI_PREFIX.length)}${suffix}`;
 
         return (

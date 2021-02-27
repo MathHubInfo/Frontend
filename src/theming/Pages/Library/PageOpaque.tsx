@@ -16,7 +16,7 @@ export default class PageOpaque extends React.Component<IOpaqueProps> {
             case "html":
                 return <MHHTML>{content}</MHHTML>;
             case "application/xhtml+stex":
-                return <STEXHTML lang={HACKGetSmglomLanguageID(id)}>{content}</STEXHTML>;
+                return <STEXHTML lang={HACKGetSmglomLanguageSuffix(id)}>{content}</STEXHTML>;
             default:
         }
 
@@ -29,8 +29,8 @@ export default class PageOpaque extends React.Component<IOpaqueProps> {
     }
 }
 
-const SMGLOM_PREFIX = "pseudo-tree://smglom-stex/";
-function HACKGetSmglomLanguageID(id: string): string | undefined {
+const SMGLOM_PREFIX = "pseudo-leaf://smglom-stex/";
+function HACKGetSmglomLanguageSuffix(id: string): string | undefined {
     if (!id.startsWith(SMGLOM_PREFIX)) return undefined;
 
     const parts = id.substring(SMGLOM_PREFIX.length).split("/");
@@ -39,5 +39,5 @@ function HACKGetSmglomLanguageID(id: string): string | undefined {
     const candidate = parts[3];
     if (candidate === "") return undefined;
 
-    return candidate;
+    return candidate.split(",")[0];
 }
