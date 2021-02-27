@@ -1,5 +1,3 @@
-import { resolve as nodeResolve } from "url";
-
 import { IMathHubConfig } from "../types/config";
 
 import Lazy from "../utils/Lazy";
@@ -12,6 +10,7 @@ import RestClient from "./LibraryClient/RestClient";
 import NewsClient from "./NewsClient";
 import TranslationClient from "./TranslationClient";
 import AdminClient from "./AdminClient";
+import { resolveURL } from "../utils/resolve";
 
 
 /**
@@ -51,7 +50,7 @@ function rs(url: string): string {
     if (process.browser)
         return url;
 
-    return nodeResolve(MATHHUB_CONFIG.UPSTREAM_BASE_URL || "", url) || url;
+    return resolveURL(MATHHUB_CONFIG.UPSTREAM_BASE_URL || "", url) || url;
 }
 
 const getMathHubConfig = Lazy(() => {

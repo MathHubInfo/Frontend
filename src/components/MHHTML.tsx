@@ -9,7 +9,8 @@ interface IMathHTMLProps<T> {
     children: string;
 
     // optional function to replace nodes in the html
-    replaceNodes?: (node: Element, callback: (nodes: TNodeList) => TReactElement[]) =>  JSX.Element | undefined
+    // tslint:disable-next-line: prefer-method-signature
+    replaceNodes?: (node: Element, callback: (nodes: TNodeList) => TReactElement[]) =>  JSX.Element | undefined;
 
     // should we render math, defaults to true
     renderMath?: boolean;
@@ -37,7 +38,11 @@ export default class MHHTML<S, T extends string | React.ComponentType<S> | React
         return React.createElement(asElement || React.Fragment, (extra || {}) as S, ...children);
     }
 
-    private readonly replaceHTMLNodes = (node: Node, callback: (nodes: TNodeList) => TReactElement[]): JSX.Element | undefined => {
+    private readonly replaceHTMLNodes = (
+        node: Node,
+        callback: (nodes: TNodeList) => TReactElement[],
+    ): JSX.Element | undefined => {
+
         if (node.nodeType !== ELEMENT_NODE) return undefined;
 
         const {renderMath, replaceNodes} = this.props;
@@ -47,7 +52,7 @@ export default class MHHTML<S, T extends string | React.ComponentType<S> | React
             if (mathReplaced) return mathReplaced;
         }
 
-        if (typeof replaceNodes === 'function') {
+        if (typeof replaceNodes === "function") {
             const replaced = replaceNodes(node as Element, callback);
             if (replaced) return replaced;
         }
@@ -56,7 +61,7 @@ export default class MHHTML<S, T extends string | React.ComponentType<S> | React
     }
 
     private readonly replaceMathNode = (node: Element, _: (nodes: Node[]) => TReactElement[]) => {
-        if (node.nodeName.toLowerCase() !== "math") return;
+        if (node.nodeName.toLowerCase() !== "math") return undefined;
 
         return <RenderedMath>{OuterHTML(node)}</RenderedMath>;
     }

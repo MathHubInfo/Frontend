@@ -1,4 +1,4 @@
-import { resolve as resolveURL } from "url";
+import { resolveURL  } from "../../utils/resolve";
 
 import HTTPClient from "../HTTPClient";
 

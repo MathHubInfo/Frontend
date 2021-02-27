@@ -1,5 +1,4 @@
-import { resolve } from "url";
-
+import { resolveURL } from "../../utils/resolve";
 import HTTPClient from "../HTTPClient";
 
 import LibraryClient from "./LibraryClient";
@@ -54,7 +53,7 @@ export default class RestClient extends LibraryClient {
 
     // builds a URL
     private buildURL(url: string, idParam?: string, id?: string) {
-        return resolve(this.LIBRARY_URL, id ? `${url}?${idParam}=${RestClient.encodeID(id)}` : url);
+        return resolveURL(this.LIBRARY_URL, id ? `${url}?${idParam}=${RestClient.encodeID(id)}` : url);
     }
 
     // encodes an ID for use with the API
