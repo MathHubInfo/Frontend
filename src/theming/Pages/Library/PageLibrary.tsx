@@ -3,7 +3,7 @@ import intl from "react-intl-universal";
 import { Container, List } from "semantic-ui-react";
 import Compare from "../../../utils/Compare";
 import { IActionHeaderProps } from "../../Layout/ActionHeader";
-import { IGroupRefProps } from "./PageGroupRef";
+import { IGroupRefProps } from "./PageRef";
 
 interface ILibraryProps {
     // the general information about this library page

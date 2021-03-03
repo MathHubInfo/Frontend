@@ -11,7 +11,7 @@ const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
 const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
 
-const PageArchiveRef = dynamic(() => import("../../src/theming/Pages/Library/PageArchiveRef"));
+const PageRef = dynamic(() => import("../../src/theming/Pages/Library/PageRef"));
 const PageGroup = dynamic(() => import("../../src/theming/Pages/Library/PageGroup"));
 
 type IGroupProps = IDerivedParameter<IGroup>;
@@ -42,7 +42,7 @@ export default class Group extends React.Component<IGroupProps> {
             <LayoutBody crumbs={crumbs} description={description} title={[name]}>
                 <PageGroup header={header} item={this.props.item}>
                     {archives.map(a => (
-                        <PageArchiveRef key={a.id} item={a} link={{ href: "/library/archive", query: { id: a.id } }} />
+                        <PageRef key={a.id} item={a} link={{ href: "/library/archive", query: { id: a.id } }} />
                     ))}
                 </PageGroup>
             </LayoutBody>

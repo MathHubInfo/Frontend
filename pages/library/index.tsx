@@ -10,7 +10,7 @@ const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
 const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
 
-const PageGroupRef = dynamic(() => import("../../src/theming/Pages/Library/PageGroupRef"));
+const PageRef = dynamic(() => import("../../src/theming/Pages/Library/PageRef"));
 const PageLibrary = dynamic(() => import("../../src/theming/Pages/Library/PageLibrary"));
 
 type ILibraryProps = IDerivedParameter<IGroupRef[]>;
@@ -35,7 +35,7 @@ export default class Library extends React.Component<ILibraryProps> {
             <LayoutBody crumbs={crumbs} description={description} title={[title]}>
                 <PageLibrary header={header}>
                     {this.props.item.map(g => (
-                        <PageGroupRef key={g.id} item={g} link={{ href: "/library/group", query: { id: g.id } }} />
+                        <PageRef key={g.id} item={g} link={{ href: "/library/group", query: { id: g.id } }} />
                     ))}
                 </PageLibrary>
             </LayoutBody>

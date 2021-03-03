@@ -6,6 +6,7 @@
     "library": "Library",
 
     "loading": "loading",
+    "copied": "Copied to clipboard",
     
     "declaration": "Declaration",
     "load children": "Loading Children",

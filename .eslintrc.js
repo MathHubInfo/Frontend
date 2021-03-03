@@ -39,6 +39,8 @@ module.exports = {
                 'react/react-in-jsx-scope': 'off', // don't need to import "React"
 
                 'jsx-a11y/anchor-is-valid': 'off', // incompatible with <Link />
+                'jsx-a11y/click-events-have-key-events': 'off', // not compatible with semantic ui things
+                'jsx-a11y/no-static-element-interactions': 'off', //
                 
                 '@typescript-eslint/explicit-function-return-type': 'off', // don't require an explitit return type
                 '@typescript-eslint/explicit-module-boundary-types': [

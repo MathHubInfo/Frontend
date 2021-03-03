@@ -6,7 +6,7 @@ import Compare from "../../../utils/Compare";
 import { IActionHeaderProps } from "../../Layout/ActionHeader";
 
 import { IGroup } from "../../../context/LibraryClient/objects";
-import { IArchiveRefProps } from "./PageArchiveRef";
+import { IArchiveRefProps } from "./PageRef";
 
 interface IGroupProps {
     // the general information about this library page
