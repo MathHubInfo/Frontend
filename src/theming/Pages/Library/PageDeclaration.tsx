@@ -1,8 +1,8 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Button, Icon, Loader } from "semantic-ui-react";
 
 import { IDeclaration, IDeclarationRef } from "../../../context/LibraryClient/objects";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 import { IComponentProps } from "./PageComponent";
 import { IDocumentProps } from "./PageDocument";
 
@@ -20,7 +20,7 @@ interface IDeclarationProps {
     toggleExpansion(): void;
 }
 
-export default class PageDeclaration extends React.Component<IDeclarationProps> {
+class PageDeclaration extends React.Component<IDeclarationProps & TranslateProps> {
     private static readonly names = {
         structure: "Structure",
         rule: "Rule Constant",
@@ -33,6 +33,7 @@ export default class PageDeclaration extends React.Component<IDeclarationProps> 
             expanded,
             item,
             children: [children, components],
+            t,
         } = this.props;
 
         return (
@@ -40,7 +41,7 @@ export default class PageDeclaration extends React.Component<IDeclarationProps> 
                 {item.ref ? (
                     <>
                         <Loader active inline size={"mini"} />
-                        {intl.get("declaration")}
+                        {t("declaration")}
                     </>
                 ) : (
                     PageDeclaration.names[item.declaration.kind]
@@ -62,7 +63,7 @@ export default class PageDeclaration extends React.Component<IDeclarationProps> 
                         </ul>
                     ) : (
                         <Loader active inline size={"mini"}>
-                            {intl.get("load children")}
+                            {t("load children")}
                         </Loader>
                     ))}
                 {expanded &&
@@ -74,7 +75,7 @@ export default class PageDeclaration extends React.Component<IDeclarationProps> 
                         </ul>
                     ) : (
                         <Loader active inline size={"mini"}>
-                            {intl.get("loading components")}
+                            {t("loading components")}
                         </Loader>
                     ))}
             </>
@@ -82,3 +83,5 @@ export default class PageDeclaration extends React.Component<IDeclarationProps> 
     }
     private readonly toggleExpansion = () => this.props.toggleExpansion();
 }
+
+export default WithTranslate(PageDeclaration);

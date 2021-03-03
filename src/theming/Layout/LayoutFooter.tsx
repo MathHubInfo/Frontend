@@ -1,23 +1,23 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Container, Divider, Grid, Header, Image } from "semantic-ui-react";
 import MHLink from "../../components/MHLink";
+import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 import { IMathHubVersion } from "../../types/config";
 
 interface ILayoutFooterProps {
     version: IMathHubVersion;
 }
 
-export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
+class LayoutFooter extends React.Component<ILayoutFooterProps & TranslateProps> {
     render() {
-        const { version } = this.props;
+        const { version, t } = this.props;
 
         return (
             <Container>
                 <Grid divided inverted stackable>
                     <Grid.Row>
                         <Grid.Column width={4}>
-                            <Header as="h4" content={intl.get("developed")} />
+                            <Header as="h4" content={t("developed")} />
                             <Image
                                 size="tiny"
                                 title="wwww.kwarc.info"
@@ -28,7 +28,7 @@ export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
                             />
                         </Grid.Column>
                         <Grid.Column width={5}>
-                            <Header as="h4" content={intl.get("institutions")} />
+                            <Header as="h4" content={t("institutions")} />
                             <Image
                                 size="tiny"
                                 title="www.fau.eu"
@@ -57,7 +57,7 @@ export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
                             />
                         </Grid.Column>
                         <Grid.Column width={5}>
-                            <Header as="h4" content={intl.get("funding")} />
+                            <Header as="h4" content={t("funding")} />
                             <Image
                                 size="tiny"
                                 src={"/static/logos/eu_logo.png"}
@@ -94,24 +94,24 @@ export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
                 <Grid>
                     <Grid.Column width={4}>
                         <small>
-                            <MathHubVersion version={version} />
+                            <MathHubVersion version={version} t={t} />
                         </small>
                     </Grid.Column>
                     <Grid.Column width={4}>
                         <MHLink href="/applications/logger">
-                            <a>{intl.get("logger")}</a>
+                            <a>{t("logger")}</a>
                         </MHLink>
                     </Grid.Column>
                     <Grid.Column width={4}>
                         <MHLink href="/legal/notices">
-                            <a>{intl.get("license and notices")}</a>
+                            <a>{t("license and notices")}</a>
                         </MHLink>
                         <br />
                         <MHLink href="/legal/imprint">
-                            <a>{intl.get("imprint")}</a>
+                            <a>{t("imprint")}</a>
                         </MHLink>
                         <br />
-                        <a href="https://privacy.kwarc.info/">{intl.get("policy")}</a>
+                        <a href="https://privacy.kwarc.info/">{t("policy")}</a>
                     </Grid.Column>
                 </Grid>
             </Container>
@@ -119,19 +119,24 @@ export default class LayoutFooter extends React.Component<ILayoutFooterProps> {
     }
 }
 
-class MathHubVersion extends React.Component<{ version: IMathHubVersion }> {
+export default WithTranslate(LayoutFooter);
+
+class MathHubVersion extends React.Component<{ version: IMathHubVersion } & TranslateProps> {
     render() {
-        const { semantic, git, configTime } = this.props.version;
+        const {
+            t,
+            version: { semantic, git, configTime },
+        } = this.props;
         const cfgTime = new Date(configTime).toISOString();
 
-        let version = intl.get("version", { version: semantic, time: cfgTime });
+        let version = t("version", { version: semantic, time: cfgTime });
 
         if (git) {
-            version += ` (${intl.get("from")} `;
+            version += ` (${t("from")} `;
             if (git.dirty === true) version += "dirty ";
             else if (git.dirty === false) version += "clean ";
             version += `commit ${git.hash}`;
-            if (git.branch) version += ` ${intl.get("branch")} ${git.branch}`;
+            if (git.branch) version += ` ${t("branch")} ${git.branch}`;
             version += ")";
         }
 

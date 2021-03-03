@@ -1,12 +1,12 @@
 import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import intl from "react-intl-universal";
 import { debounce } from "ts-debounce";
 import getMathHubConfig from "../../src/context";
 import { IDeclaration, IDocument, IModule } from "../../src/context/LibraryClient/objects";
 import { INarrativeElementProps } from "../../src/library/NarrativeElement";
 import { crumbs, headerProps } from "../../src/library/utils";
+import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { BooleanArrayStore } from "../../src/utils/DataStore";
 import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
@@ -27,7 +27,7 @@ interface IDocumentState {
     expandedDeclarations: string[];
 }
 
-export default class Document extends React.Component<IDocumentProps, IDocumentState> {
+class Document extends React.Component<IDocumentProps & TranslateProps, IDocumentState> {
     static implicits = new ImplicitParameters<IDocumentState>(
         { expandedModules: "modules", expandedDeclarations: "declarations" },
         {
@@ -84,9 +84,10 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
     }
 
     render() {
+        const { t } = this.props;
         const breadcrumbs = [
-            { href: "/", title: intl.get("home") },
-            { href: "/library", title: intl.get("library") },
+            { href: "/", title: t("home") },
+            { href: "/library", title: t("library") },
         ];
         if (failed(this.props))
             return (
@@ -124,3 +125,5 @@ export default class Document extends React.Component<IDocumentProps, IDocumentS
         );
     }
 }
+
+export default WithTranslate<IDocumentProps & TranslateProps>(Document);

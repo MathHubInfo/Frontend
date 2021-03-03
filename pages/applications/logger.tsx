@@ -1,9 +1,9 @@
 import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import LoggerClient from "../../src/context/LoggerClient";
+import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { ILoggerImplicits, ILoggerState } from "../../src/theming/Pages/Applications/PageApplicationsLogger";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
@@ -14,8 +14,8 @@ interface ILoggerProps {
     initial: Partial<ILoggerImplicits>;
 }
 
-export default class Logger extends React.Component<ILoggerProps, ILoggerState> {
-    constructor(props: ILoggerProps) {
+class Logger extends React.Component<ILoggerProps & TranslateProps, ILoggerState> {
+    constructor(props: ILoggerProps & TranslateProps) {
         super(props);
 
         const {
@@ -30,8 +30,6 @@ export default class Logger extends React.Component<ILoggerProps, ILoggerState> 
         { filter: ImplicitParameters.firstString("") },
     );
 
-    static readonly crumbs = [{ href: "/", title: "Home" }];
-
     static async getInitialProps({ query }: NextPageContext): Promise<ILoggerProps> {
         const initial = Logger.implicits.readImplicits(query);
 
@@ -43,13 +41,14 @@ export default class Logger extends React.Component<ILoggerProps, ILoggerState> 
 
     async componentDidMount() {
         await Logger.implicits.setImplicits({ filter: this.state.filter });
-        if (this.client)
-            this.client
-                .poll(entries => this.setState({ entries: entries.reverse() }))
-                .catch(() => {
-                    if (this.client) this.client.stopPoll();
-                    this.setState({ entries: [] });
-                });
+        if (!this.client) return;
+
+        this.client
+            .poll(entries => this.setState({ entries: entries.reverse() }))
+            .catch(() => {
+                if (this.client) this.client.stopPoll();
+                this.setState({ entries: [] });
+            });
     }
 
     componentWillUnmount() {
@@ -61,10 +60,11 @@ export default class Logger extends React.Component<ILoggerProps, ILoggerState> 
     }
 
     render() {
+        const { t } = this.props;
         const { entries, filter } = this.state;
 
         return (
-            <LayoutBody crumbs={[{ href: "/", title: intl.get("home") }]} title={[intl.get("logger")]}>
+            <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("logger")]}>
                 <PageApplicationsLogger
                     entries={entries.filter(e => e.prefix.startsWith(filter))}
                     filter={filter}
@@ -78,3 +78,5 @@ export default class Logger extends React.Component<ILoggerProps, ILoggerState> 
         this.setState({ filter });
     };
 }
+
+export default WithTranslate(Logger);

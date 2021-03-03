@@ -1,9 +1,11 @@
 import dynamic from "next/dynamic";
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Container, Icon } from "semantic-ui-react";
+import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 import { DerivedDataStatus } from "../../utils/GetDerivedParameter";
 import { IBreadcrumb } from "./Props";
+
+const LayoutBody = dynamic(() => import("./LayoutBody"));
 
 interface ILayoutFailureProps {
     /**
@@ -27,20 +29,18 @@ interface ILayoutFailureProps {
     crumbs: IBreadcrumb[];
 }
 
-const LayoutBody = dynamic(() => import("./LayoutBody"));
-
-export default class LayoutFailure extends React.Component<ILayoutFailureProps> {
+class LayoutFailure extends React.Component<ILayoutFailureProps & TranslateProps> {
     render() {
-        const { status, statusCode, crumbs } = this.props;
+        const { status, statusCode, crumbs, t } = this.props;
 
-        let title = intl.get("not found");
-        let text = intl.get("sorry");
+        let title = t("not found");
+        let text = t("sorry");
         if (status === DerivedDataStatus.MISSING_VALUE) {
-            title = intl.get("missing");
-            text = intl.get("missing paramter");
+            title = t("missing");
+            text = t("missing paramter");
         }
         if (statusCode === 500 || status === DerivedDataStatus.ERROR_DERIVATION) {
-            title = intl.get("wrong");
+            title = t("wrong");
             text = "";
         }
 
@@ -57,3 +57,5 @@ export default class LayoutFailure extends React.Component<ILayoutFailureProps> 
         );
     }
 }
+
+export default WithTranslate(LayoutFailure);

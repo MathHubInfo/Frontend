@@ -1,10 +1,10 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Button, Card, Container, Grid, Tab, TabProps } from "semantic-ui-react";
 import { IGlossaryEntry, TKnownLanguages } from "../../../context/GlossaryClient";
 import { HTML } from "../../../context/LibraryClient/objects";
 import MHHTML from "../../../components/MHHTML";
 import { IActionHeaderProps } from "../../Layout/ActionHeader";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 
 export interface IGlossaryState {
     /**
@@ -37,7 +37,7 @@ interface IGlossaryProps extends IGlossaryState {
     changeLanguage(language: TKnownLanguages): void;
 }
 
-export default class PageApplicationsGlossary extends React.Component<IGlossaryProps> {
+class PageApplicationsGlossary extends React.Component<IGlossaryProps & TranslateProps> {
     private languageTabs() {
         const { knownLanguages } = this.props;
 
@@ -49,22 +49,23 @@ export default class PageApplicationsGlossary extends React.Component<IGlossaryP
         changeLanguage(knownLanguages[active]);
     };
     render() {
-        const { knownLanguages, language: selectedLanguage, changeLanguage, entries } = this.props;
+        const { knownLanguages, language, changeLanguage, entries, t } = this.props;
 
         return (
             <Container>
-                <h1>{intl.get("glossary")}</h1>
+                <h1>{t("glossary")}</h1>
                 {this.props.header}
                 <Tab
                     panes={this.languageTabs()}
-                    activeIndex={knownLanguages.indexOf(selectedLanguage)}
+                    activeIndex={knownLanguages.indexOf(language)}
                     onTabChange={this.changeTab}
                 />
                 <Container>
                     {entries.map(e => (
                         <GlossaryEntry
+                            t={t}
                             key={e.id}
-                            selectedLanguage={selectedLanguage}
+                            selectedLanguage={language}
                             entry={e}
                             changeLanguage={changeLanguage}
                         />
@@ -75,20 +76,23 @@ export default class PageApplicationsGlossary extends React.Component<IGlossaryP
     }
 }
 
+export default WithTranslate(PageApplicationsGlossary);
+
 interface IGlossaryEntryProps {
     selectedLanguage: TKnownLanguages;
     changeLanguage: IGlossaryProps["changeLanguage"];
     entry: IGlossaryEntry;
 }
 
-class GlossaryEntry extends React.Component<IGlossaryEntryProps> {
+class GlossaryEntry extends React.Component<IGlossaryEntryProps & TranslateProps> {
     state = { open: false };
     showSynonyms(kwd: string[]) {
+        const { t } = this.props;
         if (kwd.length === 1 || !this.state.open) return null;
 
         return (
             <div>
-                <b>{intl.get("synonyms")}: </b>
+                <b>{t("synonyms")}: </b>
                 <MHHTML>{kwd.slice(1).join(", ")}</MHHTML>
             </div>
         );

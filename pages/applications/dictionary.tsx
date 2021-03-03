@@ -1,9 +1,9 @@
 import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import { IGlossaryEntry, IsKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
+import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import {
     IDictionaryImplicits,
     IDictionaryState,
@@ -20,7 +20,7 @@ interface IDictionaryProps {
     initial: Partial<IDictionaryImplicits>;
 }
 
-export default class Dictionary extends React.Component<IDictionaryProps, IDictionaryState> {
+class Dictionary extends React.Component<IDictionaryProps & TranslateProps, IDictionaryState> {
     static implicits = new ImplicitParameters<IDictionaryImplicits>(
         { fromLanguage: "from", toLanguage: "to", text: null },
         {
@@ -57,11 +57,12 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
     }
 
     render() {
+        const { t } = this.props;
         const { description } = this.props.initial;
         const header = <ActionHeader description={description} />;
 
         return (
-            <LayoutBody crumbs={[{ href: "/", title: intl.get("home") }]} title={[intl.get("dictionary")]}>
+            <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("dictionary")]}>
                 <PageApplicationsDictionary
                     {...this.state}
                     header={header}
@@ -146,3 +147,5 @@ export default class Dictionary extends React.Component<IDictionaryProps, IDicti
         this.setState({ translating: false, translation, translationValid: true });
     };
 }
+
+export default WithTranslate(Dictionary);

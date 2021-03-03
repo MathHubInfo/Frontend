@@ -3,9 +3,8 @@ import Head from "next/head";
 import * as React from "react";
 import { Divider } from "semantic-ui-react";
 import getMathHubConfig from "../../context";
-import MHAppContext, { IMHAppContext } from "../../types/MHAppContext";
 import { IMathHubVersion } from "../../types/config";
-import WithExtraContext from "../../utils/WithExtraContext";
+import { WithExtraProps } from "../../utils/WithExtraProps";
 import { IBreadcrumb } from "./Props";
 
 interface ILayoutBodyPureProps {
@@ -43,7 +42,7 @@ interface IBodyDerivedProps {
     descriptionText?: string;
 }
 
-type ILayoutBodyProps = IMHAppContext & ILayoutBodyPureProps & IBodyDerivedProps;
+type ILayoutBodyProps = ILayoutBodyPureProps & IBodyDerivedProps;
 
 const Header = dynamic(() => import("./Header"));
 const LayoutFooter = dynamic(() => import("./LayoutFooter"));
@@ -72,13 +71,9 @@ class LayoutBody extends React.Component<ILayoutBodyProps> {
     }
 }
 
-export default WithExtraContext<IMHAppContext, IBodyDerivedProps, ILayoutBodyProps>(
-    LayoutBody,
-    MHAppContext,
-    ({ description }) => {
-        const descriptionText = description || undefined;
-        const version: IMathHubVersion = getMathHubConfig().config.MATHHUB_VERSION;
+export default WithExtraProps<IBodyDerivedProps, ILayoutBodyProps>(LayoutBody, ({ description }) => {
+    const descriptionText = description || undefined;
+    const version: IMathHubVersion = getMathHubConfig().config.MATHHUB_VERSION;
 
-        return { descriptionText, version };
-    },
-);
+    return { descriptionText, version };
+});

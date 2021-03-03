@@ -1,6 +1,6 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Container } from "semantic-ui-react";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 
 interface IImprintProps {
     /**
@@ -9,13 +9,16 @@ interface IImprintProps {
     imprint: string;
 }
 
-export default class PageLegalImprint extends React.Component<IImprintProps> {
+class PageLegalImprint extends React.Component<IImprintProps & TranslateProps> {
     render() {
+        const { t, imprint } = this.props;
         return (
             <Container>
-                <div>{intl.get("imprint responsible")}</div>
-                <pre>{this.props.imprint}</pre>
+                <div>{t("imprint responsible")}</div>
+                <pre>{imprint}</pre>
             </Container>
         );
     }
 }
+
+export default WithTranslate(PageLegalImprint);

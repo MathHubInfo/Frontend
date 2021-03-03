@@ -1,21 +1,22 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Button, Container, Grid, Image } from "semantic-ui-react";
 import MHHTML from "../../components/MHHTML";
 import MHLink from "../../components/MHLink";
+import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 
 interface IHomeProps {
     children: string;
 }
 
-export default class PageHome extends React.Component<IHomeProps> {
+class PageHome extends React.Component<IHomeProps & TranslateProps> {
     render() {
+        const { t } = this.props;
         return (
             <Container>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column width={8}>
-                            <MHHTML as="div">{intl.get("introduction")}</MHHTML>
+                            <MHHTML as="div">{t("introduction")}</MHHTML>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
@@ -31,7 +32,7 @@ export default class PageHome extends React.Component<IHomeProps> {
                                     fluid
                                     style={{ marginBottom: "0.8em", backgroundColor: "#4F81BD" }}
                                 >
-                                    <h4>{intl.get("libraries")}</h4>
+                                    <h4>{t("libraries")}</h4>
                                 </Button>
                             </MHLink>
                             <a href={"https://github.com/MathHubInfo/Documentation/wiki/libraries"}>
@@ -40,7 +41,7 @@ export default class PageHome extends React.Component<IHomeProps> {
                                     fluid
                                     style={{ marginBottom: "0.8em", backgroundColor: "#4F81BD" }}
                                 >
-                                    <h4>{intl.get("provide")}</h4>
+                                    <h4>{t("provide")}</h4>
                                 </Button>
                             </a>
                             <a href={"https://github.com/MathHubInfo/Documentation/wiki/math-archives"}>
@@ -49,7 +50,7 @@ export default class PageHome extends React.Component<IHomeProps> {
                                     fluid
                                     style={{ marginBottom: "0.8em", backgroundColor: "#4F81BD" }}
                                 >
-                                    <h4>{intl.get("archives")}</h4>
+                                    <h4>{t("archives")}</h4>
                                 </Button>
                             </a>
                         </Grid.Column>
@@ -59,3 +60,5 @@ export default class PageHome extends React.Component<IHomeProps> {
         );
     }
 }
+
+export default WithTranslate(PageHome);

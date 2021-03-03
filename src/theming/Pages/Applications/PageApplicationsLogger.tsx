@@ -1,7 +1,7 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Container, Input, Table } from "semantic-ui-react";
 import { ILogEntry } from "../../../context/LoggerClient";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 
 interface ILoggerProps extends ILoggerState {
     /**
@@ -24,25 +24,20 @@ export interface ILoggerImplicits {
     filter: string;
 }
 
-export default class PageApplicationsLogger extends React.Component<ILoggerProps> {
+class PageApplicationsLogger extends React.Component<ILoggerProps & TranslateProps> {
     render() {
-        const { filter: selectedFilter, entries } = this.props;
+        const { filter, entries, t } = this.props;
 
         return (
             <Container>
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell style={{ width: "20%" }}>{intl.get("date")}</Table.HeaderCell>
+                            <Table.HeaderCell style={{ width: "20%" }}>{t("date")}</Table.HeaderCell>
                             <Table.HeaderCell style={{ width: "20%" }}>
-                                <Input
-                                    type="text"
-                                    value={selectedFilter}
-                                    onChange={this.onChange}
-                                    placeholder="Filter"
-                                />
+                                <Input type="text" value={filter} onChange={this.onChange} placeholder="Filter" />
                             </Table.HeaderCell>
-                            <Table.HeaderCell style={{ width: "60%" }}>{intl.get("content")}</Table.HeaderCell>
+                            <Table.HeaderCell style={{ width: "60%" }}>{t("content")}</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
@@ -58,6 +53,8 @@ export default class PageApplicationsLogger extends React.Component<ILoggerProps
         this.props.changeFilter(event.target.value);
     };
 }
+
+export default WithTranslate(PageApplicationsLogger);
 
 class LoggerTableRow extends React.Component<{ entry: ILogEntry }> {
     render() {

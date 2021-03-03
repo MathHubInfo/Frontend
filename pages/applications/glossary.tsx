@@ -1,9 +1,9 @@
 import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import { IGlossaryEntry, IsKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
+import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { IGlossaryState } from "../../src/theming/Pages/Applications/PageApplicationsGlossary";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
@@ -17,7 +17,7 @@ interface IGlossaryProps {
     entries: IGlossaryEntry[];
 }
 
-export default class Glossary extends React.Component<IGlossaryProps, IGlossaryState> {
+class Glossary extends React.Component<IGlossaryProps & TranslateProps, IGlossaryState> {
     static implicits = new ImplicitParameters<IGlossaryState>(
         { language: null },
         { language: ImplicitParameters.validated(IsKnownLanguage, knownLanguages[0]) },
@@ -41,6 +41,7 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
     }
 
     render() {
+        const { t } = this.props;
         const { description, language } = this.state;
         const header = <ActionHeader description={description} />;
         // filter all the entries by those available in the selected language
@@ -49,7 +50,7 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
         );
 
         return (
-            <LayoutBody crumbs={[{ href: "/", title: intl.get("home") }]} title={[intl.get("glossary")]}>
+            <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("glossary")]}>
                 <PageApplicationsGlossary
                     header={header}
                     knownLanguages={knownLanguages}
@@ -63,3 +64,5 @@ export default class Glossary extends React.Component<IGlossaryProps, IGlossaryS
 
     private readonly changeLanguage = (language: TKnownLanguages) => this.setState({ language: language });
 }
+
+export default WithTranslate(Glossary);

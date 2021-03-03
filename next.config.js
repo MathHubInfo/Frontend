@@ -9,6 +9,8 @@ const { readdirSync } = require("fs");
 const { ProvidePlugin, IgnorePlugin } = require("webpack");
 const gitRevSync = require("git-rev-sync");
 
+const localeManifest = require("./src/locales/data/manifest.json");
+
 
 /** @type{import("./src/types/config").IMathHubConfig} */
 const config = {
@@ -27,6 +29,11 @@ const config = {
 }
 
 module.exports = {
+  i18n: {
+    locales: localeManifest,
+    defaultLocale: localeManifest[0],
+  },
+
   poweredByHeader: false,
   webpack,
   env: {MATHHUB_CONFIG: config},

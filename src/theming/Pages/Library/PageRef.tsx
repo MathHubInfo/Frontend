@@ -4,9 +4,9 @@ import { SemanticICONS } from "semantic-ui-react/dist/commonjs/generic";
 import MHHTML from "../../../components/MHHTML";
 import MHLink, { IMHLinkable } from "../../../components/MHLink";
 import copy from "copy-to-clipboard";
-import intl from "react-intl-universal";
 
 import { IArchiveRef, IDocument, IDocumentRef, IGroupRef } from "../../../context/LibraryClient/objects";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 
 export interface IRefProps {
     link: IMHLinkable;
@@ -16,7 +16,7 @@ export interface IRefProps {
 export type IGroupRefProps = IRefProps & { item: IGroupRef };
 export type IArchiveRefProps = IRefProps & { item: IArchiveRef };
 
-export default class Ref extends React.Component<IRefProps, { copied: boolean }> {
+class Ref extends React.Component<IRefProps & TranslateProps, { copied: boolean }> {
     state = {
         copied: false,
     };
@@ -55,7 +55,7 @@ export default class Ref extends React.Component<IRefProps, { copied: boolean }>
     render() {
         const { copied } = this.state;
 
-        const { link, item } = this.props;
+        const { link, item, t } = this.props;
         const { kind, name, id, teaser } = { teaser: undefined, ...item };
 
         let icon: SemanticICONS;
@@ -91,10 +91,12 @@ export default class Ref extends React.Component<IRefProps, { copied: boolean }>
                             <Icon name={icon} />
                             {id}
                         </a>
-                        {copied && <span style={{ color: "red", marginLeft: 5 }}>{intl.get("copied")}</span>}
+                        {copied && <span style={{ color: "red", marginLeft: 5 }}>{t("copied")}</span>}
                     </Card.Content>
                 </Card>
             </MHLink>
         );
     }
 }
+
+export default WithTranslate(Ref);

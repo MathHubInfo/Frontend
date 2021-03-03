@@ -1,6 +1,6 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Container, List } from "semantic-ui-react";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 import Compare from "../../../utils/Compare";
 import { IActionHeaderProps } from "../../Layout/ActionHeader";
 import { IGroupRefProps } from "./PageRef";
@@ -13,13 +13,14 @@ interface ILibraryProps {
     children: Array<React.ReactElement<IGroupRefProps>>;
 }
 
-export default class PageLibrary extends React.Component<ILibraryProps> {
+class PageLibrary extends React.Component<ILibraryProps & TranslateProps> {
     render() {
+        const { t } = this.props;
         const group = this.props.children.sort(Compare);
 
         return (
             <Container>
-                <h1>{intl.get("library")}</h1>
+                <h1>{t("library")}</h1>
                 {this.props.header}
                 <List relaxed>
                     {group.map(c => (
@@ -30,3 +31,5 @@ export default class PageLibrary extends React.Component<ILibraryProps> {
         );
     }
 }
+
+export default WithTranslate(PageLibrary);

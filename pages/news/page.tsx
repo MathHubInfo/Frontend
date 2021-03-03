@@ -1,9 +1,9 @@
 import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
+import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
@@ -13,14 +13,15 @@ const PageNewsPage = dynamic(() => import("../../src/theming/Pages/News/PageNews
 
 type IPageProps = IDerivedParameter<INewsItem>;
 
-export default class Page extends React.Component<IPageProps> {
+class Page extends React.Component<IPageProps & TranslateProps> {
     static async getInitialProps({ res, query }: NextPageContext): Promise<IPageProps> {
         return GetDerivedParameter("id", async (id: string) => getMathHubConfig().newsClient.load(id), query, res);
     }
     render() {
+        const { t } = this.props;
         const crumbs = [
-            { href: "/", title: intl.get("home") },
-            { href: "/news", title: intl.get("news") },
+            { href: "/", title: t("home") },
+            { href: "/news", title: t("news") },
         ];
         if (failed(this.props))
             return (
@@ -36,3 +37,5 @@ export default class Page extends React.Component<IPageProps> {
         );
     }
 }
+
+export default WithTranslate<IPageProps & TranslateProps>(Page);

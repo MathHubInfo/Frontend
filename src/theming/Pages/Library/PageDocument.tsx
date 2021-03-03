@@ -1,11 +1,11 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Container, Divider, Grid, List, Menu, Tab } from "semantic-ui-react";
 import { IDocument } from "../../../context/LibraryClient/objects";
 import MHHTML from "../../../components/MHHTML";
 import { INarrativeElementProps } from "../../../library/NarrativeElement";
 import { IActionHeaderProps } from "../../Layout/ActionHeader";
 import { StatisticsTable } from "../../Layout/Statistics";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 
 export interface IDocumentProps {
     // the general information about this library page
@@ -18,12 +18,14 @@ export interface IDocumentProps {
     children: Array<React.ReactElement<INarrativeElementProps>>;
 }
 
-export default class PageDocument extends React.Component<IDocumentProps> {
+class PageDocument extends React.Component<IDocumentProps & TranslateProps> {
     render() {
+        const { t } = this.props;
+
         const statistics = this.props.item.statistics;
         const panes = [
             {
-                menuItem: intl.get("content"),
+                menuItem: t("content"),
                 render: () => (
                     <Tab.Pane tab="Content">
                         <Content>{this.props.children}</Content>
@@ -31,7 +33,7 @@ export default class PageDocument extends React.Component<IDocumentProps> {
                 ),
             },
             {
-                menuItem: intl.get("statistics"),
+                menuItem: t("statistics"),
                 render: () => (
                     <Tab.Pane tab="Statistics">
                         <StatisticsTable statistics={statistics} />
@@ -72,3 +74,5 @@ class Content extends React.Component<{ children: Array<React.ReactElement<INarr
         );
     }
 }
+
+export default WithTranslate(PageDocument);

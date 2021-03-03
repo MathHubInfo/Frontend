@@ -1,9 +1,9 @@
 import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import { IGroupRef } from "../../src/context/LibraryClient/objects";
+import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 
 const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
@@ -15,19 +15,20 @@ const PageLibrary = dynamic(() => import("../../src/theming/Pages/Library/PageLi
 
 type ILibraryProps = IDerivedParameter<IGroupRef[]>;
 
-export default class Library extends React.Component<ILibraryProps> {
+class Library extends React.Component<ILibraryProps & TranslateProps> {
     static async getInitialProps({ res, query }: NextPageContext): Promise<ILibraryProps> {
         return GetDerivedParameter(undefined, async () => getMathHubConfig().libraryClient.getGroups(), query, res);
     }
     render() {
-        const crumbs = [{ href: "/", title: intl.get("home") }];
+        const { t } = this.props;
+        const crumbs = [{ href: "/", title: t("home") }];
         if (failed(this.props))
             return (
                 <LayoutFailure crumbs={crumbs} statusCode={statusCode(this.props.status)} status={this.props.status} />
             );
 
-        const title = intl.get("library");
-        const description = intl.get("library intro");
+        const title = t("library");
+        const description = t("library intro");
         // the header for the library contains only the description
         const header = <ActionHeader description={description} />;
 
@@ -42,3 +43,5 @@ export default class Library extends React.Component<ILibraryProps> {
         );
     }
 }
+
+export default WithTranslate<ILibraryProps & TranslateProps>(Library);

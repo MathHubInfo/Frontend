@@ -2,52 +2,38 @@ import Link from "next/link";
 type LinkProps = React.ComponentProps<typeof Link>;
 import { stringify } from "querystring";
 import * as React from "react";
-
-import { WithContextProps } from "../utils/WithExtraContext";
-import MHAppContext, { IMHAppContext } from "../types/MHAppContext";
+import { LocaleContextProps, LocaleContext } from "../locales/WithTranslate";
 
 type IMHLinkProps = Omit<LinkProps, "href"> & IMHLinkable;
 
 export interface IMHLinkable {
-    // the url of the page to link to
-    href: string;
-
-    // the query to append to the url (if any)
-    query?: Record<string, string>;
+    href: string; // url of the page to link to
+    query?: Record<string, string>; // optional query parameters to append
+    locale?: string; // when set, replace the current language
 }
 
-/**
- * Rewrites a URL to a human-friendly url used with the webserver
- * @param url URL to rewrite
- */
-export function rewrite(url: string): string {
-    // in case of an external url, return it as is
-    if (!url.startsWith("/")) return url;
+/** compute url computes the url for a specific page */
+function computeURL({ href, query }: IMHLinkable): string {
+    // external links are not mapped to anything!
+    if (href !== "" && !href.startsWith("/")) return href;
 
-    // else do the actual rewriting
-    return url;
+    const pathname = href.replace(/\/$/, "");
+    const search = `?${stringify(query || {})}`;
+
+    return `${pathname !== "" ? pathname : "/"}${search !== "?" ? search : ""}`;
 }
 
 /**
  * A link between different MathHub Pages. Takes care to carry the current language along with any parameters.
  */
-class MHLink extends React.Component<IMHLinkProps & IMHAppContext, { href: string }> {
-    state = { href: "" };
-    static getDerivedStateFromProps(props: IMHLinkProps & IMHAppContext): { href: string } {
-        const { href, query } = props;
-
-        const sHref = href.length === 1 ? href : href.replace(/\/$/, "");
-        const pHref = `${sHref}?${stringify({ lang: props.activeLanguage, ...(query || {}) })}`;
-
-        return { href: rewrite(pHref) };
-    }
+export default class MHLink extends React.Component<IMHLinkProps> {
+    static contextType = LocaleContext;
+    context!: LocaleContextProps;
 
     render() {
-        const { prefetch, shallow, scroll, replace, as, passHref, children } = this.props;
-        const props = { prefetch, shallow, scroll, replace, as, passHref, children };
+        const { href, query, locale, prefetch, shallow, scroll, replace, as, passHref, children } = this.props;
+        const linkProps = { prefetch, shallow, scroll, replace, as, passHref, locale, children };
 
-        return <Link {...props} href={this.state.href} />;
+        return <Link {...linkProps} href={computeURL({ href, query })} />;
     }
 }
-
-export default WithContextProps(MHLink, MHAppContext);

@@ -1,12 +1,12 @@
 import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import intl from "react-intl-universal";
 import { debounce } from "ts-debounce";
 import getMathHubConfig from "../../src/context";
 import { IArchive, IDeclaration, IModule } from "../../src/context/LibraryClient/objects";
 import { INarrativeElementProps } from "../../src/library/NarrativeElement";
 import { crumbs, headerProps } from "../../src/library/utils";
+import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { BooleanArrayStore } from "../../src/utils/DataStore";
 import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
@@ -28,7 +28,7 @@ interface IArchiveState {
     expandedDeclarations: string[];
 }
 
-export default class Archive extends React.Component<IArchiveProps, IArchiveState> {
+class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveState> {
     static implicits = new ImplicitParameters<IArchiveState>(
         { expandedModules: "modules", expandedDeclarations: "declarations" },
         {
@@ -84,9 +84,10 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
     }
 
     render() {
+        const { t } = this.props;
         const breadcrumbs = [
-            { href: "/", title: intl.get("home") },
-            { href: "/library", title: intl.get("library") },
+            { href: "/", title: t("home") },
+            { href: "/library", title: t("library") },
         ];
         if (failed(this.props))
             return (
@@ -128,3 +129,5 @@ export default class Archive extends React.Component<IArchiveProps, IArchiveStat
         );
     }
 }
+
+export default WithTranslate<IArchiveProps & TranslateProps>(Archive);

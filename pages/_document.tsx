@@ -1,32 +1,14 @@
-import Document, { DocumentContext, DocumentProps, Html, Head, Main, NextScript } from "next/document";
-import dynamic from "next/dynamic";
-import { negotiateLanguage } from "../src/locales";
-import { ILayoutHeaderProps } from "../src/theming/Layout/LayoutHeader";
+import React from "react";
 
-const LayoutHeader = dynamic(() => import("../src/theming/Layout/LayoutHeader"));
+import Document, { Html, Head, Main, NextScript } from "next/document";
 
-type MHDocumentProps = ILayoutHeaderProps & DocumentProps;
-
-export default class MHDocument extends Document<MHDocumentProps> {
-    static async getInitialProps(ctx: DocumentContext): Promise<MHDocumentProps> {
-        const [documentProps, headerProps] = await Promise.all([
-            Document.getInitialProps(ctx),
-            MHDocument.getHeaderProps(ctx),
-        ]);
-
-        return { ...(documentProps as DocumentContext & DocumentProps), ...headerProps };
-    }
-    static async getHeaderProps(ctx: DocumentContext): Promise<ILayoutHeaderProps> {
-        const language = negotiateLanguage(ctx, true);
-
-        return { language };
-    }
-
+export default class MHDocument extends Document {
     render() {
+        const { locale } = this.props;
         return (
-            <Html lang={this.props.language}>
+            <Html lang={locale}>
                 <Head>
-                    <LayoutHeader language={this.props.language} />
+                    <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
                 </Head>
                 <body>
                     <Main />

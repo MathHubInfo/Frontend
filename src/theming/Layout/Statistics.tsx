@@ -1,19 +1,21 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Container, Dropdown, Popup, Table } from "semantic-ui-react";
 
 import { default as keysJson } from "../../assets/applications/keys.json";
 import { IStatistic } from "../../context/LibraryClient/objects";
+import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 
 interface IStatisticsTableProps {
     statistics?: IStatistic[];
 }
 
 // Renders a table showing statistics
-export function StatisticsTable(props: IStatisticsTableProps): React.ReactElement {
-    const { statistics } = props;
+export const StatisticsTable = WithTranslate(function StatisticsTable(
+    props: IStatisticsTableProps & TranslateProps,
+): React.ReactElement {
+    const { t, statistics } = props;
 
-    if (statistics === undefined || statistics.length === 0) return <p>{intl.get("no")}</p>;
+    if (statistics === undefined || statistics.length === 0) return <p>{t("no")}</p>;
 
     return (
         <Table collapsing>
@@ -24,20 +26,23 @@ export function StatisticsTable(props: IStatisticsTableProps): React.ReactElemen
             </Table.Body>
         </Table>
     );
-}
+});
 
 // Same as StatisticsTable, but adds a dropdown menu to it
-export function StatisticsTableDropdown(props: IStatisticsTableProps): React.ReactElement {
+export const StatisticsTableDropdown = WithTranslate(function StatisticsTableDropdown(
+    props: IStatisticsTableProps & TranslateProps,
+): React.ReactElement {
+    const { t, statistics } = props;
     return (
         <Container textAlign={"right"}>
-            <Dropdown text={intl.get("statistics")} button icon={null} pointing={"right"}>
+            <Dropdown text={t("statistics")} button icon={null} pointing={"right"}>
                 <Dropdown.Menu>
-                    <StatisticsTable statistics={props.statistics} />
+                    <StatisticsTable statistics={statistics} />
                 </Dropdown.Menu>
             </Dropdown>
         </Container>
     );
-}
+});
 
 // A single element within the statistics table
 function StatisticsElement(props: { name: string; value?: number }) {

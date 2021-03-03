@@ -1,5 +1,4 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Button, Container, Divider, Dropdown, DropdownProps, Input } from "semantic-ui-react";
 
 import { IGlossaryEntry, TKnownLanguages } from "../../../context/GlossaryClient";
@@ -7,6 +6,7 @@ import { HTML } from "../../../context/LibraryClient/objects";
 
 import MHHTML from "../../../components/MHHTML";
 import { IActionHeaderProps } from "../../Layout/ActionHeader";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 
 interface IDictionaryProps extends IDictionaryState {
     /**
@@ -76,29 +76,28 @@ export interface IDictionaryImplicits {
     description?: HTML;
 }
 
-export default class PageApplicationsDictionary extends React.Component<IDictionaryProps> {
+class PageApplicationsDictionary extends React.Component<IDictionaryProps & TranslateProps> {
     render() {
-        const { knownLanguages, fromLanguage, toLanguage } = this.props;
-        const { translating, translationValid } = this.props;
+        const { knownLanguages, fromLanguage, toLanguage, t, translating, translationValid } = this.props;
 
         let statusText = "";
-        if (!translationValid) statusText = translating ? intl.get("translatng") : intl.get("press");
+        if (!translationValid) statusText = translating ? t("translatng") : t("press");
 
         return (
             <Container>
-                <h1>{intl.get("dictionary")}</h1>
+                <h1>{t("dictionary")}</h1>
                 {this.props.header}
-                {intl.get("from:")}&nbsp;
+                {t("from:")}&nbsp;
                 <LanguageDropdown value={fromLanguage} options={knownLanguages} onChange={this.changeFromLanguage} />
                 &nbsp;
-                {intl.get("to:")}&nbsp;
+                {t("to:")}&nbsp;
                 <LanguageDropdown value={toLanguage} options={knownLanguages} onChange={this.changeToLanguage} />
                 <Divider />
                 <div>
                     <Input style={{ width: "70%" }} onChange={this.changeText} />
                     <br />
                     <Button disabled={translating} onClick={this.startTranslation} style={{ marginTop: "1em" }}>
-                        {intl.get("translate")}
+                        {t("translate")}
                     </Button>
                 </div>
                 <Divider />
@@ -144,6 +143,8 @@ export default class PageApplicationsDictionary extends React.Component<IDiction
         this.props.startTranslation();
     };
 }
+
+export default WithTranslate(PageApplicationsDictionary);
 
 interface IDropdownProps<K extends string> {
     value: K;

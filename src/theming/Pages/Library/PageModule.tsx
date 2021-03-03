@@ -1,7 +1,7 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Button, Card, Icon, Loader } from "semantic-ui-react";
 import { IModule, IModuleRef } from "../../../context/LibraryClient/objects";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 import { IDocumentProps } from "./PageDocument";
 
 export interface IModuleProps {
@@ -17,9 +17,9 @@ export interface IModuleProps {
     toggleExpansion(): void;
 }
 
-export default class PageModule extends React.Component<IModuleProps> {
+class PageModule extends React.Component<IModuleProps & TranslateProps> {
     render() {
-        const { expanded, item, children } = this.props;
+        const { expanded, item, children, t } = this.props;
 
         return (
             <Card fluid>
@@ -54,7 +54,7 @@ export default class PageModule extends React.Component<IModuleProps> {
                                     ))}
                                 </ul>
                             ) : (
-                                <Loader active>{intl.get("loading")}</Loader>
+                                <Loader active>{t("loading")}</Loader>
                             ))}
                     </Card.Description>
                 </Card.Content>
@@ -63,3 +63,5 @@ export default class PageModule extends React.Component<IModuleProps> {
     }
     private readonly toggleExpansion = () => this.props.toggleExpansion();
 }
+
+export default WithTranslate(PageModule);

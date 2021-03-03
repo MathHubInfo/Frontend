@@ -1,10 +1,10 @@
 import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import intl from "react-intl-universal";
 import getMathHubConfig from "../../src/context";
 import { IGroup } from "../../src/context/LibraryClient/objects";
 import { headerProps } from "../../src/library/utils";
+import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 
 const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
@@ -16,7 +16,7 @@ const PageGroup = dynamic(() => import("../../src/theming/Pages/Library/PageGrou
 
 type IGroupProps = IDerivedParameter<IGroup>;
 
-export default class Group extends React.Component<IGroupProps> {
+class Group extends React.Component<IGroupProps & TranslateProps> {
     static async getInitialProps({ res, query }: NextPageContext): Promise<IGroupProps> {
         return GetDerivedParameter(
             "id",
@@ -26,9 +26,10 @@ export default class Group extends React.Component<IGroupProps> {
         );
     }
     render() {
+        const { t } = this.props;
         const crumbs = [
-            { href: "/", title: intl.get("home") },
-            { href: "/library", title: intl.get("library") },
+            { href: "/", title: t("home") },
+            { href: "/library", title: t("library") },
         ];
         if (failed(this.props))
             return (
@@ -49,3 +50,5 @@ export default class Group extends React.Component<IGroupProps> {
         );
     }
 }
+
+export default WithTranslate<IGroupProps & TranslateProps>(Group);

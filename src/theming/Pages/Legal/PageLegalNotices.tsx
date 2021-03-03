@@ -1,6 +1,6 @@
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Container } from "semantic-ui-react";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 
 interface INoticesProps {
     /**
@@ -14,15 +14,18 @@ interface INoticesProps {
     license: string;
 }
 
-export default class PageLegalNotices extends React.Component<INoticesProps> {
+class PageLegalNotices extends React.Component<INoticesProps & TranslateProps> {
     render() {
+        const { t, license, notices } = this.props;
         return (
             <Container>
-                <h2>{intl.get("license")}</h2>
-                <pre>{this.props.license}</pre>
-                <h2>{intl.get("notices")}</h2>
-                <pre>{this.props.notices}</pre>
+                <h2>{t("license")}</h2>
+                <pre>{license}</pre>
+                <h2>{t("notices")}</h2>
+                <pre>{notices}</pre>
             </Container>
         );
     }
 }
+
+export default WithTranslate(PageLegalNotices);

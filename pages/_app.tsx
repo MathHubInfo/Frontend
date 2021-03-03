@@ -2,9 +2,11 @@ import App, { AppContext } from "next/app";
 import dynamic from "next/dynamic";
 import { default as Router } from "next/router";
 import React from "react";
-import MHAppContext, { IMHAppContext } from "../src/types/MHAppContext";
-import { initLocaleSupport, negotiateLanguage, setLocale, supportedLocales as knownLanguages } from "../src/locales";
-import ImplicitParameters from "../src/utils/ImplicitParameters";
+
+import { LocaleContext } from "../src/locales/WithTranslate";
+import { Locale, defaultLocale, makeLocale } from "../src/locales";
+
+import Error from "./404";
 
 // true global css
 import "semantic-ui-css/semantic.min.css";
@@ -14,75 +16,67 @@ import "tgview/src/css/styles.css";
 import "vis/dist/vis.min.css";
 import "jqueryui/jquery-ui.min.css";
 import "jstree/dist/themes/default/style.css";
+import { loadLocaleData } from "../src/locales/loadData";
 
 const LayoutRoutingIndicator = dynamic(() => import("../src/theming/Layout/LayoutRoutingIndicator"));
 
-interface IMHAppOwnProps {
-    initialLanguage: string;
+interface IMHAppProps extends LocaleProps {
     initialConfig: unknown;
 }
 
-export default class MHApp extends App<IMHAppOwnProps> {
+interface LocaleProps {
+    locale: Locale | undefined;
+    localeData: Record<string, string>;
+}
+
+interface IMHAppState {
+    routing: boolean; // true when navigating between pages
+}
+
+export default class MHApp extends App<IMHAppProps> {
+    /**
+     * Load initial properties (including language) for the provided page
+     */
     static async getInitialProps(context: AppContext) {
-        const [pageProps, initialLanguage] = await Promise.all([
-            MHApp.getPageProps(context),
-            MHApp.getInitialLanguage(context),
+        const [origProps, { localeData, locale }] = await Promise.all([
+            App.getInitialProps(context),
+            MHApp.getLocale(context),
         ]);
 
-        return { pageProps, initialLanguage };
+        // if urlLocale is undefined, we return an HTTP 404!
+        // this only happens when the client requests an unknown language!
+        if (locale === undefined && context.ctx.res) {
+            context.ctx.res.statusCode = 404;
+        }
+
+        return { ...origProps, locale, localeData };
     }
 
     /**
-     * Loads the properties for the current page, if any
+     * Load the properties for the component of the provided page
      */
-    static async getPageProps({ Component, ctx }: AppContext) {
-        let pageProps = {};
-        if (Component.getInitialProps) pageProps = await Component.getInitialProps(ctx);
-
-        return pageProps;
+    static async getProps({ Component, ctx }: AppContext): Promise<unknown> {
+        if (!Component.getInitialProps) return {};
+        return Component.getInitialProps(ctx);
     }
 
     /**
      * Initializes and loads the initial language
      */
-    static async getInitialLanguage(context: AppContext): Promise<string> {
-        const selection = negotiateLanguage(context.ctx);
-
-        await initLocaleSupport();
-        await setLocale(selection);
-
-        return selection;
+    static async getLocale({ router: { locale: detectedLocale } }: AppContext): Promise<LocaleProps> {
+        const locale = makeLocale(detectedLocale);
+        const localeData = await loadLocaleData(locale || defaultLocale);
+        return { locale, localeData };
     }
 
-    state: IMHAppContext & { languageLoaded: boolean } = {
+    state: IMHAppState = {
         routing: false,
-        languageLoaded: !process.browser,
-        activeLanguage: this.props.initialLanguage,
-        knownLanguages,
-
-        // client-side only function to change the active language
-        changeLanguage: async (lang: string): Promise<void> => {
-            // load the locale data
-            await setLocale(lang);
-
-            // update the dom + url
-            document.getElementsByTagName("html")[0].setAttribute("lang", lang);
-            await ImplicitParameters.replaceRouterParameters({ lang });
-
-            // tell the state about having changed language
-            this.setState({ activeLanguage: lang });
-        },
     };
 
     async componentDidMount() {
         Router.events.on("routeChangeStart", this.handleRoutingStart);
         Router.events.on("routeChangeComplete", this.handleRoutingEnd);
         Router.events.on("routeChangeError", this.handleRoutingEnd);
-
-        // if we still need to load languages
-        // load them and only render after
-        if (!this.state.languageLoaded)
-            setLocale(this.state.activeLanguage).then(() => this.setState({ languageLoaded: true }));
     }
 
     componentWillUnmount() {
@@ -91,15 +85,28 @@ export default class MHApp extends App<IMHAppOwnProps> {
         Router.events.off("routeChangeError", this.handleRoutingEnd);
     }
 
+    componentDidUpdate() {
+        document.getElementsByTagName("html")[0].setAttribute("lang", this.props.locale || defaultLocale);
+    }
+
     render() {
-        const { Component, pageProps } = this.props;
-        const { activeLanguage, changeLanguage, routing, languageLoaded } = this.state;
+        let { locale, Component, pageProps } = this.props;
+        const { localeData } = this.props;
+        const { routing } = this.state;
+
+        // if the user did not provide a locale, render the error component!
+        // with the default locale!
+        if (locale === undefined) {
+            locale = defaultLocale;
+            Component = Error;
+            pageProps = {};
+        }
 
         return (
-            <MHAppContext.Provider value={{ routing, activeLanguage, knownLanguages, changeLanguage }}>
+            <LocaleContext.Provider value={{ locale, localeData }}>
                 {routing && <LayoutRoutingIndicator />}
-                {languageLoaded && <Component {...pageProps} />}
-            </MHAppContext.Provider>
+                <Component {...pageProps} />
+            </LocaleContext.Provider>
         );
     }
 

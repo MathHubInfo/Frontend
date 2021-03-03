@@ -1,11 +1,11 @@
+import { withRouter, NextRouter } from "next/router";
 import * as React from "react";
-import intl from "react-intl-universal";
 import { Button, Container, Dropdown, Flag, Grid, Image, Menu, FlagNameValues } from "semantic-ui-react";
 
 import { urls } from "../../assets/urls";
 import MHLink from "../../components/MHLink";
-import MHAppContext, { IMHAppContext } from "../../types/MHAppContext";
-import { WithContextProps } from "../../utils/WithExtraContext";
+import { LocaleContext, LocaleContextProps, TranslateProps, WithTranslate } from "../../locales/WithTranslate";
+import { supportedLocales } from "../../locales";
 import { IBreadcrumb } from "./Props";
 
 interface IHeaderProps {
@@ -21,10 +21,9 @@ interface IHeaderProps {
     crumbs: IBreadcrumb[];
 }
 
-class HeaderInt extends React.Component<IHeaderProps & IMHAppContext> {
+class Header extends React.Component<IHeaderProps & { router: NextRouter } & TranslateProps> {
     render() {
-        const { title, crumbs } = this.props;
-
+        const { title, crumbs, router, t } = this.props;
         return (
             <>
                 <Menu>
@@ -40,51 +39,51 @@ class HeaderInt extends React.Component<IHeaderProps & IMHAppContext> {
                                 MathHub
                             </Menu.Item>
                         </MHLink>
-                        <Dropdown text={intl.get("applications")} className="link item">
+                        <Dropdown text={t("applications")} className="link item">
                             <Dropdown.Menu>
                                 <MHLink href="/applications/glossary">
-                                    <Dropdown.Item>{intl.get("glossary")}</Dropdown.Item>
+                                    <Dropdown.Item>{t("glossary")}</Dropdown.Item>
                                 </MHLink>
                                 <MHLink href="/applications/dictionary">
-                                    <Dropdown.Item>{intl.get("dictionary")}</Dropdown.Item>
+                                    <Dropdown.Item>{t("dictionary")}</Dropdown.Item>
                                 </MHLink>
                             </Dropdown.Menu>
                         </Dropdown>
-                        <Dropdown text={intl.get("help")} className="link item">
+                        <Dropdown text={t("help")} className="link item">
                             <Dropdown.Menu>
                                 <Dropdown.Item>
                                     <a href={urls.help.documentation} style={{ color: "black" }}>
-                                        {intl.get("documentation")}
+                                        {t("documentation")}
                                     </a>
                                 </Dropdown.Item>
                                 <Dropdown.Item>
                                     <a href={urls.help.browseSources} style={{ color: "black" }}>
-                                        {intl.get("sources")}
+                                        {t("sources")}
                                     </a>
                                 </Dropdown.Item>
                                 <Dropdown.Item>
                                     <a href={urls.help.contactAHuman} style={{ color: "black" }}>
-                                        {intl.get("contact")}
+                                        {t("contact")}
                                     </a>
                                 </Dropdown.Item>
                                 <Dropdown.Item>
                                     <a href={urls.help.report} style={{ color: "black" }}>
-                                        {intl.get("report")}
+                                        {t("report")}
                                     </a>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                         <MHLink href="/news">
-                            <Menu.Item>{intl.get("news")}</Menu.Item>
+                            <Menu.Item>{t("news")}</Menu.Item>
                         </MHLink>
                         <Menu.Item>
                             <a href={urls.admin} style={{ color: "black" }}>
-                                {intl.get("admin")}
+                                {t("admin")}
                             </a>
                         </Menu.Item>
                         <Menu.Item>
                             <a href={urls.about} style={{ color: "black" }}>
-                                {intl.get("about")}
+                                {t("about")}
                             </a>
                         </Menu.Item>
                     </Container>
@@ -96,13 +95,8 @@ class HeaderInt extends React.Component<IHeaderProps & IMHAppContext> {
                         </Grid.Column>
                         <Grid.Column width={4} textAlign={"right"}>
                             <Button.Group compact basic size={"mini"}>
-                                {this.props.knownLanguages.map(lang => (
-                                    <LanguageButton
-                                        key={lang}
-                                        language={lang}
-                                        activeLanguage={this.props.activeLanguage}
-                                        changeLanguage={this.props.changeLanguage}
-                                    />
+                                {supportedLocales.map(locale => (
+                                    <LocaleButton key={locale} locale={locale} router={router} />
                                 ))}
                             </Button.Group>
                         </Grid.Column>
@@ -113,19 +107,23 @@ class HeaderInt extends React.Component<IHeaderProps & IMHAppContext> {
     }
 }
 
-const Header = WithContextProps(HeaderInt, MHAppContext);
-export default Header;
+export default WithTranslate(withRouter(Header));
 
-class LanguageButton extends React.Component<{
-    language: string;
-    activeLanguage: string;
-    changeLanguage(language: string): void;
+class LocaleButton extends React.Component<{
+    locale: string;
+    router: NextRouter;
 }> {
+    static contextType = LocaleContext;
+    context!: LocaleContextProps;
+
     render() {
+        const { locale, router } = this.props;
         return (
-            <Button onClick={this.onClick} active={this.props.language === this.props.activeLanguage}>
-                <Flag name={LanguageButton.getFlag(this.props.language)} />
-            </Button>
+            <MHLink href={router.asPath} locale={locale}>
+                <Button as={"a"} active={locale === this.context.locale}>
+                    <Flag name={LocaleButton.getFlag(locale)} />
+                </Button>
+            </MHLink>
         );
     }
 
@@ -134,10 +132,6 @@ class LanguageButton extends React.Component<{
 
         return flags[language] || (language as FlagNameValues);
     }
-
-    private readonly onClick = () => {
-        this.props.changeLanguage(this.props.language);
-    };
 }
 
 class LayoutCrumbs extends React.Component<{ crumbs: IBreadcrumb[] }> {

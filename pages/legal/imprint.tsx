@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import intl from "react-intl-universal";
+import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
@@ -11,7 +11,7 @@ const PageLegalImprint = dynamic(() => import("../../src/theming/Pages/Legal/Pag
 
 type IImprintProps = IDerivedParameter<string>;
 
-export default class Imprint extends React.Component<IImprintProps> {
+class Imprint extends React.Component<IImprintProps & TranslateProps> {
     static async getInitialProps({ res, query }: NextPageContext): Promise<IImprintProps> {
         return GetDerivedParameter(
             undefined,
@@ -20,23 +20,24 @@ export default class Imprint extends React.Component<IImprintProps> {
             res,
         );
     }
-    static readonly crumbs = [{ href: "/", title: intl.get("home") }];
     render() {
+        const { t } = this.props;
+
+        const crumbs = [{ href: "/", title: t("home") }];
+
         if (failed(this.props))
             return (
-                <LayoutFailure
-                    crumbs={Imprint.crumbs}
-                    statusCode={statusCode(this.props.status)}
-                    status={this.props.status}
-                />
+                <LayoutFailure crumbs={crumbs} statusCode={statusCode(this.props.status)} status={this.props.status} />
             );
 
         const { item } = this.props;
 
         return (
-            <LayoutBody crumbs={Imprint.crumbs} title={[intl.get("imprint")]}>
+            <LayoutBody crumbs={crumbs} title={[t("imprint")]}>
                 <PageLegalImprint imprint={item} />
             </LayoutBody>
         );
     }
 }
+
+export default WithTranslate<IImprintProps & TranslateProps>(Imprint);
