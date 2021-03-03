@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container } from "semantic-ui-react";
+import { Container, Header, Segment } from "semantic-ui-react";
 import MHHTML from "../../../components/MHHTML";
 
 import { INewsItem } from "../../../context/NewsClient";
@@ -8,16 +8,18 @@ type INewsPageProps = INewsItem;
 
 export default class PageNewsPage extends React.Component<INewsPageProps> {
     render() {
-        const theDate = new Date(0); // The 0 there is the key, which sets the date to the epoch
-        theDate.setUTCSeconds(this.props.date);
+        const { date, title, content } = this.props;
+        const theDate = new Date(date * 1000);
 
         return (
             <Container>
-                <h2>
-                    <MHHTML>{this.props.title}</MHHTML>
-                </h2>
-                <div style={{ color: "grey" }}>{theDate.toDateString()}</div>
-                <MHHTML>{this.props.content}</MHHTML>
+                <Header as="h2" attached="top">
+                    <MHHTML>{title}</MHHTML>
+                    <Header.Subheader>{theDate.toDateString()}</Header.Subheader>
+                </Header>
+                <Segment attached>
+                    <MHHTML>{content}</MHHTML>
+                </Segment>
             </Container>
         );
     }

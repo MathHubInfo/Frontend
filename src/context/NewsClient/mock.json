@@ -3,6 +3,7 @@
         "title": "Exports of the Isabelle library and the archive of formal proof on MathHub.info",
         "id": "2018-10-10-isabelle",
         "date": 1539147600,
+        "teaser": "<p>Makarius Wenzel has just completed an export of the theories in the <a href=\"https://isabelle.in.tum.de/\">Isabelle distribution</a> and  the <a href=\"https://www.isa-afp.org/\">Archive of Formal Proof</a> in OMDoc/MMT. They are at http://gl.mathhub.info/Isabelle and will be updated regularly as the sources evolve.</p>\n",
         "content": "<p>Makarius Wenzel has just completed an export of the theories in the <a href=\"https://isabelle.in.tum.de/\">Isabelle distribution</a> and  the <a href=\"https://www.isa-afp.org/\">Archive of Formal Proof</a> in OMDoc/MMT. They are at http://gl.mathhub.info/Isabelle and will be updated regularly as the sources evolve.</p>\n"
     },
     {

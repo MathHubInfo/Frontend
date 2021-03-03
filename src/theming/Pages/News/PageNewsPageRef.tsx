@@ -11,23 +11,29 @@ export interface INewsPageRefProps {
 
 export default class PageNewsPageRef extends React.Component<INewsPageRefProps> {
     render() {
-        const theDate = new Date(0); // The 0 there is the key, which sets the date to the epoch
-        theDate.setUTCSeconds(this.props.item.date);
+        const { title, teaser, date } = this.props.item;
+        const theDate = new Date(date * 1000);
+
+        const teaserDescription = teaser && (
+            <Card.Content>
+                <Card.Description>
+                    <MHHTML>{teaser}</MHHTML>
+                </Card.Description>
+            </Card.Content>
+        );
 
         return (
             <MHLink {...this.props.link}>
                 <Card fluid>
                     <Card.Content>
                         <Card.Header>
-                            <MHHTML>{this.props.item.title}</MHHTML>
+                            <MHHTML>{title}</MHHTML>
                         </Card.Header>
-                        <Card.Meta>
-                            <Icon name="globe" />
-                            {theDate.toDateString()}
-                        </Card.Meta>
-                        <Card.Description>
-                            {this.props.item.teaser && <MHHTML>{this.props.item.teaser}</MHHTML>}
-                        </Card.Description>
+                    </Card.Content>
+                    {teaserDescription}
+                    <Card.Content extra>
+                        <Icon name="globe" />
+                        {theDate.toDateString()}
                     </Card.Content>
                 </Card>
             </MHLink>
