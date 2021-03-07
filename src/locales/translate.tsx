@@ -12,14 +12,14 @@ export function translate(localeData: LocaleData, id: string, vars?: Record<stri
 
 /** substitute substitues vars into value */
 function substiute(value: string, vars?: Record<string, string>): string {
-    // TODO: This function is a hack at the moment!
-    // This should be fixed using some underlying module!
-
-    if (vars === undefined) return value;
-
-    let result = value;
-    Object.entries(vars).forEach(([key, value]) => {
-        result = result.replace(`{${key}}`, value);
+    const context = vars ?? {};
+    return value.replaceAll(/\{([^\s\}]+)\}/g, (match: string, name: string) => {
+        // check that the variable is defined in the context
+        // if it is missing send out a warning and leave the string untouched
+        if (!Object.prototype.hasOwnProperty.call(context, name)) {
+            console.warn("Undefined variable", name, "in", value);
+            return match;
+        }
+        return `${context[name]}`;
     });
-    return result;
 }
