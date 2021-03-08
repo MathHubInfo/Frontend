@@ -43,7 +43,7 @@ class Group extends React.Component<IGroupProps & TranslateProps> {
             <LayoutBody crumbs={crumbs} description={description} title={[name]}>
                 <PageGroup header={header} item={this.props.item}>
                     {archives.map(a => (
-                        <PageRef key={a.id} item={a} link={{ href: "/library/archive", query: { id: a.id } }} />
+                        <PageRef key={a.id} item={a} link={{ href: a }} />
                     ))}
                 </PageGroup>
             </LayoutBody>

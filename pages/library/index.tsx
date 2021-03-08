@@ -36,7 +36,7 @@ class Library extends React.Component<ILibraryProps & TranslateProps> {
             <LayoutBody crumbs={crumbs} description={description} title={[title]}>
                 <PageLibrary header={header}>
                     {this.props.item.map(g => (
-                        <PageRef key={g.id} item={g} link={{ href: "/library/group", query: { id: g.id } }} />
+                        <PageRef key={g.id} item={g} link={{ href: g }} />
                     ))}
                 </PageLibrary>
             </LayoutBody>

@@ -136,24 +136,25 @@ class LocaleButton extends React.Component<{
 
 class LayoutCrumbs extends React.Component<{ crumbs: IBreadcrumb[] }> {
     render() {
+        const { crumbs } = this.props;
         return (
-            <div>
-                {this.props.crumbs.map(c => (
-                    <LayoutCrumb key={c.href} {...c} />
+            <>
+                {crumbs.map(c => (
+                    <LayoutCrumb key={JSON.stringify(c)} {...c} />
                 ))}
-            </div>
+            </>
         );
     }
 }
 
-class LayoutCrumb extends React.Component<{ href: string; title: string; query?: Record<string, string> }> {
+class LayoutCrumb extends React.Component<IBreadcrumb> {
     render() {
-        const { href, title, query } = this.props;
-        if (!href) return <b>{title}</b>;
+        const { href, title, ...rest } = this.props;
+        if (href === "") return <b>{title}</b>;
 
         return (
             <>
-                <MHLink href={href} query={query}>
+                <MHLink href={href} {...rest}>
                     <a>{title}</a>
                 </MHLink>
                 &nbsp;&gt;&nbsp;

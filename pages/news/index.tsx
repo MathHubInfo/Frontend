@@ -32,7 +32,7 @@ class News extends React.Component<INewsProps & TranslateProps> {
             <LayoutBody crumbs={crumbs} description={description} title={["News"]}>
                 <PageNews description={description}>
                     {this.props.item.map(n => (
-                        <PageNewsPageRef key={n.id} item={n} link={{ href: "/news/page", query: { id: n.id } }} />
+                        <PageNewsPageRef key={n.id} item={n} link={{ href: "/news/page", params: { id: n.id } }} />
                     ))}
                 </PageNews>
             </LayoutBody>

@@ -31,9 +31,14 @@ export function crumbs(to: IApiObject): IBreadcrumb[] {
     const parents = ObjectParents(to);
     parents.splice(-1, 1);
 
-    return parents.map(({ kind, name, id }) => ({
-        href: `/library/${kind}`,
-        title: name,
-        query: { id },
-    }));
+    return parents.map(({ kind, name, id }) => {
+        if (kind !== "document" && kind !== "archive" && kind !== "group") {
+            return { href: "", title: name };
+        }
+
+        return {
+            href: { kind, id },
+            title: name,
+        };
+    });
 }

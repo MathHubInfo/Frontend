@@ -48,7 +48,7 @@ export default class STEXHTML extends React.PureComponent<ISTEXHTMLProps> {
         const id = `pseudo-tree://smglom-stex/${href.substring(STEX_MODULE_URI_PREFIX.length)}${suffix}`;
 
         return (
-            <MHLink href="/library/document" query={{ id }}>
+            <MHLink href={{ kind: "document", id }}>
                 <a>{callback(node.childNodes)}</a>
             </MHLink>
         );

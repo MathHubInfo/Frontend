@@ -37,7 +37,7 @@ class LayoutFailure extends React.Component<ILayoutFailureProps & TranslateProps
         let text = t("sorry");
         if (status === DerivedDataStatus.MISSING_VALUE) {
             title = t("missing");
-            text = t("missing paramter");
+            text = t("missing parameter");
         }
         if (statusCode === 500 || status === DerivedDataStatus.ERROR_DERIVATION) {
             title = t("wrong");

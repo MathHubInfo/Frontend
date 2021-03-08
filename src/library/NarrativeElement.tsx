@@ -60,7 +60,7 @@ export default class NarrativeElement extends React.Component<INarrativeElementP
 
         switch (children.kind) {
             case "document":
-                return <PageRef item={children} link={{ href: "/library/document", query: { id: children.id } }} />;
+                return <PageRef item={children} link={{ href: children }} />;
             case "opaque":
                 return <PageOpaque>{children}</PageOpaque>;
             case "module":
