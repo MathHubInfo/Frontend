@@ -4,6 +4,7 @@ import { stringify } from "querystring";
 import * as React from "react";
 import { IArchive, IArchiveRef, IDocument, IDocumentRef, IGroup, IGroupRef } from "../context/LibraryClient/objects";
 import { LocaleContextProps, LocaleContext } from "../locales/WithTranslate";
+import { interpolate } from "../utils/interpolate";
 
 /** a linkable item can be represented by an href or an id to something on MathHub */
 export interface IMHLinkable {
@@ -18,8 +19,8 @@ function toHref(link: string | LinkableItem, params?: Record<string, string>): s
     let href: string;
     let query: Record<string, string>;
     if (typeof link === "string") {
-        href = link;
-        query = params ?? {};
+        href = interpolate(/\[([^\s\]]+)\]/g, link, params ?? {});
+        query = {};
     } else {
         const { kind, id } = link;
         href = `/library/${kind}`;
