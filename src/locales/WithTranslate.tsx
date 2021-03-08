@@ -22,7 +22,6 @@ export function WithTranslate<P extends TranslateProps>(
             render() {
                 const t = translate.bind(undefined, this.context.localeData);
 
-                // todo: this shoudld take translateContext!
                 const props = {
                     ...this.props,
                     t: t,

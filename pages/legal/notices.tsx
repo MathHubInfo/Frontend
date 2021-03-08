@@ -1,48 +1,43 @@
-import { NextPageContext } from "next";
+import { promises as fs } from "fs";
+import path from "path";
+import { GetStaticProps, GetStaticPropsResult } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import { default as LicenseTxt } from "../../LICENSE.txt";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
-import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
-const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
 const PageLegalNotices = dynamic(() => import("../../src/theming/Pages/Legal/PageLegalNotices"));
 
-type INoticesProps = IDerivedParameter<string | false>;
+interface INoticesProps {
+    notices: string | null;
+    license: string;
+}
 
 class Notices extends React.Component<INoticesProps & TranslateProps> {
-    static async getInitialProps({ res, query }: NextPageContext): Promise<INoticesProps> {
-        return GetDerivedParameter(
-            undefined,
-            async () => {
-                try {
-                    return (await import("../src/assets/generated/notices.txt")).default;
-                } catch (e) {
-                    return false;
-                }
-            },
-            query,
-            res,
-        );
-    }
     render() {
-        const { t } = this.props;
+        const { t, license, notices } = this.props;
         const crumbs = [{ href: "/", title: t("home") }];
-
-        if (failed(this.props))
-            return (
-                <LayoutFailure crumbs={crumbs} statusCode={statusCode(this.props.status)} status={this.props.status} />
-            );
-
-        const { item } = this.props;
 
         return (
             <LayoutBody crumbs={crumbs} title={[t("notices")]}>
-                <PageLegalNotices notices={item || undefined} license={LicenseTxt} />
+                <PageLegalNotices notices={notices ?? undefined} license={license} />
             </LayoutBody>
         );
     }
 }
 
 export default WithTranslate<INoticesProps & TranslateProps>(Notices);
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<INoticesProps>> => {
+    const licenseTXT = path.join(process.cwd(), "LICENSE.txt");
+    const noticesTXT = path.join(process.cwd(), "src", "assets", "generated", "notices.txt");
+
+    const [license, notices] = await Promise.all([
+        fs.readFile(licenseTXT, "utf-8"),
+        fs.readFile(noticesTXT, "utf-8").catch(() => null),
+    ]);
+
+    return {
+        props: { license, notices },
+    };
+};
