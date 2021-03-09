@@ -8,5 +8,5 @@ export function translate(localeData: LocaleData, id: string, vars?: Record<stri
         throw new Error(`Missing translation for "${id}"`);
     }
 
-    return interpolate(/\{([^\s\}]+)\}/g, value, vars ?? {});
+    return interpolate(/\{([^\s}]+)\}/g, value, vars ?? {});
 }
