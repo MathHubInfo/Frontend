@@ -1,9 +1,9 @@
 import Link from "next/link";
 type LinkProps = React.ComponentProps<typeof Link>;
-import { stringify } from "querystring";
 import * as React from "react";
 import { IArchive, IArchiveRef, IDocument, IDocumentRef, IGroup, IGroupRef } from "../context/LibraryClient/objects";
 import { LocaleContextProps, LocaleContext } from "../locales/WithTranslate";
+import { encode } from "../utils/base64";
 import { interpolate } from "../utils/interpolate";
 
 /** a linkable item can be represented by an href or an id to something on MathHub */
@@ -15,16 +15,13 @@ type LinkableItem = Pick<IGroup | IGroupRef | IArchive | IArchiveRef | IDocument
 
 /* toHref turns a linkable into an href */
 function toHref(link: string | LinkableItem, params?: Record<string, string>): string {
-    // determine the url by using either the href or the item id
+    // determine the actual href to link to
     let href: string;
-    let query: Record<string, string>;
     if (typeof link === "string") {
         href = interpolate(/\[([^\s\]]+)\]/g, link, params ?? {});
-        query = {};
     } else {
         const { kind, id } = link;
-        href = `/library/${kind}`;
-        query = { id };
+        href = `/library/${kind}/${encode(id)}`;
     }
 
     if (href !== "" && !href.startsWith("/")) return href;
@@ -32,12 +29,6 @@ function toHref(link: string | LinkableItem, params?: Record<string, string>): s
     // replace trailing slashes for non-external URL
     href = href.replace(/\/$/, "");
     href = href !== "" ? href : "/";
-
-    // return the query (if any)
-    const encoded = stringify(query);
-    if (encoded !== "") {
-        href += `?${encoded}`;
-    }
 
     // and return the href
     return href;

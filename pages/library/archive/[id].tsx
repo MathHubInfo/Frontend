@@ -1,25 +1,25 @@
-import { NextPageContext } from "next";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
 import { debounce } from "ts-debounce";
-import getMathHubConfig from "../../src/context";
-import { IArchive, IDeclaration, IModule } from "../../src/context/LibraryClient/objects";
-import { INarrativeElementProps } from "../../src/library/NarrativeElement";
-import { crumbs, headerProps } from "../../src/library/utils";
-import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
-import { BooleanArrayStore } from "../../src/utils/DataStore";
-import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
-import ImplicitParameters from "../../src/utils/ImplicitParameters";
-import { WithDebug } from "../../src/utils/WithDebug";
+import getMathHubConfig from "../../../src/context";
+import { IArchive, IDeclaration, IModule } from "../../../src/context/LibraryClient/objects";
+import { INarrativeElementProps } from "../../../src/library/NarrativeElement";
+import { crumbs, headerProps } from "../../../src/library/utils";
+import { TranslateProps, WithTranslate } from "../../../src/locales/WithTranslate";
+import { decode } from "../../../src/utils/base64";
+import { BooleanArrayStore } from "../../../src/utils/DataStore";
+import ImplicitParameters from "../../../src/utils/ImplicitParameters";
+import { WithDebug } from "../../../src/utils/WithDebug";
 
-const NarrativeElement = dynamic(() => import("../../src/library/NarrativeElement"));
-const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
-const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
-const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
+const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
+const ActionHeader = dynamic(() => import("../../../src/theming/Layout/ActionHeader"));
+const LayoutBody = dynamic(() => import("../../../src/theming/Layout/LayoutBody"));
 
-const PageArchive = dynamic(() => import("../../src/theming/Pages/Library/PageArchive"));
+const PageArchive = dynamic(() => import("../../../src/theming/Pages/Library/PageArchive"));
 
-type IArchiveProps = IDerivedParameter<IArchive> & {
+type IArchiveProps = {
+    archive: IArchive;
     initial: Partial<IArchiveState>;
 };
 
@@ -40,17 +40,6 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
             expandedDeclarations: x => x.join(","),
         },
     );
-
-    static async getInitialProps({ res, query }: NextPageContext): Promise<IArchiveProps> {
-        const derived = await GetDerivedParameter(
-            "id",
-            async (id: string) => getMathHubConfig().libraryClient.getArchive(id),
-            query,
-            res,
-        );
-
-        return { ...derived, initial: Archive.implicits.readImplicits(query) };
-    }
     state: IArchiveState = { expandedModules: [], expandedDeclarations: [], ...this.props.initial };
 
     private readonly debouncedUpdate = WithDebug(
@@ -84,26 +73,19 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
     }
 
     render() {
-        const { t } = this.props;
-        const breadcrumbs = [
-            { href: "/", title: t("home") },
-            { href: "/library", title: t("library") },
-        ];
-        if (failed(this.props))
-            return (
-                <LayoutFailure
-                    crumbs={breadcrumbs}
-                    statusCode={statusCode(this.props.status)}
-                    status={this.props.status}
-                />
-            );
-
+        const { t, archive } = this.props;
         const {
             description,
             name,
             narrativeRoot: { declarations: decls },
-        } = this.props.item;
-        const header = <ActionHeader {...headerProps(this.props.item, { description })} />;
+        } = archive;
+
+        const breadcrumbs = [
+            { href: "/", title: t("home") },
+            { href: "/library", title: t("library") },
+        ];
+
+        const header = <ActionHeader {...headerProps(archive, { description })} />;
 
         const nprops: Omit<INarrativeElementProps, "children"> = {
             preloadModule: this.mstore.preload,
@@ -117,8 +99,8 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
         };
 
         return (
-            <LayoutBody crumbs={[...breadcrumbs, ...crumbs(this.props.item)]} title={[name]}>
-                <PageArchive header={header} item={this.props.item}>
+            <LayoutBody crumbs={[...breadcrumbs, ...crumbs(archive)]} title={[name]}>
+                <PageArchive header={header} item={archive}>
                     {decls.map(d => (
                         <NarrativeElement {...nprops} key={d.id}>
                             {d}
@@ -131,3 +113,19 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
 }
 
 export default WithTranslate<IArchiveProps & TranslateProps>(Archive);
+
+export const getServerSideProps = async ({
+    params,
+    query,
+}: GetServerSidePropsContext<{ id: string }>): Promise<GetServerSidePropsResult<IArchiveProps>> => {
+    if (params === undefined) return { notFound: true };
+
+    const archive = await getMathHubConfig().libraryClient.getArchive(decode(params.id));
+    if (archive === undefined) return { notFound: true };
+
+    const initial = await Archive.implicits.readImplicits(query);
+
+    return {
+        props: { archive, initial },
+    };
+};

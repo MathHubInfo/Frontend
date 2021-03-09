@@ -1,26 +1,26 @@
-import { NextPageContext } from "next";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
 import { debounce } from "ts-debounce";
-import getMathHubConfig from "../../src/context";
-import { IDeclaration, IDocument, IModule } from "../../src/context/LibraryClient/objects";
-import { INarrativeElementProps } from "../../src/library/NarrativeElement";
-import { crumbs, headerProps } from "../../src/library/utils";
-import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
-import { BooleanArrayStore } from "../../src/utils/DataStore";
-import GetDerivedParameter, { failed, IDerivedParameter, statusCode } from "../../src/utils/GetDerivedParameter";
-import ImplicitParameters from "../../src/utils/ImplicitParameters";
-import { WithDebug } from "../../src/utils/WithDebug";
+import getMathHubConfig from "../../../src/context";
+import { IDeclaration, IDocument, IModule } from "../../../src/context/LibraryClient/objects";
+import { INarrativeElementProps } from "../../../src/library/NarrativeElement";
+import { crumbs, headerProps } from "../../../src/library/utils";
+import { TranslateProps, WithTranslate } from "../../../src/locales/WithTranslate";
+import { decode } from "../../../src/utils/base64";
+import { BooleanArrayStore } from "../../../src/utils/DataStore";
+import ImplicitParameters from "../../../src/utils/ImplicitParameters";
+import { WithDebug } from "../../../src/utils/WithDebug";
 
-const NarrativeElement = dynamic(() => import("../../src/library/NarrativeElement"));
-const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
-const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
-const LayoutFailure = dynamic(() => import("../../src/theming/Layout/LayoutFailure"));
-const PageDocument = dynamic(() => import("../../src/theming/Pages/Library/PageDocument"));
+const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
+const ActionHeader = dynamic(() => import("../../../src/theming/Layout/ActionHeader"));
+const LayoutBody = dynamic(() => import("../../../src/theming/Layout/LayoutBody"));
+const PageDocument = dynamic(() => import("../../../src/theming/Pages/Library/PageDocument"));
 
-type IDocumentProps = IDerivedParameter<IDocument> & {
+interface IDocumentProps {
+    document: IDocument;
     initial: Partial<IDocumentState>;
-};
+}
 
 interface IDocumentState {
     expandedModules: string[];
@@ -39,17 +39,6 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
             expandedDeclarations: x => x.join(","),
         },
     );
-
-    static async getInitialProps({ res, query }: NextPageContext): Promise<IDocumentProps> {
-        const derived = await GetDerivedParameter(
-            "id",
-            async (id: string) => getMathHubConfig().libraryClient.getDocument(id),
-            query,
-            res,
-        );
-
-        return { ...derived, initial: Document.implicits.readImplicits(query) };
-    }
 
     state: IDocumentState = { expandedModules: [], expandedDeclarations: [], ...this.props.initial };
 
@@ -84,22 +73,15 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
     }
 
     render() {
-        const { t } = this.props;
+        const { t, document } = this.props;
+        const { name, declarations: decls } = document;
+
         const breadcrumbs = [
             { href: "/", title: t("home") },
             { href: "/library", title: t("library") },
         ];
-        if (failed(this.props))
-            return (
-                <LayoutFailure
-                    crumbs={breadcrumbs}
-                    statusCode={statusCode(this.props.status)}
-                    status={this.props.status}
-                />
-            );
 
-        const { name, declarations: decls } = this.props.item;
-        const header = <ActionHeader {...headerProps(this.props.item)} />;
+        const header = <ActionHeader {...headerProps(document)} />;
 
         const nprops: Omit<INarrativeElementProps, "children"> = {
             preloadModule: this.mstore.preload,
@@ -113,8 +95,8 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
         };
 
         return (
-            <LayoutBody crumbs={[...breadcrumbs, ...crumbs(this.props.item)]} title={[name]}>
-                <PageDocument header={header} item={this.props.item}>
+            <LayoutBody crumbs={[...breadcrumbs, ...crumbs(document)]} title={[name]}>
+                <PageDocument header={header} item={document}>
                     {decls.map(d => (
                         <NarrativeElement {...nprops} key={d.id}>
                             {d}
@@ -127,3 +109,19 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
 }
 
 export default WithTranslate<IDocumentProps & TranslateProps>(Document);
+
+export const getServerSideProps = async ({
+    params,
+    query,
+}: GetServerSidePropsContext<{ id: string }>): Promise<GetServerSidePropsResult<IDocumentProps>> => {
+    if (params === undefined) return { notFound: true };
+
+    const document = await getMathHubConfig().libraryClient.getDocument(decode(params.id));
+    if (document === undefined) return { notFound: true };
+
+    const initial = await Document.implicits.readImplicits(query);
+
+    return {
+        props: { document, initial },
+    };
+};
