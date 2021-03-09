@@ -303,6 +303,9 @@ function handleStyleAttribute(styleString: string) {
             .filter((_, i) => i > 0)
             .map(item => item.trim().toLowerCase());
 
+        // skip undefined properties!
+        if (property === undefined) return styleObject;
+
         // convert the property name into the correct React format
         // remove all hyphens and convert the letter immediately after each hyphen to upper case
         // additionally don't uppercase any -ms- prefix
