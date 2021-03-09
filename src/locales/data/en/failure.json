@@ -1,7 +1,5 @@
 {
     "not found": "Not Found",
     "sorry": "We're sorry but it seems like the page you are looking for does not exist.",
-    "missing": "Missing URL parameter",
-    "missing parameter": "It looks like you are missing a paramter. Please check the URL and try again.",
     "wrong": "Something went wrong"
 }
