@@ -1,7 +1,7 @@
 ### Dockerfile for MathHub-Frontend
 
 # Start from nodejs
-FROM node:14
+FROM node:15
 
 # no telemetry please
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -35,7 +35,7 @@ WORKDIR /app/
 # change
 ADD package.json /app/package.json
 ADD yarn.lock /app/yarn.lock
-RUN yarn --no-cache install
+RUN yarn --no-cache --frozen-lockfile install
 
 # Add all the remaining source code
 ADD pages /app/pages/
