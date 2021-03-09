@@ -70,17 +70,17 @@ function makeURL(
         if (GROUP_URL_TEMPLATE === undefined) return undefined;
 
         return GROUP_URL_TEMPLATE.replace("${group}", source.parent.name);
-    } else if (!source.path) {
+    } else if (!("path" in source)) {
         if (ARCHIVE_URL_TEMPLATE === undefined) return undefined;
 
         return ARCHIVE_URL_TEMPLATE.replace("${archive}", source.parent.id)
-            .replace("${branch}", source.version || "master")
+            .replace("${branch}", "version" in source ? source.version : "main")
             .replace("${path}", "");
     } else {
         if (FILE_URL_TEMPLATE === undefined) return undefined;
 
         return FILE_URL_TEMPLATE.replace("${archive}", source.parent.id)
-            .replace("${branch}", source.version || "master")
+            .replace("${branch}", "version" in source ? source.version : "main")
             .replace("${path}", source.path || "");
     }
 }

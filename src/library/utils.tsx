@@ -14,11 +14,12 @@ export function headerProps(
     let responsible;
     if (obj.kind === "archive" || obj.kind === "group") responsible = obj.responsible;
 
+    const statistics = "statistics" in obj ? obj.statistics : undefined;
     return {
         ...(other || {}),
         obj,
         responsible,
-        statistics: obj.statistics,
+        statistics,
     };
 }
 

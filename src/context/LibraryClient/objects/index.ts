@@ -1,5 +1,7 @@
 // This file contains type definitions for all OMDOC types exposed by the MMT API
 
+import { Omittable } from "../../../types/omittable";
+
 // anything returned by the API
 export type IResponse = IApiObject | IMMTVersionInfo | IStatistic;
 
@@ -36,25 +38,23 @@ interface IGroupItem extends IAPIObjectItem {
 }
 
 // a reference to a MathHub Group
-export interface IGroupRef extends IGroupItem {
-    ref: true;
-    statistics?: undefined;
-}
+export type IGroupRef = IRef<IGroupItem>;
 
 // a full description of a MathHub Group
-export interface IGroup extends IGroupItem {
-    ref: false;
+export type IGroup = IObj<
+    IGroupItem,
+    {
+        // the description of the group item
+        description: HTML;
+        // a list of emails of people responsible for this group
+        responsible: string[];
+        // a list of archives contained in this group
+        declarations: IArchiveRef[];
 
-    // the description of the group item
-    description: HTML;
-    // a list of emails of people responsible for this group
-    responsible: string[];
-    // a list of archives contained in this group
-    declarations: IArchiveRef[];
-
-    // statistics of this group
-    statistics: IStatistic[];
-}
+        // statistics of this group
+        statistics: IStatistic[];
+    }
+>;
 
 //
 // TAGS
@@ -72,17 +72,17 @@ interface ITagItem extends IAPIObjectItem {
 }
 
 // a reference to a MathHub Group
-export interface ITagRef extends ITagItem {
-    ref: true;
-    statistics?: undefined;
-}
+export type ITagRef = IRef<ITagItem>;
 
 // a full description of a MathHub Group
-export interface ITag extends ITagItem {
-    ref: false;
-    // a list of archives contained in this tag
-    declarations: IArchiveRef[];
-}
+export type ITag = IObj<
+    ITagItem,
+    {
+        ref: false;
+        // a list of archives contained in this tag
+        declarations: IArchiveRef[];
+    }
+>;
 
 //
 // ARCHIVE
@@ -104,32 +104,31 @@ interface IArchiveItem extends IAPIObjectItem {
 }
 
 // a reference to a MathHub Archive
-export interface IArchiveRef extends IArchiveItem {
-    ref: true;
-    statistics?: undefined;
-}
+export type IArchiveRef = IRef<IArchiveItem>;
 
 // a full description of a MathHub Archive
-export interface IArchive extends IArchiveItem {
-    ref: false;
+export type IArchive = IObj<
+    IArchiveItem,
+    {
+        // a list of tags
+        tags: ITagRef[];
 
-    // the version of an archive
-    version?: string;
+        // a long, human-readable description of an archive
+        description: HTML;
+        // a list of emails of people responsible for this group
+        responsible: string[];
 
-    // a list of tags
-    tags: ITagRef[];
+        // the narrative content contained in this archive, can be empty for some archives
+        narrativeRoot: IDocument;
 
-    // a long, human-readable description of an archive
-    description: HTML;
-    // a list of emails of people responsible for this group
-    responsible: string[];
-
-    // the narrative content contained in this archive, can be empty for some archives
-    narrativeRoot: IDocument;
-
-    // statistics of this archive
-    statistics: IStatistic[];
-}
+        // statistics of this archive
+        statistics: IStatistic[];
+    },
+    {
+        // the version of an archive
+        version: string;
+    }
+>;
 
 //
 // Narration
@@ -151,27 +150,27 @@ interface IDocumentItem extends IAPIObjectItem {
 }
 
 // a reference to an OMDOC Document
-export interface IDocumentRef extends IDocumentItem {
-    ref: true;
-    statistics?: undefined;
-}
+export type IDocumentRef = IRef<IDocumentItem>;
 
 // a document of content
-export interface IDocument extends IDocumentItem {
-    ref: false;
+export type IDocument = IObj<
+    IDocumentItem,
+    {
+        // a set of declarations
+        declarations: INarrativeElement[];
 
-    // tags for this document
-    tags?: TDocumentTags[];
-
-    // source reference of this document
-    sourceRef?: ISourceReference;
-
-    // a set of declarations
-    declarations: INarrativeElement[];
-
-    // statistics of this document
-    statistics: IStatistic[];
-}
+        // statistics of this document
+        statistics: IStatistic[];
+    },
+    {
+        // tags for this document
+        tags: TDocumentTags[];
+    },
+    {
+        // source reference of this document
+        sourceRef: ISourceReference;
+    }
+>;
 
 export const knownDocumentTags = ["ipynb-omdoc"] as const;
 export type TDocumentTags = typeof knownDocumentTags[number];
@@ -187,20 +186,18 @@ interface IOpaqueElementItem extends IAPIObjectItem {
 }
 
 // a reference to an opaque item
-export interface IOpaqueElementRef extends IOpaqueElementItem {
-    ref: true;
-    statistics?: undefined;
-}
+export type IOpaqueElementRef = IRef<IOpaqueElementItem>;
 
 // an opaque element
-export interface IOpaqueElement extends IOpaqueElementItem {
-    ref: false;
-
-    // the format of the content in this IOpaqueElement
-    contentFormat: string;
-    // the content contained in this IOpaqueElement
-    content: string;
-}
+export type IOpaqueElement = IObj<
+    IOpaqueElementItem,
+    {
+        // the format of the content in this IOpaqueElement
+        contentFormat: string;
+        // the content contained in this IOpaqueElement
+        content: string;
+    }
+>;
 
 //
 // MODULES
@@ -216,25 +213,27 @@ interface IModuleItem extends IAPIObjectItem {
     id: URI;
 }
 
-export interface IModuleRef extends IModuleItem {
-    ref: true;
-    statistics?: undefined;
-}
+export type IModuleRef = IRef<IModuleItem>;
 
-export interface IModule extends IModuleItem {
-    ref: false;
-    mod: IView | ITheory;
+export type IModule = IObj<
+    IModuleItem,
+    {
+        mod: IView | ITheory;
 
-    declarations: IDeclarationRef[];
-}
+        declarations: IDeclarationRef[];
+    }
+>;
 
 type ITheoryRef = IModuleRef & { mod: "theory" };
-interface ITheory {
-    kind: "theory";
-
-    // the meta theory of this reference
-    meta?: ITheoryRef;
-}
+type ITheory = Omittable<
+    {
+        kind: "theory";
+    },
+    {
+        // the meta theory of this reference
+        meta: ITheoryRef;
+    }
+>;
 
 // type ITheoryRef = IModuleRef & {mod: "view"} // unused
 interface IView {
@@ -261,48 +260,51 @@ interface IDeclarationItem extends IAPIObjectItem {
 }
 
 // a reference to a declaration
-export interface IDeclarationRef extends IDeclarationItem {
-    ref: true;
-    statistics?: undefined;
-
-    // the type of declaration we have
-    declaration: IDeclaration["declaration"]["kind"];
-}
+export type IDeclarationRef = IRef<
+    IDeclarationItem & {
+        // the type of declaration we have
+        declaration: IDeclaration["declaration"]["kind"];
+    }
+>;
 
 // a declaration
-export interface IDeclaration extends IDeclarationItem {
-    ref: false;
+export type IDeclaration = IObj<
+    IDeclarationItem,
+    {
+        // information about this declaration
+        declaration: IStructure | IConstant | IRule | INestedModule;
 
-    // information about this declaration
-    declaration: IStructure | IConstant | IRule | INestedModule;
+        // the components of this declaration
+        components: IComponent[];
 
-    // the components of this declaration
-    components: IComponent[];
-
-    // the list of declarations within this declaration
-    declarations: IDeclarationRef[];
-}
+        // the list of declarations within this declaration
+        declarations: IDeclarationRef[];
+    }
+>;
 
 // an MMT stucture (which may or may not be declared)
 interface IStructure {
     kind: "structure";
 
-    // is this structure implicit?
+    // is this structure implicit
     implicit: boolean;
-    // is this structure an include?
+    // is this structure an include
     include: boolean;
 }
 
 // an MMT constant
-interface IConstant {
-    kind: "constant";
+type IConstant = Omittable<
+    {
+        kind: "constant";
 
-    // the role of this constant (optional)
-    role?: string;
-
-    // aliases of this constant
-    alias: string[];
-}
+        // aliases of this constant
+        alias: string[];
+    },
+    {
+        // the role of this constant (optional)
+        role: string;
+    }
+>;
 
 // an MMT RuleConstant
 interface IRule {
@@ -352,35 +354,42 @@ export interface IStatistic {
 }
 
 // version information exposed by MMT
-export interface IMMTVersionInfo {
-    // the version number (i.e. release number) of MMT
-    versionNumber: string;
-
-    // the build date of MMT, seconds since Unix epoch represented as a string
-    buildDate?: string; // This should really be a number, but Florian's JSON interpretation doesn't do longs
-}
+export type IMMTVersionInfo = Omittable<
+    {
+        // the version number (i.e. release number) of MMT
+        versionNumber: string;
+    },
+    {
+        // the build date of MMT, seconds since Unix epoch represented as a string
+        buildDate: string; // This should really be a number, but Florian's JSON interpretation doesn't do longs
+    }
+>;
 
 //
 // Helper types
 //
 
 // a reference to a source
-export interface ISourceReference {
-    kind: "source";
-    ref: true;
+export type ISourceReference = Omittable<
+    {
+        kind: "source";
+        ref: true;
 
-    // archive the file is located in
-    parent: IHubReference;
-
-    // the version this source is located in (if any)
-    version?: string;
-
-    // path of the file relative to the parent
-    path?: string;
-}
+        // archive the file is located in
+        parent: IHubReference;
+    },
+    {
+        // the version this source is located in (if any)
+        version: string;
+    },
+    {
+        // path of the file relative to the parent
+        path: string;
+    }
+>;
 
 // any object exposed by the API
-interface IAPIObjectItem {
+type IAPIObjectItem = {
     // the kind of object that is returned
     kind: "group" | "archive" | "document" | "opaque" | "module" | "declaration" | "component" | "tag";
 
@@ -395,10 +404,21 @@ interface IAPIObjectItem {
 
     // parent of this object, if any
     parent: IReference | null;
+};
 
-    // statistics of this element (if any)
-    statistics?: IStatistic[];
-}
+// an item that is fully represented
+type IObj<Item, R, O1 = never, O2 = never> = Omittable<
+    Item & R & { ref: false },
+    O1,
+    O2,
+    {
+        statistics: IStatistic[];
+    }
+>;
+
+type IRef<Item> = Item & {
+    ref: true;
+};
 
 // a URL
 export type URI = string;

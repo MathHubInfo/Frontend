@@ -153,7 +153,7 @@ export default WithExtraProps<IActionDerived, IActionHeaderProps>(WithTranslate(
 
     // if we have a notebook-tagged document, we need to add the jupyter source to it
     let jupyter: ISourceReference | undefined;
-    if (obj && obj.kind === "document" && obj.tags && obj.tags.indexOf("ipynb-omdoc") >= -1)
+    if (obj && obj.kind === "document" && "tags" in obj && obj.tags.indexOf("ipynb-omdoc") >= -1)
         jupyter = ObjectSource(obj);
 
     return {

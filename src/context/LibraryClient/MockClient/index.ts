@@ -405,11 +405,21 @@ class LazyMockClient extends LibraryClient {
 
         const decls = this.findNarrativeChildren(document, actual.modules, ds);
 
+        if ("tags" in actual) {
+            return {
+                ...ref,
+                ref: false,
+
+                tags: actual.tags,
+                declarations: decls,
+                statistics: actual.statistics,
+            };
+        }
+
         return {
             ...ref,
             ref: false,
 
-            tags: actual.tags,
             declarations: decls,
             statistics: actual.statistics,
         };
@@ -437,7 +447,7 @@ class LazyMockClient extends LibraryClient {
 
         let inner: IModule["mod"];
         if (actual.mod.kind === "theory")
-            if (actual.mod.meta) {
+            if ("meta" in actual.mod) {
                 const thyT = this.cleanModuleRef(actual.mod.meta, ds);
 
                 inner = {
@@ -510,11 +520,8 @@ export default class MockClient extends LazyMockClient {
     constructor() {
         super(
             async (): Promise<IMockDataSet> => {
-                // because of https://github.com/microsoft/TypeScript/issues/31920
-                // we need to force cast here!
-                const mock = await import("./mock.json");
-
-                return (mock.default as unknown) as IMockDataSet;
+                const mock = await import("./mock.json_data");
+                return mock.default;
             },
         );
     }

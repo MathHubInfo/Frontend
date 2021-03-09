@@ -1,3 +1,4 @@
+import { Omittable } from "../../../types/omittable";
 import { HTML, IComponent, IMMTVersionInfo, IModuleRef, IStatistic, TDocumentTags } from "../objects";
 
 /**
@@ -8,7 +9,7 @@ import { HTML, IComponent, IMMTVersionInfo, IModuleRef, IStatistic, TDocumentTag
  *
  * Furthermore, the 'kind' and child atttributes may be omitted where unique.
  */
-export interface IMockDataSet {
+export type IMockDataSet = {
     version: IMMTVersionInfo;
 
     groups: IMockGroup[];
@@ -20,30 +21,30 @@ export interface IMockDataSet {
     modules: IMockModule[];
 
     declarations: IMockDeclaration[];
-}
+};
 
 // a shallow mock reference
-export interface IMockReference {
+export type IMockReference = {
     id: string;
-}
+};
 
 // a mock object
-export interface IMockObject extends IMockReference {
+export type IMockObject = IMockReference & {
     name: string;
-}
+};
 
 // a mocked group
-export interface IMockGroup extends IMockObject {
+export type IMockGroup = IMockObject & {
     title: HTML;
     teaser: HTML;
 
     description: HTML;
     responsible: string[];
     statistics: IStatistic[];
-}
+};
 
 // a mocked archive
-export interface IMockArchive extends IMockObject {
+export type IMockArchive = IMockObject & {
     parent: IMockReference;
 
     title: HTML;
@@ -56,76 +57,81 @@ export interface IMockArchive extends IMockObject {
     statistics: IStatistic[];
 
     modules: IMockReference[];
-}
+};
 
 // a mocked opaque element
-export interface IMockDocument extends IMockObject {
-    parent: IMockReference;
-    statistics: IStatistic[];
-    tags?: TDocumentTags[];
-
-    modules: IMockReference[];
-}
+export type IMockDocument = Omittable<
+    IMockObject & {
+        parent: IMockReference;
+        statistics: IStatistic[];
+        modules: IMockReference[];
+    },
+    {
+        tags: TDocumentTags[];
+    }
+>;
 
 // a mocked opaque element
-export interface IMockOpaqueElement extends IMockObject {
+export type IMockOpaqueElement = IMockObject & {
     parent: IMockReference;
 
     contentFormat: string;
     content: string;
-}
+};
 
 // a mocked module
-export interface IMockModule extends IMockObject {
-    parent?: null;
+export type IMockModule = IMockObject & {
     mod: IMockTheory | IMockView;
-}
+};
 
-export interface IMockTheory {
-    kind: "theory";
-    parent?: null;
+export type IMockTheory = Omittable<
+    {
+        kind: "theory";
+    },
+    {
+        meta: IMockReference;
+    }
+>;
 
-    meta?: IMockReference;
-}
-
-export interface IMockView {
+export type IMockView = {
     kind: "view";
-    parent?: null;
 
     domain: IMockReference;
     codomain: IMockReference;
-}
+};
 
 // a mocked declaration
-export interface IMockDeclaration extends IMockObject {
+export type IMockDeclaration = IMockObject & {
     parent: IMockReference;
 
     declaration: IMockStructure | IMockConstant | IMockRule | IMockNestedModule;
     components: IComponent[];
-}
+};
 
-export interface IMockStructure extends IMockObject {
+export type IMockStructure = IMockObject & {
     kind: "structure";
-    parent?: null;
 
     implicit: boolean;
     include: boolean;
-}
+};
 
-export interface IMockConstant extends IMockObject {
-    kind: "constant";
-    parent?: null;
+export type IMockConstant = Omittable<
+    IMockObject & {
+        kind: "constant";
 
-    role?: string;
-    alias: string[];
-}
+        alias: string[];
+    },
+    {
+        role: string;
+    }
+>;
 
-export interface IMockRule extends IMockObject {
+export type IMockRule = IMockObject & {
     kind: "rule";
-}
+};
 
-export interface IMockNestedModule extends IMockObject {
+export type IMockNestedModule = IMockObject & {
     kind: "nested";
 
     mod: IModuleRef;
-}
+};

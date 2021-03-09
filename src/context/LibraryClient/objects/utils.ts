@@ -59,7 +59,7 @@ export function ObjectSource(obj: IReferencable): ISourceReference | undefined {
         case "archive":
             return { kind: "source", ref: true, parent: ArchiveObjectToRef(obj) };
         case "document":
-            return obj.sourceRef;
+            return "sourceRef" in obj ? obj.sourceRef : undefined;
         case "opaque":
             return undefined;
         case "module":
