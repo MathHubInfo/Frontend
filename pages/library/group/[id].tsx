@@ -6,12 +6,14 @@ import { IGroup } from "../../../src/context/LibraryClient/objects";
 import { headerProps } from "../../../src/library/utils";
 import { TranslateProps, WithTranslate } from "../../../src/locales/WithTranslate";
 import { decode } from "../../../src/utils/base64";
+import { CompareStrings } from "../../../src/utils/Compare";
+import { Container, List } from "semantic-ui-react";
+import MHHTML from "../../../src/components/MHHTML";
 
 const ActionHeader = dynamic(() => import("../../../src/theming/Layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../../src/theming/Layout/LayoutBody"));
 
-const PageRef = dynamic(() => import("../../../src/theming/Pages/Library/PageRef"));
-const PageGroup = dynamic(() => import("../../../src/theming/Pages/Library/PageGroup"));
+const Ref = dynamic(() => import("../../../src/library/Ref"));
 
 interface IGroupProps {
     group: IGroup;
@@ -27,15 +29,21 @@ class Group extends React.Component<IGroupProps & TranslateProps> {
             { href: "/library", title: t("library") },
         ];
 
-        const header = <ActionHeader {...headerProps(group, { description })} />;
-
         return (
             <LayoutBody crumbs={crumbs} description={description} title={[name]}>
-                <PageGroup header={header} item={group}>
-                    {declarations.map(a => (
-                        <PageRef key={a.id} item={a} link={{ href: a }} />
-                    ))}
-                </PageGroup>
+                <Container>
+                    <h1>
+                        <MHHTML>{name}</MHHTML>
+                    </h1>
+                    <ActionHeader {...headerProps(group, { description })} />
+                    <List relaxed>
+                        {declarations.map(a => (
+                            <List.Item key={a.id}>
+                                <Ref key={a.id} item={a} link={{ href: a }} />
+                            </List.Item>
+                        ))}
+                    </List>
+                </Container>
             </LayoutBody>
         );
     }
@@ -50,6 +58,9 @@ export const getServerSideProps = async ({
 
     const group = await getMathHubConfig().libraryClient.getGroup(decode(params.id));
     if (group === undefined) return { notFound: true };
+
+    // sort contained archives for a consistent order!
+    group.declarations.sort(({ id: aid }, { id: bid }) => CompareStrings(aid, bid));
 
     return {
         props: { group },

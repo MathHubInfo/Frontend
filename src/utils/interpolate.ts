@@ -1,5 +1,5 @@
 /**
- * Interpolate interpolates string variables in value
+ * Interpolate interpolates string variables in value.
  *
  * @param regex Regexp to match interpolated variables. The first group is assumed to contain the name of the value.
  * @param value String to interpolate values in

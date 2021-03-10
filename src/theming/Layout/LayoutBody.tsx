@@ -2,12 +2,9 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import * as React from "react";
 import { Divider } from "semantic-ui-react";
-import getMathHubConfig from "../../context";
-import { IMathHubVersion } from "../../types/config";
-import { WithExtraProps } from "../../utils/WithExtraProps";
 import { IBreadcrumb } from "./Props";
 
-interface ILayoutBodyPureProps {
+interface ILayoutBodyProps {
     /**
      * The title of the current page, consisting out of differenct components
      */
@@ -30,26 +27,12 @@ interface ILayoutBodyPureProps {
     children: React.ReactElement<unknown>;
 }
 
-interface IBodyDerivedProps {
-    /**
-     * The version of MathHub that is running
-     */
-    version: IMathHubVersion;
-
-    /**
-     * Same as description, but with stripped html tags.
-     */
-    descriptionText?: string;
-}
-
-type ILayoutBodyProps = ILayoutBodyPureProps & IBodyDerivedProps;
-
 const Header = dynamic(() => import("./Header"));
 const LayoutFooter = dynamic(() => import("./LayoutFooter"));
 
-class LayoutBody extends React.Component<ILayoutBodyProps> {
+export default class LayoutBody extends React.Component<ILayoutBodyProps> {
     render() {
-        const { title, crumbs, version, description } = this.props;
+        const { title, crumbs, description } = this.props;
 
         // generate the title
         const titleStr = (title || []).join(" | ");
@@ -65,15 +48,8 @@ class LayoutBody extends React.Component<ILayoutBodyProps> {
                 <Divider />
                 <main>{this.props.children}</main>
                 <Divider />
-                <LayoutFooter version={version} />
+                <LayoutFooter />
             </>
         );
     }
 }
-
-export default WithExtraProps<IBodyDerivedProps, ILayoutBodyProps>(LayoutBody, ({ description }) => {
-    const descriptionText = description || undefined;
-    const version: IMathHubVersion = getMathHubConfig().config.MATHHUB_VERSION;
-
-    return { descriptionText, version };
-});

@@ -13,3 +13,8 @@ export default function Compare<T>(a: React.ReactElement<T>, b: React.ReactEleme
 
     return 0;
 }
+
+export function CompareStrings(a: string, b: string): -1 | 1 | 0 {
+    if (a === b) return 0;
+    return a < b ? -1 : 1;
+}

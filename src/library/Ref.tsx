@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Card, Icon } from "semantic-ui-react";
 import { SemanticICONS } from "semantic-ui-react/dist/commonjs/generic";
-import MHHTML from "../../../components/MHHTML";
-import MHLink, { IMHLinkable } from "../../../components/MHLink";
+import MHHTML from "../components/MHHTML";
+import MHLink, { IMHLinkable } from "../components/MHLink";
 import copy from "copy-to-clipboard";
 
-import { IArchiveRef, IDocument, IDocumentRef, IGroupRef } from "../../../context/LibraryClient/objects";
-import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
+import { IArchiveRef, IDocument, IDocumentRef, IGroupRef } from "../context/LibraryClient/objects";
+import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
 
 export interface IRefProps {
     link: IMHLinkable;

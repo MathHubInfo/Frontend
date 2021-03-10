@@ -1,7 +1,7 @@
 import * as React from "react";
-import { IOpaqueElement } from "../../../context/LibraryClient/objects";
-import MHHTML from "../../../components/MHHTML";
-import STEXHTML from "../../../components/STEXHTML";
+import { IOpaqueElement } from "../../context/LibraryClient/objects";
+import MHHTML from "../../components/MHHTML";
+import STEXHTML from "../../components/STEXHTML";
 
 interface IOpaqueProps {
     children: IOpaqueElement;

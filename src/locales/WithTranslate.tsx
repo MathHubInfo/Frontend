@@ -1,6 +1,6 @@
 import React from "react";
 
-import { wrapping } from "../utils/WithExtraProps";
+import annotateHOC from "../utils/HOC";
 import { Locale, defaultLocale } from ".";
 import { translate } from "./translate";
 
@@ -15,7 +15,7 @@ export interface TranslateProps {
 export function WithTranslate<P extends TranslateProps>(
     Component: React.ComponentType<P>,
 ): React.ComponentType<Omit<P, keyof TranslateProps>> {
-    return wrapping(
+    return annotateHOC(
         class extends React.Component<Omit<P, keyof TranslateProps>> {
             static contextType = LocaleContext;
             context!: LocaleContextProps;

@@ -11,11 +11,12 @@ import { decode } from "../../../src/utils/base64";
 import { BooleanArrayStore } from "../../../src/utils/DataStore";
 import ImplicitParameters from "../../../src/utils/ImplicitParameters";
 import { WithDebug } from "../../../src/utils/WithDebug";
+import { Container, List } from "semantic-ui-react";
+import MHHTML from "../../../src/components/MHHTML";
 
 const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
 const ActionHeader = dynamic(() => import("../../../src/theming/Layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../../src/theming/Layout/LayoutBody"));
-const PageDocument = dynamic(() => import("../../../src/theming/Pages/Library/PageDocument"));
 
 interface IDocumentProps {
     document: IDocument;
@@ -71,17 +72,14 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
         this.mstore.destroy();
         this.dstore.destroy();
     }
-
     render() {
         const { t, document } = this.props;
-        const { name, declarations: decls } = document;
+        const { name, declarations } = document;
 
         const breadcrumbs = [
             { href: "/", title: t("home") },
             { href: "/library", title: t("library") },
         ];
-
-        const header = <ActionHeader {...headerProps(document)} />;
 
         const nprops: Omit<INarrativeElementProps, "children"> = {
             preloadModule: this.mstore.preload,
@@ -96,13 +94,19 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
 
         return (
             <LayoutBody crumbs={[...breadcrumbs, ...crumbs(document)]} title={[name]}>
-                <PageDocument header={header} item={document}>
-                    {decls.map(d => (
-                        <NarrativeElement {...nprops} key={d.id}>
-                            {d}
-                        </NarrativeElement>
-                    ))}
-                </PageDocument>
+                <Container>
+                    <h1>
+                        <MHHTML>{name}</MHHTML>
+                    </h1>
+                    <ActionHeader {...headerProps(document)} />
+                    <List relaxed>
+                        {declarations.map(d => (
+                            <List.Item key={d.id}>
+                                <NarrativeElement {...nprops}>{d}</NarrativeElement>
+                            </List.Item>
+                        ))}
+                    </List>
+                </Container>
             </LayoutBody>
         );
     }

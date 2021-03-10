@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";
-import { IDocument, IReferencable, ISourceReference, IStatistic } from "../../context/LibraryClient/objects";
+import { IReferencable, ISourceReference, IStatistic } from "../../context/LibraryClient/objects";
 import { ObjectSource } from "../../context/LibraryClient/objects/utils";
 import MHHTML from "../../components/MHHTML";
 import MHLink from "../../components/MHLink";
@@ -8,10 +8,9 @@ import { StatisticsTable } from "../../theming/Layout/Statistics";
 import { IssueURL, ITGViewData, JupyterURL, SourceURL, TGViewURL } from "../../utils/URLs";
 import TGViewLink from "../../components/TGViewLink";
 import TGView3DLink from "../../components/TGView3DLink";
-import { WithExtraProps } from "../../utils/WithExtraProps";
 import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 
-export interface IActionHeaderProps extends IActionDerived {
+export interface IActionHeaderProps {
     // description of the element in question, may contain html
     description?: string;
 
@@ -25,7 +24,7 @@ export interface IActionHeaderProps extends IActionDerived {
     responsible?: string[];
 }
 
-interface IActionDerived {
+interface IActionHeaderState {
     // the url to the source (if any)
     sourceURL?: string;
 
@@ -39,23 +38,39 @@ interface IActionDerived {
     jupyterURL?: string;
 }
 
-class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps> {
+class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, IActionHeaderState> {
+    static getDerivedStateFromProps({ obj }: IActionHeaderProps & TranslateProps): IActionHeaderState {
+        const source = obj && ObjectSource(obj);
+
+        // if we have a notebook-tagged document, we need to add the jupyter source to it
+        let jupyter: ISourceReference | undefined;
+        if (obj && obj.kind === "document" && "tags" in obj && obj.tags.indexOf("ipynb-omdoc") >= -1)
+            jupyter = ObjectSource(obj);
+
+        return {
+            sourceURL: source && SourceURL(source),
+            issueURL: source && IssueURL(source),
+            jupyterURL: jupyter && JupyterURL(jupyter),
+            tgViewURL: obj && TGViewURL(obj),
+        };
+    }
     private sourceButton() {
         const { t } = this.props;
-        const { sourceURL: source } = this.props;
-        if (source === undefined) return null;
+        const { sourceURL } = this.state;
+        if (sourceURL === undefined) return null;
 
         return (
             <Button icon>
                 <Icon name={"hand point right outline"} />
-                <a href={source} style={{ color: "black" }}>
+                <a href={sourceURL} style={{ color: "black" }}>
                     {t("view source")}
                 </a>
             </Button>
         );
     }
     private tgViewButton() {
-        const { tgViewURL, t } = this.props;
+        const { t } = this.props;
+        const { tgViewURL } = this.state;
         if (tgViewURL === undefined) return null;
 
         return (
@@ -66,7 +81,8 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps> 
         );
     }
     private tgView3DButton() {
-        const { tgViewURL, t } = this.props;
+        const { t } = this.props;
+        const { tgViewURL } = this.state;
         if (tgViewURL === undefined) return null;
 
         return (
@@ -77,7 +93,8 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps> 
         );
     }
     private jupyterButton() {
-        const { jupyterURL, t } = this.props;
+        const { t } = this.props;
+        const { jupyterURL } = this.state;
         if (jupyterURL === undefined) return null;
 
         return (
@@ -90,7 +107,8 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps> 
         );
     }
     private reportButton() {
-        const { issueURL, t } = this.props;
+        const { t } = this.props;
+        const { issueURL } = this.state;
         if (IssueURL === undefined) return null;
 
         return (
@@ -108,8 +126,6 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps> 
     }
     render() {
         const { statistics, description, responsible, t } = this.props;
-        if ((this.props.obj as IDocument) && (this.props.obj as IDocument).kind === "document")
-            return <DocumentActionHeader {...this.props} />;
 
         return (
             <>
@@ -148,66 +164,4 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps> 
     }
 }
 
-export default WithExtraProps<IActionDerived, IActionHeaderProps>(WithTranslate(ActionHeader), ({ obj }) => {
-    const source = obj && ObjectSource(obj);
-
-    // if we have a notebook-tagged document, we need to add the jupyter source to it
-    let jupyter: ISourceReference | undefined;
-    if (obj && obj.kind === "document" && "tags" in obj && obj.tags.indexOf("ipynb-omdoc") >= -1)
-        jupyter = ObjectSource(obj);
-
-    return {
-        sourceURL: source && SourceURL(source),
-        issueURL: source && IssueURL(source),
-        jupyterURL: jupyter && JupyterURL(jupyter),
-        tgViewURL: obj && TGViewURL(obj),
-    };
-});
-
-class DocumentActionHeader extends React.Component<IActionHeaderProps & TranslateProps> {
-    render() {
-        const { t } = this.props;
-        const { sourceURL: source } = this.props;
-        const { tgViewURL: tgview } = this.props;
-        const { issueURL: issue } = this.props;
-        const { jupyterURL: jupyter } = this.props;
-
-        return (
-            <Dropdown text={t("more")} simple item>
-                <Dropdown.Menu className="link item">
-                    {source && (
-                        <Dropdown.Item>
-                            <a href={source} style={{ color: "black" }}>
-                                {t("view source")}
-                            </a>
-                        </Dropdown.Item>
-                    )}
-                    {tgview && (
-                        <Dropdown.Item>
-                            <TGViewLink {...tgview}>{t("view tgview")}</TGViewLink>
-                        </Dropdown.Item>
-                    )}
-                    {tgview && (
-                        <Dropdown.Item>
-                            <TGView3DLink {...tgview}>{t("view tgview3d")}</TGView3DLink>
-                        </Dropdown.Item>
-                    )}
-                    {jupyter && (
-                        <Dropdown.Item>
-                            <a href={jupyter} style={{ color: "black" }}>
-                                {t("jupyter")}
-                            </a>
-                        </Dropdown.Item>
-                    )}
-                    {issue && (
-                        <Dropdown.Item>
-                            <a href={issue} style={{ color: "black" }}>
-                                {t("report")}
-                            </a>
-                        </Dropdown.Item>
-                    )}
-                </Dropdown.Menu>
-            </Dropdown>
-        );
-    }
-}
+export default WithTranslate(ActionHeader);

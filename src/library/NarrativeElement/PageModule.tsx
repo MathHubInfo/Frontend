@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Button, Card, Icon, Loader } from "semantic-ui-react";
-import { IModule, IModuleRef } from "../../../context/LibraryClient/objects";
-import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
-import { IDocumentProps } from "./PageDocument";
+import { INarrativeElementProps } from ".";
+import { IModule, IModuleRef } from "../../context/LibraryClient/objects";
+import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 
 export interface IModuleProps {
     item: IModule | IModuleRef;
 
     // all the children of this module (if any)
-    children?: IDocumentProps["children"];
+    children?: Array<React.ReactElement<INarrativeElementProps>>;
 
     // is this item expanded?
     expanded: boolean;

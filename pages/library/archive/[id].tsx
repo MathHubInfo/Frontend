@@ -11,12 +11,12 @@ import { decode } from "../../../src/utils/base64";
 import { BooleanArrayStore } from "../../../src/utils/DataStore";
 import ImplicitParameters from "../../../src/utils/ImplicitParameters";
 import { WithDebug } from "../../../src/utils/WithDebug";
+import { Container, List } from "semantic-ui-react";
+import MHHTML from "../../../src/components/MHHTML";
 
 const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
 const ActionHeader = dynamic(() => import("../../../src/theming/Layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../../src/theming/Layout/LayoutBody"));
-
-const PageArchive = dynamic(() => import("../../../src/theming/Pages/Library/PageArchive"));
 
 type IArchiveProps = {
     archive: IArchive;
@@ -77,15 +77,13 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
         const {
             description,
             name,
-            narrativeRoot: { declarations: decls },
+            narrativeRoot: { declarations },
         } = archive;
 
         const breadcrumbs = [
             { href: "/", title: t("home") },
             { href: "/library", title: t("library") },
         ];
-
-        const header = <ActionHeader {...headerProps(archive, { description })} />;
 
         const nprops: Omit<INarrativeElementProps, "children"> = {
             preloadModule: this.mstore.preload,
@@ -100,13 +98,19 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
 
         return (
             <LayoutBody crumbs={[...breadcrumbs, ...crumbs(archive)]} title={[name]}>
-                <PageArchive header={header} item={archive}>
-                    {decls.map(d => (
-                        <NarrativeElement {...nprops} key={d.id}>
-                            {d}
-                        </NarrativeElement>
-                    ))}
-                </PageArchive>
+                <Container>
+                    <h1>
+                        <MHHTML>{name}</MHHTML>
+                    </h1>
+                    <ActionHeader {...headerProps(archive, { description })} />
+                    <List relaxed>
+                        {declarations.map(d => (
+                            <List.Item key={d.id}>
+                                <NarrativeElement {...nprops}>{d}</NarrativeElement>
+                            </List.Item>
+                        ))}
+                    </List>
+                </Container>
             </LayoutBody>
         );
     }

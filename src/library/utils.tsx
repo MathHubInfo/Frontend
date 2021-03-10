@@ -4,6 +4,7 @@ import { IBreadcrumb } from "../theming/Layout/Props";
 import { ObjectParents } from "../context/LibraryClient/objects/utils";
 import { IActionHeaderProps } from "../theming/Layout/ActionHeader";
 
+
 /**
  * Extracts common header properties from an object
  */
@@ -11,6 +12,7 @@ export function headerProps(
     obj: IReferencable,
     other?: Omit<IActionHeaderProps, "source" | "statistics" | "responsible">,
 ): IActionHeaderProps {
+    // TODO: This hould be moved into the ActionHeader itself
     let responsible;
     if (obj.kind === "archive" || obj.kind === "group") responsible = obj.responsible;
 

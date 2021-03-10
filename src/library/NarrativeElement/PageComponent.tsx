@@ -1,7 +1,7 @@
 import * as React from "react";
-import MHHTML from "../../../components/MHHTML";
+import MHHTML from "../../components/MHHTML";
 
-import { IComponent } from "../../../context/LibraryClient/objects";
+import { IComponent } from "../../context/LibraryClient/objects";
 
 export interface IComponentProps {
     children: IComponent;

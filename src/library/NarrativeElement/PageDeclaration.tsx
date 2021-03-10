@@ -1,17 +1,17 @@
 import * as React from "react";
 import { Button, Icon, Loader } from "semantic-ui-react";
 
-import { IDeclaration, IDeclarationRef } from "../../../context/LibraryClient/objects";
-import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
+import { IDeclaration, IDeclarationRef } from "../../context/LibraryClient/objects";
+import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 import { IComponentProps } from "./PageComponent";
-import { IDocumentProps } from "./PageDocument";
+import { INarrativeElementProps } from ".";
 
 interface IDeclarationProps {
     item: IDeclaration | IDeclarationRef;
 
     // the declarations within this module
     // and the components of this declaration
-    children: [IDocumentProps["children"], Array<React.ReactElement<IComponentProps>>];
+    children: [Array<React.ReactElement<INarrativeElementProps>>, Array<React.ReactElement<IComponentProps>>];
 
     // is this item expanded?
     expanded: boolean;

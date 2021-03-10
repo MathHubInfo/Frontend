@@ -2,20 +2,20 @@ import * as React from "react";
 
 import { Waypoint as ReactWaypoint } from "react-waypoint";
 
-import PageComponent, { IComponentProps } from "../theming/Pages/Library/PageComponent";
+import PageComponent, { IComponentProps } from "./PageComponent";
 
-import PageRef from "../theming/Pages/Library/PageRef";
-import PageModule from "../theming/Pages/Library/PageModule";
-import PageOpaque from "../theming/Pages/Library/PageOpaque";
+import Ref from "../Ref";
+import PageModule from "./PageModule";
+import PageOpaque from "./PageOpaque";
 
-import PageDeclaration from "../theming/Pages/Library/PageDeclaration";
+import PageDeclaration from "./PageDeclaration";
 import {
     IDeclaration,
     IDeclarationRef,
     IModule,
     IModuleRef,
     INarrativeElement,
-} from "../context/LibraryClient/objects";
+} from "../../context/LibraryClient/objects";
 
 export interface INarrativeElementProps extends IExpansionProps {
     children: INarrativeElement;
@@ -60,7 +60,7 @@ export default class NarrativeElement extends React.Component<INarrativeElementP
 
         switch (children.kind) {
             case "document":
-                return <PageRef item={children} link={{ href: children }} />;
+                return <Ref item={children} link={{ href: children }} />;
             case "opaque":
                 return <PageOpaque>{children}</PageOpaque>;
             case "module":

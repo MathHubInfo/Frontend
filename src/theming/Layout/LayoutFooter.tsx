@@ -1,16 +1,13 @@
 import * as React from "react";
 import { Container, Divider, Grid, Header, Image } from "semantic-ui-react";
 import MHLink from "../../components/MHLink";
+import getMathHubConfig from "../../context";
 import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 import { IMathHubVersion } from "../../types/config";
 
-interface ILayoutFooterProps {
-    version: IMathHubVersion;
-}
-
-class LayoutFooter extends React.Component<ILayoutFooterProps & TranslateProps> {
+class LayoutFooter extends React.Component<TranslateProps> {
     render() {
-        const { version, t } = this.props;
+        const { t } = this.props;
 
         return (
             <Container>
@@ -94,7 +91,7 @@ class LayoutFooter extends React.Component<ILayoutFooterProps & TranslateProps> 
                 <Grid>
                     <Grid.Column width={4}>
                         <small>
-                            <MathHubVersion version={version} t={t} />
+                            <MathHubVersion t={t} />
                         </small>
                     </Grid.Column>
                     <Grid.Column width={4}>
@@ -121,12 +118,12 @@ class LayoutFooter extends React.Component<ILayoutFooterProps & TranslateProps> 
 
 export default WithTranslate(LayoutFooter);
 
-class MathHubVersion extends React.Component<{ version: IMathHubVersion } & TranslateProps> {
+class MathHubVersion extends React.Component<TranslateProps> {
+    private static version: IMathHubVersion = getMathHubConfig().config.MATHHUB_VERSION;
     render() {
-        const {
-            t,
-            version: { semantic, git, configTime },
-        } = this.props;
+        const { t } = this.props;
+        const { semantic, git, configTime } = MathHubVersion.version;
+
         const cfgTime = new Date(configTime).toISOString();
 
         let version = t("version", { version: semantic, time: cfgTime });
