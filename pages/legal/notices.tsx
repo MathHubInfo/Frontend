@@ -4,9 +4,9 @@ import { GetStaticProps, GetStaticPropsResult } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
+import { Container } from "semantic-ui-react";
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
-const PageLegalNotices = dynamic(() => import("../../src/theming/Pages/Legal/PageLegalNotices"));
 
 interface INoticesProps {
     notices: string | null;
@@ -20,7 +20,16 @@ class Notices extends React.Component<INoticesProps & TranslateProps> {
 
         return (
             <LayoutBody crumbs={crumbs} title={[t("notices")]}>
-                <PageLegalNotices notices={notices ?? undefined} license={license} />
+                <Container>
+                    <h2>{t("license")}</h2>
+                    <pre>{license}</pre>
+                    {notices && (
+                        <>
+                            <h2>{t("notices")}</h2>
+                            <pre>{notices}</pre>
+                        </>
+                    )}
+                </Container>
             </LayoutBody>
         );
     }

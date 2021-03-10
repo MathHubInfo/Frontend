@@ -39,6 +39,7 @@ interface IActionHeaderState {
 }
 
 class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, IActionHeaderState> {
+    state: IActionHeaderState = {};
     static getDerivedStateFromProps({ obj }: IActionHeaderProps & TranslateProps): IActionHeaderState {
         const source = obj && ObjectSource(obj);
 

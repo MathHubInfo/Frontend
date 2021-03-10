@@ -4,9 +4,9 @@ import { GetStaticProps, GetStaticPropsResult } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
+import { Container } from "semantic-ui-react";
 
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
-const PageLegalImprint = dynamic(() => import("../../src/theming/Pages/Legal/PageLegalImprint"));
 
 interface IImprintProps {
     imprint: string;
@@ -14,15 +14,16 @@ interface IImprintProps {
 
 class Imprint extends React.Component<IImprintProps & TranslateProps> {
     render() {
-        const { t } = this.props;
+        const { t, imprint } = this.props;
 
         const crumbs = [{ href: "/", title: t("home") }];
 
-        const { imprint } = this.props;
-
         return (
             <LayoutBody crumbs={crumbs} title={[t("imprint")]}>
-                <PageLegalImprint imprint={imprint} />
+                <Container>
+                    <div>{t("imprint responsible")}</div>
+                    <pre>{imprint}</pre>
+                </Container>
             </LayoutBody>
         );
     }
