@@ -28,7 +28,7 @@
     "semantic-ui-react": "^1.3.0",
     "tgview": "git://github.com/UniFormal/TGView.git#v0.2.3",
     "ts-debounce": "^2.0.1",
-    "xmldom": "^0.3.0"
+    "xmldom": "^0.5.0"
   },
   "browserslist": "last 2 versions, not dead, not IE > 0, Firefox ESR",
   "license": "AGPL-3.0",
