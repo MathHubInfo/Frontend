@@ -6,10 +6,8 @@ import { IGlossaryEntry, IsKnownLanguage, knownLanguages, TKnownLanguages } from
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 import { Button, Card, Container, Grid, Tab, TabProps } from "semantic-ui-react";
-import { HTML } from "../../src/context/LibraryClient/objects";
 import MHHTML from "../../src/components/MHHTML";
 
-const ActionHeader = dynamic(() => import("../../src/layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface IGlossaryProps {
@@ -22,9 +20,6 @@ interface IGlossaryState {
      * the currently selected language
      */
     language: TKnownLanguages;
-
-    // a long, human-readable description of the dictionary
-    description?: HTML;
 }
 
 class Glossary extends React.Component<IGlossaryProps & TranslateProps, IGlossaryState> {
@@ -57,7 +52,7 @@ class Glossary extends React.Component<IGlossaryProps & TranslateProps, IGlossar
 
     render() {
         const { t } = this.props;
-        const { description, language } = this.state;
+        const { language } = this.state;
 
         const panes = knownLanguages.map(l => ({ menuItem: l }));
 
@@ -67,8 +62,7 @@ class Glossary extends React.Component<IGlossaryProps & TranslateProps, IGlossar
         );
 
         return (
-            <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("glossary")]}>
-                <ActionHeader title={t("glossary")} plaintitle description={description} />
+            <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("glossary")]} header>
                 <Tab panes={panes} activeIndex={knownLanguages.indexOf(language)} onTabChange={this.changeTab} />
                 <Container>
                     {entries.map(e => (

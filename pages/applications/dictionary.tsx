@@ -5,11 +5,9 @@ import { Button, Divider, Dropdown, DropdownProps, Input } from "semantic-ui-rea
 import MHHTML from "../../src/components/MHHTML";
 import getMathHubConfig from "../../src/context";
 import { IGlossaryEntry, IsKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
-import { HTML } from "../../src/context/LibraryClient/objects";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
-const ActionHeader = dynamic(() => import("../../src/layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface IDictionaryProps {
@@ -49,9 +47,6 @@ interface IDictionaryImplicits {
      * The text to be translated
      */
     text: string;
-
-    // a long, human-readable description of the dictionary
-    description?: HTML;
 }
 
 class Dictionary extends React.Component<IDictionaryProps & TranslateProps, IDictionaryState> {
@@ -91,10 +86,7 @@ class Dictionary extends React.Component<IDictionaryProps & TranslateProps, IDic
     }
 
     render() {
-        const {
-            t,
-            initial: { description },
-        } = this.props;
+        const { t } = this.props;
 
         const { fromLanguage, toLanguage, translating, translationValid } = this.state;
 
@@ -102,8 +94,7 @@ class Dictionary extends React.Component<IDictionaryProps & TranslateProps, IDic
         if (!translationValid) statusText = translating ? t("translatng") : t("press");
 
         return (
-            <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("dictionary")]}>
-                <ActionHeader title={t("dictionary")} plaintitle description={description} />
+            <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("dictionary")]} header>
                 {t("from:")}&nbsp;
                 <LanguageDropdown value={fromLanguage} options={knownLanguages} onChange={this.changeFromLanguage} />
                 &nbsp;

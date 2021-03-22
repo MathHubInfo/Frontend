@@ -13,7 +13,6 @@ import { WithDebug } from "../../../src/utils/WithDebug";
 import { List } from "semantic-ui-react";
 
 const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
-const ActionHeader = dynamic(() => import("../../../src/layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../../src/layout/LayoutBody"));
 
 type IArchiveProps = {
@@ -73,7 +72,6 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
     render() {
         const { t, archive } = this.props;
         const {
-            description,
             name,
             narrativeRoot: { declarations },
         } = archive;
@@ -95,8 +93,7 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
         };
 
         return (
-            <LayoutBody crumbs={breadcrumbs} obj={archive} title={[name]}>
-                <ActionHeader title={name} obj={archive} description={description} />
+            <LayoutBody crumbs={breadcrumbs} obj={archive} title={[name]} header>
                 <List relaxed>
                     {declarations.map(d => (
                         <List.Item key={d.id}>

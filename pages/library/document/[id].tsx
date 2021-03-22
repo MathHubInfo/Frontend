@@ -13,7 +13,6 @@ import { WithDebug } from "../../../src/utils/WithDebug";
 import { List } from "semantic-ui-react";
 
 const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
-const ActionHeader = dynamic(() => import("../../../src/layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../../src/layout/LayoutBody"));
 
 interface IDocumentProps {
@@ -91,8 +90,7 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
         };
 
         return (
-            <LayoutBody crumbs={breadcrumbs} obj={document} title={[name]}>
-                <ActionHeader title={name} obj={document} />
+            <LayoutBody crumbs={breadcrumbs} obj={document} title={[name]} header>
                 <List relaxed>
                     {declarations.map(d => (
                         <List.Item key={d.id}>

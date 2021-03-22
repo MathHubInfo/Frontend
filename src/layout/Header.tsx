@@ -25,7 +25,7 @@ class Header extends React.Component<IHeaderProps & { router: NextRouter } & Tra
     render() {
         const { title, crumbs, router, t } = this.props;
         return (
-            <>
+            <nav>
                 <Menu>
                     <Container>
                         <MHLink href="/">
@@ -102,7 +102,7 @@ class Header extends React.Component<IHeaderProps & { router: NextRouter } & Tra
                         </Grid.Column>
                     </Grid>
                 </Container>
-            </>
+            </nav>
         );
     }
 }

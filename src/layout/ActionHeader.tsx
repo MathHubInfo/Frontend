@@ -26,15 +26,15 @@ interface IActionHeaderOptional {
 
     // referenced object by this page
     obj?: IReferencable;
+}
 
+interface IActionHeaderState extends IActionHeaderOptional {
     // statistics (if any)
     statistics?: IStatistic[];
 
     // a list of people responsible for the item
     responsible?: string[];
-}
 
-interface IActionHeaderState extends IActionHeaderOptional {
     // the url to the source (if any)
     sourceURL?: string;
 
@@ -50,15 +50,11 @@ interface IActionHeaderState extends IActionHeaderOptional {
 
 class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, IActionHeaderState> {
     state: IActionHeaderState = {};
-    static getDerivedStateFromProps({
-        obj,
-        responsible,
-        statistics,
-    }: IActionHeaderProps & TranslateProps): IActionHeaderState {
+    static getDerivedStateFromProps({ obj }: IActionHeaderProps & TranslateProps): IActionHeaderState {
         // extrac source, responsible and statistics
         const source = obj && ObjectSource(obj);
-        responsible ??= obj && "responsible" in obj ? obj.responsible : undefined;
-        statistics ??= obj && "statistics" in obj ? obj.statistics : undefined;
+        const responsible = obj && "responsible" in obj ? obj.responsible : undefined;
+        const statistics = obj && "statistics" in obj ? obj.statistics : undefined;
 
         // if we have a notebook-tagged document, we need to add the jupyter source to it
         let jupyter: ISourceReference | undefined;
@@ -150,7 +146,7 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, 
         const { statistics, description, responsible } = this.state;
 
         return (
-            <>
+            <header>
                 <h1>{plaintitle === true ? title : <MHHTML>{title}</MHHTML>}</h1>
                 <Grid>
                     <Grid.Column width={11}>
@@ -182,7 +178,7 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, 
                     )}
                 </div>
                 <hr />
-            </>
+            </header>
         );
     }
 }

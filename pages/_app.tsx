@@ -85,10 +85,6 @@ export default class MHApp extends App<IMHAppProps> {
         Router.events.off("routeChangeError", this.handleRoutingEnd);
     }
 
-    componentDidUpdate() {
-        document.getElementsByTagName("html")[0].setAttribute("lang", this.props.locale || defaultLocale);
-    }
-
     render() {
         let { locale, Component, pageProps } = this.props;
         const { localeData } = this.props;

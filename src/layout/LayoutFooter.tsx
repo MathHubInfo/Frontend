@@ -10,7 +10,7 @@ class LayoutFooter extends React.Component<TranslateProps> {
         const { t } = this.props;
 
         return (
-            <Container>
+            <Container as={"footer"}>
                 <Grid divided inverted stackable>
                     <Grid.Row>
                         <Grid.Column width={4}>
