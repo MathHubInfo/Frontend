@@ -50,7 +50,7 @@ interface IActionHeaderState extends IActionHeaderOptional {
 
 class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, IActionHeaderState> {
     state: IActionHeaderState = {};
-    static getDerivedStateFromProps({ obj }: IActionHeaderProps & TranslateProps): IActionHeaderState {
+    static getDerivedStateFromProps({ obj, description }: IActionHeaderProps & TranslateProps): IActionHeaderState {
         // extrac source, responsible and statistics
         const source = obj && ObjectSource(obj);
         const responsible = obj && "responsible" in obj ? obj.responsible : undefined;
@@ -63,6 +63,7 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, 
 
         return {
             obj,
+            description,
             responsible,
             statistics,
             sourceURL: source && SourceURL(source),
