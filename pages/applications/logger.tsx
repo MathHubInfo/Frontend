@@ -3,12 +3,27 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import getMathHubConfig from "../../src/context";
 import LoggerClient from "../../src/context/LoggerClient";
-import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
-import { ILoggerImplicits, ILoggerState } from "../../src/theming/Pages/Applications/PageApplicationsLogger";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
+import { Container, Input, Table } from "semantic-ui-react";
+import { ILogEntry } from "../../src/context/LoggerClient";
+import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
+
 const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
-const PageApplicationsLogger = dynamic(() => import("../../src/theming/Pages/Applications/PageApplicationsLogger"));
+
+interface ILoggerState extends ILoggerImplicits {
+    /**
+     * The current log entries
+     */
+    entries: ILogEntry[];
+}
+
+interface ILoggerImplicits {
+    /**
+     * The current filter
+     */
+    filter: string;
+}
 
 interface ILoggerProps {
     initial: Partial<ILoggerImplicits>;
@@ -65,18 +80,52 @@ class Logger extends React.Component<ILoggerProps & TranslateProps, ILoggerState
 
         return (
             <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("logger")]}>
-                <PageApplicationsLogger
-                    entries={entries.filter(e => e.prefix.startsWith(filter))}
-                    filter={filter}
-                    changeFilter={this.changeFilter}
-                />
+                <Container>
+                    <Table celled>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell style={{ width: "20%" }}>{t("date")}</Table.HeaderCell>
+                                <Table.HeaderCell style={{ width: "20%" }}>
+                                    <Input
+                                        type="text"
+                                        value={filter}
+                                        onChange={this.changeFilter}
+                                        placeholder="Filter"
+                                    />
+                                </Table.HeaderCell>
+                                <Table.HeaderCell style={{ width: "60%" }}>{t("content")}</Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                            {entries
+                                .filter(e => e.prefix.startsWith(filter))
+                                .map(e => (
+                                    <LoggerTableRow entry={e} key={e.uuid} />
+                                ))}
+                        </Table.Body>
+                    </Table>
+                </Container>
             </LayoutBody>
         );
     }
 
-    private readonly changeFilter = (filter: string) => {
+    private readonly changeFilter = ({ target: { value: filter } }: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ filter });
     };
 }
 
 export default WithTranslate(Logger);
+
+class LoggerTableRow extends React.Component<{ entry: ILogEntry }> {
+    render() {
+        const { entry } = this.props;
+
+        return (
+            <Table.Row>
+                <Table.Cell>{new Date(entry.time).toTimeString()}</Table.Cell>
+                <Table.Cell>{entry.prefix}</Table.Cell>
+                <Table.Cell>{entry.parts.join("\n")}</Table.Cell>
+            </Table.Row>
+        );
+    }
+}
