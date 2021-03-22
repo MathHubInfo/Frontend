@@ -25,7 +25,7 @@
     "react-waypoint": "^9.0.3",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react": "^2.0.3",
-    "tgview": "git://github.com/UniFormal/TGView.git#v0.2.3",
+    "tgview": "git://github.com/UniFormal/TGView.git#v0.2.4",
     "ts-debounce": "^3.0.0",
     "xmldom": "^0.5.0"
   },
@@ -53,5 +53,8 @@
     "prettier": "^2.2.1",
     "typescript": "^4.2.3",
     "webpack": "^5.24.4"
+  },
+  "resolutions": {
+    "@types/hoist-non-react-statics/@types/react": "^17.0.3"
   }
 }
