@@ -1,4 +1,4 @@
-import { IMHLinkable } from "../../components/MHLink";
+import { IMHLinkable } from "../components/MHLink";
 
 /**
  * A breadcrumb to anything

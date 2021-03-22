@@ -9,7 +9,7 @@ import { Container, Input, Table } from "semantic-ui-react";
 import { ILogEntry } from "../../src/context/LoggerClient";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
-const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface ILoggerState extends ILoggerImplicits {
     /**

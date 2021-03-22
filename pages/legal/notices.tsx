@@ -6,7 +6,7 @@ import * as React from "react";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { Container } from "semantic-ui-react";
 
-const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface INoticesProps {
     notices: string | null;

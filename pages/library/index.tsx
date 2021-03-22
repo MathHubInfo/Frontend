@@ -7,8 +7,8 @@ import { IGroupRef } from "../../src/context/LibraryClient/objects";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { CompareStrings } from "../../src/utils/Compare";
 
-const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
-const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const ActionHeader = dynamic(() => import("../../src/layout/ActionHeader"));
+const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 const Ref = dynamic(() => import("../../src/library/Ref"));
 

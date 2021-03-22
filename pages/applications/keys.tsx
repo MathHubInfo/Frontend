@@ -4,7 +4,7 @@ import * as React from "react";
 import { default as keysJSON } from "../../src/assets/applications/keys.json";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
-const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface IKeysState {
     /**

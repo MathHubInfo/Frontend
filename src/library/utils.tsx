@@ -1,8 +1,8 @@
 import { IApiObject, IReferencable } from "../context/LibraryClient/objects";
-import { IBreadcrumb } from "../theming/Layout/Props";
+import { IBreadcrumb } from "../layout/Props";
 
 import { ObjectParents } from "../context/LibraryClient/objects/utils";
-import { IActionHeaderProps } from "../theming/Layout/ActionHeader";
+import { IActionHeaderProps } from "../layout/ActionHeader";
 
 /**
  * Extracts common header properties from an object

@@ -15,8 +15,8 @@ import { Container, List } from "semantic-ui-react";
 import MHHTML from "../../../src/components/MHHTML";
 
 const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
-const ActionHeader = dynamic(() => import("../../../src/theming/Layout/ActionHeader"));
-const LayoutBody = dynamic(() => import("../../../src/theming/Layout/LayoutBody"));
+const ActionHeader = dynamic(() => import("../../../src/layout/ActionHeader"));
+const LayoutBody = dynamic(() => import("../../../src/layout/LayoutBody"));
 
 interface IDocumentProps {
     document: IDocument;

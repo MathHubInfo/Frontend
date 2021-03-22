@@ -9,8 +9,8 @@ import { HTML } from "../../src/context/LibraryClient/objects";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
-const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
-const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const ActionHeader = dynamic(() => import("../../src/layout/ActionHeader"));
+const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface IDictionaryProps {
     initial: Partial<IDictionaryImplicits>;

@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import * as React from "react";
 import { Container, Icon } from "semantic-ui-react";
-import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
+import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
 import { IBreadcrumb } from "./Props";
 
 const LayoutBody = dynamic(() => import("./LayoutBody"));

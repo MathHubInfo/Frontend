@@ -5,7 +5,7 @@ import { Button, Container, Grid, Image } from "semantic-ui-react";
 import MHHTML from "../src/components/MHHTML";
 import MHLink from "../src/components/MHLink";
 
-const LayoutBody = dynamic(() => import("../src/theming/Layout/LayoutBody"));
+const LayoutBody = dynamic(() => import("../src/layout/LayoutBody"));
 
 class Home extends React.Component<TranslateProps> {
     static crumbs = [];

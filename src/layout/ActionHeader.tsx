@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";
-import { IReferencable, ISourceReference, IStatistic } from "../../context/LibraryClient/objects";
-import { ObjectSource } from "../../context/LibraryClient/objects/utils";
-import MHHTML from "../../components/MHHTML";
-import MHLink from "../../components/MHLink";
-import { StatisticsTable } from "../../theming/Layout/Statistics";
-import { IssueURL, ITGViewData, JupyterURL, SourceURL, TGViewURL } from "../../utils/URLs";
-import TGViewLink from "../../components/TGViewLink";
-import TGView3DLink from "../../components/TGView3DLink";
-import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
+import { IReferencable, ISourceReference, IStatistic } from "../context/LibraryClient/objects";
+import { ObjectSource } from "../context/LibraryClient/objects/utils";
+import MHHTML from "../components/MHHTML";
+import MHLink from "../components/MHLink";
+import { StatisticsTable } from "./Statistics";
+import { IssueURL, ITGViewData, JupyterURL, SourceURL, TGViewURL } from "../utils/URLs";
+import TGViewLink from "../components/TGViewLink";
+import TGView3DLink from "../components/TGView3DLink";
+import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
 
 export interface IActionHeaderProps {
     // description of the element in question, may contain html

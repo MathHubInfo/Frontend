@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import { Indexable } from "../src/types/lib";
 
-const LayoutFailure = dynamic(() => import("../src/theming/Layout/LayoutFailure"));
+const LayoutFailure = dynamic(() => import("../src/layout/LayoutFailure"));
 
 interface IErrorProps {
     statusCode?: number;

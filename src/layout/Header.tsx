@@ -2,10 +2,10 @@ import { withRouter, NextRouter } from "next/router";
 import * as React from "react";
 import { Button, Container, Dropdown, Flag, Grid, Image, Menu, FlagNameValues } from "semantic-ui-react";
 
-import { urls } from "../../assets/urls";
-import MHLink from "../../components/MHLink";
-import { LocaleContext, LocaleContextProps, TranslateProps, WithTranslate } from "../../locales/WithTranslate";
-import { supportedLocales } from "../../locales";
+import { urls } from "../assets/urls";
+import MHLink from "../components/MHLink";
+import { LocaleContext, LocaleContextProps, TranslateProps, WithTranslate } from "../locales/WithTranslate";
+import { supportedLocales } from "../locales";
 import { IBreadcrumb } from "./Props";
 
 interface IHeaderProps {

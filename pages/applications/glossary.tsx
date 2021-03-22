@@ -9,8 +9,8 @@ import { Button, Card, Container, Grid, Tab, TabProps } from "semantic-ui-react"
 import { HTML } from "../../src/context/LibraryClient/objects";
 import MHHTML from "../../src/components/MHHTML";
 
-const ActionHeader = dynamic(() => import("../../src/theming/Layout/ActionHeader"));
-const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const ActionHeader = dynamic(() => import("../../src/layout/ActionHeader"));
+const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface IGlossaryProps {
     initial: Partial<IGlossaryState>;

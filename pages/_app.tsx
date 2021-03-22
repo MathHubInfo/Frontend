@@ -18,7 +18,7 @@ import "jqueryui/jquery-ui.min.css";
 import "jstree/dist/themes/default/style.css";
 import { loadLocaleData } from "../src/locales/loadData";
 
-const LayoutRoutingIndicator = dynamic(() => import("../src/theming/Layout/LayoutRoutingIndicator"));
+const LayoutRoutingIndicator = dynamic(() => import("../src/layout/LayoutRoutingIndicator"));
 
 interface IMHAppProps extends LocaleProps {
     initialConfig: unknown;

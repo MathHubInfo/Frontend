@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Container, Divider, Grid, Header, Image } from "semantic-ui-react";
-import MHLink from "../../components/MHLink";
-import getMathHubConfig from "../../context";
-import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
-import { IMathHubVersion } from "../../types/config";
+import MHLink from "../components/MHLink";
+import getMathHubConfig from "../context";
+import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
+import { IMathHubVersion } from "../types/config";
 
 class LayoutFooter extends React.Component<TranslateProps> {
     render() {

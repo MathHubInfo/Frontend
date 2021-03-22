@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
-const LayoutBody = dynamic(() => import("../../src/theming/Layout/LayoutBody"));
+const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 const TGViewComponent = dynamic(() => import("../../src/components/TGView"));
 
 class TGView extends React.Component<TranslateProps> {
