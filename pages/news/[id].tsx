@@ -4,7 +4,7 @@ import * as React from "react";
 import getMathHubConfig from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
-import { Container, Header, Segment } from "semantic-ui-react";
+import { Header, Segment } from "semantic-ui-react";
 import MHHTML from "../../src/components/MHHTML";
 
 const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
@@ -28,15 +28,13 @@ class Page extends React.Component<IPageProps & TranslateProps> {
 
         return (
             <LayoutBody crumbs={crumbs} title={[title, "News"]} description={teaser}>
-                <Container>
-                    <Header as="h2" attached="top">
-                        <MHHTML>{title}</MHHTML>
-                        <Header.Subheader>{theDate.toDateString()}</Header.Subheader>
-                    </Header>
-                    <Segment attached>
-                        <MHHTML>{content}</MHHTML>
-                    </Segment>
-                </Container>
+                <Header as="h2" attached="top">
+                    <MHHTML>{title}</MHHTML>
+                    <Header.Subheader>{theDate.toDateString()}</Header.Subheader>
+                </Header>
+                <Segment attached>
+                    <MHHTML>{content}</MHHTML>
+                </Segment>
             </LayoutBody>
         );
     }

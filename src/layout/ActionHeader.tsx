@@ -10,7 +10,17 @@ import TGViewLink from "../components/TGViewLink";
 import TGView3DLink from "../components/TGView3DLink";
 import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
 
-export interface IActionHeaderProps {
+export type IActionHeaderProps = Partial<IActionHeaderOptional> & IActionHeaderRequired;
+
+interface IActionHeaderRequired {
+    /** title of the page */
+    title: string;
+
+    /** if set, don't render the title as html! */
+    plaintitle?: boolean;
+}
+
+interface IActionHeaderOptional {
     // description of the element in question, may contain html
     description?: string;
 
@@ -24,7 +34,7 @@ export interface IActionHeaderProps {
     responsible?: string[];
 }
 
-interface IActionHeaderState {
+interface IActionHeaderState extends IActionHeaderOptional {
     // the url to the source (if any)
     sourceURL?: string;
 
@@ -40,8 +50,15 @@ interface IActionHeaderState {
 
 class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, IActionHeaderState> {
     state: IActionHeaderState = {};
-    static getDerivedStateFromProps({ obj }: IActionHeaderProps & TranslateProps): IActionHeaderState {
+    static getDerivedStateFromProps({
+        obj,
+        responsible,
+        statistics,
+    }: IActionHeaderProps & TranslateProps): IActionHeaderState {
+        // extrac source, responsible and statistics
         const source = obj && ObjectSource(obj);
+        responsible ??= obj && "responsible" in obj ? obj.responsible : undefined;
+        statistics ??= obj && "statistics" in obj ? obj.statistics : undefined;
 
         // if we have a notebook-tagged document, we need to add the jupyter source to it
         let jupyter: ISourceReference | undefined;
@@ -49,6 +66,9 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, 
             jupyter = ObjectSource(obj);
 
         return {
+            obj,
+            responsible,
+            statistics,
             sourceURL: source && SourceURL(source),
             issueURL: source && IssueURL(source),
             jupyterURL: jupyter && JupyterURL(jupyter),
@@ -126,10 +146,12 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, 
         );
     }
     render() {
-        const { statistics, description, responsible, t } = this.props;
+        const { t, plaintitle, title } = this.props;
+        const { statistics, description, responsible } = this.state;
 
         return (
             <>
+                <h1>{plaintitle === true ? title : <MHHTML>{title}</MHHTML>}</h1>
                 <Grid>
                     <Grid.Column width={11}>
                         {this.sourceButton()}

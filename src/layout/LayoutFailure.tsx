@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import * as React from "react";
-import { Container, Icon } from "semantic-ui-react";
+import { Icon } from "semantic-ui-react";
 import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
 import { IBreadcrumb } from "./Props";
 
@@ -36,13 +36,11 @@ class LayoutFailure extends React.Component<ILayoutFailureProps & TranslateProps
 
         return (
             <LayoutBody crumbs={crumbs} title={[title]}>
-                <Container>
-                    <Icon name={"frown outline"} size={"huge"} />
-                    <div>
-                        HTTP {statusCode}: {title}
-                    </div>
-                    <div>{text}</div>
-                </Container>
+                <Icon name={"frown outline"} size={"huge"} />
+                <div>
+                    HTTP {statusCode}: {title}
+                </div>
+                <div>{text}</div>
             </LayoutBody>
         );
     }

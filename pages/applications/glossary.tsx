@@ -68,21 +68,18 @@ class Glossary extends React.Component<IGlossaryProps & TranslateProps, IGlossar
 
         return (
             <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("glossary")]}>
+                <ActionHeader title={t("glossary")} plaintitle description={description} />
+                <Tab panes={panes} activeIndex={knownLanguages.indexOf(language)} onTabChange={this.changeTab} />
                 <Container>
-                    <h1>{t("glossary")}</h1>
-                    <ActionHeader description={description} />
-                    <Tab panes={panes} activeIndex={knownLanguages.indexOf(language)} onTabChange={this.changeTab} />
-                    <Container>
-                        {entries.map(e => (
-                            <GlossaryEntry
-                                t={t}
-                                key={e.id}
-                                selectedLanguage={language}
-                                entry={e}
-                                changeLanguage={this.changeLanguage}
-                            />
-                        ))}
-                    </Container>
+                    {entries.map(e => (
+                        <GlossaryEntry
+                            t={t}
+                            key={e.id}
+                            selectedLanguage={language}
+                            entry={e}
+                            changeLanguage={this.changeLanguage}
+                        />
+                    ))}
                 </Container>
             </LayoutBody>
         );

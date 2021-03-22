@@ -44,24 +44,22 @@ export default class Keys extends React.Component<IKeysProps, IKeysState> {
 
         return (
             <LayoutBody crumbs={[{ href: "/", title: "Home" }]} title={["Keys"]}>
-                <div>
-                    <table style={{ width: "100%" }}>
-                        <thead>
-                            <tr>
-                                <th style={{ width: "20%" }}>Key</th>
-                                <th style={{ width: "80%" }}>
-                                    Description
-                                    <button onClick={this.toggleExpansion}>{expanded ? "<<" : ">>"}</button>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {keysJSON.map(k => (
-                                <KeyRow key={k.key} item={k} expanded={expanded} />
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                <table style={{ width: "100%" }}>
+                    <thead>
+                        <tr>
+                            <th style={{ width: "20%" }}>Key</th>
+                            <th style={{ width: "80%" }}>
+                                Description
+                                <button onClick={this.toggleExpansion}>{expanded ? "<<" : ">>"}</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {keysJSON.map(k => (
+                            <KeyRow key={k.key} item={k} expanded={expanded} />
+                        ))}
+                    </tbody>
+                </table>
             </LayoutBody>
         );
     }

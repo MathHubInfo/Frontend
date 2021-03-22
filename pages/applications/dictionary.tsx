@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import { Button, Container, Divider, Dropdown, DropdownProps, Input } from "semantic-ui-react";
+import { Button, Divider, Dropdown, DropdownProps, Input } from "semantic-ui-react";
 import MHHTML from "../../src/components/MHHTML";
 import getMathHubConfig from "../../src/context";
 import { IGlossaryEntry, IsKnownLanguage, knownLanguages, TKnownLanguages } from "../../src/context/GlossaryClient";
@@ -103,29 +103,22 @@ class Dictionary extends React.Component<IDictionaryProps & TranslateProps, IDic
 
         return (
             <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("dictionary")]}>
-                <Container>
-                    <h1>{t("dictionary")}</h1>
-                    <ActionHeader description={description} />
-                    {t("from:")}&nbsp;
-                    <LanguageDropdown
-                        value={fromLanguage}
-                        options={knownLanguages}
-                        onChange={this.changeFromLanguage}
-                    />
-                    &nbsp;
-                    {t("to:")}&nbsp;
-                    <LanguageDropdown value={toLanguage} options={knownLanguages} onChange={this.changeToLanguage} />
-                    <Divider />
-                    <div>
-                        <Input style={{ width: "70%" }} onChange={this.changeText} />
-                        <br />
-                        <Button disabled={translating} onClick={this.startTranslation} style={{ marginTop: "1em" }}>
-                            {t("translate")}
-                        </Button>
-                    </div>
-                    <Divider />
-                    {this.showTranslation(statusText)}
-                </Container>
+                <ActionHeader title={t("dictionary")} plaintitle description={description} />
+                {t("from:")}&nbsp;
+                <LanguageDropdown value={fromLanguage} options={knownLanguages} onChange={this.changeFromLanguage} />
+                &nbsp;
+                {t("to:")}&nbsp;
+                <LanguageDropdown value={toLanguage} options={knownLanguages} onChange={this.changeToLanguage} />
+                <Divider />
+                <div>
+                    <Input style={{ width: "70%" }} onChange={this.changeText} />
+                    <br />
+                    <Button disabled={translating} onClick={this.startTranslation} style={{ marginTop: "1em" }}>
+                        {t("translate")}
+                    </Button>
+                </div>
+                <Divider />
+                {this.showTranslation(statusText)}
             </LayoutBody>
         );
     }

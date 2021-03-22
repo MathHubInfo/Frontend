@@ -3,12 +3,10 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import getMathHubConfig from "../../../src/context";
 import { IGroup } from "../../../src/context/LibraryClient/objects";
-import { headerProps } from "../../../src/library/utils";
 import { TranslateProps, WithTranslate } from "../../../src/locales/WithTranslate";
 import { decode } from "../../../src/utils/base64";
 import { CompareStrings } from "../../../src/utils/Compare";
-import { Container, List } from "semantic-ui-react";
-import MHHTML from "../../../src/components/MHHTML";
+import { List } from "semantic-ui-react";
 
 const ActionHeader = dynamic(() => import("../../../src/layout/ActionHeader"));
 const LayoutBody = dynamic(() => import("../../../src/layout/LayoutBody"));
@@ -31,19 +29,14 @@ class Group extends React.Component<IGroupProps & TranslateProps> {
 
         return (
             <LayoutBody crumbs={crumbs} description={description} title={[name]}>
-                <Container>
-                    <h1>
-                        <MHHTML>{name}</MHHTML>
-                    </h1>
-                    <ActionHeader {...headerProps(group, { description })} />
-                    <List relaxed>
-                        {declarations.map(a => (
-                            <List.Item key={a.id}>
-                                <Ref key={a.id} item={a} link={{ href: a }} />
-                            </List.Item>
-                        ))}
-                    </List>
-                </Container>
+                <ActionHeader title={name} obj={group} description={description} />
+                <List relaxed>
+                    {declarations.map(a => (
+                        <List.Item key={a.id}>
+                            <Ref key={a.id} item={a} link={{ href: a }} />
+                        </List.Item>
+                    ))}
+                </List>
             </LayoutBody>
         );
     }

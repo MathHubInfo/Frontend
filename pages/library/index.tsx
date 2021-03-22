@@ -1,5 +1,5 @@
 import { GetServerSidePropsResult } from "next";
-import { Container, List } from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 import dynamic from "next/dynamic";
 import * as React from "react";
 import getMathHubConfig from "../../src/context";
@@ -26,17 +26,14 @@ class Library extends React.Component<ILibraryProps & TranslateProps> {
 
         return (
             <LayoutBody crumbs={crumbs} description={description} title={[title]}>
-                <Container>
-                    <h1>{t("library")}</h1>
-                    <ActionHeader description={description} />
-                    <List relaxed>
-                        {groups.map(g => (
-                            <List.Item key={g.id}>
-                                <Ref item={g} link={{ href: g }} />
-                            </List.Item>
-                        ))}
-                    </List>
-                </Container>
+                <ActionHeader title={title} description={description} />
+                <List relaxed>
+                    {groups.map(g => (
+                        <List.Item key={g.id}>
+                            <Ref item={g} link={{ href: g }} />
+                        </List.Item>
+                    ))}
+                </List>
             </LayoutBody>
         );
     }

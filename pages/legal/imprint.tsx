@@ -4,7 +4,6 @@ import { GetStaticProps, GetStaticPropsResult } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
-import { Container } from "semantic-ui-react";
 
 const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
@@ -20,10 +19,8 @@ class Imprint extends React.Component<IImprintProps & TranslateProps> {
 
         return (
             <LayoutBody crumbs={crumbs} title={[t("imprint")]}>
-                <Container>
-                    <div>{t("imprint responsible")}</div>
-                    <pre>{imprint}</pre>
-                </Container>
+                <div>{t("imprint responsible")}</div>
+                <pre>{imprint}</pre>
             </LayoutBody>
         );
     }

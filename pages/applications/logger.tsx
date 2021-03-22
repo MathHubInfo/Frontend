@@ -5,7 +5,7 @@ import getMathHubConfig from "../../src/context";
 import LoggerClient from "../../src/context/LoggerClient";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
-import { Container, Input, Table } from "semantic-ui-react";
+import { Input, Table } from "semantic-ui-react";
 import { ILogEntry } from "../../src/context/LoggerClient";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
@@ -80,31 +80,24 @@ class Logger extends React.Component<ILoggerProps & TranslateProps, ILoggerState
 
         return (
             <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("logger")]}>
-                <Container>
-                    <Table celled>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell style={{ width: "20%" }}>{t("date")}</Table.HeaderCell>
-                                <Table.HeaderCell style={{ width: "20%" }}>
-                                    <Input
-                                        type="text"
-                                        value={filter}
-                                        onChange={this.changeFilter}
-                                        placeholder="Filter"
-                                    />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell style={{ width: "60%" }}>{t("content")}</Table.HeaderCell>
-                            </Table.Row>
-                        </Table.Header>
-                        <Table.Body>
-                            {entries
-                                .filter(e => e.prefix.startsWith(filter))
-                                .map(e => (
-                                    <LoggerTableRow entry={e} key={e.uuid} />
-                                ))}
-                        </Table.Body>
-                    </Table>
-                </Container>
+                <Table celled>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell style={{ width: "20%" }}>{t("date")}</Table.HeaderCell>
+                            <Table.HeaderCell style={{ width: "20%" }}>
+                                <Input type="text" value={filter} onChange={this.changeFilter} placeholder="Filter" />
+                            </Table.HeaderCell>
+                            <Table.HeaderCell style={{ width: "60%" }}>{t("content")}</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {entries
+                            .filter(e => e.prefix.startsWith(filter))
+                            .map(e => (
+                                <LoggerTableRow entry={e} key={e.uuid} />
+                            ))}
+                    </Table.Body>
+                </Table>
             </LayoutBody>
         );
     }

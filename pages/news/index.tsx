@@ -1,7 +1,7 @@
 import { GetServerSidePropsResult } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
-import { Card, Container, Divider, Icon, List } from "semantic-ui-react";
+import { Card, Divider, Icon, List } from "semantic-ui-react";
 import MHHTML from "../../src/components/MHHTML";
 import MHLink, { IMHLinkable } from "../../src/components/MHLink";
 import getMathHubConfig from "../../src/context";
@@ -23,18 +23,16 @@ class News extends React.Component<INewsProps & TranslateProps> {
 
         return (
             <LayoutBody crumbs={crumbs} description={description} title={["News"]}>
-                <Container>
-                    <h1>News</h1>
-                    <div>{description}</div>
-                    <Divider />
-                    <List relaxed>
-                        {items.map(n => (
-                            <List.Item key={n.id}>
-                                <PageNewsPageRef item={n} link={{ href: "/news/[id]", params: { id: n.id } }} />
-                            </List.Item>
-                        ))}
-                    </List>
-                </Container>
+                <h1>News</h1>
+                <div>{description}</div>
+                <Divider />
+                <List relaxed>
+                    {items.map(n => (
+                        <List.Item key={n.id}>
+                            <PageNewsPageRef item={n} link={{ href: "/news/[id]", params: { id: n.id } }} />
+                        </List.Item>
+                    ))}
+                </List>
             </LayoutBody>
         );
     }

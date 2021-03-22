@@ -32,6 +32,8 @@
   "browserslist": "last 2 versions, not dead, not IE > 0, Firefox ESR",
   "license": "AGPL-3.0",
   "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/plugin-proposal-logical-assignment-operators": "^7.13.8",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/lodash": "^4.14.158",
     "@types/node": "^14.14.33",

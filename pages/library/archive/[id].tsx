@@ -5,14 +5,12 @@ import { debounce } from "ts-debounce";
 import getMathHubConfig from "../../../src/context";
 import { IArchive, IDeclaration, IModule } from "../../../src/context/LibraryClient/objects";
 import { INarrativeElementProps } from "../../../src/library/NarrativeElement";
-import { crumbs, headerProps } from "../../../src/library/utils";
 import { TranslateProps, WithTranslate } from "../../../src/locales/WithTranslate";
 import { decode } from "../../../src/utils/base64";
 import { BooleanArrayStore } from "../../../src/utils/DataStore";
 import ImplicitParameters from "../../../src/utils/ImplicitParameters";
 import { WithDebug } from "../../../src/utils/WithDebug";
-import { Container, List } from "semantic-ui-react";
-import MHHTML from "../../../src/components/MHHTML";
+import { List } from "semantic-ui-react";
 
 const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
 const ActionHeader = dynamic(() => import("../../../src/layout/ActionHeader"));
@@ -97,20 +95,15 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
         };
 
         return (
-            <LayoutBody crumbs={[...breadcrumbs, ...crumbs(archive)]} title={[name]}>
-                <Container>
-                    <h1>
-                        <MHHTML>{name}</MHHTML>
-                    </h1>
-                    <ActionHeader {...headerProps(archive, { description })} />
-                    <List relaxed>
-                        {declarations.map(d => (
-                            <List.Item key={d.id}>
-                                <NarrativeElement {...nprops}>{d}</NarrativeElement>
-                            </List.Item>
-                        ))}
-                    </List>
-                </Container>
+            <LayoutBody crumbs={breadcrumbs} obj={archive} title={[name]}>
+                <ActionHeader title={name} obj={archive} description={description} />
+                <List relaxed>
+                    {declarations.map(d => (
+                        <List.Item key={d.id}>
+                            <NarrativeElement {...nprops}>{d}</NarrativeElement>
+                        </List.Item>
+                    ))}
+                </List>
             </LayoutBody>
         );
     }
