@@ -48,5 +48,5 @@ export const urls: IMathHubURLConfig = {
             "https://jupyter.mathhub.info/user-redirect/upload?url=https://gl.mathhub.info/${archive}/raw/${branch}/${path}?inline=false",
     },
     admin: "/admin/",
-    about: "https://github.com/MathHubInfo/Documentation/wiki/about",
+    about: "https://docs.mathhub.info/legacy/about",
 };
