@@ -9,6 +9,8 @@ import { Input, Table } from "semantic-ui-react";
 import { ILogEntry } from "../../src/context/LoggerClient";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
+import styles from "./logger.module.css";
+
 const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface ILoggerState extends ILoggerImplicits {
@@ -83,11 +85,11 @@ class Logger extends React.Component<ILoggerProps & TranslateProps, ILoggerState
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell style={{ width: "20%" }}>{t("date")}</Table.HeaderCell>
-                            <Table.HeaderCell style={{ width: "20%" }}>
+                            <Table.HeaderCell className={styles.cell1}>{t("date")}</Table.HeaderCell>
+                            <Table.HeaderCell className={styles.cell2}>
                                 <Input type="text" value={filter} onChange={this.changeFilter} placeholder="Filter" />
                             </Table.HeaderCell>
-                            <Table.HeaderCell style={{ width: "60%" }}>{t("content")}</Table.HeaderCell>
+                            <Table.HeaderCell className={styles.cell3}>{t("content")}</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>

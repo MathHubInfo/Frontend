@@ -1,6 +1,8 @@
 import * as React from "react";
 import { ITGViewData } from "../utils/URLs";
 
+import styles from "./TGView3DLink.module.css";
+
 export default class TGView3DLink extends React.Component<ITGViewData, { url: string }> {
     state = {
         url: TGView3DLink.computeDefaultURL(this.props),
@@ -55,7 +57,7 @@ export default class TGView3DLink extends React.Component<ITGViewData, { url: st
         const theURL = `https://tgview3d.mathhub.info/?${url}`;
 
         return (
-            <a href={theURL} style={{ color: "black" }}>
+            <a href={theURL} className={styles.link}>
                 {children}
             </a>
         );

@@ -10,6 +10,8 @@ import TGViewLink from "../components/TGViewLink";
 import TGView3DLink from "../components/TGView3DLink";
 import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
 
+import styles from "./ActionHeader.module.css";
+
 export type IActionHeaderProps = Partial<IActionHeaderOptional> & IActionHeaderRequired;
 
 interface IActionHeaderRequired {
@@ -80,9 +82,7 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, 
         return (
             <Button icon>
                 <Icon name={"hand point right outline"} />
-                <a href={sourceURL} style={{ color: "black" }}>
-                    {t("view source")}
-                </a>
+                <a href={sourceURL}>{t("view source")}</a>
             </Button>
         );
     }
@@ -119,7 +119,7 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, 
             <Button icon>
                 <Icon name={"hand point right outline"} />
                 <MHLink href={jupyterURL}>
-                    <a style={{ color: "black" }}>{t("jupyter")}</a>
+                    <a>{t("jupyter")}</a>
                 </MHLink>
             </Button>
         );
@@ -133,9 +133,7 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, 
             <Popup
                 trigger={
                     <Button color="green">
-                        <a href={issueURL} style={{ color: "black" }}>
-                            {t("report")}
-                        </a>
+                        <a href={issueURL}>{t("report")}</a>
                     </Button>
                 }
                 content={t("issue")}
@@ -149,7 +147,7 @@ class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, 
         return (
             <header>
                 <h1>{plaintitle === true ? title : <MHHTML>{title}</MHHTML>}</h1>
-                <Grid>
+                <Grid className={styles.buttons}>
                     <Grid.Column width={11}>
                         {this.sourceButton()}
                         {this.tgViewButton()}

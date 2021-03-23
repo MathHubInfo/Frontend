@@ -8,6 +8,8 @@ import copy from "copy-to-clipboard";
 import { IArchiveRef, IDocument, IDocumentRef, IGroupRef } from "../context/LibraryClient/objects";
 import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
 
+import styles from "./Ref.module.css";
+
 export interface IRefProps {
     link: IMHLinkable;
     item: IArchiveRef | IGroupRef | IDocumentRef | IDocument;
@@ -86,12 +88,12 @@ class Ref extends React.Component<IRefProps & TranslateProps, { copied: boolean 
 
                     {teaserDescription}
 
-                    <Card.Content extra>
-                        <a style={{ fontFamily: "monospace" }} onClick={this.handleClick}>
+                    <Card.Content extra className={styles.extra}>
+                        <a onClick={this.handleClick}>
                             <Icon name={icon} />
                             {id}
                         </a>
-                        {copied && <span style={{ color: "red", marginLeft: 5 }}>{t("copied")}</span>}
+                        <span className={copied ? styles.on : styles.off}>{t("copied")}</span>
                     </Card.Content>
                 </Card>
             </MHLink>

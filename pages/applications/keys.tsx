@@ -4,6 +4,8 @@ import * as React from "react";
 import { default as keysJSON } from "../../src/assets/applications/keys.json";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
+import styles from "./keys.module.css";
+
 const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface IKeysState {
@@ -44,11 +46,11 @@ export default class Keys extends React.Component<IKeysProps, IKeysState> {
 
         return (
             <LayoutBody crumbs={[{ href: "/", title: "Home" }]} title={["Keys"]}>
-                <table style={{ width: "100%" }}>
+                <table className={styles.table}>
                     <thead>
                         <tr>
-                            <th style={{ width: "20%" }}>Key</th>
-                            <th style={{ width: "80%" }}>
+                            <th className={styles.cell1}>Key</th>
+                            <th className={styles.cell2}>
                                 Description
                                 <button onClick={this.toggleExpansion}>{expanded ? "<<" : ">>"}</button>
                             </th>

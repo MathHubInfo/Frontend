@@ -1,0 +1,11 @@
+.input input {
+    width: 70%;
+}
+
+.button button {
+    margin-top: 1em;
+}
+
+.status {
+    color: gray;
+}

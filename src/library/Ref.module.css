@@ -1,0 +1,17 @@
+.extra a {
+    font-family: "monospace";
+}
+
+.extra span {
+    color: red;
+    margin-left: 5px;
+    transition: opacity .25s ease-in-out;
+}
+
+span.on {
+    opacity: 1.0;
+}
+
+span.off {
+    opacity: 0.0;
+}

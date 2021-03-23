@@ -3,6 +3,7 @@ import { Button, Card, Icon, Loader } from "semantic-ui-react";
 import { INarrativeElementProps } from ".";
 import { IModule, IModuleRef } from "../../context/LibraryClient/objects";
 import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
+import styles from "./PageModule.module.css";
 
 export interface IModuleProps {
     item: IModule | IModuleRef;
@@ -25,12 +26,7 @@ class PageModule extends React.Component<IModuleProps & TranslateProps> {
             <Card fluid>
                 <Card.Content>
                     <Card.Header>
-                        <Button
-                            compact
-                            size={"small"}
-                            onClick={this.toggleExpansion}
-                            style={{ backgroundColor: "#4F81BD" }}
-                        >
+                        <Button compact size={"small"} onClick={this.toggleExpansion} className={styles.expandButton}>
                             <h4>
                                 <b>{item.name}</b>
                                 &emsp;
@@ -46,11 +42,9 @@ class PageModule extends React.Component<IModuleProps & TranslateProps> {
                     <Card.Description>
                         {expanded &&
                             (children !== undefined ? (
-                                <ul>
+                                <ul className={styles.declarations}>
                                     {children.map(c => (
-                                        <li key={c.props.children.id} style={{ marginTop: "0.5em" }}>
-                                            {c}
-                                        </li>
+                                        <li key={c.props.children.id}>{c}</li>
                                     ))}
                                 </ul>
                             ) : (

@@ -4,6 +4,7 @@ import MHLink from "../components/MHLink";
 import getMathHubConfig from "../context";
 import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
 import { IMathHubVersion } from "../types/config";
+import styles from "./LayoutFooter.module.css";
 
 class LayoutFooter extends React.Component<TranslateProps> {
     render() {
@@ -19,7 +20,7 @@ class LayoutFooter extends React.Component<TranslateProps> {
                                 size="tiny"
                                 title="wwww.kwarc.info"
                                 src={"/static/logos/kwarc_logo.png"}
-                                style={{ marginRight: "1.5em" }}
+                                className={styles.logo}
                                 alt="kwarc Logo"
                                 href={"https://kwarc.info/"}
                             />
@@ -30,7 +31,7 @@ class LayoutFooter extends React.Component<TranslateProps> {
                                 size="tiny"
                                 title="www.fau.eu"
                                 src={"/static/logos/fau_logo.png"}
-                                style={{ marginRight: "1.5em" }}
+                                className={styles.logo}
                                 alt="FAU Logo"
                                 inline
                                 href={"https://www.fau.eu/"}
@@ -39,6 +40,7 @@ class LayoutFooter extends React.Component<TranslateProps> {
                                 size="tiny"
                                 title="www.opendreamkit.org"
                                 src={"/static/logos/odk_logo.png"}
+                                className={styles.logo}
                                 alt="ODK Logo"
                                 inline
                                 href={"https://opendreamkit.org/"}
@@ -47,7 +49,7 @@ class LayoutFooter extends React.Component<TranslateProps> {
                                 size="tiny"
                                 title="www.jacobs-university.de"
                                 src={"/static/logos/jacobs_logo.png"}
-                                style={{ marginRight: "1.5em" }}
+                                className={styles.logo}
                                 alt="Jacobs University Logo"
                                 inline
                                 href={"https://www.jacobs-university.de/"}
@@ -59,7 +61,7 @@ class LayoutFooter extends React.Component<TranslateProps> {
                                 size="tiny"
                                 src={"/static/logos/eu_logo.png"}
                                 title="ec.europa.eu/info/research-and-innovation_en"
-                                style={{ marginRight: "1.5em" }}
+                                className={styles.logo}
                                 alt="EU Logo"
                                 inline
                                 href={"https://ec.europa.eu/info/research-and-innovation_en"}
@@ -68,7 +70,7 @@ class LayoutFooter extends React.Component<TranslateProps> {
                                 size="tiny"
                                 src={"/static/logos/leibniz_logo.png"}
                                 title="www.leibniz-gemeinschaft.de"
-                                style={{ marginRight: "1.5em" }}
+                                className={styles.logo}
                                 alt="leibniz Logo"
                                 inline
                                 href={"https://www.leibniz-gemeinschaft.de/"}
@@ -77,12 +79,9 @@ class LayoutFooter extends React.Component<TranslateProps> {
                                 size="tiny"
                                 src={"/static/logos/dfg_logo.png"}
                                 title="www.dfg.de"
-                                style={{ marginRight: "1.5em" }}
-                                alt="dfg University Logo"
+                                className={styles.logo}
                                 inline
-                                // DFG: Fix this
-
-                                href={"http://dfg.de"}
+                                href={"https://dfg.de"}
                             />
                         </Grid.Column>
                     </Grid.Row>

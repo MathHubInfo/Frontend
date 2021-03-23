@@ -8,6 +8,8 @@ import ImplicitParameters from "../../src/utils/ImplicitParameters";
 import { Button, Card, Container, Grid, Tab, TabProps } from "semantic-ui-react";
 import MHHTML from "../../src/components/MHHTML";
 
+import styles from "./glossary.module.css";
+
 const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface IGlossaryProps {
@@ -124,7 +126,7 @@ class GlossaryEntry extends React.Component<IGlossaryEntryProps & TranslateProps
         const available = Object.keys({ ...entry.kwd, ...entry.def }).sort() as TKnownLanguages[];
 
         return (
-            <Card fluid style={{ marginTop: "1em" }} onClick={this.handleClick}>
+            <Card fluid className={styles.entry} onClick={this.handleClick}>
                 <Card.Content>
                     <Card.Header>
                         <Grid>

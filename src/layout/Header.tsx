@@ -8,6 +8,8 @@ import { LocaleContext, LocaleContextProps, TranslateProps, WithTranslate } from
 import { supportedLocales } from "../locales";
 import { IBreadcrumb } from "./Props";
 
+import styles from "./Header.module.css";
+
 interface IHeaderProps {
     /**
      * The title of the current page, consisting out of differenct components
@@ -26,14 +28,14 @@ class Header extends React.Component<IHeaderProps & { router: NextRouter } & Tra
         const { title, crumbs, router, t } = this.props;
         return (
             <nav>
-                <Menu>
+                <Menu className={styles.menu}>
                     <Container>
                         <MHLink href="/">
                             <Menu.Item header>
                                 <Image
                                     size="mini"
                                     src={"/static/logos/MathHub.svg"}
-                                    style={{ marginRight: "1.5em" }}
+                                    className={styles.logo}
                                     alt="MathHub Logo"
                                 />
                                 MathHub
@@ -52,24 +54,16 @@ class Header extends React.Component<IHeaderProps & { router: NextRouter } & Tra
                         <Dropdown text={t("help")} className="link item">
                             <Dropdown.Menu>
                                 <Dropdown.Item>
-                                    <a href={urls.help.documentation} style={{ color: "black" }}>
-                                        {t("documentation")}
-                                    </a>
+                                    <a href={urls.help.documentation}>{t("documentation")}</a>
                                 </Dropdown.Item>
                                 <Dropdown.Item>
-                                    <a href={urls.help.browseSources} style={{ color: "black" }}>
-                                        {t("sources")}
-                                    </a>
+                                    <a href={urls.help.browseSources}>{t("sources")}</a>
                                 </Dropdown.Item>
                                 <Dropdown.Item>
-                                    <a href={urls.help.contactAHuman} style={{ color: "black" }}>
-                                        {t("contact")}
-                                    </a>
+                                    <a href={urls.help.contactAHuman}>{t("contact")}</a>
                                 </Dropdown.Item>
                                 <Dropdown.Item>
-                                    <a href={urls.help.report} style={{ color: "black" }}>
-                                        {t("report")}
-                                    </a>
+                                    <a href={urls.help.report}>{t("report")}</a>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
@@ -77,14 +71,10 @@ class Header extends React.Component<IHeaderProps & { router: NextRouter } & Tra
                             <Menu.Item>{t("news")}</Menu.Item>
                         </MHLink>
                         <Menu.Item>
-                            <a href={urls.admin} style={{ color: "black" }}>
-                                {t("admin")}
-                            </a>
+                            <a href={urls.admin}>{t("admin")}</a>
                         </Menu.Item>
                         <Menu.Item>
-                            <a href={urls.about} style={{ color: "black" }}>
-                                {t("about")}
-                            </a>
+                            <a href={urls.about}>{t("about")}</a>
                         </Menu.Item>
                     </Container>
                 </Menu>

@@ -1,6 +1,8 @@
 import * as React from "react";
 import { ITGViewData } from "../utils/URLs";
 
+import styles from "./TGViewLink.module.css";
+
 export default class TGViewLink extends React.Component<ITGViewData, { url: string }> {
     state = {
         url: TGViewLink.computeDefaultURL(this.props),
@@ -47,7 +49,7 @@ export default class TGViewLink extends React.Component<ITGViewData, { url: stri
         const { children } = this.props;
 
         return (
-            <a href={url} style={{ color: "black" }}>
+            <a href={url} className={styles.link}>
                 {children}
             </a>
         );

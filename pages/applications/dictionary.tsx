@@ -8,6 +8,8 @@ import { IGlossaryEntry, IsKnownLanguage, knownLanguages, TKnownLanguages } from
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
+import styles from "./dictionary.module.css";
+
 const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
 
 interface IDictionaryProps {
@@ -102,9 +104,9 @@ class Dictionary extends React.Component<IDictionaryProps & TranslateProps, IDic
                 <LanguageDropdown value={toLanguage} options={knownLanguages} onChange={this.changeToLanguage} />
                 <Divider />
                 <div>
-                    <Input style={{ width: "70%" }} onChange={this.changeText} />
+                    <Input className={styles.input} onChange={this.changeText} />
                     <br />
-                    <Button disabled={translating} onClick={this.startTranslation} style={{ marginTop: "1em" }}>
+                    <Button disabled={translating} onClick={this.startTranslation}>
                         {t("translate")}
                     </Button>
                 </div>
@@ -204,7 +206,7 @@ class Dictionary extends React.Component<IDictionaryProps & TranslateProps, IDic
             );
         }
 
-        return <div style={{ color: "grey" }}>{statusText}</div>;
+        return <div className={styles.status}>{statusText}</div>;
     }
 }
 
