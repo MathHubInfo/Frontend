@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";
-import { IReferencable, ISourceReference, IStatistic } from "../../../context/LibraryClient/objects";
-import { ObjectSource } from "../../../context/LibraryClient/objects/utils";
-import MHHTML from "../../../components/MHHTML";
-import MHLink from "../../../components/MHLink";
+import { IReferencable, ISourceReference, IStatistic } from "../../context/LibraryClient/objects";
+import { ObjectSource } from "../../context/LibraryClient/objects/utils";
+import MHHTML from "../../components/MHHTML";
+import MHLink from "../../components/MHLink";
 import StatisticsTable from "./Statistics";
-import { IssueURL, ITGViewData, JupyterURL, SourceURL, TGViewURL } from "../../../utils/URLs";
+import { IssueURL, ITGViewData, JupyterURL, SourceURL, TGViewURL } from "../../utils/URLs";
 import TGViewLink from "./TGViewLink";
 import TGView3DLink from "./TGView3DLink";
-import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
+import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 
 import styles from "./index.module.css";
 

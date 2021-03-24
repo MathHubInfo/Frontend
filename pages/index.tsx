@@ -6,7 +6,7 @@ import MHHTML from "../src/components/MHHTML";
 import MHLink from "../src/components/MHLink";
 import styles from "./index.module.css";
 
-const Body = dynamic(() => import("../src/layout/Body"));
+const Body = dynamic(() => import("../src/layout"));
 
 class Home extends React.Component<TranslateProps> {
     static crumbs = [];

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ITGViewData } from "../../../utils/URLs";
+import { ITGViewData } from "../../utils/URLs";
 
 import styles from "./TGViewLink.module.css";
 

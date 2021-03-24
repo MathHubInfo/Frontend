@@ -8,7 +8,7 @@ import { decode } from "../../../src/utils/base64";
 import { CompareStrings } from "../../../src/utils/Compare";
 import { List } from "semantic-ui-react";
 
-const Body = dynamic(() => import("../../../src/layout/Body"));
+const Body = dynamic(() => import("../../../src/layout"));
 
 const Ref = dynamic(() => import("../../../src/library/Ref"));
 

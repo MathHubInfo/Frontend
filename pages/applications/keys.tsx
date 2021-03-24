@@ -6,7 +6,7 @@ import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
 import styles from "./keys.module.css";
 
-const Body = dynamic(() => import("../../src/layout/Body"));
+const Body = dynamic(() => import("../../src/layout"));
 
 interface IKeysState {
     /**

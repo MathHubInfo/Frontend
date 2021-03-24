@@ -7,7 +7,7 @@ import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { Header, Segment } from "semantic-ui-react";
 import MHHTML from "../../src/components/MHHTML";
 
-const Body = dynamic(() => import("../../src/layout/Body"));
+const Body = dynamic(() => import("../../src/layout"));
 
 interface IPageProps {
     item: INewsItem;

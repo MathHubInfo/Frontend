@@ -3,8 +3,8 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import * as React from "react";
 import { Container, Divider } from "semantic-ui-react";
-import { IReferencable } from "../../context/LibraryClient/objects";
-import { ObjectParents } from "../../context/LibraryClient/objects/utils";
+import { IReferencable } from "../context/LibraryClient/objects";
+import { ObjectParents } from "../context/LibraryClient/objects/utils";
 
 import { HeaderProps } from "./Header";
 const ActionHeader = dynamic(() => import("./Header"));
@@ -14,7 +14,7 @@ const Nav = dynamic(() => import("./Nav"));
 
 const Footer = dynamic(() => import("./Footer"));
 
-type ILayoutBodyProps = ILayoutBodyState & {
+type LayoutProps = LayoutState & {
     /**
      * The description of the body. Might contain html.
      */
@@ -28,10 +28,10 @@ type ILayoutBodyProps = ILayoutBodyState & {
 
     /* object being referenced in the header and appended to the breadcrumbs */
     obj?: IReferencable;
-} & (WithHeaderProps | NoHeaderProps);
+} & (LayoutWithHeader | LayoutWithoutHeader);
 
 /** include an IActionHeader */
-interface WithHeaderProps {
+interface LayoutWithHeader {
     /* title of the current page */
     title: string[];
 
@@ -39,8 +39,8 @@ interface WithHeaderProps {
     header: true;
 }
 
-/* do not include an IActionHeader, but still use obj for breadcrumbs */
-interface NoHeaderProps {
+/* do not include an ActionHeader, but still use obj for breadcrumbs */
+interface LayoutWithoutHeader {
     /** title of the current page, consisting of different components */
     title?: string[]; // TODO: Do we use more than one component anywhere?
 
@@ -48,16 +48,16 @@ interface NoHeaderProps {
     header?: false;
 }
 
-interface ILayoutBodyState {
+interface LayoutState {
     crumbs: IBreadcrumb[];
 
     /** when set create an Action header based on the props */
     actionHeader?: HeaderProps;
 }
 
-export default class LayoutBody extends React.Component<ILayoutBodyProps, ILayoutBodyState> {
-    state: ILayoutBodyState = { crumbs: this.props.crumbs };
-    static getDerivedStateFromProps({ title, description, obj, crumbs, header }: ILayoutBodyProps): ILayoutBodyState {
+export default class Layout extends React.Component<LayoutProps, LayoutState> {
+    state: LayoutState = { crumbs: this.props.crumbs };
+    static getDerivedStateFromProps({ title, description, obj, crumbs, header }: LayoutProps): LayoutState {
         // if we have an object, extrat the parent and add them to the crumbs
         if (obj) {
             // get the parents of this element, excluding itself
@@ -79,7 +79,7 @@ export default class LayoutBody extends React.Component<ILayoutBodyProps, ILayou
             );
         }
 
-        let actionHeader: ILayoutBodyState["actionHeader"] = undefined;
+        let actionHeader: LayoutState["actionHeader"] = undefined;
         if (header) {
             // TODO: Can we check this better?
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

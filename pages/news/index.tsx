@@ -8,7 +8,7 @@ import getMathHubConfig from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
-const Body = dynamic(() => import("../../src/layout/Body"));
+const Body = dynamic(() => import("../../src/layout"));
 
 interface INewsProps {
     items: INewsItem[];

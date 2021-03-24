@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import * as React from "react";
 import { Icon } from "semantic-ui-react";
-import LayoutBody from "../src/layout/Body";
+import Layout from "../src/layout";
 import { TranslateProps, WithTranslate } from "../src/locales/WithTranslate";
 import { Indexable } from "../src/types/lib";
 
@@ -28,13 +28,13 @@ class Error extends React.Component<ErrorProps & TranslateProps> {
         }
 
         return (
-            <LayoutBody crumbs={[]} title={[title]}>
+            <Layout crumbs={[]} title={[title]}>
                 <Icon name={"frown outline"} size={"huge"} />
                 <div>
                     HTTP {statusCode}: {title}
                 </div>
                 <div>{text}</div>
-            </LayoutBody>
+            </Layout>
         );
     }
 }

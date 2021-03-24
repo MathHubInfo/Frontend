@@ -10,7 +10,7 @@ import MHHTML from "../../src/components/MHHTML";
 
 import styles from "./glossary.module.css";
 
-const Body = dynamic(() => import("../../src/layout/Body"));
+const Body = dynamic(() => import("../../src/layout"));
 
 interface IGlossaryProps {
     initial: Partial<IGlossaryState>;

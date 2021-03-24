@@ -13,7 +13,7 @@ import { WithDebug } from "../../../src/utils/WithDebug";
 import { List } from "semantic-ui-react";
 
 const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
-const Body = dynamic(() => import("../../../src/layout/Body"));
+const Body = dynamic(() => import("../../../src/layout"));
 
 type IArchiveProps = {
     archive: IArchive;

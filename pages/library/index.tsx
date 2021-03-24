@@ -7,7 +7,7 @@ import { IGroupRef } from "../../src/context/LibraryClient/objects";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { CompareStrings } from "../../src/utils/Compare";
 
-const Body = dynamic(() => import("../../src/layout/Body"));
+const Body = dynamic(() => import("../../src/layout"));
 
 const Ref = dynamic(() => import("../../src/library/Ref"));
 

@@ -11,7 +11,7 @@ import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
 import styles from "./logger.module.css";
 
-const Body = dynamic(() => import("../../src/layout/Body"));
+const Body = dynamic(() => import("../../src/layout"));
 
 interface ILoggerState extends ILoggerImplicits {
     /**

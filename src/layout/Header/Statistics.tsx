@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Popup, Table } from "semantic-ui-react";
 
-import { default as keysJson } from "../../../assets/applications/keys.json";
-import { IStatistic } from "../../../context/LibraryClient/objects";
-import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
+import { default as keysJson } from "../../assets/applications/keys.json";
+import { IStatistic } from "../../context/LibraryClient/objects";
+import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 
 interface StatisticsProps {
     statistics?: IStatistic[];

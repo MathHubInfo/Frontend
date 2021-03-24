@@ -10,7 +10,7 @@ import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
 import styles from "./dictionary.module.css";
 
-const Body = dynamic(() => import("../../src/layout/Body"));
+const Body = dynamic(() => import("../../src/layout"));
 
 interface IDictionaryProps {
     initial: Partial<IDictionaryImplicits>;
