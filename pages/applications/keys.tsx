@@ -6,7 +6,7 @@ import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
 import styles from "./keys.module.css";
 
-const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../src/layout/Body"));
 
 interface IKeysState {
     /**
@@ -45,7 +45,7 @@ export default class Keys extends React.Component<IKeysProps, IKeysState> {
         const { expanded } = this.state;
 
         return (
-            <LayoutBody crumbs={[{ href: "/", title: "Home" }]} title={["Keys"]}>
+            <Body crumbs={[{ href: "/", title: "Home" }]} title={["Keys"]}>
                 <table className={styles.table}>
                     <thead>
                         <tr>
@@ -62,7 +62,7 @@ export default class Keys extends React.Component<IKeysProps, IKeysState> {
                         ))}
                     </tbody>
                 </table>
-            </LayoutBody>
+            </Body>
         );
     }
 

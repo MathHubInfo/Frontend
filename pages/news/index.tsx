@@ -8,7 +8,7 @@ import getMathHubConfig from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
-const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../src/layout/Body"));
 
 interface INewsProps {
     items: INewsItem[];
@@ -22,7 +22,7 @@ class News extends React.Component<INewsProps & TranslateProps> {
         const description = t("news intro");
 
         return (
-            <LayoutBody crumbs={crumbs} description={description} title={["News"]}>
+            <Body crumbs={crumbs} description={description} title={["News"]}>
                 <h1>News</h1>
                 <div>{description}</div>
                 <Divider />
@@ -33,7 +33,7 @@ class News extends React.Component<INewsProps & TranslateProps> {
                         </List.Item>
                     ))}
                 </List>
-            </LayoutBody>
+            </Body>
         );
     }
 }

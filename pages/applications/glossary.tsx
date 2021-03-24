@@ -10,7 +10,7 @@ import MHHTML from "../../src/components/MHHTML";
 
 import styles from "./glossary.module.css";
 
-const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../src/layout/Body"));
 
 interface IGlossaryProps {
     initial: Partial<IGlossaryState>;
@@ -64,7 +64,7 @@ class Glossary extends React.Component<IGlossaryProps & TranslateProps, IGlossar
         );
 
         return (
-            <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("glossary")]} header>
+            <Body crumbs={[{ href: "/", title: t("home") }]} title={[t("glossary")]} header>
                 <Tab panes={panes} activeIndex={knownLanguages.indexOf(language)} onTabChange={this.changeTab} />
                 <Container>
                     {entries.map(e => (
@@ -77,7 +77,7 @@ class Glossary extends React.Component<IGlossaryProps & TranslateProps, IGlossar
                         />
                     ))}
                 </Container>
-            </LayoutBody>
+            </Body>
         );
     }
 

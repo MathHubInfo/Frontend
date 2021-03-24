@@ -10,7 +10,7 @@ import ImplicitParameters from "../../src/utils/ImplicitParameters";
 
 import styles from "./dictionary.module.css";
 
-const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../src/layout/Body"));
 
 interface IDictionaryProps {
     initial: Partial<IDictionaryImplicits>;
@@ -96,7 +96,7 @@ class Dictionary extends React.Component<IDictionaryProps & TranslateProps, IDic
         if (!translationValid) statusText = translating ? t("translatng") : t("press");
 
         return (
-            <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("dictionary")]} header>
+            <Body crumbs={[{ href: "/", title: t("home") }]} title={[t("dictionary")]} header>
                 {t("from:")}&nbsp;
                 <LanguageDropdown value={fromLanguage} options={knownLanguages} onChange={this.changeFromLanguage} />
                 &nbsp;
@@ -112,7 +112,7 @@ class Dictionary extends React.Component<IDictionaryProps & TranslateProps, IDic
                 </div>
                 <Divider />
                 {this.showTranslation(statusText)}
-            </LayoutBody>
+            </Body>
         );
     }
 

@@ -6,14 +6,14 @@ import MHHTML from "../src/components/MHHTML";
 import MHLink from "../src/components/MHLink";
 import styles from "./index.module.css";
 
-const LayoutBody = dynamic(() => import("../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../src/layout/Body"));
 
 class Home extends React.Component<TranslateProps> {
     static crumbs = [];
     render() {
         const { t } = this.props;
         return (
-            <LayoutBody crumbs={Home.crumbs} title={[t("home")]} description={t("home")}>
+            <Body crumbs={Home.crumbs} title={[t("home")]} description={t("home")}>
                 <Grid>
                     <Grid.Row>
                         <Grid.Column width={8}>
@@ -45,7 +45,7 @@ class Home extends React.Component<TranslateProps> {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-            </LayoutBody>
+            </Body>
         );
     }
 }

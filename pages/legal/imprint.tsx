@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
-const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../src/layout/Body"));
 
 interface IImprintProps {
     imprint: string;
@@ -18,10 +18,10 @@ class Imprint extends React.Component<IImprintProps & TranslateProps> {
         const crumbs = [{ href: "/", title: t("home") }];
 
         return (
-            <LayoutBody crumbs={crumbs} title={[t("imprint")]}>
+            <Body crumbs={crumbs} title={[t("imprint")]}>
                 <div>{t("imprint responsible")}</div>
                 <pre>{imprint}</pre>
-            </LayoutBody>
+            </Body>
         );
     }
 }

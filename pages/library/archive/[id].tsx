@@ -13,7 +13,7 @@ import { WithDebug } from "../../../src/utils/WithDebug";
 import { List } from "semantic-ui-react";
 
 const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
-const LayoutBody = dynamic(() => import("../../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../../src/layout/Body"));
 
 type IArchiveProps = {
     archive: IArchive;
@@ -93,7 +93,7 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
         };
 
         return (
-            <LayoutBody crumbs={breadcrumbs} obj={archive} title={[name]} header>
+            <Body crumbs={breadcrumbs} obj={archive} title={[name]} header>
                 <List relaxed>
                     {declarations.map(d => (
                         <List.Item key={d.id}>
@@ -101,7 +101,7 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
                         </List.Item>
                     ))}
                 </List>
-            </LayoutBody>
+            </Body>
         );
     }
 }

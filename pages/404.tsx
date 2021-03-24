@@ -1,10 +1,9 @@
-import dynamic from "next/dynamic";
 import * as React from "react";
 
-const LayoutFailure = dynamic(() => import("../src/layout/LayoutFailure"));
+import Error from "./_error";
 
-export default class Error extends React.Component {
+export default class Error404 extends React.Component {
     render() {
-        return <LayoutFailure crumbs={[]} statusCode={404} />;
+        return <Error statusCode={404} />;
     }
 }

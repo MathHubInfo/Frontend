@@ -7,7 +7,7 @@ import { IGroupRef } from "../../src/context/LibraryClient/objects";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { CompareStrings } from "../../src/utils/Compare";
 
-const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../src/layout/Body"));
 
 const Ref = dynamic(() => import("../../src/library/Ref"));
 
@@ -24,7 +24,7 @@ class Library extends React.Component<ILibraryProps & TranslateProps> {
         const description = t("library intro");
 
         return (
-            <LayoutBody crumbs={crumbs} description={description} title={[title]} header>
+            <Body crumbs={crumbs} description={description} title={[title]} header>
                 <List relaxed>
                     {groups.map(g => (
                         <List.Item key={g.id}>
@@ -32,7 +32,7 @@ class Library extends React.Component<ILibraryProps & TranslateProps> {
                         </List.Item>
                     ))}
                 </List>
-            </LayoutBody>
+            </Body>
         );
     }
 }

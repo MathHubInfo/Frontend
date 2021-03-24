@@ -1,11 +1,18 @@
 import dynamic from "next/dynamic";
+
 import Head from "next/head";
 import * as React from "react";
 import { Container, Divider } from "semantic-ui-react";
-import { IReferencable } from "../context/LibraryClient/objects";
-import { ObjectParents } from "../context/LibraryClient/objects/utils";
-import ActionHeader, { IActionHeaderProps } from "./ActionHeader";
-import { IBreadcrumb } from "./Props";
+import { IReferencable } from "../../context/LibraryClient/objects";
+import { ObjectParents } from "../../context/LibraryClient/objects/utils";
+
+import { HeaderProps } from "./Header";
+const ActionHeader = dynamic(() => import("./Header"));
+
+import { IBreadcrumb } from "./Nav";
+const Nav = dynamic(() => import("./Nav"));
+
+const Footer = dynamic(() => import("./Footer"));
 
 type ILayoutBodyProps = ILayoutBodyState & {
     /**
@@ -45,11 +52,8 @@ interface ILayoutBodyState {
     crumbs: IBreadcrumb[];
 
     /** when set create an Action header based on the props */
-    actionHeader?: IActionHeaderProps;
+    actionHeader?: HeaderProps;
 }
-
-const Header = dynamic(() => import("./Header"));
-const LayoutFooter = dynamic(() => import("./LayoutFooter"));
 
 export default class LayoutBody extends React.Component<ILayoutBodyProps, ILayoutBodyState> {
     state: ILayoutBodyState = { crumbs: this.props.crumbs };
@@ -100,12 +104,12 @@ export default class LayoutBody extends React.Component<ILayoutBodyProps, ILayou
                     <title>{theTitle}</title>
                     {description && <meta name="description" content={description} />}
                 </Head>
-                <Header title={title} crumbs={crumbs} />
+                <Nav title={title} crumbs={crumbs} />
                 <Divider />
                 {actionHeader && <ActionHeader {...actionHeader} />}
                 <main>{children}</main>
                 <Divider />
-                <LayoutFooter />
+                <Footer />
             </Container>
         );
     }

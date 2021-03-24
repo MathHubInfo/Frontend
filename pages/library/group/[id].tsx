@@ -8,7 +8,7 @@ import { decode } from "../../../src/utils/base64";
 import { CompareStrings } from "../../../src/utils/Compare";
 import { List } from "semantic-ui-react";
 
-const LayoutBody = dynamic(() => import("../../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../../src/layout/Body"));
 
 const Ref = dynamic(() => import("../../../src/library/Ref"));
 
@@ -27,7 +27,7 @@ class Group extends React.Component<IGroupProps & TranslateProps> {
         ];
 
         return (
-            <LayoutBody crumbs={crumbs} description={description} title={[name]} header>
+            <Body crumbs={crumbs} description={description} title={[name]} header>
                 <List relaxed>
                     {declarations.map(a => (
                         <List.Item key={a.id}>
@@ -35,7 +35,7 @@ class Group extends React.Component<IGroupProps & TranslateProps> {
                         </List.Item>
                     ))}
                 </List>
-            </LayoutBody>
+            </Body>
         );
     }
 }

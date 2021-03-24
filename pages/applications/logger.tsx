@@ -11,7 +11,7 @@ import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
 import styles from "./logger.module.css";
 
-const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../src/layout/Body"));
 
 interface ILoggerState extends ILoggerImplicits {
     /**
@@ -81,7 +81,7 @@ class Logger extends React.Component<ILoggerProps & TranslateProps, ILoggerState
         const { entries, filter } = this.state;
 
         return (
-            <LayoutBody crumbs={[{ href: "/", title: t("home") }]} title={[t("logger")]}>
+            <Body crumbs={[{ href: "/", title: t("home") }]} title={[t("logger")]}>
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
@@ -100,7 +100,7 @@ class Logger extends React.Component<ILoggerProps & TranslateProps, ILoggerState
                             ))}
                     </Table.Body>
                 </Table>
-            </LayoutBody>
+            </Body>
         );
     }
 

@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
-const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../src/layout/Body"));
 const TGViewComponent = dynamic(() => import("../../src/components/TGView"));
 
 class TGView extends React.Component<TranslateProps> {
@@ -11,9 +11,9 @@ class TGView extends React.Component<TranslateProps> {
         const crumbs = [{ href: "/", title: t("home") }];
 
         return (
-            <LayoutBody crumbs={crumbs} title={["TGView (Dummy)"]}>
+            <Body crumbs={crumbs} title={["TGView (Dummy)"]}>
                 <TGViewComponent instanceKey="never-recreate" />
-            </LayoutBody>
+            </Body>
         );
     }
 }

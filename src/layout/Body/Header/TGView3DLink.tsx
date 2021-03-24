@@ -1,11 +1,11 @@
 import * as React from "react";
-import { ITGViewData } from "../utils/URLs";
+import { ITGViewData } from "../../../utils/URLs";
 
-import styles from "./TGViewLink.module.css";
+import styles from "./TGView3DLink.module.css";
 
-export default class TGViewLink extends React.Component<ITGViewData, { url: string }> {
+export default class TGView3DLink extends React.Component<ITGViewData, { url: string }> {
     state = {
-        url: TGViewLink.computeDefaultURL(this.props),
+        url: TGView3DLink.computeDefaultURL(this.props),
     };
 
     /**
@@ -30,10 +30,10 @@ export default class TGViewLink extends React.Component<ITGViewData, { url: stri
         }
     }
     private static computeDefaultURL({ type, graphdata }: ITGViewData) {
-        return `/applications/tgview?type=${type}&graphdata=${escape(graphdata)}`;
+        return `localhost:8080/:jgraph/json?key=${type}&uri=${escape(graphdata)}`;
     }
     private static computeLegacyURL(base: string, { type, graphdata }: ITGViewData) {
-        return `${base}/graphs/tgview.html?type=${type}&graphdata=${escape(graphdata)}`;
+        return `${base}/:jgraph/json?key=${type}&uri=${escape(graphdata)}`;
     }
 
     componentDidMount() {
@@ -45,17 +45,25 @@ export default class TGViewLink extends React.Component<ITGViewData, { url: stri
     }
 
     render() {
-        const { url } = this.state;
+        let { url } = this.state;
         const { children } = this.props;
 
+        // remove the protocol from the url
+
+        if (url.startsWith("http://")) url = url.substring(7);
+        else if (url.startsWith("https://")) url = url.substring(8);
+
+        // prefix the normal url
+        const theURL = `https://tgview3d.mathhub.info/?${url}`;
+
         return (
-            <a href={url} className={styles.link}>
+            <a href={theURL} className={styles.link}>
                 {children}
             </a>
         );
     }
 
     private updateURL() {
-        this.setState({ url: TGViewLink.computeMagicURL(this.props) });
+        this.setState({ url: TGView3DLink.computeMagicURL(this.props) });
     }
 }

@@ -1,5 +1,4 @@
 import App, { AppContext } from "next/app";
-import dynamic from "next/dynamic";
 import { default as Router } from "next/router";
 import React from "react";
 
@@ -8,17 +7,18 @@ import { Locale, defaultLocale, makeLocale } from "../src/locales";
 
 import Error from "./404";
 
-// true global css
+import { loadLocaleData } from "../src/locales/loadData";
+import NProgress from "../src/components/NProgress";
+
+// true global css, only semantic ui css!
 import "semantic-ui-css/semantic.min.css";
 
 // tgview only css
+// TODO: Consider removing this!
 import "tgview/src/css/styles.css";
 import "vis/dist/vis.min.css";
 import "jqueryui/jquery-ui.min.css";
 import "jstree/dist/themes/default/style.css";
-import { loadLocaleData } from "../src/locales/loadData";
-
-const LayoutRoutingIndicator = dynamic(() => import("../src/layout/LayoutRoutingIndicator"));
 
 interface IMHAppProps extends LocaleProps {
     initialConfig: unknown;
@@ -100,7 +100,7 @@ export default class MHApp extends App<IMHAppProps> {
 
         return (
             <LocaleContext.Provider value={{ locale, localeData }}>
-                {routing && <LayoutRoutingIndicator />}
+                {routing && <NProgress />}
                 <Component {...pageProps} />
             </LocaleContext.Provider>
         );

@@ -13,7 +13,7 @@ import { WithDebug } from "../../../src/utils/WithDebug";
 import { List } from "semantic-ui-react";
 
 const NarrativeElement = dynamic(() => import("../../../src/library/NarrativeElement"));
-const LayoutBody = dynamic(() => import("../../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../../src/layout/Body"));
 
 interface IDocumentProps {
     document: IDocument;
@@ -90,7 +90,7 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
         };
 
         return (
-            <LayoutBody crumbs={breadcrumbs} obj={document} title={[name]} header>
+            <Body crumbs={breadcrumbs} obj={document} title={[name]} header>
                 <List relaxed>
                     {declarations.map(d => (
                         <List.Item key={d.id}>
@@ -98,7 +98,7 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
                         </List.Item>
                     ))}
                 </List>
-            </LayoutBody>
+            </Body>
         );
     }
 }

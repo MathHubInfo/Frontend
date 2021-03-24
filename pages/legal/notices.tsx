@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
-const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../src/layout/Body"));
 
 interface INoticesProps {
     notices: string | null;
@@ -18,7 +18,7 @@ class Notices extends React.Component<INoticesProps & TranslateProps> {
         const crumbs = [{ href: "/", title: t("home") }];
 
         return (
-            <LayoutBody crumbs={crumbs} title={[t("notices")]}>
+            <Body crumbs={crumbs} title={[t("notices")]}>
                 <h2>{t("license")}</h2>
                 <pre>{license}</pre>
                 {notices && (
@@ -27,7 +27,7 @@ class Notices extends React.Component<INoticesProps & TranslateProps> {
                         <pre>{notices}</pre>
                     </>
                 )}
-            </LayoutBody>
+            </Body>
         );
     }
 }

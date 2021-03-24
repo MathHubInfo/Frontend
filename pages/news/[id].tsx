@@ -7,7 +7,7 @@ import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { Header, Segment } from "semantic-ui-react";
 import MHHTML from "../../src/components/MHHTML";
 
-const LayoutBody = dynamic(() => import("../../src/layout/LayoutBody"));
+const Body = dynamic(() => import("../../src/layout/Body"));
 
 interface IPageProps {
     item: INewsItem;
@@ -27,7 +27,7 @@ class Page extends React.Component<IPageProps & TranslateProps> {
         ];
 
         return (
-            <LayoutBody crumbs={crumbs} title={[title, "News"]} description={teaser}>
+            <Body crumbs={crumbs} title={[title, "News"]} description={teaser}>
                 <Header as="h2" attached="top">
                     <MHHTML>{title}</MHHTML>
                     <Header.Subheader>{theDate.toDateString()}</Header.Subheader>
@@ -35,7 +35,7 @@ class Page extends React.Component<IPageProps & TranslateProps> {
                 <Segment attached>
                     <MHHTML>{content}</MHHTML>
                 </Segment>
-            </LayoutBody>
+            </Body>
         );
     }
 }

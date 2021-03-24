@@ -1,20 +1,20 @@
 import * as React from "react";
 import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";
-import { IReferencable, ISourceReference, IStatistic } from "../context/LibraryClient/objects";
-import { ObjectSource } from "../context/LibraryClient/objects/utils";
-import MHHTML from "../components/MHHTML";
-import MHLink from "../components/MHLink";
-import { StatisticsTable } from "./Statistics";
-import { IssueURL, ITGViewData, JupyterURL, SourceURL, TGViewURL } from "../utils/URLs";
-import TGViewLink from "../components/TGViewLink";
-import TGView3DLink from "../components/TGView3DLink";
-import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
+import { IReferencable, ISourceReference, IStatistic } from "../../../context/LibraryClient/objects";
+import { ObjectSource } from "../../../context/LibraryClient/objects/utils";
+import MHHTML from "../../../components/MHHTML";
+import MHLink from "../../../components/MHLink";
+import StatisticsTable from "./Statistics";
+import { IssueURL, ITGViewData, JupyterURL, SourceURL, TGViewURL } from "../../../utils/URLs";
+import TGViewLink from "./TGViewLink";
+import TGView3DLink from "./TGView3DLink";
+import { TranslateProps, WithTranslate } from "../../../locales/WithTranslate";
 
-import styles from "./ActionHeader.module.css";
+import styles from "./index.module.css";
 
-export type IActionHeaderProps = Partial<IActionHeaderOptional> & IActionHeaderRequired;
+export type HeaderProps = Partial<HeaderOptionalProps> & HeaderRequiredProps;
 
-interface IActionHeaderRequired {
+interface HeaderRequiredProps {
     /** title of the page */
     title: string;
 
@@ -22,37 +22,37 @@ interface IActionHeaderRequired {
     plaintitle?: boolean;
 }
 
-interface IActionHeaderOptional {
+interface HeaderOptionalProps {
     // description of the element in question, may contain html
-    description?: string;
+    description: string;
 
     // referenced object by this page
-    obj?: IReferencable;
+    obj: IReferencable;
 }
 
-interface IActionHeaderState extends IActionHeaderOptional {
+interface HeaderState extends HeaderOptionalProps {
     // statistics (if any)
-    statistics?: IStatistic[];
+    statistics: IStatistic[];
 
     // a list of people responsible for the item
-    responsible?: string[];
+    responsible: string[];
 
     // the url to the source (if any)
-    sourceURL?: string;
+    sourceURL: string;
 
     // the url to tgview (if any)
-    tgViewURL?: ITGViewData;
+    tgViewURL: ITGViewData;
 
     // the url to issues (if any)
-    issueURL?: string;
+    issueURL: string;
 
     // the url to open a jupyter notebook (if any)
-    jupyterURL?: string;
+    jupyterURL: string;
 }
 
-class ActionHeader extends React.Component<IActionHeaderProps & TranslateProps, IActionHeaderState> {
-    state: IActionHeaderState = {};
-    static getDerivedStateFromProps({ obj, description }: IActionHeaderProps & TranslateProps): IActionHeaderState {
+class ActionHeader extends React.Component<HeaderProps & TranslateProps, Partial<HeaderState>> {
+    state: Partial<HeaderState> = {};
+    static getDerivedStateFromProps({ obj, description }: HeaderProps & TranslateProps): Partial<HeaderState> {
         // extrac source, responsible and statistics
         const source = obj && ObjectSource(obj);
         const responsible = obj && "responsible" in obj ? obj.responsible : undefined;
