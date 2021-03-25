@@ -18,12 +18,12 @@ export function IssueURL(source: ISourceReference): string | undefined {
 IssueURL.GROUP_TEMPLATE = "https://gl.mathhub.info/groups/${group}/-/issues";
 IssueURL.ARCHIVE_TEMPLATE = "https://gl.mathhub.info/${archive}/issues";
 
-export interface ITGViewData {
+interface ITGViewData {
     type: string;
     graphdata: string;
 }
 
-export function TGViewURL(obj: IReferencable): ITGViewData | undefined {
+export function TGViewData(obj: IReferencable): ITGViewData | undefined {
     let type: string | undefined;
     switch (obj.kind) {
         case "archive":
@@ -41,6 +41,43 @@ export function TGViewURL(obj: IReferencable): ITGViewData | undefined {
     }
 
     return { type, graphdata: obj.id };
+}
+
+export function TGViewURL(data: ITGViewData, href: string): string {
+    const { hostname } = new URL(href);
+
+    // HACK HACK HACK
+    // Until TGVIEW3D is ready, we hard-code the URLs to use here
+    // These are based on the MathHub base URL
+    switch (hostname.toLowerCase()) {
+        case "mathhub.info":
+        case "www.mathhub.info":
+            return tgViewLegacyURL("https://mmt.mathhub.info", data);
+        case "beta.mathhub.info":
+            return tgViewLegacyURL("https://mmt.beta.mathhub.info", data);
+        case "localhost":
+            return tgViewLegacyURL("http://localhost:8080", data);
+        default:
+            return tgViewDefaultURL(data);
+    }
+}
+
+export function TGView3DURL(data: ITGViewData, href: string): string {
+    let url = TGViewURL(data, href);
+
+    // remove the prefix
+    if (url.startsWith("http://")) url = url.substring(7);
+    else if (url.startsWith("https://")) url = url.substring(8);
+
+    // prepend TGView3D URL
+    return `https://tgview3d.mathhub.info/?${url}`;
+}
+
+function tgViewDefaultURL({ type, graphdata }: ITGViewData) {
+    return `/applications/tgview?type=${type}&graphdata=${escape(graphdata)}`;
+}
+function tgViewLegacyURL(base: string, { type, graphdata }: ITGViewData) {
+    return `${base}/graphs/tgview.html?type=${type}&graphdata=${escape(graphdata)}`;
 }
 
 /**
@@ -74,13 +111,13 @@ function makeURL(
         if (ARCHIVE_URL_TEMPLATE === undefined) return undefined;
 
         return ARCHIVE_URL_TEMPLATE.replace("${archive}", source.parent.id)
-            .replace("${branch}", "version" in source ? source.version : "main")
+            .replace("${branch}", "version" in source ? source.version : "master")
             .replace("${path}", "");
     } else {
         if (FILE_URL_TEMPLATE === undefined) return undefined;
 
         return FILE_URL_TEMPLATE.replace("${archive}", source.parent.id)
-            .replace("${branch}", "version" in source ? source.version : "main")
+            .replace("${branch}", "version" in source ? source.version : "master")
             .replace("${path}", source.path || "");
     }
 }

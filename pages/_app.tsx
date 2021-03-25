@@ -19,8 +19,10 @@ import "tgview/src/css/styles.css";
 import "vis/dist/vis.min.css";
 import "jqueryui/jquery-ui.min.css";
 import "jstree/dist/themes/default/style.css";
+import { URLContext } from "../src/locales/WithURL";
 
 interface IMHAppProps extends LocaleProps {
+    url: string; // the full url of the current page!
     initialConfig: unknown;
 }
 
@@ -38,9 +40,10 @@ export default class MHApp extends App<IMHAppProps> {
      * Load initial properties (including language) for the provided page
      */
     static async getInitialProps(context: AppContext) {
-        const [origProps, { localeData, locale }] = await Promise.all([
+        const [origProps, { localeData, locale }, url] = await Promise.all([
             App.getInitialProps(context),
             MHApp.getLocale(context),
+            MHApp.getURL(context),
         ]);
 
         // if urlLocale is undefined, we return an HTTP 404!
@@ -49,7 +52,14 @@ export default class MHApp extends App<IMHAppProps> {
             context.ctx.res.statusCode = 404;
         }
 
-        return { ...origProps, locale, localeData };
+        return { ...origProps, locale, localeData, url };
+    }
+
+    static async getURL({ ctx: { req }, router: { asPath } }: AppContext): Promise<string> {
+        if (!req) return window.location.href; // client side!
+
+        const { host } = req.headers;
+        return "http://" + (host || "localhost") + asPath;
     }
 
     /**
@@ -87,7 +97,7 @@ export default class MHApp extends App<IMHAppProps> {
 
     render() {
         let { locale, Component, pageProps } = this.props;
-        const { localeData } = this.props;
+        const { url, localeData } = this.props;
         const { routing } = this.state;
 
         // if the user did not provide a locale, render the error component!
@@ -99,10 +109,12 @@ export default class MHApp extends App<IMHAppProps> {
         }
 
         return (
-            <LocaleContext.Provider value={{ locale, localeData }}>
-                {routing && <NProgress />}
-                <Component {...pageProps} />
-            </LocaleContext.Provider>
+            <URLContext.Provider value={url}>
+                <LocaleContext.Provider value={{ locale, localeData }}>
+                    {routing && <NProgress />}
+                    <Component {...pageProps} />
+                </LocaleContext.Provider>
+            </URLContext.Provider>
         );
     }
 

@@ -1,16 +1,15 @@
 import * as React from "react";
-import { Button, Container, Dropdown, Grid, Icon, Label, Popup } from "semantic-ui-react";
+import { Button, Divider, Dropdown, Header, Icon, Label, Popup, Segment } from "semantic-ui-react";
 import { IReferencable, ISourceReference, IStatistic } from "../../context/LibraryClient/objects";
 import { ObjectSource } from "../../context/LibraryClient/objects/utils";
 import MHHTML from "../../components/MHHTML";
-import MHLink from "../../components/MHLink";
 import StatisticsTable from "./Statistics";
-import { IssueURL, ITGViewData, JupyterURL, SourceURL, TGViewURL } from "../../utils/URLs";
-import TGViewLink from "./TGViewLink";
-import TGView3DLink from "./TGView3DLink";
+import { IssueURL, JupyterURL, SourceURL, TGViewURL, TGView3DURL, TGViewData } from "../../utils/URLs";
 import { TranslateProps, WithTranslate } from "../../locales/WithTranslate";
 
-import styles from "./index.module.css";
+import Copyable from "../../components/Copyable";
+import { URLProps, WithURL } from "../../locales/WithURL";
+import { SemanticICONS } from "semantic-ui-react/dist/commonjs/generic";
 
 export type HeaderProps = Partial<HeaderOptionalProps> & HeaderRequiredProps;
 
@@ -41,7 +40,10 @@ interface HeaderState extends HeaderOptionalProps {
     sourceURL: string;
 
     // the url to tgview (if any)
-    tgViewURL: ITGViewData;
+    tgViewURL: string;
+
+    // the url to tgview3d (if any)
+    tgView3DURL: string;
 
     // the url to issues (if any)
     issueURL: string;
@@ -50,9 +52,13 @@ interface HeaderState extends HeaderOptionalProps {
     jupyterURL: string;
 }
 
-class ActionHeader extends React.Component<HeaderProps & TranslateProps, Partial<HeaderState>> {
+class ItemHeader extends React.Component<HeaderProps & TranslateProps & URLProps, Partial<HeaderState>> {
     state: Partial<HeaderState> = {};
-    static getDerivedStateFromProps({ obj, description }: HeaderProps & TranslateProps): Partial<HeaderState> {
+    static getDerivedStateFromProps({
+        obj,
+        description,
+        url,
+    }: HeaderProps & TranslateProps & URLProps): Partial<HeaderState> {
         // extrac source, responsible and statistics
         const source = obj && ObjectSource(obj);
         const responsible = obj && "responsible" in obj ? obj.responsible : undefined;
@@ -63,6 +69,9 @@ class ActionHeader extends React.Component<HeaderProps & TranslateProps, Partial
         if (obj && obj.kind === "document" && "tags" in obj && obj.tags.indexOf("ipynb-omdoc") >= -1)
             jupyter = ObjectSource(obj);
 
+        // build the tgview data
+        const tgviewData = obj && TGViewData(obj);
+
         return {
             obj,
             description,
@@ -71,115 +80,90 @@ class ActionHeader extends React.Component<HeaderProps & TranslateProps, Partial
             sourceURL: source && SourceURL(source),
             issueURL: source && IssueURL(source),
             jupyterURL: jupyter && JupyterURL(jupyter),
-            tgViewURL: obj && TGViewURL(obj),
+            tgViewURL: tgviewData && TGViewURL(tgviewData, url),
+            tgView3DURL: tgviewData && TGView3DURL(tgviewData, url),
         };
     }
-    private sourceButton() {
-        const { t } = this.props;
-        const { sourceURL } = this.state;
-        if (sourceURL === undefined) return null;
-
-        return (
-            <Button icon>
-                <Icon name={"hand point right outline"} />
-                <a href={sourceURL}>{t("view source")}</a>
-            </Button>
-        );
-    }
-    private tgViewButton() {
-        const { t } = this.props;
-        const { tgViewURL } = this.state;
-        if (tgViewURL === undefined) return null;
-
-        return (
-            <Button icon>
-                <Icon name={"hand point right outline"} />
-                <TGViewLink {...tgViewURL}>{t("view tgview")}</TGViewLink>
-            </Button>
-        );
-    }
-    private tgView3DButton() {
-        const { t } = this.props;
-        const { tgViewURL } = this.state;
-        if (tgViewURL === undefined) return null;
-
-        return (
-            <Button icon>
-                <Icon name={"hand point right outline"} />
-                <TGView3DLink {...tgViewURL}>{t("view tgview3d")}</TGView3DLink>
-            </Button>
-        );
-    }
-    private jupyterButton() {
-        const { t } = this.props;
-        const { jupyterURL } = this.state;
-        if (jupyterURL === undefined) return null;
-
-        return (
-            <Button icon>
-                <Icon name={"hand point right outline"} />
-                <MHLink href={jupyterURL}>
-                    <a>{t("jupyter")}</a>
-                </MHLink>
-            </Button>
-        );
-    }
-    private reportButton() {
-        const { t } = this.props;
-        const { issueURL } = this.state;
-        if (IssueURL === undefined) return null;
-
-        return (
-            <Popup
-                trigger={
-                    <Button color="green">
-                        <a href={issueURL}>{t("report")}</a>
-                    </Button>
-                }
-                content={t("issue")}
-            />
-        );
-    }
     render() {
-        const { t, plaintitle, title } = this.props;
-        const { statistics, description, responsible } = this.state;
+        const { t, plaintitle, title, obj } = this.props;
+        const {
+            description,
+            responsible,
+            sourceURL,
+            tgViewURL,
+            tgView3DURL,
+            jupyterURL,
+            issueURL,
+            statistics,
+        } = this.state;
 
         return (
-            <header>
-                <h1>{plaintitle === true ? title : <MHHTML>{title}</MHHTML>}</h1>
-                <Grid className={styles.buttons}>
-                    <Grid.Column width={11}>
-                        {this.sourceButton()}
-                        {this.tgViewButton()}
-                        {this.tgView3DButton()}
-                        {this.jupyterButton()}
-                        <div>{description && <MHHTML>{description}</MHHTML>}</div>
-                    </Grid.Column>
-                    <Grid.Column width={5}>
-                        <Container textAlign={"right"}>
-                            {this.reportButton()}
-                            <Dropdown text={t("statistics")} button icon={null} pointing={"right"}>
-                                <Dropdown.Menu>
-                                    <StatisticsTable statistics={statistics} />
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </Container>
-                    </Grid.Column>
-                </Grid>
-                <div>
-                    {responsible && (
-                        <div>
-                            <b>{t("responsible")}:</b>{" "}
-                            {responsible.map(p => (
-                                <Label key={p}>{p}</Label>
-                            ))}
-                        </div>
+            <Segment.Inline as="header">
+                <Header as="h1" block attached="top">
+                    {plaintitle === true ? title : <MHHTML>{title}</MHHTML>}
+                    {obj && (
+                        <Header.Subheader>
+                            <Copyable>{obj.id}</Copyable>
+                        </Header.Subheader>
                     )}
-                </div>
-                <hr />
-            </header>
+                </Header>
+
+                {(description || responsible) && (
+                    <Segment attached>
+                        {description && <MHHTML>{description}</MHHTML>}
+                        {responsible && (
+                            <Segment.Inline>
+                                <b>{t("responsible")}:</b>{" "}
+                                {responsible.map(p => (
+                                    <Label key={p}>{p}</Label>
+                                ))}
+                            </Segment.Inline>
+                        )}
+                    </Segment>
+                )}
+
+                <Segment basic clearing>
+                    <Button.Group float="left">
+                        <ActionButton text={t("view source")} icon="file code outline" href={sourceURL} />
+                        <ActionButton text={" " + t("view tgview")} icon="map outline" href={tgViewURL} />
+                        <ActionButton text={t("view tgview3d")} icon="globe" href={tgView3DURL} />
+                        <ActionButton text={" " + t("jupyter")} icon="hand point right outline" href={jupyterURL} />
+                    </Button.Group>
+                    <Button.Group floated="right">
+                        <ActionButton text={t("report")} icon="bug" href={issueURL} />
+                        <Dropdown
+                            text={t("statistics")}
+                            labeled
+                            button
+                            icon={"chart line"}
+                            className="icon"
+                            disabled={!statistics}
+                        >
+                            <Dropdown.Menu>{statistics && <StatisticsTable statistics={statistics} />}</Dropdown.Menu>
+                        </Dropdown>
+                    </Button.Group>
+                </Segment>
+                <Divider />
+            </Segment.Inline>
         );
     }
 }
 
-export default WithTranslate(ActionHeader);
+export default WithURL(WithTranslate(ItemHeader));
+
+class ActionButton extends React.Component<{ href?: string; text: string; popup?: string; icon?: SemanticICONS }> {
+    render() {
+        const { href, text, popup, icon } = this.props;
+
+        const button = (
+            <Button as="a" href={href || ""} disabled={href === undefined}>
+                {icon && <Icon name={icon} />}
+                {text}
+            </Button>
+        );
+
+        if (!popup) return button;
+
+        return <Popup trigger={button} content={popup} disabled={href === undefined} />;
+    }
+}

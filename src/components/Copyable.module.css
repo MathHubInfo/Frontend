@@ -1,17 +1,23 @@
-.extra a {
+.link {
     font-family: "monospace";
+    cursor: copy;
 }
 
-.extra span {
+.link:hover {
+    color: #1e70bf;
+    text-decoration: none;
+}
+
+.on, .off {
     color: red;
     margin-left: 5px;
     transition: opacity .25s ease-in-out;
 }
 
-span.on {
+.on {
     opacity: 1.0;
 }
 
-span.off {
+.off {
     opacity: 0.0;
 }
