@@ -8,7 +8,7 @@ import getMathHubConfig from "../../src/context";
 import { INewsItem } from "../../src/context/NewsClient";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 
-const Body = dynamic(() => import("../../src/layout"));
+const Layout = dynamic(() => import("../../src/layout"));
 
 interface INewsProps {
     items: INewsItem[];
@@ -21,10 +21,9 @@ class News extends React.Component<INewsProps & TranslateProps> {
 
         const description = t("news intro");
 
+        /* TODO: Translate */
         return (
-            <Body crumbs={crumbs} description={description} title={["News"]}>
-                <h1>News</h1>
-                <div>{description}</div>
+            <Layout crumbs={crumbs} description={description} title={"News"}>
                 <Divider />
                 <List relaxed>
                     {items.map(n => (
@@ -33,12 +32,12 @@ class News extends React.Component<INewsProps & TranslateProps> {
                         </List.Item>
                     ))}
                 </List>
-            </Body>
+            </Layout>
         );
     }
 }
 
-export default WithTranslate<INewsProps & TranslateProps>(News);
+export default WithTranslate(News);
 
 interface INewsPageRefProps {
     link: IMHLinkable;

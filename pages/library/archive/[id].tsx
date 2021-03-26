@@ -5,7 +5,6 @@ import { debounce } from "ts-debounce";
 import getMathHubConfig from "../../../src/context";
 import { IArchive, IDeclaration, IModule } from "../../../src/context/LibraryClient/objects";
 import { INarrativeElementProps } from "../../../src/library/NarrativeElement";
-import { TranslateProps, WithTranslate } from "../../../src/locales/WithTranslate";
 import { decode } from "../../../src/utils/base64";
 import { BooleanArrayStore } from "../../../src/utils/DataStore";
 import ImplicitParameters from "../../../src/utils/ImplicitParameters";
@@ -25,7 +24,7 @@ interface IArchiveState {
     expandedDeclarations: string[];
 }
 
-class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveState> {
+export default class Archive extends React.Component<IArchiveProps, IArchiveState> {
     static implicits = new ImplicitParameters<IArchiveState>(
         { expandedModules: "modules", expandedDeclarations: "declarations" },
         {
@@ -70,16 +69,10 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
     }
 
     render() {
-        const { t, archive } = this.props;
+        const { archive } = this.props;
         const {
-            name,
             narrativeRoot: { declarations },
         } = archive;
-
-        const breadcrumbs = [
-            { href: "/", title: t("home") },
-            { href: "/library", title: t("library") },
-        ];
 
         const nprops: Omit<INarrativeElementProps, "children"> = {
             preloadModule: this.mstore.preload,
@@ -93,7 +86,7 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
         };
 
         return (
-            <Body crumbs={breadcrumbs} obj={archive} title={[name]} header>
+            <Body obj={archive}>
                 <List relaxed>
                     {declarations.map(d => (
                         <List.Item key={d.id}>
@@ -105,8 +98,6 @@ class Archive extends React.Component<IArchiveProps & TranslateProps, IArchiveSt
         );
     }
 }
-
-export default WithTranslate<IArchiveProps & TranslateProps>(Archive);
 
 export const getServerSideProps = async ({
     params,

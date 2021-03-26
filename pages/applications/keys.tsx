@@ -44,8 +44,9 @@ export default class Keys extends React.Component<IKeysProps, IKeysState> {
     render() {
         const { expanded } = this.state;
 
+        /** TODO: Translation */
         return (
-            <Body crumbs={[{ href: "/", title: "Home" }]} title={["Keys"]}>
+            <Body crumbs={[{ href: "/", title: "Home" }]} title={"Keys"}>
                 <table className={styles.table}>
                     <thead>
                         <tr>

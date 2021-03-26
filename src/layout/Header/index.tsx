@@ -19,6 +19,9 @@ interface HeaderRequiredProps {
 
     /** if set, don't render the title as html! */
     plaintitle?: boolean;
+
+    /** omit the action buttons when set */
+    noactions?: boolean;
 }
 
 interface HeaderOptionalProps {
@@ -85,7 +88,7 @@ class ItemHeader extends React.Component<HeaderProps & TranslateProps & URLProps
         };
     }
     render() {
-        const { t, plaintitle, title, obj } = this.props;
+        const { t, plaintitle, title, obj, noactions } = this.props;
         const {
             description,
             responsible,
@@ -97,9 +100,11 @@ class ItemHeader extends React.Component<HeaderProps & TranslateProps & URLProps
             statistics,
         } = this.state;
 
+        const attachments = noactions !== true || description || responsible;
+
         return (
             <Segment.Inline as="header">
-                <Header as="h1" block attached="top">
+                <Header as="h1" block attached={attachments ? "top" : undefined}>
                     {plaintitle === true ? title : <MHHTML>{title}</MHHTML>}
                     {obj && (
                         <Header.Subheader>
@@ -121,28 +126,32 @@ class ItemHeader extends React.Component<HeaderProps & TranslateProps & URLProps
                         )}
                     </Segment>
                 )}
+                {!noactions && (
+                    <Segment basic clearing>
+                        <Button.Group float="left">
+                            <ActionButton text={t("view source")} icon="file code outline" href={sourceURL} />
+                            <ActionButton text={" " + t("view tgview")} icon="map outline" href={tgViewURL} />
+                            <ActionButton text={t("view tgview3d")} icon="globe" href={tgView3DURL} />
+                            <ActionButton text={" " + t("jupyter")} icon="hand point right outline" href={jupyterURL} />
+                        </Button.Group>
+                        <Button.Group floated="right">
+                            <ActionButton text={t("report")} icon="bug" href={issueURL} />
+                            <Dropdown
+                                text={t("statistics")}
+                                labeled
+                                button
+                                icon={"chart line"}
+                                className="icon"
+                                disabled={!statistics}
+                            >
+                                <Dropdown.Menu>
+                                    {statistics && <StatisticsTable statistics={statistics} />}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Button.Group>
+                    </Segment>
+                )}
 
-                <Segment basic clearing>
-                    <Button.Group float="left">
-                        <ActionButton text={t("view source")} icon="file code outline" href={sourceURL} />
-                        <ActionButton text={" " + t("view tgview")} icon="map outline" href={tgViewURL} />
-                        <ActionButton text={t("view tgview3d")} icon="globe" href={tgView3DURL} />
-                        <ActionButton text={" " + t("jupyter")} icon="hand point right outline" href={jupyterURL} />
-                    </Button.Group>
-                    <Button.Group floated="right">
-                        <ActionButton text={t("report")} icon="bug" href={issueURL} />
-                        <Dropdown
-                            text={t("statistics")}
-                            labeled
-                            button
-                            icon={"chart line"}
-                            className="icon"
-                            disabled={!statistics}
-                        >
-                            <Dropdown.Menu>{statistics && <StatisticsTable statistics={statistics} />}</Dropdown.Menu>
-                        </Dropdown>
-                    </Button.Group>
-                </Segment>
                 <Divider />
             </Segment.Inline>
         );

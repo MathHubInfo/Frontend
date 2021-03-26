@@ -96,7 +96,7 @@ class Dictionary extends React.Component<IDictionaryProps & TranslateProps, IDic
         if (!translationValid) statusText = translating ? t("translatng") : t("press");
 
         return (
-            <Body crumbs={[{ href: "/", title: t("home") }]} title={[t("dictionary")]} header>
+            <Body crumbs={[{ href: "/", title: t("home") }]} title={t("dictionary")}>
                 {t("from:")}&nbsp;
                 <LanguageDropdown value={fromLanguage} options={knownLanguages} onChange={this.changeFromLanguage} />
                 &nbsp;

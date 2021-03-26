@@ -1,9 +1,12 @@
 import { NextPageContext } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
 import { Icon } from "semantic-ui-react";
-import Layout from "../src/layout";
+
 import { TranslateProps, WithTranslate } from "../src/locales/WithTranslate";
 import { Indexable } from "../src/types/lib";
+
+const Layout = dynamic(() => import("../src/layout"));
 
 interface ErrorProps {
     statusCode?: number;
@@ -28,7 +31,7 @@ class Error extends React.Component<ErrorProps & TranslateProps> {
         }
 
         return (
-            <Layout crumbs={[]} title={[title]}>
+            <Layout crumbs={[]} title={title} plain>
                 <Icon name={"frown outline"} size={"huge"} />
                 <div>
                     HTTP {statusCode}: {title}

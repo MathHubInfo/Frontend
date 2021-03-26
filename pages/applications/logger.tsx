@@ -81,7 +81,7 @@ class Logger extends React.Component<ILoggerProps & TranslateProps, ILoggerState
         const { entries, filter } = this.state;
 
         return (
-            <Body crumbs={[{ href: "/", title: t("home") }]} title={[t("logger")]}>
+            <Body crumbs={[{ href: "/", title: t("home") }]} title={t("logger")}>
                 <Table celled>
                     <Table.Header>
                         <Table.Row>

@@ -5,6 +5,7 @@ import * as React from "react";
 import { Container, Divider } from "semantic-ui-react";
 import { IReferencable } from "../context/LibraryClient/objects";
 import { ObjectParents } from "../context/LibraryClient/objects/utils";
+import { TranslateProps, WithTranslate } from "../locales/WithTranslate";
 
 import { HeaderProps } from "./Header";
 const ActionHeader = dynamic(() => import("./Header"));
@@ -14,89 +15,87 @@ const Nav = dynamic(() => import("./Nav"));
 
 const Footer = dynamic(() => import("./Footer"));
 
-type LayoutProps = LayoutState & {
-    /**
-     * The description of the body. Might contain html.
-     */
-    description?: string;
+type LayoutProps = LayoutStateProps | LayoutObjProps;
 
-    /**
-     * The breadcrumbs to the current page.
-     * Each Component is a pair of (title, url) to be used as arguments for creating a link.
-     */
-    crumbs: IBreadcrumb[];
-
-    /* object being referenced in the header and appended to the breadcrumbs */
-    obj?: IReferencable;
-} & (LayoutWithHeader | LayoutWithoutHeader);
-
-/** include an IActionHeader */
-interface LayoutWithHeader {
-    /* title of the current page */
-    title: string[];
-
-    /* do include a header */
-    header: true;
+interface LayoutObjProps {
+    obj: IReferencable;
 }
 
-/* do not include an ActionHeader, but still use obj for breadcrumbs */
-interface LayoutWithoutHeader {
-    /** title of the current page, consisting of different components */
-    title?: string[]; // TODO: Do we use more than one component anywhere?
-
-    /* don't include a header */
-    header?: false;
+interface LayoutStateProps extends Omit<LayoutState, "actionHeader" | "noactions" | "plain"> {
+    actionHeader?: HeaderProps;
+    /** when set, omit the header entirely! */
+    plain?: true;
 }
 
 interface LayoutState {
+    /** title of the current page */
+    title: string;
+
+    /** description of the current page */
+    description?: string;
+
+    /** crumbs to the current page */
     crumbs: IBreadcrumb[];
 
+    /** when set, omit the actionHeader */
+    plain: boolean;
+
+    /* don't show the action buttons */
+    noactions: boolean;
+
     /** when set create an Action header based on the props */
-    actionHeader?: HeaderProps;
+    actionHeader: HeaderProps;
 }
 
-export default class Layout extends React.Component<LayoutProps, LayoutState> {
-    state: LayoutState = { crumbs: this.props.crumbs };
-    static getDerivedStateFromProps({ title, description, obj, crumbs, header }: LayoutProps): LayoutState {
-        // if we have an object, extrat the parent and add them to the crumbs
-        if (obj) {
-            // get the parents of this element, excluding itself
-            const parents = ObjectParents(obj);
-            parents.splice(-1, 1);
+class Layout extends React.Component<LayoutProps & TranslateProps, LayoutState> {
+    state: LayoutState = { crumbs: [], title: "", actionHeader: { title: "" }, plain: false, noactions: false };
+    static getDerivedStateFromProps(props: LayoutProps & TranslateProps): LayoutState {
+        if (!("obj" in props)) {
+            // make an actionHeader if it's missing!
+            let { actionHeader } = props;
+            if (actionHeader === undefined) {
+                const { title, description } = props;
+                actionHeader = {
+                    title: title,
+                    description,
+                };
+            }
 
-            // and add them to the crumbs array (creating a new one)
-            crumbs = crumbs.concat(
-                parents.map(({ kind, name, id }) => {
-                    if (kind !== "document" && kind !== "archive" && kind !== "group") {
-                        return { href: "", title: name };
-                    }
-
-                    return {
-                        href: { kind, id },
-                        title: name,
-                    };
-                }),
-            );
+            return { ...props, actionHeader, plain: "plain" in props, noactions: true };
         }
+        const { obj, t } = props;
 
-        let actionHeader: LayoutState["actionHeader"] = undefined;
-        if (header) {
-            // TODO: Can we check this better?
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const name = title![title!.length - 1];
-            actionHeader = { obj, title: name, description };
-        }
+        // get the parents of this element, excluding itself
+        const objcrumbs: IBreadcrumb[] = ObjectParents(obj).map(({ kind, name, id }) => {
+            if (kind !== "document" && kind !== "archive" && kind !== "group") {
+                return { href: "", title: name };
+            }
 
-        return { crumbs, actionHeader };
+            return {
+                href: { kind, id },
+                title: name,
+            };
+        });
+
+        const crumbs = [
+            { href: "/", title: t("home") } as IBreadcrumb,
+            { href: "/library", title: t("library") } as IBreadcrumb,
+        ].concat(objcrumbs);
+
+        // get other properties
+        const title = "title" in obj ? obj.title : obj.name;
+        const description = "description" in obj ? obj.description : undefined;
+        const actionHeader: HeaderProps = { obj, title, description };
+
+        return { crumbs, title, description, actionHeader, plain: false, noactions: false };
     }
 
     render() {
-        const { title, description, children } = this.props;
-        const { crumbs, actionHeader } = this.state;
+        const { children } = this.props;
+        const { description, title, crumbs, actionHeader, plain, noactions } = this.state;
 
         // generate the title
-        const titleStr = (title || []).join(" | ");
-        const theTitle = title ? `${titleStr} | MathHub` : "MathHub";
+        const theTitle = title ? `${title} | MathHub` : "MathHub";
 
         return (
             <Container>
@@ -104,9 +103,9 @@ export default class Layout extends React.Component<LayoutProps, LayoutState> {
                     <title>{theTitle}</title>
                     {description && <meta name="description" content={description} />}
                 </Head>
-                <Nav title={title} crumbs={crumbs} />
+                <Nav title={title ? [title] : undefined} crumbs={crumbs} />
                 <Divider />
-                {actionHeader && <ActionHeader {...actionHeader} />}
+                {!plain && <ActionHeader {...actionHeader} noactions={noactions} />}
                 <main>{children}</main>
                 <Divider />
                 <Footer />
@@ -114,3 +113,5 @@ export default class Layout extends React.Component<LayoutProps, LayoutState> {
         );
     }
 }
+
+export default WithTranslate<LayoutProps & TranslateProps, LayoutProps>(Layout);

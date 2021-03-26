@@ -18,7 +18,7 @@ class Notices extends React.Component<INoticesProps & TranslateProps> {
         const crumbs = [{ href: "/", title: t("home") }];
 
         return (
-            <Body crumbs={crumbs} title={[t("notices")]}>
+            <Body crumbs={crumbs} title={t("notices")} plain>
                 <h2>{t("license")}</h2>
                 <pre>{license}</pre>
                 {notices && (
@@ -32,7 +32,7 @@ class Notices extends React.Component<INoticesProps & TranslateProps> {
     }
 }
 
-export default WithTranslate<INoticesProps & TranslateProps>(Notices);
+export default WithTranslate(Notices);
 
 export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<INoticesProps>> => {
     const licenseTXT = path.join(process.cwd(), "LICENSE.txt");

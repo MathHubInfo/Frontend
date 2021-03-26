@@ -3,12 +3,11 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 import getMathHubConfig from "../../../src/context";
 import { IGroup } from "../../../src/context/LibraryClient/objects";
-import { TranslateProps, WithTranslate } from "../../../src/locales/WithTranslate";
 import { decode } from "../../../src/utils/base64";
 import { CompareStrings } from "../../../src/utils/Compare";
 import { List } from "semantic-ui-react";
 
-const Body = dynamic(() => import("../../../src/layout"));
+import Layout from "../../../src/layout";
 
 const Ref = dynamic(() => import("../../../src/library/Ref"));
 
@@ -16,18 +15,13 @@ interface IGroupProps {
     group: IGroup;
 }
 
-class Group extends React.Component<IGroupProps & TranslateProps> {
+export default class Group extends React.Component<IGroupProps> {
     render() {
-        const { t, group } = this.props;
-        const { description, declarations, name } = group;
-
-        const crumbs = [
-            { href: "/", title: t("home") },
-            { href: "/library", title: t("library") },
-        ];
+        const { group } = this.props;
+        const { declarations } = group;
 
         return (
-            <Body crumbs={crumbs} description={description} title={[name]} header>
+            <Layout obj={group}>
                 <List relaxed>
                     {declarations.map(a => (
                         <List.Item key={a.id}>
@@ -35,12 +29,10 @@ class Group extends React.Component<IGroupProps & TranslateProps> {
                         </List.Item>
                     ))}
                 </List>
-            </Body>
+            </Layout>
         );
     }
 }
-
-export default WithTranslate<IGroupProps & TranslateProps>(Group);
 
 export const getServerSideProps = async ({
     params,

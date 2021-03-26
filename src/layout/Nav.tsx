@@ -26,9 +26,28 @@ export interface IBreadcrumb extends IMHLinkable {
 }
 
 /** MathHub Navigation Menu */
-class Nav extends React.Component<NavProps & WithRouterProps & TranslateProps> {
+class Nav extends React.Component<NavProps & WithRouterProps & TranslateProps, { crumbs: IBreadcrumb[] }> {
+    state = { crumbs: this.props.crumbs };
+    static getDerivedStateFromProps({
+        crumbs,
+        title,
+    }: NavProps & WithRouterProps & TranslateProps): { crumbs: IBreadcrumb[] } {
+        const ccrumbs = crumbs.slice(0); // make a copy of crumbs!
+
+        if (ccrumbs.length >= 1 && typeof ccrumbs[ccrumbs.length - 1].href !== "string") {
+            // remove the 'href' to make the text bold and not linked
+            const { params, title } = ccrumbs[ccrumbs.length - 1];
+            ccrumbs[ccrumbs.length - 1] = { params, title, href: "" };
+        } else {
+            // add the current title!
+            ccrumbs.push({ href: "", title: (title || [])[0] });
+        }
+
+        return { crumbs: ccrumbs };
+    }
     render() {
-        const { title, crumbs, router, t } = this.props;
+        const { router, t } = this.props;
+        const { crumbs } = this.state;
         return (
             <nav>
                 <Menu className={styles.menu}>
@@ -82,7 +101,7 @@ class Nav extends React.Component<NavProps & WithRouterProps & TranslateProps> {
                 <Container>
                     <Grid>
                         <Grid.Column width={12}>
-                            <LayoutCrumbs crumbs={[...crumbs, { href: "", title: (title || [])[0] }]} />
+                            <LayoutCrumbs crumbs={crumbs} />
                         </Grid.Column>
                         <Grid.Column width={4} textAlign={"right"}>
                             <Button.Group compact basic size={"mini"}>

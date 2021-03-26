@@ -5,7 +5,6 @@ import { debounce } from "ts-debounce";
 import getMathHubConfig from "../../../src/context";
 import { IDeclaration, IDocument, IModule } from "../../../src/context/LibraryClient/objects";
 import { INarrativeElementProps } from "../../../src/library/NarrativeElement";
-import { TranslateProps, WithTranslate } from "../../../src/locales/WithTranslate";
 import { decode } from "../../../src/utils/base64";
 import { BooleanArrayStore } from "../../../src/utils/DataStore";
 import ImplicitParameters from "../../../src/utils/ImplicitParameters";
@@ -25,7 +24,7 @@ interface IDocumentState {
     expandedDeclarations: string[];
 }
 
-class Document extends React.Component<IDocumentProps & TranslateProps, IDocumentState> {
+export default class Document extends React.Component<IDocumentProps, IDocumentState> {
     static implicits = new ImplicitParameters<IDocumentState>(
         { expandedModules: "modules", expandedDeclarations: "declarations" },
         {
@@ -70,13 +69,8 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
         this.dstore.destroy();
     }
     render() {
-        const { t, document } = this.props;
-        const { name, declarations } = document;
-
-        const breadcrumbs = [
-            { href: "/", title: t("home") },
-            { href: "/library", title: t("library") },
-        ];
+        const { document } = this.props;
+        const { declarations } = document;
 
         const nprops: Omit<INarrativeElementProps, "children"> = {
             preloadModule: this.mstore.preload,
@@ -90,7 +84,7 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
         };
 
         return (
-            <Body crumbs={breadcrumbs} obj={document} title={[name]} header>
+            <Body obj={document}>
                 <List relaxed>
                     {declarations.map(d => (
                         <List.Item key={d.id}>
@@ -102,8 +96,6 @@ class Document extends React.Component<IDocumentProps & TranslateProps, IDocumen
         );
     }
 }
-
-export default WithTranslate<IDocumentProps & TranslateProps>(Document);
 
 export const getServerSideProps = async ({
     params,

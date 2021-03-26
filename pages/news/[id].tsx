@@ -7,7 +7,7 @@ import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { Header, Segment } from "semantic-ui-react";
 import MHHTML from "../../src/components/MHHTML";
 
-const Body = dynamic(() => import("../../src/layout"));
+const Layout = dynamic(() => import("../../src/layout"));
 
 interface IPageProps {
     item: INewsItem;
@@ -26,8 +26,9 @@ class Page extends React.Component<IPageProps & TranslateProps> {
             { href: "/news", title: t("news") },
         ];
 
+        /* TODO: Translate */
         return (
-            <Body crumbs={crumbs} title={[title, "News"]} description={teaser}>
+            <Layout crumbs={crumbs} title={`${title} | News`} description={teaser} plain>
                 <Header as="h2" attached="top">
                     <MHHTML>{title}</MHHTML>
                     <Header.Subheader>{theDate.toDateString()}</Header.Subheader>
@@ -35,12 +36,12 @@ class Page extends React.Component<IPageProps & TranslateProps> {
                 <Segment attached>
                     <MHHTML>{content}</MHHTML>
                 </Segment>
-            </Body>
+            </Layout>
         );
     }
 }
 
-export default WithTranslate<IPageProps & TranslateProps>(Page);
+export default WithTranslate(Page);
 
 export const getServerSideProps = async ({
     params,

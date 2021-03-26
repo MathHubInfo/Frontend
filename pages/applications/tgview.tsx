@@ -10,8 +10,9 @@ class TGView extends React.Component<TranslateProps> {
         const { t } = this.props;
         const crumbs = [{ href: "/", title: t("home") }];
 
+        /** TODO: translate */
         return (
-            <Body crumbs={crumbs} title={["TGView (Dummy)"]}>
+            <Body crumbs={crumbs} title={"TGView (Dummy)"}>
                 <TGViewComponent instanceKey="never-recreate" />
             </Body>
         );

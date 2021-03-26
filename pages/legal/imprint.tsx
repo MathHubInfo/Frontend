@@ -18,7 +18,7 @@ class Imprint extends React.Component<IImprintProps & TranslateProps> {
         const crumbs = [{ href: "/", title: t("home") }];
 
         return (
-            <Body crumbs={crumbs} title={[t("imprint")]}>
+            <Body crumbs={crumbs} title={t("imprint")} plain>
                 <div>{t("imprint responsible")}</div>
                 <pre>{imprint}</pre>
             </Body>
@@ -26,7 +26,7 @@ class Imprint extends React.Component<IImprintProps & TranslateProps> {
     }
 }
 
-export default WithTranslate<IImprintProps & TranslateProps>(Imprint);
+export default WithTranslate(Imprint);
 
 export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<IImprintProps>> => {
     const imprintTXT = path.join(process.cwd(), "src", "assets", "legal", "imprint.txt");

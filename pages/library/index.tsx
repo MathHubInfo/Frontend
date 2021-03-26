@@ -7,7 +7,7 @@ import { IGroupRef } from "../../src/context/LibraryClient/objects";
 import { TranslateProps, WithTranslate } from "../../src/locales/WithTranslate";
 import { CompareStrings } from "../../src/utils/Compare";
 
-const Body = dynamic(() => import("../../src/layout"));
+const Layout = dynamic(() => import("../../src/layout"));
 
 const Ref = dynamic(() => import("../../src/library/Ref"));
 
@@ -24,7 +24,7 @@ class Library extends React.Component<ILibraryProps & TranslateProps> {
         const description = t("library intro");
 
         return (
-            <Body crumbs={crumbs} description={description} title={[title]} header>
+            <Layout crumbs={crumbs} description={description} title={title}>
                 <List relaxed>
                     {groups.map(g => (
                         <List.Item key={g.id}>
@@ -32,12 +32,12 @@ class Library extends React.Component<ILibraryProps & TranslateProps> {
                         </List.Item>
                     ))}
                 </List>
-            </Body>
+            </Layout>
         );
     }
 }
 
-export default WithTranslate<ILibraryProps & TranslateProps>(Library);
+export default WithTranslate(Library);
 
 export const getServerSideProps = async (): Promise<GetServerSidePropsResult<ILibraryProps>> => {
     // get the groups and sort them for a consistent order!

@@ -12,20 +12,21 @@ export interface TranslateProps {
     t: (message: string, vars?: Record<string, string>) => string;
 }
 
-export function WithTranslate<P extends TranslateProps>(
+export function WithTranslate<P extends TranslateProps, Q extends Omit<P, keyof TranslateProps>>(
     Component: React.ComponentType<P>,
-): React.ComponentType<Omit<P, keyof TranslateProps>> {
+): React.ComponentType<Q> {
     return annotateHOC(
-        class extends React.Component<Omit<P, keyof TranslateProps>> {
+        // eslint-disable-next-line react/display-name
+        class extends React.Component<Q> {
             static contextType = LocaleContext;
             context!: LocaleContextProps;
             render() {
                 const t = translate.bind(undefined, this.context.localeData);
 
-                const props = {
+                const props = ({
                     ...this.props,
                     t: t,
-                } as P;
+                } as unknown) as P;
 
                 return <Component {...props} />;
             }
