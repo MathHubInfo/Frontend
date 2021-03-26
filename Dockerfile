@@ -38,15 +38,7 @@ ADD yarn.lock /app/yarn.lock
 RUN yarn --no-cache --frozen-lockfile install
 
 # Add all the remaining source code
-ADD pages /app/pages/
-ADD src /app/src
-ADD public /app/public
-
-ADD .gitignore /app/.gitignore
-ADD LICENSE.txt /app/LICENSE.txt
-ADD next.config.js next.config.js
-ADD README.md /app/README.md
-ADD tsconfig.json /app/tsconfig.json
+ADD . /app/
 
 # Generate a distribution
 RUN mkdir -p /app/src/assets/generated && yarn mklegal && yarn build
