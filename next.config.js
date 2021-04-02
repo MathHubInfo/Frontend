@@ -36,6 +36,9 @@ module.exports = {
   poweredByHeader: false,
   webpack,
   env: {MATHHUB_CONFIG: config},
+  future: {
+    webpack5: true,
+  }
 };
 
 /**
